@@ -2,13 +2,22 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding-inline: 10%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;   
+    padding-top: 10px;
+    padding-bottom: 5px;
+    width: 100%;
+    background: #fff;
 }
-
+.navbar.show-border-bottom {
+    border-bottom: 1px solid  rgba(0, 0, 0, 0.2);
+}
 .navbar .logo {
     display: block;
     width: 150px;
     cursor: pointer;
-    margin-top: 10px;
 }
 
 .navbar ul {
