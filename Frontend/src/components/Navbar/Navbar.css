@@ -19,6 +19,7 @@
 }
 
 .navbar ul li {
+    min-width: fit-content;
     padding: 7px 15px;
     border-radius: 20px;
     transition: .5s;
@@ -32,6 +33,7 @@
 }
 
 .navbar button {
+    min-width: fit-content;
     background: transparent;
     border: 1px solid tomato;
     outline: none;
