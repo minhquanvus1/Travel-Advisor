@@ -41,6 +41,18 @@ const Navbar = () => {
         </ul>
         <button>Sign in</button>
       </div>
+      {scroll === "new-navbar" && (
+        <div className="row-2">
+          <ul>
+            <li>City</li>
+            <li>Restaurants</li>
+            <li>Travel Category</li>
+            <li>Travel Destinations</li>
+            <li>Tour</li>
+            <li>Travel Tips</li>
+          </ul>
+        </div>
+      )}
     </div>
   );
 };
