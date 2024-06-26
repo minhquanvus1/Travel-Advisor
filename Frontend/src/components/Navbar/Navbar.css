@@ -1,16 +1,22 @@
 .navbar {
-    /* display: flex;
-    justify-content: space-between;
-    align-items: center; */
-    display: flex; flex-direction: column; align-items: start; gap: 5px;
+    display: flex; 
+    flex-direction: column;
+    align-items: start;
+    gap: 5px;
     padding-inline: 10%;
-    position: sticky;
-    top: 0;
-    z-index: 1000;   
     padding-top: 10px;
     padding-bottom: 5px;
     width: 100%;
     background: #fff;
+}
+.navbar-container {
+    /* background: tomato; */
+    /* padding-inline: 10%; */
+    /* padding-top: 10px;
+    padding-bottom: 5px; */
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 .row-1 {
     width: 100%;
@@ -19,10 +25,25 @@
     align-items: center;
 }
 
-.navbar.show-border-bottom, .navbar.new-navbar {
-    border-bottom: 1px solid  rgba(0, 0, 0, 0.2);
+/*style the hr*/
+/*the default hr is width: 80%; margin: auto;*/
+.navbar-container hr {
+    width: 80%;
+    margin: auto;
+    height: 1px;
+    border: none;
+    background: rgba(0, 0, 0, 0.2);
 }
 
+.navbar-container hr.full-width {
+    width: 100%; margin: none;
+}
+
+.navbar-container hr.no-hr {
+    display: none;
+}
+
+/****************************/
 .navbar .row-1 .logo {
     display: block;
     width: 150px;
@@ -35,18 +56,6 @@
     align-items: center;
     gap: 3rem;
 }
-
-/* .row-1.new-navbar ul {
-    gap: 1rem;
-}
-
-.row-1.new-navbar .search-bar-container {
-    width: 47%;
-    padding: 5px 10px;
-    margin-top: 0;
-    box-shadow: none;
-    border: 1px solid rgba(0, 0, 0, 0.3);
-} */
 
 .navbar .row-1 ul li {
     min-width: fit-content;
