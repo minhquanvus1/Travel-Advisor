@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Home.css";
 import Searchbar from "../../components/Searchbar/Searchbar";
 
 const Home = () => {
+  useEffect(() => {
+    console.log("home mounts");
+    return () => {
+      console.log("home unmounts");
+    };
+  }, []);
   return (
     <div className="home">
       <Searchbar />
