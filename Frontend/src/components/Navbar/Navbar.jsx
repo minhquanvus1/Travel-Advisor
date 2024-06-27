@@ -8,6 +8,7 @@ const Navbar = () => {
   const [hrFullWidth, setHrFullWidth] = useState(false);
   const location = useLocation();
   const [isHomePage, setIsHomePage] = useState(true);
+  const [menu, setMenu] = useState("");
   // create the ref to the current value of isHomePage.
   // Because the handleScroll() is added ONCE when the component is mounted (due to the [] dependency of the useEffect() that has the EventListener)
   // so the handleScroll() will close over the initial value of isHomePage, and is not re-rendered when the isHomePage value is updated
@@ -23,10 +24,14 @@ const Navbar = () => {
     console.log("useeffect 1: set isHomePage when pathname changes");
     if (location.pathname === "/") {
       setIsHomePage(true);
+      setMenu("");
     } else {
       setIsHomePage(false);
+      window.scrollTo(0, 0);
+      console.log("set menu change route");
     }
   }, [location.pathname]);
+  console.log("menu outside is", menu);
   useEffect(() => {
     console.log("useeffect 2: set scroll when isHomePage changes");
     console.log("isHomePage in useeffect 2 is", isHomePage);
@@ -48,16 +53,16 @@ const Navbar = () => {
     console.log("isHomePage in handleScroll", isHomePage);
     console.log("currentIsHomePage in handleScroll", currentIsHomePage.current);
     if (currentIsHomePage.current) {
-        if (window.scrollY <= 5) {
-          setScroll("");
-          setHrFullWidth(false);
-        } else if (window.scrollY < 235) {
-          setScroll("show-border-bottom");
-          setHrFullWidth(true);
-        } else {
-          setScroll("new-navbar");
-          setHrFullWidth(true);
-        }
+      if (window.scrollY <= 5) {
+        setScroll("");
+        setHrFullWidth(false);
+      } else if (window.scrollY < 235) {
+        setScroll("show-border-bottom");
+        setHrFullWidth(true);
+      } else {
+        setScroll("new-navbar");
+        setHrFullWidth(true);
+      }
     } else {
       if (window.scrollY <= 5) {
         // setScroll("new-navbar");
@@ -84,6 +89,31 @@ const Navbar = () => {
   useEffect(() => {
     console.log("handleScroll changes new reference");
   }, []);
+  useEffect(() => {
+    if (location.pathname === "/") return;
+    switch (location.pathname) {
+      case "/cities":
+        setMenu("city");
+        break;
+      case "/restaurants":
+        setMenu("restaurants");
+        break;
+      case "/travel-categories":
+        setMenu("travel_category");
+        break;
+      case "/travel-destinations":
+        setMenu("travel_destinations");
+        break;
+      case "/tours":
+        setMenu("tour");
+        break;
+      case "/travel-tips":
+        setMenu("travel_tips");
+        break;
+      default:
+        setMenu("");
+    }
+  }, []);
   return (
     <div className="navbar-container">
       <div className={`navbar ${scroll}`}>
@@ -105,7 +135,7 @@ const Navbar = () => {
               <Link to="/">Home</Link>
             </li>
             <li>
-              <Link to="/a">Discover</Link>
+              <Link to="/discover">Discover</Link>
             </li>
             <li>Travel Tips</li>
             {scroll !== "new-navbar" && <li>More</li>}
@@ -115,12 +145,42 @@ const Navbar = () => {
         {scroll === "new-navbar" && (
           <div className="row-2">
             <ul>
-              <li>City</li>
-              <li>Restaurants</li>
-              <li>Travel Category</li>
-              <li>Travel Destinations</li>
-              <li>Tour</li>
-              <li>Travel Tips</li>
+              <li
+                className={menu === "city" ? "active" : ""}
+                onClick={() => setMenu("city")}
+              >
+                <Link to="/cities">City</Link>
+              </li>
+              <li
+                className={menu === "restaurants" ? "active" : ""}
+                onClick={() => setMenu("restaurants")}
+              >
+                <Link to="/restaurants">Restaurants</Link>
+              </li>
+              <li
+                className={menu === "travel_category" ? "active" : ""}
+                onClick={() => setMenu("travel_category")}
+              >
+                <Link to="/travel-categories">Travel Category</Link>
+              </li>
+              <li
+                className={menu === "travel_destinations" ? "active" : ""}
+                onClick={() => setMenu("travel_destinations")}
+              >
+                <Link to="/travel-destinations">Travel Destinations</Link>
+              </li>
+              <li
+                className={menu === "tour" ? "active" : ""}
+                onClick={() => setMenu("tour")}
+              >
+                <Link to="/tours">Tour</Link>
+              </li>
+              <li
+                className={menu === "travel_tips" ? "active" : ""}
+                onClick={() => setMenu("travel_tips")}
+              >
+                <Link to="/travel-tips">Travel Tips</Link>
+              </li>
             </ul>
           </div>
         )}
