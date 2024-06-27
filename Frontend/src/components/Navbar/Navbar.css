@@ -5,7 +5,7 @@
     gap: 5px;
     padding-inline: 10%;
     padding-top: 10px;
-    padding-bottom: 5px;
+    /* padding-bottom: 1px; */
     width: 100%;
     background: #fff;
 }
@@ -30,7 +30,7 @@
 .navbar-container hr {
     width: 80%;
     margin: auto;
-    height: 1px;
+    height: .5px;
     border: none;
     background: rgba(0, 0, 0, 0.2);
 }
@@ -100,7 +100,9 @@
     box-shadow: none;
     border: 1px solid rgba(0, 0, 0, 0.3);
 }
-
+.row-2 .active {
+    border-bottom: 2px solid tomato;
+}
 /*style .navbar .row-2*/
 .navbar .row-2 {
     width: 70%;
@@ -115,7 +117,7 @@
 
 .navbar .row-2 ul li {
     min-width: fit-content;
-    padding-bottom: 14px;
+    padding-bottom: 9px;
     cursor: pointer;
     font-size: 1rem;
     font-weight: 500;
