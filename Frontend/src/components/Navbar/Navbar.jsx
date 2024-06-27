@@ -145,41 +145,41 @@ const Navbar = () => {
         {scroll === "new-navbar" && (
           <div className="row-2">
             <ul>
-              <li
-                className={menu === "city" ? "active" : ""}
-                onClick={() => setMenu("city")}
-              >
-                <Link to="/cities">City</Link>
+              <li className={menu === "city" ? "active" : ""}>
+                <Link to="/cities" onClick={() => setMenu("city")}>
+                  City
+                </Link>
               </li>
-              <li
-                className={menu === "restaurants" ? "active" : ""}
-                onClick={() => setMenu("restaurants")}
-              >
-                <Link to="/restaurants">Restaurants</Link>
+              <li className={menu === "restaurants" ? "active" : ""}>
+                <Link to="/restaurants" onClick={() => setMenu("restaurants")}>
+                  Restaurants
+                </Link>
               </li>
-              <li
-                className={menu === "travel_category" ? "active" : ""}
-                onClick={() => setMenu("travel_category")}
-              >
-                <Link to="/travel-categories">Travel Category</Link>
+              <li className={menu === "travel_category" ? "active" : ""}>
+                <Link
+                  to="/travel-categories"
+                  onClick={() => setMenu("travel_category")}
+                >
+                  Travel Category
+                </Link>
               </li>
-              <li
-                className={menu === "travel_destinations" ? "active" : ""}
-                onClick={() => setMenu("travel_destinations")}
-              >
-                <Link to="/travel-destinations">Travel Destinations</Link>
+              <li className={menu === "travel_destinations" ? "active" : ""}>
+                <Link
+                  to="/travel-destinations"
+                  onClick={() => setMenu("travel_destinations")}
+                >
+                  Travel Destinations
+                </Link>
               </li>
-              <li
-                className={menu === "tour" ? "active" : ""}
-                onClick={() => setMenu("tour")}
-              >
-                <Link to="/tours">Tour</Link>
+              <li className={menu === "tour" ? "active" : ""}>
+                <Link to="/tours" onClick={() => setMenu("tour")}>
+                  Tour
+                </Link>
               </li>
-              <li
-                className={menu === "travel_tips" ? "active" : ""}
-                onClick={() => setMenu("travel_tips")}
-              >
-                <Link to="/travel-tips">Travel Tips</Link>
+              <li className={menu === "travel_tips" ? "active" : ""}>
+                <Link to="/travel-tips" onClick={() => setMenu("travel_tips")}>
+                  Travel Tips
+                </Link>
               </li>
             </ul>
           </div>
