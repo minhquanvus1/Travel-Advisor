@@ -113,7 +113,7 @@ const Navbar = () => {
       default:
         setMenu("");
     }
-  }, []);
+  }, [location.pathname]);
   return (
     <div className="navbar-container">
       <div className={`navbar ${scroll}`}>
