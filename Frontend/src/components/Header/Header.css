@@ -1,11 +1,12 @@
 .header {
     width: 90%;
-    height: 34vw;
-    background: url("/home_header.png") no-repeat center;
+    height: 30vw;
+    background: url("/home_header.png") no-repeat;
     background-size: cover;
+    background-position-y: 10%;
     border-radius: 20px;
-    margin: 60px auto;
-    position: relative;
+    margin: 70px auto;
+    position: relative;background-color: aqua;
 }
 
 .header-contents {
