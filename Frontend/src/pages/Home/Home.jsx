@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import "./Home.css";
 import Searchbar from "../../components/Searchbar/Searchbar";
+import Header from "../../components/Header/Header";
 
 const Home = () => {
   useEffect(() => {
@@ -12,6 +13,7 @@ const Home = () => {
   return (
     <div className="home">
       <Searchbar />
+      <Header />
       <p>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa eos ab
         beatae, temporibus minus quas iste, odit error accusantium quis dolorem!

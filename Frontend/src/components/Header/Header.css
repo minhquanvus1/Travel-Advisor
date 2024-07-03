@@ -1,0 +1,20 @@
+.header {
+    width: 90%;
+    height: 34vw;
+    background: url("/home_header.png") no-repeat center;
+    background-size: cover;
+    border-radius: 20px;
+    margin: 60px auto;
+    position: relative;
+}
+
+.header-contents {
+    max-width: 60%;
+    position: absolute;
+    bottom: 20%;
+    left: 3%;
+}
+
+.header-contents p {
+    margin-top: 10px;
+}
