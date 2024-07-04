@@ -1,0 +1,46 @@
+.description {
+    margin: 50px 0;
+    max-width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.description h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1.3rem;
+}
+
+.description p {
+    font-weight: 380; -webkit-line-clamp: 3;overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical;
+}
+
+.description p.expanded {
+    -webkit-line-clamp: unset;
+    display: block;
+}
+
+.expand-button {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.expand-button p {
+    font-weight: 450;
+    border-bottom: 1px solid black;
+}
+.expand-button i {
+    font-size: 12px;
+}
+.expand-button {
+    cursor: pointer;
+}
+
+.expand-button:hover {
+    color: rgba(0,0,0,.7);
+}
+
+.expand-button p:hover {
+    border-bottom-color: rgba(0,0,0,.7);
+}
