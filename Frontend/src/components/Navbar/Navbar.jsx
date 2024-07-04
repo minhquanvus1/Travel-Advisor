@@ -25,6 +25,7 @@ const Navbar = () => {
     if (location.pathname === "/") {
       setIsHomePage(true);
       setMenu("");
+      window.scrollTo(0, 0);
     } else {
       setIsHomePage(false);
       window.scrollTo(0, 0);
