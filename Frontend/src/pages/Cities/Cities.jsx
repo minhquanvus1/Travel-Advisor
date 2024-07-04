@@ -3,10 +3,11 @@ import "./Cities.css";
 import CitiesHeader from "../../components/CitiesHeader/CitiesHeader";
 import { cities } from "../../assets/assets";
 import CityCard from "../../components/CityCard/CityCard";
+import ExpandableDescription from "../../components/ExpandableDescription/ExpandableDescription";
 
 const Cities = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [showReadMoreButton, setShowReadMoreButton] = useState(false);
+  //   const [isOpen, setIsOpen] = useState(false);
+  //   const [showReadMoreButton, setShowReadMoreButton] = useState(false);
   console.log("cities are", cities);
   const text = `Vietnam's cities offer a harmonious blend of rich history, natural
           beauty, and vibrant urban life. In no short supply of cultural and
@@ -19,13 +20,17 @@ const Cities = () => {
           National Park are a trekker’s paradise. Vietnam's cities seamlessly
           combine the allure of urban life with the serenity of nature, ensuring
           unforgettable experiences at every turn. `;
-  useEffect(() => {
-    setShowReadMoreButton(text.length > 100);
-  }, []);
+  //   useEffect(() => {
+  //     setShowReadMoreButton(text.length > 100);
+  //   }, []);
   return (
     <div className="cities">
       <CitiesHeader></CitiesHeader>
-      <div className="cities-description">
+      <ExpandableDescription
+        title={"Cities, Vietnam"}
+        text={text}
+      ></ExpandableDescription>
+      {/* <div className="cities-description">
         <h2>Cities, Vietnam</h2>
         <p className={isOpen ? "expanded" : ""}>{text}</p>
         {showReadMoreButton && (
@@ -43,7 +48,7 @@ const Cities = () => {
             )}
           </div>
         )}
-      </div>
+      </div> */}
       <div className="cities-list">
         {cities.length > 0 &&
           cities.map((city, index) => {

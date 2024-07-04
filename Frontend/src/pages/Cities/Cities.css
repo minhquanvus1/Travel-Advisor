@@ -3,7 +3,7 @@
     width: 100%; padding-inline: 10%;
 }
 
-.cities-description {
+/* .cities-description {
     margin: 50px 0;
     max-width: 50%;
     display: flex;
@@ -48,7 +48,7 @@
 
 .expand-button p:hover {
     border-bottom-color: rgba(0,0,0,.7);
-}
+} */
 
 /*style .cities-list*/
 .cities-list {
