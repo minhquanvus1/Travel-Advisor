@@ -12,3 +12,53 @@
     aspect-ratio: 16/6.5;
     object-fit: cover; border-radius: 20px;
 }
+
+/*style .city-cuisine-section*/
+.city-cuisine-section h2.city-cuisine-section-title {
+    font-size: 2.5rem;
+    margin-bottom: 1.3rem;
+}
+.city-cuisine-section {margin-bottom: 50px;}
+.city-cuisine-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.city-cuisine-list .cuisine-card {
+    width: 100%;
+}
+
+.cuisine-card img {
+    /* display: block; */
+    width: 100%;
+    aspect-ratio: 2/1.5;
+}
+
+.cuisine-card .dish-details h2 {
+    font-size: 1.5rem;
+    font-weight: 400;margin-bottom: 12px;
+}
+
+.cuisine-card:hover {
+    cursor: pointer;
+}
+
+.cuisine-card {
+    position: relative;
+}
+
+.cuisine-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: rgba(255,255,255,0);
+    transition: background-color .3s ease;
+}
+
+.cuisine-card:hover::after {
+    background-color: rgba(255,255,255,.1);
+}
+.cuisine-card .dish-details {
+    max-width: 95%;
+}

@@ -37,6 +37,24 @@ const City = () => {
             title={city.name}
             text={city.description}
           ></ExpandableDescription>
+          <div className="city-cuisine-section">
+            <h2 className="city-cuisine-section-title">
+              Cuisine in {city.name}
+            </h2>
+            <div className="city-cuisine-list">
+              {city.cuisine.map((dish, index) => {
+                return (
+                  <div key={dish.id} className="cuisine-card">
+                    <img src={dish.imageUrl} alt={dish.name} />
+                    <div className="dish-details">
+                      <h2>{dish.name}</h2>
+                      <p>{dish.description}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </>
       )}
     </div>
