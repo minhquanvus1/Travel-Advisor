@@ -1,3 +1,60 @@
 .home {
     margin-top: 2vw;
 }
+
+/*style #southern*/
+#southern {
+    position: relative; transform: scaleY(1.02);display: block;
+}
+#southern::after {
+    content: "SOUTHERN VIETNAM";
+    position: absolute;
+    bottom: 17px;
+    left: 83px;
+    color: black;
+    padding: 4px;
+    border-bottom: 1px solid black;
+    padding-left:120px; font-weight: 500;
+}
+#southern:hover::after {
+    color: tomato;
+    border-bottom-color: tomato;
+}
+
+  /*style #northern*/
+#northern {
+    position: relative; transform: scaleY(1.02);display: block;
+}
+#northern::after {
+    content: "NORTHERN VIETNAM";
+    position: absolute;
+    bottom: 300px;
+    left: 110px;
+    color: black;
+    padding: 4px;
+    border-bottom: 1px solid black; padding-left:90px;font-weight: 500;
+}
+
+#northern:hover::after {
+    color: tomato;
+    border-bottom-color: tomato;
+  }
+
+  /*style #central*/
+#central {
+    position: relative; transform: scaleY(1.02);display: block;
+}
+#central::after {
+    content: "CENTRAL VIETNAM";
+    position: absolute;
+    bottom: 150px;
+    left: 155px;
+    color: black;
+    padding: 4px;
+    border-bottom: 1px solid black; padding-left:50px;font-weight: 500;
+}
+
+#central:hover::after {
+    color: tomato;
+    border-bottom-color: tomato;
+}
