@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Home from "./pages/Home/Home";
 import Cities from "./pages/Cities/Cities";
 import City from "./pages/City/City";
+import Restaurants from "./pages/Restaurants/Restaurants";
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
       <Routes>
         <Route path="/cities" element={<Cities />} />
         <Route path="/cities/:cityName" element={<City />} />
+        <Route path="/restaurants" element={<Restaurants />} />
       </Routes>
     </div>
   );
