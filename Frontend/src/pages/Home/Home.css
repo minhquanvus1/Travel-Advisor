@@ -16,7 +16,14 @@
     border-bottom: 1px solid black;
     padding-left:120px; font-weight: 500;
 }
-#southern:hover::after {
+
+#southern::before {
+    content: '';
+    position: absolute;
+    left: 30px; bottom: -40px; width: 300px;height: 100px;padding-top: 10px;padding-right: 40px;
+}
+
+#southern:hover::after, #southern:hover::before {
     color: tomato;
     border-bottom-color: tomato;
 }
@@ -35,7 +42,13 @@
     border-bottom: 1px solid black; padding-left:90px;font-weight: 500;
 }
 
-#northern:hover::after {
+#northern::before {
+    content: '';
+    position: absolute;
+    left: 0px; bottom: 290px; width: 300px;height: 120px;padding-top: 10px;padding-right: 40px;
+}
+
+#northern:hover::after, #northern:hover::before {
     color: tomato;
     border-bottom-color: tomato;
   }
@@ -54,7 +67,13 @@
     border-bottom: 1px solid black; padding-left:50px;font-weight: 500;
 }
 
-#central:hover::after {
+#central::before {
+    content: '';
+    position: absolute;
+    left: 40px; bottom: 90px; width: 300px;height: 180px;padding-top: 10px;
+}
+
+#central:hover::after, #central:hover::before {
     color: tomato;
     border-bottom-color: tomato;
 }
