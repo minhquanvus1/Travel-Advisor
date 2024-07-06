@@ -1,0 +1,23 @@
+.back-to-top-button {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .6875rem;
+    border: .0625rem solid #D9D9D9;
+    border-radius: 6.25rem;
+    background: #FFFFFF;
+    box-shadow: 0 0 .9375rem rgba(0,0,0,.15);
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+}
+
+.back-to-top-button svg {
+    width: 20px;
+    height: 20px;
+}
+
+.back-to-top-button p {
+    font-size: 0.875rem;
+    color: #000000;
+}
