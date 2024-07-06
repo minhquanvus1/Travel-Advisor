@@ -27,8 +27,6 @@
 
 /*style .services*/
 .banner.services {
-    display: flex;
     gap: 3rem;
-    margin-top: 30px;
 }
 
