@@ -1,0 +1,46 @@
+/*style .services-container*/
+.services-container {text-align: center;}
+
+/*style .service-card*/
+.service-card .icon-container {
+    background: #34e0a1;
+    border-radius: 50%;
+    padding: 9px;
+    display: inline-flex; /*display: inline-flex: will make the Flex Container becomes an INLINE-level Flex Container, only take up the necessary width to fit its content. Not take full width of its parent like display: flex, which makes the Flex Container becomes BLOCK-LEVEL, therefore we need to explicitly set width, height for BLOCK-LEVEL Flex Container so that Flex Container does NOT take up full width of its parent*/
+    /* display: flex; align-items: center;justify-content: center;width: 40px;height: 40px; */
+}
+
+.service-card .icon-container svg {
+    width: 24px;
+    height: 24px;
+}
+
+.service-card {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   gap: 1rem;
+}
+
+.service-card h2 {
+    font-size: 28px;
+}
+.service-card h2 {
+    color: #000;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.service-card h3 {
+    color: #333;
+    font-size: 1rem;
+    font-weight: 300;
+}
+
+/*style .services*/
+.services {
+    display: flex;
+    gap: 4rem;
+    margin-top: 30px;
+}
+
