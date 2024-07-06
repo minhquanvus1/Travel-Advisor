@@ -28,5 +28,6 @@
 /*style .services*/
 .banner.services {
     gap: 3rem;
+    align-items: baseline; /*add align-items: baseline; to align the text of Flex Items to the baseline of the cross axis, which is vertical in this case*/
 }
 
