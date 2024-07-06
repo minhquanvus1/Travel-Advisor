@@ -1,0 +1,34 @@
+/*style .services-container*/
+.services-container {text-align: center;}
+
+/*style .service-card*/
+.service-card {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   gap: 1rem;
+   flex: 1;
+}
+
+.services-header {
+    font-size: 28px;
+}
+.service-card .banner-card-title {
+    color: #000;
+    font-size: 1.125rem;
+    font-weight: bold;
+}
+
+.service-card h3 {
+    color: #333;
+    font-size: 1rem;
+    font-weight: 300;
+}
+
+/*style .services*/
+.banner.services {
+    display: flex;
+    gap: 3rem;
+    margin-top: 30px;
+}
+
