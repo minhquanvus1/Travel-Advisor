@@ -8,6 +8,7 @@ import City from "./pages/City/City";
 import Restaurants from "./pages/Restaurants/Restaurants";
 import TravelDestinations from "./pages/TravelDestinations/TravelDestinations";
 import BackToTopButton from "./components/BackToTopButton/BackToTopButton";
+import Tours from "./pages/Tours/Tours";
 
 const App = () => {
   const [showBackToTopButton, setShowBackToTopButton] = useState(false);
@@ -38,6 +39,7 @@ const App = () => {
         <Route path="/cities/:cityName" element={<City />} />
         <Route path="/restaurants" element={<Restaurants />} />
         <Route path="/travel-destinations" element={<TravelDestinations />} />
+        <Route path="/tours" element={<Tours />} />
       </Routes>
       {showBackToTopButton && <BackToTopButton />}
     </div>
