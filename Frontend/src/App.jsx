@@ -6,6 +6,7 @@ import Home from "./pages/Home/Home";
 import Cities from "./pages/Cities/Cities";
 import City from "./pages/City/City";
 import Restaurants from "./pages/Restaurants/Restaurants";
+import TravelDestinations from "./pages/TravelDestinations/TravelDestinations";
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
         <Route path="/cities" element={<Cities />} />
         <Route path="/cities/:cityName" element={<City />} />
         <Route path="/restaurants" element={<Restaurants />} />
+        <Route path="/travel-destinations" element={<TravelDestinations />} />
       </Routes>
     </div>
   );
