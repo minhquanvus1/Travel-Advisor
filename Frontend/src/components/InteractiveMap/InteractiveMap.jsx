@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import "./InteractiveMap.css";
+import { assets } from "../../assets/assets";
 
 const InteractiveMap = () => {
   useEffect(() => {
@@ -35,7 +36,7 @@ const InteractiveMap = () => {
   return (
     <div className="vietnam-map">
       <img
-        src="https://vietnam.travel/themes/custom/vietnamtourism/images/flyout-map.png"
+        src={assets.vietnam_map}
         alt="vietnam map"
         useMap="#image-map"
         className="maparea"

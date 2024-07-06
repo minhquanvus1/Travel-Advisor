@@ -1,7 +1,9 @@
 import logo from "./logo.png";
+import vietnam_map from "./vietnam_map.png";
 
 export const assets = {
   logo,
+  vietnam_map,
 };
 
 export const cities = [
