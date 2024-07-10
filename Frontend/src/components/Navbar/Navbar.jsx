@@ -1,7 +1,16 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useContext,
+} from "react";
 import "./Navbar.css";
 import { assets } from "../../assets/assets";
 import { Link, useLocation } from "react-router-dom";
+import { CityContext } from "../../context/CityContextProvider";
+import { replaceWhiteSpaceWithUnderScore } from "../../functions/replaceWhiteSpaceWithUnderScore";
+import { replaceUnderScoreWithWhiteSpace } from "../../functions/replaceUnderScoreWithWhiteSpace";
 
 const Navbar = () => {
   const [scroll, setScroll] = useState("");
@@ -9,6 +18,8 @@ const Navbar = () => {
   const location = useLocation();
   const [isHomePage, setIsHomePage] = useState(true);
   const [menu, setMenu] = useState("");
+  const { cityState, setCityState, checkAndSetCityState } =
+    useContext(CityContext);
   // create the ref to the current value of isHomePage.
   // Because the handleScroll() is added ONCE when the component is mounted (due to the [] dependency of the useEffect() that has the EventListener)
   // so the handleScroll() will close over the initial value of isHomePage, and is not re-rendered when the isHomePage value is updated
@@ -20,11 +31,60 @@ const Navbar = () => {
   console.log(location.pathname);
   console.log(scroll);
   console.log("hrfullwidth", hrFullWidth);
+  const extractCityName = useCallback(
+    (pathname) => {
+      const pathParts = pathname.split("/");
+      if (pathParts.includes("cities") && pathParts.length >= 3) {
+        const cityPart =
+          pathParts.includes("restaurants") ||
+          pathParts.includes("things-to-do")
+            ? pathParts[pathParts.length - 2]
+            : pathParts[pathParts.length - 1];
+        return replaceUnderScoreWithWhiteSpace(cityPart);
+      }
+      return null;
+    },
+    [location.pathname]
+  );
+
+  // const extractCityName = () => {
+  //   if (!cityState) {
+  //     const pathParts = location.pathname.split("/");
+  //     console.log("pathParts is", pathParts);
+  //     if (
+  //       pathParts.includes("cities") &&
+  //       pathParts.includes("restaurants") &&
+  //       pathParts.length === 4
+  //     ) {
+  //       console.log(
+  //         "extractedcityname restaurants is",
+  //         pathParts[pathParts.length - 2]
+  //       );
+  //       checkAndSetCityState(
+  //         replaceUnderScoreWithWhiteSpace(pathParts[pathParts.length - 2])
+  //       );
+  //       return pathParts[pathParts.length - 2];
+  //     } else if (pathParts.includes("cities") && pathParts.length === 3) {
+  //       console.log(
+  //         "extractedcityname city is",
+  //         pathParts[pathParts.length - 1]
+  //       );
+  //       checkAndSetCityState(
+  //         replaceUnderScoreWithWhiteSpace(pathParts[pathParts.length - 1])
+  //       );
+  //       return pathParts[pathParts.length - 1];
+  //     }
+  //   } else {
+  //     console.log("cityState in extractfunction is", cityState);
+  //     return replaceWhiteSpaceWithUnderScore(cityState);
+  //   }
+  // };
   useEffect(() => {
     console.log("useeffect 1: set isHomePage when pathname changes");
     if (location.pathname === "/") {
       setIsHomePage(true);
       setMenu("");
+      setCityState("");
       window.scrollTo(0, 0);
     } else {
       setIsHomePage(false);
@@ -92,12 +152,36 @@ const Navbar = () => {
   }, []);
   useEffect(() => {
     if (location.pathname === "/") return;
+    console.log(
+      "useEffect triggered with location.pathname:",
+      location.pathname
+    );
+    const cityName = extractCityName(location.pathname);
+    if (cityName && cityName !== cityState) {
+      console.log("cityName !== cityState");
+      checkAndSetCityState(cityName);
+    }
     switch (location.pathname) {
       case "/cities":
         setMenu("city");
+        setCityState("");
+        break;
+      case `/cities/${replaceWhiteSpaceWithUnderScore(cityName)}`:
+        setMenu("city");
+        console.log("menu here is", menu);
+        console.log("cityState here is", cityState);
         break;
       case "/restaurants":
         setMenu("restaurants");
+        break;
+      case `/cities/${replaceWhiteSpaceWithUnderScore(cityName)}/restaurants`:
+        setMenu("restaurants");
+        break;
+      case "/things-to-do":
+        setMenu("things_to_do");
+        break;
+      case `/cities/${replaceWhiteSpaceWithUnderScore(cityName)}/things-to-do`:
+        setMenu("things_to_do");
         break;
       case "/travel-categories":
         setMenu("travel_category");
@@ -147,13 +231,43 @@ const Navbar = () => {
           <div className="row-2">
             <ul>
               <li className={menu === "city" ? "active" : ""}>
-                <Link to="/cities" onClick={() => setMenu("city")}>
-                  City
+                <Link
+                  to={
+                    cityState
+                      ? `/cities/${replaceWhiteSpaceWithUnderScore(cityState)}`
+                      : "/cities"
+                  }
+                  onClick={() => setMenu("city")}
+                >
+                  {cityState ? cityState : "City"}
                 </Link>
               </li>
               <li className={menu === "restaurants" ? "active" : ""}>
-                <Link to="/restaurants" onClick={() => setMenu("restaurants")}>
+                <Link
+                  to={
+                    cityState
+                      ? `/cities/${replaceWhiteSpaceWithUnderScore(
+                          cityState
+                        )}/restaurants`
+                      : "/restaurants"
+                  }
+                  onClick={() => setMenu("restaurants")}
+                >
                   Restaurants
+                </Link>
+              </li>
+              <li className={menu === "things_to_do" ? "active" : ""}>
+                <Link
+                  to={
+                    cityState
+                      ? `/cities/${replaceWhiteSpaceWithUnderScore(
+                          cityState
+                        )}/things-to-do`
+                      : "/things-to-do"
+                  }
+                  onClick={() => setMenu("things_to_do")}
+                >
+                  Things to do
                 </Link>
               </li>
               <li className={menu === "travel_category" ? "active" : ""}>
