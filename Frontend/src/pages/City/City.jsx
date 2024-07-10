@@ -1,17 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./City.css";
 import { useParams } from "react-router-dom";
 import { cities } from "../../assets/assets";
 import ExpandableDescription from "../../components/ExpandableDescription/ExpandableDescription";
+import { useLocation } from "react-router-dom";
+import { CityContext } from "../../context/CityContextProvider";
+import { replaceWhiteSpaceWithUnderScore } from "../../functions/replaceWhiteSpaceWithUnderScore";
+import { replaceUnderScoreWithWhiteSpace } from "../../functions/replaceUnderScoreWithWhiteSpace";
 
 const City = () => {
   const { cityName } = useParams();
   const [city, setCity] = useState(null);
+  const location = useLocation();
+  const { setCityState, checkAndSetCityState } = useContext(CityContext);
   console.log("cityName is", cityName);
+
   const findCityByName = () => {
     const foundCity = cities.find((city) => {
       console.log("city.name is", city.name);
-      return city.name === cityName;
+      return replaceWhiteSpaceWithUnderScore(city.name) === cityName;
     });
     if (!foundCity) {
       console.log("No city found");
@@ -24,6 +31,17 @@ const City = () => {
   useEffect(() => {
     findCityByName();
   }, []);
+  // useEffect(() => {
+  //   if (!cityState) {
+  //     switch (location.pathname) {
+  //       case `/cities/${replaceWhiteSpaceWithUnderScore(cityName)}`:
+  //         checkAndSetCityState(replaceUnderScoreWithWhiteSpace(cityName));
+  //         break;
+  //       default:
+  //         setCityState("");
+  //     }
+  //   }
+  // }, [location.pathname]);
   return (
     <div className="city">
       {!city && "No city found"}
