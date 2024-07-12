@@ -1,0 +1,221 @@
+.restaurant-section {
+    margin-top: 3vw;
+}
+
+.restaurant-section .restaurant-heading {
+    padding-inline: 10%;padding-bottom: 8px;
+}
+.restaurant-section .restaurant {
+    background-color: #f2f2f2;
+    padding-inline: 10%;
+}
+
+.restaurant img {
+    width: 100%;
+    display: block;
+    border-radius: 8px;
+}
+
+/*style .restaurant-number-of-reviews-and-cuisines*/
+.restaurant-number-of-reviews-and-cuisines {
+    padding-top: 4px;
+    margin-top: 4px;
+}
+
+.restaurant-number-of-reviews-and-cuisines .number-of-reviews {
+    margin-left: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #000;
+    padding-right: 8px;vertical-align: text-top;
+}
+
+.rating-stars {
+    fill: #00aa6c;
+}
+
+.restaurant-number-of-reviews-and-cuisines .cuisines-list {
+    font-size: 14px;
+    color: #333;
+    padding-inline: 8px;
+    border-left: 1px solid #e0e0e0;
+}
+
+/*style .address-and-contact-details*/
+.restaurant-heading .address-and-contact-details svg {
+    vertical-align: text-top;
+}
+.restaurant-heading .address-and-contact-details {
+    font-size: 14px;
+    color: #333;
+    padding-top: 4px;
+    margin-top: 4px;
+}
+
+.restaurant-heading .address-and-contact-details .address-container {
+    padding-right: 8px;
+}
+
+.restaurant-heading .address-and-contact-details .phone-number-container {
+    padding-inline: 8px;
+    border-left: 1px solid #e0e0e0;
+}
+
+.restaurant-heading .address-and-contact-details .website-url-container {
+    padding-inline: 8px;
+    border-left: 1px solid #e0e0e0;
+}
+
+.restaurant-heading .address-and-contact-details .website-url-container svg:hover {
+    cursor: pointer;
+}
+
+/*style .restaurant-section .restaurant*/
+.restaurant-section .restaurant {
+    padding: 16px 10%;
+}
+
+.restaurant-section .restaurant .image-container img {
+    width: 100%;
+}
+
+/*style .general-info*/
+.general-info {
+    display: flex;
+    margin-bottom: 16px;
+    gap: 24px;
+    height: 400px;
+}
+
+/*style .general-info-card*/
+.general-info-card {
+    background: #FFFFFF;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    flex: 1;
+    /* height: 300px; */
+}
+
+.rating-stars {
+    fill: #00aa6c;
+}
+.general-info-card .general-info-card-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #000;
+}
+
+.general-info-card .ratings-and-reviews {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-flow: row wrap;
+}
+
+.ratings-and-reviews .rating-value {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.ratings-and-reviews .reviews-count {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.general-info-card hr {
+    border: none;
+    border-top: 1px solid #e0e0e0;
+    margin: auto 0;
+}
+
+.ratings {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.ratings .ratings-title {
+    font-size: 12px;
+    font-weight: 400;
+    color: #333;
+}
+
+.ratings .rating-row {
+    display: flex;
+    align-items: center;
+}
+.rating-row .rating-stars {
+    margin-left: auto;
+}
+
+.rating-row .rating-subject {
+    font-size: 14px;
+    font-weight: 400;
+    color: #333;
+    margin-left: 8px;
+}
+
+/*style .general-info-card .details-item*/
+.details-item-subject {
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.details-item-content {
+    font-size: 14px;
+    font-weight: 400;
+    color: #333;
+}
+
+/*style .general-info-card .contact-item*/
+.general-info-card .contact-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.address-container.details-item.contact-item svg {
+    align-self: flex-start;
+    flex-shrink: 0;
+}
+
+/*style .overview*/
+.overview {
+    margin-top: 16px;
+    background-color: #FFFFFF;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 24px;
+}
+
+.overview .overview-header {
+    font-size: 24px;
+    font-weight: 700;
+    color: #000;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom: 16px;
+}
+
+.overview .overview-details {
+    margin-bottom: 16px;
+    display: flex;
+    gap: 16px;
+}
+
+.overview-details-left, .overview-details-right {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex-basis: 50%;
+}
+
+.overview-details-left {
+    padding-right: 16px;
+    border-right: 1px solid #e0e0e0;
+}
