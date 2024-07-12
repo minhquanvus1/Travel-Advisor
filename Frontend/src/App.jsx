@@ -9,9 +9,18 @@ import Restaurants from "./pages/Restaurants/Restaurants";
 import TravelDestinations from "./pages/TravelDestinations/TravelDestinations";
 import BackToTopButton from "./components/BackToTopButton/BackToTopButton";
 import Tours from "./pages/Tours/Tours";
+import RestaurantsInACity from "./pages/RestaurantsInACity/RestaurantsInACity";
+import RestaurantInACity from "./pages/RestaurantInACity/RestaurantInACity";
 
 const App = () => {
   const [showBackToTopButton, setShowBackToTopButton] = useState(false);
+  const [restaurantState, setRestaurantState] = useState(() => {
+    const restaurantStateFromLocalStorage =
+      localStorage.getItem("restaurantState");
+    return restaurantStateFromLocalStorage
+      ? restaurantStateFromLocalStorage
+      : "";
+  });
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 1000) {
@@ -27,7 +36,10 @@ const App = () => {
   }, []);
   return (
     <div>
-      <Navbar />
+      <Navbar
+        restaurantState={restaurantState}
+        setRestaurantState={setRestaurantState}
+      />
       <div className="app">
         <Routes>
           <Route path="/" element={<Home />} />
@@ -40,6 +52,19 @@ const App = () => {
         <Route path="/restaurants" element={<Restaurants />} />
         <Route path="/travel-destinations" element={<TravelDestinations />} />
         <Route path="/tours" element={<Tours />} />
+        <Route
+          path="/cities/:cityName/restaurants"
+          element={<RestaurantsInACity />}
+        />
+        <Route
+          path="/cities/:cityName/restaurants/:restaurantName"
+          element={
+            <RestaurantInACity
+              restaurantState={restaurantState}
+              setRestaurantState={setRestaurantState}
+            />
+          }
+        />
       </Routes>
       {showBackToTopButton && <BackToTopButton />}
     </div>
