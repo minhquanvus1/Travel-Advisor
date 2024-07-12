@@ -76,3 +76,34 @@ export const cities = [
     ],
   },
 ];
+
+export const restaurants = [
+  {
+    id: 1,
+    cityId: 1,
+    name: "Truffle Restaurant",
+    imageUrl:
+      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2c/70/42/dc/table.jpg?w=1100&h=-1&s=1",
+    description:
+      "Truffle Restaurant in Landmark 81 offers an exquisite dining experience overlooking the beautiful skyline of Ho Chi Minh City. The restaurant serves set menus with a focus on French cuisine, using the freshest and highest-quality ingredients. The relaxed and elegant atmosphere, accompanied by knowledgeable and attentive staff, ensures a memorable dining experience. The menu also features a selection of fine wines and spirits to complement the delicious meal. For those seeking a luxurious and indulgent dining experience, Truffle Restaurant in Landmark 81 is definitely worth a visit.",
+    websiteUrl: "http://truffle.com.vn/",
+    phoneNumber: "+84 98 878 33 53",
+    addressObj: {
+      address: "28 Nguyen Huu Canh",
+      ward: "22",
+      district: "Binh Thanh",
+      city: "Ho Chi Minh",
+      country: "Vietnam",
+      postalCode: "70000",
+    },
+    cuisines: [
+      { name: "French" },
+      { name: "Seafood" },
+      { name: "European" },
+      { name: "Fusion" },
+    ],
+    lowestPrice: "109.00",
+    highestPrice: "390.00",
+    numberOfReviews: 18,
+  },
+];
