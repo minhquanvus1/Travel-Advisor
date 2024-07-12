@@ -68,7 +68,7 @@ const Navbar = ({ restaurantState, setRestaurantState }) => {
       if (
         pathParts.includes("cities") &&
         pathParts.includes("restaurants") &&
-        pathParts.length >= 4
+        pathParts.length === 5
       ) {
         return replaceUnderScoreWithWhiteSpace(pathParts[pathParts.length - 1]);
       }
