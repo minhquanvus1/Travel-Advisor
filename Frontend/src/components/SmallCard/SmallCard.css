@@ -1,0 +1,67 @@
+.small-card {
+    width: 300px;position: relative;
+}
+
+.small-card:hover {
+    cursor: pointer;
+}
+.image-container {
+    width: 100%; 
+}
+
+.image-container img {
+    display: block;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.image-container {
+    padding-bottom: 8px;
+}
+
+.card-contents .card-title{
+    font-size: 18px;
+    font-weight: 500;
+    color: #000;
+    display: -webkit-box;
+    display: -moz-box; /* Fallback for Firefox */
+    display: box; /* Standard property */
+    line-clamp: 3; /* Limit to 3 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.card-contents .card-rating-count svg {
+    margin-right: 8px;
+    fill: #00aa6c;
+    display: inline-block;
+}
+.card-contents span {
+    font-size: 12px;
+    color: #333;display: inline-block;
+}
+
+.card-contents .card-rating-count {
+    display: flex;
+    align-items: center;
+}
+
+.card-contents {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/*style the overlay effect when hover the .small-card*/
+.small-card::after {
+    content: '';
+    position: absolute;inset: 0;
+    background-color: rgba(255, 255, 255, 0); /* Initially transparent */
+    transition: background-color 0.3s ease;
+    border-radius: 8px; /* Ensure the overlay has the same border radius */
+}
+
+.small-card:hover::after {
+    background-color: rgba(255, 255, 255, 0.1); /* Light white overlay on hover */
+}
