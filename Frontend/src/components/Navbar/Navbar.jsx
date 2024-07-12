@@ -12,7 +12,7 @@ import { CityContext } from "../../context/CityContextProvider";
 import { replaceWhiteSpaceWithUnderScore } from "../../functions/replaceWhiteSpaceWithUnderScore";
 import { replaceUnderScoreWithWhiteSpace } from "../../functions/replaceUnderScoreWithWhiteSpace";
 
-const Navbar = () => {
+const Navbar = ({ restaurantState, setRestaurantState }) => {
   const [scroll, setScroll] = useState("");
   const [hrFullWidth, setHrFullWidth] = useState(false);
   const location = useLocation();
@@ -34,7 +34,22 @@ const Navbar = () => {
   const extractCityName = useCallback(
     (pathname) => {
       const pathParts = pathname.split("/");
-      if (pathParts.includes("cities") && pathParts.length >= 3) {
+      // if (pathParts.includes("cities") && pathParts.length >= 3) {
+      //   const cityPart =
+      //     pathParts.includes("restaurants") ||
+      //     pathParts.includes("things-to-do")
+      //       ? pathParts[pathParts.length - 2]
+      //       : pathParts[pathParts.length - 1];
+      //   return replaceUnderScoreWithWhiteSpace(cityPart);
+      // }
+      // return null;
+      if (
+        pathParts.includes("cities") &&
+        pathParts.includes("restaurants") &&
+        pathParts.length === 5
+      ) {
+        return replaceUnderScoreWithWhiteSpace(pathParts[pathParts.length - 3]);
+      } else if (pathParts.includes("cities") && pathParts.length >= 3) {
         const cityPart =
           pathParts.includes("restaurants") ||
           pathParts.includes("things-to-do")
@@ -47,6 +62,20 @@ const Navbar = () => {
     [location.pathname]
   );
 
+  const extractRestaurantName = useCallback(
+    (pathname) => {
+      const pathParts = pathname.split("/");
+      if (
+        pathParts.includes("cities") &&
+        pathParts.includes("restaurants") &&
+        pathParts.length >= 4
+      ) {
+        return replaceUnderScoreWithWhiteSpace(pathParts[pathParts.length - 1]);
+      }
+      return null;
+    },
+    [location.pathname]
+  );
   // const extractCityName = () => {
   //   if (!cityState) {
   //     const pathParts = location.pathname.split("/");
@@ -156,10 +185,24 @@ const Navbar = () => {
       "useEffect triggered with location.pathname:",
       location.pathname
     );
+    console.log("restaurantState in navbar is", restaurantState);
     const cityName = extractCityName(location.pathname);
+    const restaurantName = extractRestaurantName(location.pathname);
+    console.log("restaurantName in navbar is", restaurantName);
+    console.log("cityName in navbar is", cityName);
+    console.log(
+      "match string",
+      `/cities/${replaceWhiteSpaceWithUnderScore(
+        cityState
+      )}/restaurants/${replaceWhiteSpaceWithUnderScore(restaurantName)}`
+    );
     if (cityName && cityName !== cityState) {
       console.log("cityName !== cityState");
       checkAndSetCityState(cityName);
+    }
+    if (restaurantName && restaurantName !== restaurantState) {
+      checkAndSetCityState(cityName);
+      setRestaurantState(restaurantName);
     }
     switch (location.pathname) {
       case "/cities":
@@ -175,6 +218,9 @@ const Navbar = () => {
         setMenu("restaurants");
         break;
       case `/cities/${replaceWhiteSpaceWithUnderScore(cityName)}/restaurants`:
+      case `/cities/${replaceWhiteSpaceWithUnderScore(
+        cityName
+      )}/restaurants/${replaceWhiteSpaceWithUnderScore(restaurantName)}`:
         setMenu("restaurants");
         break;
       case "/things-to-do":
