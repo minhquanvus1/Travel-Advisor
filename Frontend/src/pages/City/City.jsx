@@ -7,6 +7,7 @@ import { useLocation } from "react-router-dom";
 import { CityContext } from "../../context/CityContextProvider";
 import { replaceWhiteSpaceWithUnderScore } from "../../functions/replaceWhiteSpaceWithUnderScore";
 import { replaceUnderScoreWithWhiteSpace } from "../../functions/replaceUnderScoreWithWhiteSpace";
+import TravelAdviceBanner from "../../components/TravelAdviceBanner/TravelAdviceBanner";
 
 const City = () => {
   const { cityName } = useParams();
@@ -55,6 +56,7 @@ const City = () => {
             title={city.name}
             text={city.description}
           ></ExpandableDescription>
+          <TravelAdviceBanner></TravelAdviceBanner>
           <div className="city-cuisine-section">
             <h2 className="city-cuisine-section-title">
               Cuisine in {city.name}
