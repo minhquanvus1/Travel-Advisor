@@ -1,0 +1,119 @@
+.travel-destination-big-card {
+    /* width: clamp(350px, 30%, 40%); */
+    /* margin-inline: auto; */
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background: #fff;
+    position: relative;
+}
+
+.travel-destination-big-card-image-container img {
+    display: block; width: 100%;object-fit: cover;border-radius: 8px 8px 0 0;
+}
+
+.travel-destination-big-card-contents {
+    padding: 16px;
+    /* display: flex;
+    flex-direction: column;
+    gap: 8px; */
+    display: grid;
+    grid-template-areas: 
+    "main"
+    "footer";
+    grid-template-rows: minmax(90px, auto) minmax(140px, auto);
+}
+
+.travel-destination-big-card-header-container {
+    /* margin-bottom: 32px; */
+    grid-area: main;
+}
+
+.travel-destination-big-card-header {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 4px;
+}
+
+.travel-destination-big-card-header .header-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #000;
+}
+
+.travel-destination-big-card-header .header-rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.travel-destination-big-card-header .header-rating .number-of-reviews {
+    font-size: 12px;
+    font-weight: 400;
+    color: #333;
+}
+
+.travel-destination-big-card-category {
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #333;
+}
+
+.travel-destination-big-card-description-container {
+    grid-area: footer;
+}
+
+.travel-destination-big-card-description {
+    font-size: 16px;
+    font-weight: 400;
+    color: #333;
+    line-height: 1.5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    position: relative;
+}
+
+/* .travel-destination-big-card-description .description-more-dotted {
+    position: absolute;
+    bottom: 0;
+    right: 0px;
+    background-color: #FFFFFF;
+}
+
+.travel-destination-big-card-description .description-more {
+    text-decoration: underline;
+} */
+
+.travel-destination-big-card-description-container hr {
+    border: none;
+    border-top: 1px solid #e0e0e0;
+    margin: 16px 0 8px;
+}
+
+.travel-destination-big-card:hover {
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.travel-destination-big-card:hover .travel-destination-big-card-header .header-title {
+    text-decoration: underline;
+    text-underline-offset: .2em;
+}
+
+/*style the overlay effect when hover the .small-card*/
+.travel-destination-big-card::after {
+    content: '';
+    position: absolute;inset: 0;
+    background-color: rgba(255, 255, 255, 0); /* Initially transparent */
+    transition: background-color 0.3s ease;
+    border-radius: 8px; /* Ensure the overlay has the same border radius */
+}
+
+.travel-destination-big-card:hover::after {
+    background-color: rgba(255, 255, 255, 0.1); /* Light white overlay on hover */
+}
