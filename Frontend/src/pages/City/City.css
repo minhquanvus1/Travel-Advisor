@@ -21,7 +21,7 @@
 .city-cuisine-section {margin-bottom: 50px;}
 .city-cuisine-list {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 1.5rem;
 }
 
@@ -61,4 +61,30 @@
 }
 .cuisine-card .dish-details {
     max-width: 95%;
+}
+
+/*style .travel-advice-section*/
+.travel-advice-section h2 {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 32px 0;
+}
+
+.travel-advice-section .travel-advice-title {
+    font-size: 24px;
+    font-weight: 500;
+    margin: 32px 0 16px;
+}
+
+.travel-advice-subtitle {
+    text-transform: capitalize;
+    margin: 16px 0;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.travel-advice-description {
+    font-size: 18px;
+    font-weight: 400;
+    color: #333;
 }

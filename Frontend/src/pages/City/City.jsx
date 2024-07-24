@@ -56,7 +56,7 @@ const City = () => {
             title={city.name}
             text={city.description}
           ></ExpandableDescription>
-          <TravelAdviceBanner></TravelAdviceBanner>
+          {city.travelAdvice && <TravelAdviceBanner></TravelAdviceBanner>}
           <div className="city-cuisine-section">
             <h2 className="city-cuisine-section-title">
               Cuisine in {city.name}
@@ -75,6 +75,71 @@ const City = () => {
               })}
             </div>
           </div>
+          {city.travelAdvice && (
+            <div className="travel-advice-section">
+              <h2>{city.name} Travel Guide</h2>
+              <h3 className="travel-advice-title">
+                What is the best way to get there?
+              </h3>
+              {Object.entries(city.travelAdvice.gettingThere).map(
+                ([key, value]) => {
+                  return (
+                    <React.Fragment key={key}>
+                      <h4 className="travel-advice-subtitle">{key}</h4>
+                      <p className="travel-advice-description">{value}</p>
+                    </React.Fragment>
+                  );
+                }
+              )}
+              <h3 className="travel-advice-title">Do I need a Visa?</h3>
+              <p className="travel-advice-description">
+                {city.travelAdvice.visa}
+              </p>
+              <h3 className="travel-advice-title">
+                When is the best time to visit?
+              </h3>
+              <p className="travel-advice-description">
+                {city.travelAdvice.bestTimeToVisit}
+              </p>
+              <h3 className="travel-advice-title">Get around</h3>
+              {Object.entries(city.travelAdvice.gettingAround).map(
+                ([key, value]) => {
+                  return (
+                    <React.Fragment key={key}>
+                      <h4 className="travel-advice-subtitle">{key}</h4>
+                      <p className="travel-advice-description">{value}</p>
+                    </React.Fragment>
+                  );
+                }
+              )}
+              <h3 className="travel-advice-title">On the ground</h3>
+              {Object.entries(city.travelAdvice.onTheGround).map(
+                ([key, value]) => {
+                  return (
+                    <React.Fragment key={key}>
+                      <h4 className="travel-advice-subtitle">{key}</h4>
+                      <p className="travel-advice-description">{value}</p>
+                    </React.Fragment>
+                  );
+                }
+              )}
+              <h3 className="travel-advice-title">How much do I tip?</h3>
+              <p className="travel-advice-description">
+                {city.travelAdvice.tipping}
+              </p>
+              <h3 className="travel-advice-title">
+                Are there local customs I should know?
+              </h3>
+              {Object.entries(city.travelAdvice.customs).map(([key, value]) => {
+                return (
+                  <React.Fragment key={key}>
+                    <h4 className="travel-advice-subtitle">{key}</h4>
+                    <p className="travel-advice-description">{value}</p>
+                  </React.Fragment>
+                );
+              })}
+            </div>
+          )}
         </>
       )}
     </div>
