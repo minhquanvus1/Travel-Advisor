@@ -69,7 +69,7 @@ const RestaurantInACity = ({ restaurantState, setRestaurantState }) => {
                   ></path>
                 </svg>
                 <span className="number-of-reviews">
-                  {restaurant.numberOfReviews} reviews
+                  {restaurant.numberOfReviews.toLocaleString("en-US")} reviews
                 </span>
               </span>
               <span className="cuisines-list">
@@ -172,7 +172,7 @@ const RestaurantInACity = ({ restaurantState, setRestaurantState }) => {
                     ></path>
                   </svg>
                   <span className="reviews-count">
-                    {restaurant.numberOfReviews} reviews
+                    {restaurant.numberOfReviews.toLocaleString("en-US")} reviews
                   </span>
                 </div>
                 <hr />

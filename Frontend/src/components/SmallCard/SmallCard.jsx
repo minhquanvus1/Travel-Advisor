@@ -48,7 +48,7 @@ const SmallCard = ({ cardTitle, imageUrl, numberOfReviews }) => {
                 transform="translate(104 0)"
               ></path>
             </svg>
-            <span>{numberOfReviews}</span>
+            <span>{numberOfReviews.toLocaleString("en-US")}</span>
           </div>
         </div>
       </div>
