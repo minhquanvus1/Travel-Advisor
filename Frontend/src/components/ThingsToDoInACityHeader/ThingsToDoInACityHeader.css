@@ -1,0 +1,38 @@
+.things-to-do-in-a-city-header {
+  display: grid;
+  grid-template-columns: 4fr 5fr;
+  grid-template-areas: "left right";
+  gap: 64px;
+}
+
+.things-to-do-in-a-city-content-left {
+    grid-area: "left";margin-right: 24px;
+    background: linear-gradient(135deg, #d5dff7 0, #dcc8ff 100%);
+}
+
+.things-to-do-in-a-city-content-right {
+    grid-area: "right";
+    align-self: center;
+}
+
+.things-to-do-in-a-city-content-left .things-to-do-in-a-city-image-container {
+    margin: 24px 0 24px 24px;width: 100%;
+}
+
+.things-to-do-in-a-city-content-left .things-to-do-in-a-city-image-container img {
+    display: block;
+    width: 100%;height: 100%;object-fit: cover;
+}
+
+.things-to-do-in-a-city-content-right .things-to-do-in-a-city-content-right-title {
+    font-size: 54px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    width: fit-content;
+}
+
+.things-to-do-in-a-city-content-right .things-to-do-in-a-city-content-right-description {
+    font-size: 20px;
+    font-weight: 400;
+    color: #333;padding-top: 8px;
+}
