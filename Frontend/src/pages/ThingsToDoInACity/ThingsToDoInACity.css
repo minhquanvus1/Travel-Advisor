@@ -1,0 +1,70 @@
+.things-to-do-in-a-city-section {
+    margin-top: 3vw;
+}
+
+.things-to-do-in-a-city {
+    padding-inline: 10%;
+}
+
+.things-to-do-in-a-city hr {
+    border: none;
+    border-top: 1px solid #e0e0e0;
+    margin-block: 48px;
+}
+
+/*style .top-attractions-section*/
+.top-attractions-section {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 16px;
+}
+
+.top-attractions-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    /* grid-template-columns: repeat(3, minmax(0, 1fr)); */
+    gap: 32px 16px;
+}
+
+.top-attractions-title-container ~ .attractions-link {
+    justify-self: center;
+    padding: 18px 24px;
+    border-radius: 28px;
+    color: #fff;
+    background-color: #000;
+}
+
+.top-attractions-title-container ~ .attractions-link:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.top-attractions-title-container {
+    /* display: flex;
+    justify-content: space-between;
+    align-items: center; */
+    display: grid;grid-template-columns: 1fr 1fr;align-items: center;
+    margin-bottom: 8px;
+}
+
+.top-attractions-title-container .top-attractions-title {
+    font-size: 28px;
+    font-weight: 600;
+    overflow-wrap: break-word;
+}
+
+.attractions-link {
+    display: inline;justify-self: end;align-self: center;
+    min-width: max-content; /*for display: grid in .top-attractions-title-container*/
+    /*for display: flex in .top-attractions-title-container*/
+    /* min-width: fit-content; */
+    border: 1px solid #000;
+    border-radius: 20px;
+    padding: 8px 14px;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.attractions-link:hover {
+    color: #fff;
+    background-color: #000;
+}
