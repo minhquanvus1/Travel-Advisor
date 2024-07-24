@@ -1,0 +1,91 @@
+.restaurant-big-card {
+    /* width: 60%; */
+    /* margin: 30px auto; */
+    width: clamp(272px, 70%, 100%);
+    display: grid;
+    grid-template: auto / 3fr 7fr;
+    column-gap: 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    background: #fff;
+    position: relative;
+    height: clamp(min-content, 14vw, 17vw);
+}
+
+.restaurant-big-card-image-container img {
+    width: 100%;height: 100%;object-fit: cover;display: block;aspect-ratio: auto;
+}
+.restaurant-big-card-contents {
+    display: grid;
+    grid-template: min-content / 5fr 7fr;
+    padding: 8px 8px 8px 0;
+    gap: 16px;
+}
+
+.restaurant-big-card-header-wrapper {
+    grid-column: 1 / span 2;
+}
+
+.restaurant-big-card-header {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 4px;
+}
+
+.restaurant-big-card-header-title {
+    font-size: 18px;
+    font-weight: 550;
+    color: #000;
+}
+
+.restaurant-big-card-header-rating-count {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    gap: 5px;
+}
+
+.restaurant-big-card-header-rating-count .number-of-reviews {
+    font-size: 14px;
+    color: #333;
+    min-width: fit-content;
+}
+
+.restaurant-big-card-description {
+    grid-column: 1 / span 2;
+    grid-row-start: 2;line-height: 1.5;
+}
+
+.restaurant-big-card-description hr {
+    border: none;
+    border-top: 1px solid #e0e0e0;
+}
+
+.restaurant-big-card-description-contents {
+    font-size: 14px;
+    color: #333;
+    padding: 8px 0 0;
+   -webkit-line-clamp: 3;overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical;
+}
+
+.restaurant-big-card-cuisines {
+    font-size: 14px;
+    color: #333;
+}
+
+.restaurant-big-card:hover {
+    cursor: pointer;
+}
+
+/*style the overlay effect when hover the .small-card*/
+.restaurant-big-card::after {
+    content: '';
+    position: absolute;inset: 0;
+    background-color: rgba(255, 255, 255, 0); /* Initially transparent */
+    transition: background-color 0.3s ease;
+    border-radius: 4px; /* Ensure the overlay has the same border radius */
+}
+
+.restaurant-big-card:hover::after {
+    background-color: rgba(255, 255, 255, 0.1); /* Light white overlay on hover */
+}
