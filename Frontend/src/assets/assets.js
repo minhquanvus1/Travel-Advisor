@@ -40,6 +40,42 @@ export const cities = [
           "Fragrant broken rice served with succulent grilled pork, a perfectly fried egg, and accompanied by a medley of pickled vegetables and fish sauce.",
       },
     ],
+
+    travelAdvice: {
+      gettingThere: {
+        flying:
+          "Ho Chi Minh City's Tan Son Nhat International Airport (SGN) is the usual destination for those coming to the south of Vietnam.",
+      },
+      visa: "Most visitors will need a visa to enter Vietnam. People in many African countries and parts of Asia are exempt from Vietnam visa requirements. Citizens of North American and European countries will need to obtain a visa. Check out this website to find out if you need to apply for a visa.",
+      bestTimeToVisit:
+        "The best time to visit Ho Chi Minh City is during the drier months of December to March when temperatures range between 70 Fahrenheit (21 Celsius) and 93 Fahrenheit (34 Celsius). Many like to visit during the Tet Festival (Vietnamese New Year) in late January or early February. The whole country joins in the festivities and it's a colorful spectacle, but prices are higher and getting around may be difficult due to the large numbers of people traveling.",
+      gettingAround: {
+        Walking:
+          "Crossing the road in Saigon can be a nightmare. The trick is to disconnect the part of your brain that processes fear. Be Moses. Walk slowly and confidently — the sea of motor scooters will part every time.",
+        MotorcycleTaxi:
+          "This is the absolute most fun way to see this town. Note that your moto driver will be getting a kickback from some places he’s recommending. He needs it to live, so if you get a good moto, tip well.",
+        MotorbikeRental:
+          "If you decide that you want to experience riding around the city yourself, you can hire a motorbike for about 10$/day. Riding a motorbike requires a Vietnamese driving license, if you get a visa longer than 3 months, you are eligible for one.",
+      },
+      onTheGround: {
+        "What is the timezone?": "Indochina Time.",
+        "What are the voltage/plug types?":
+          "220V at 50Hz. Plugs are type A (two flat vertical pins), type C, and type F (two round pins).",
+        "What is the currency?": "Vietnamese Dong (VND).",
+        "Are ATMs readily accessible?": "Yes.",
+        "Are credit cards widely accepted?":
+          "Only usually accepted at hotels and restaurants.",
+        "Is it easy to find a bank?": "Yes.",
+      },
+      tipping:
+        "Tipping is not part of the culture in Vietnam, and you are not required to tip anywhere. There will be a service charge for more upscale restaurants. People more accustomed to receiving tips are tour guides and in Western-style hotels.",
+      customs: {
+        Friendliness:
+          "Vietnamese people for long have been famed worldwide for their grace, politeness, generosity, and hospitality. When coming to the country, the locals are so friendly that you can rest assured that they will make every possible effort to make your trip as enjoyable as possible. And expatriates who reside in Vietnam for study or work are normally not so astonished when they are invited to visit and dine with a local family with whom they have just become acquainted. That’s simply the inherent hospitality of the Vietnamese.",
+        "Dress well":
+          "Generally speaking, Vietnamese people are careful in their dress, especially in public areas. In order to avoid this culturally sensitive matter, foreign travelers are strongly advised to put on proper dress when they are out. For example, when visiting a local temple or pagoda, you should never wear a short-sleeved shirt or shorts. Instead, a long-sleeved and shoulder-covered shirt and long pants will be much more appreciated. Do keep in mind that, no matter how open-minded and care-free you are, others around you may be judgmental.",
+      },
+    },
   },
   {
     id: 2,
@@ -74,6 +110,49 @@ export const cities = [
           "An array of fresh seafood, from succulent grilled prawns to tender squid, each dish bursting with the flavors of the sea.",
       },
     ],
+    travelAdvice: {
+      gettingThere: {
+        flying:
+          "Phu Cat Airport (UIH) is the primary airport serving Quy Nhon. It is located about 30 kilometers from the city center.",
+        train:
+          "Quy Nhon has a railway station that connects to major cities in Vietnam such as Hanoi, Da Nang, and Ho Chi Minh City.",
+        bus: "Various bus services operate to and from Quy Nhon, including Phuong Trang and Mai Linh, connecting it to major cities in Vietnam.",
+        driving:
+          "Quy Nhon is accessible via National Highway 1A, which runs the length of Vietnam. Be prepared for tolls and variable road conditions.",
+      },
+      visa: "Most visitors will need a visa to enter Vietnam. Citizens of certain countries in Southeast Asia, such as Thailand and Malaysia, are exempt from visa requirements. North American, European, and most other travelers will need to apply for a visa. Check the latest requirements before you travel.",
+      bestTimeToVisit:
+        "The best time to visit Quy Nhon is from January to March and from September to December. During these months, the weather is pleasant with less rainfall, making it ideal for outdoor activities and exploring the city. Temperatures range from 68°F (20°C) to 86°F (30°C).",
+      gettingAround: {
+        Walking:
+          "Quy Nhon is a compact city, making it easy to explore on foot. Many of the city's attractions, restaurants, and beaches are within walking distance of each other.",
+        BicycleRental:
+          "Renting a bicycle is a popular and eco-friendly way to get around Quy Nhon. Many hotels and rental shops offer bicycles for a reasonable price.",
+        MotorcycleTaxi:
+          "Motorcycle taxis, known locally as 'xe ôm', are a convenient way to travel short distances. Negotiate the fare before starting your trip.",
+        CarRental:
+          "For those looking to explore the surrounding areas, renting a car is a viable option. Ensure you have a valid international driving permit.",
+      },
+      onTheGround: {
+        "What is the timezone?": "Indochina Time (ICT).",
+        "What are the voltage/plug types?":
+          "220V at 50Hz. Plugs are type A (two flat vertical pins), type C, and type F (two round pins).",
+        "What is the currency?": "Vietnamese Dong (VND).",
+        "Are ATMs readily accessible?": "Yes.",
+        "Are credit cards widely accepted?":
+          "Credit cards are accepted at major hotels, restaurants, and shops, but it's always good to have cash on hand for smaller establishments.",
+        "Is it easy to find a bank?":
+          "Yes, banks are easily accessible in the city center.",
+      },
+      tipping:
+        "Tipping is not customary in Vietnam, but it is appreciated. In upscale restaurants and hotels, a service charge may be included in the bill. Tipping tour guides and drivers is common.",
+      customs: {
+        Friendliness:
+          "Quy Nhon locals are known for their warmth and hospitality. It is common for locals to invite visitors to join them for meals or social gatherings.",
+        "Dress well":
+          "While Quy Nhon is a beach destination, it is important to dress modestly when away from the beach. When visiting temples or local homes, wear clothing that covers your shoulders and knees.",
+      },
+    },
   },
 ];
 
@@ -105,5 +184,162 @@ export const restaurants = [
     lowestPrice: "109.00",
     highestPrice: "390.00",
     numberOfReviews: 18,
+  },
+  {
+    id: 2,
+    cityId: 1,
+    name: "Ngoc Suong Ben Thuyen Restaurant",
+    imageUrl:
+      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0e/0e/07/9d/nha-hang-ng-c-suong-b.jpg?w=1200&h=-1&s=1",
+    description:
+      "NS Bến Thuyền is a rare gem among seafood restaurants in Ho Chi Minh City, excelling in three key areas: culinary creativity, unique dining experiences, and dedicated customer service. It has garnered the affection of many discerning diners over the years in Saigon precisely because it embodies these qualities.",
+    websiteUrl: "https://www.nsbenthuyen.com/",
+    phoneNumber: "+84 8 3844 3861",
+    addressObj: {
+      address: "11 Nguyen Van Troi",
+      ward: "12",
+      district: "Phu Nhuan",
+      city: "Ho Chi Minh",
+      country: "Vietnam",
+      postalCode: "70000",
+    },
+    cuisines: [{ name: "Asian" }, { name: "Seafood" }, { name: "Vietnamese" }],
+    lowestPrice: "19.00",
+    highestPrice: "39.00",
+    numberOfReviews: 48,
+  },
+  {
+    id: 3,
+    cityId: 1,
+    name: "New World Restaurant",
+    imageUrl:
+      "https://saigon.newworldhotels.com/wp-content/uploads/sites/18/2014/05/Parkview-3.jpg",
+    description:
+      "New World Saigon Hotel is ideally situated in the heart of Ho Chi Minh City District 1 amid a bustling neighborhood of restaurants and entertainment venues, within walking distance to markets, museums and places of cultural interest. The hotel is located 20 minutes away from Tan Son Nhat International Airport and steps away from the central bus station, making it a perfect location to explore the city. The hotel offers 533 guestrooms and suites with multiple event venues, a casual all-day restaurant, a sophisticated Chinese restaurant and a vibrant lounge for late night enjoyment.",
+    websiteUrl: "https://saigon.newworldhotels.com/en/dining/",
+    phoneNumber: "+84 28 3822 8888",
+    addressObj: {
+      address: "76 Le Lai",
+      ward: "Ben Thanh",
+      district: "1",
+      city: "Ho Chi Minh",
+      country: "Vietnam",
+      postalCode: "70000",
+    },
+    cuisines: [{ name: "Asian" }, { name: "Seafood" }, { name: "Vietnamese" }],
+    lowestPrice: "19.00",
+    highestPrice: "39.00",
+    numberOfReviews: 3907,
+  },
+];
+
+export const category = [
+  { id: 1, categoryName: "Attractions" },
+  { id: 2, categoryName: "Tours" },
+];
+
+export const subCategory = [
+  { id: 1, subCategoryName: "Spiritual Sites", categoryId: 1 },
+  { id: 2, subCategoryName: "Points of Interest & Landmarks", categoryId: 1 },
+  { id: 3, subCategoryName: "Observation Decks & Towers", categoryId: 1 },
+  { id: 4, subCategoryName: "Flea & Street Markets", categoryId: 1 },
+
+  { id: 5, subCategoryName: "Full-day Tours", categoryId: 2 },
+  { id: 6, subCategoryName: "City Tours", categoryId: 2 },
+  { id: 7, subCategoryName: "Historical Tours", categoryId: 2 },
+];
+
+export const attractions = [
+  {
+    id: 1,
+    attractionName: "Bitexco Financial Tower",
+    subCategoryId: 3,
+    cityId: 1,
+    numberOfReviews: 6260,
+    imageUrl:
+      "https://dynamic-media-cdn.tripadvisor.com/media/ph…d4/2a/bitexco-financial-tower.jpg?w=500&h=400&s=1",
+    websiteUrl: "http://www.bitexcofinancialtower.com/",
+    addressObj: {
+      address: "36 Ho Tung Mau",
+      ward: "Ben Nghe",
+      district: "1",
+      city: "Ho Chi Minh",
+      country: "Vietnam",
+      postalCode: "70000",
+    },
+    description:
+      "Bitexco Financial Tower at a height of 262 meters is the tallest building in Ho Chi Minh City up to date. With design concept is taken from the shape of a lotus bud, the Vietnam national flower, Bitexco Financial Tower is not merely a building which is covered in glass and steel, but also a symbol of beauty and the rapid development of Ho Chi Minh City economy, a key economic region in Vietnam. Bitexco Financial Tower is a typical example for creativity and unique design. One of the tower highlights is the first observation in the city at 49th floors. Saigon Skydeck has opened for all visitors from January 1, 2011. With a full range of services and facilities for visitors, the Skydeck has officially opened to welcome visitors both domestic and international visitors since July, 2011. Visitors have the opportunity to visit Saigon Skydeck, not only enjoy the full sight of the Ho Chi Minh City and Saigon River, but also have the chance to use the facilities and services at this Skydeck. With many activities will be held at the Skydeck during this year, with special offer prices for different customer groups, the Skydeck will be an attractive destination in the journey of Ho Chi Minh City's for both domestic and international tourists.",
+  },
+  {
+    id: 2,
+    attractionName: "Ben Thanh Market",
+    subCategoryId: 4,
+    cityId: 1,
+    numberOfReviews: 13303,
+    imageUrl:
+      "https://tse4.mm.bing.net/th?id=OIP.QbZN1wP3qEDx7BgabYorRwHaE7&pid=Api&P=0&h=220",
+    websiteUrl: "https://benthanhmarket.com.vn/",
+    addressObj: {
+      address: "Le Loi",
+      ward: "Ben Thanh",
+      district: "1",
+      city: "Ho Chi Minh",
+      country: "Vietnam",
+      postalCode: "70000",
+    },
+    description:
+      "This central market is the symbol and soul of Saigon, with over 1,500 booths trading wholesale and retail items ranging from food and apparel to fabric and cosmetics. There are four main gates and 12 entrances—with the main entrance located near the big clock tower. Here, you can spot interesting souvenir picks like embroidered wallets, lacquerware and silk scarves. If you’re a coffee lover, locals would recommend homegrown brands like Trung Nguyen, Metrang, Wakeup and Mr. Viet Coffee. When hungry, treat yourself to a comforting bowl of pho, a dragon fruit smoothie and Hue cake for dessert.",
+  },
+  {
+    id: 3,
+    attractionName: "Cu Chi Tunnels",
+    subCategoryId: 2,
+    cityId: 1,
+    numberOfReviews: 25993,
+    imageUrl:
+      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1b/2a/05/1c/photo8jpg.jpg?w=100&h=-1&s=1",
+    websiteUrl: "http://diadaocuchi.com.vn/",
+    addressObj: {},
+    description:
+      "On your guided tour of the Cu Chi Tunnels, you’ll learn about the history of this underground system. The tunnels were dug during the Vietnam War by Viet Cong soldiers as a way to move undetected and launch surprise attacks. Experience the tight squeeze firsthand by crawling through the tunnels, and fire assault rifles at the shooting range after. Pack bug spray and dress for hot and humid weather, arriving earlier in the day to beat the crowds and the afternoon sun. It's not recommended to visit the tunnels after a downpour, as the area will get very muddy.",
+  },
+  {
+    id: 4,
+    attractionName: "The Independence Palace",
+    subCategoryId: 2,
+    numberOfReviews: 10355,
+    imageUrl:
+      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/07/41/18/98/the-independence-palace.jpg?w=100&h=-1&s=1",
+    websiteUrl: "https://www.dinhdoclap.gov.vn/",
+    addressObj: {
+      address: "106 Nguyen Du",
+      ward: "Ben Nghe",
+      district: "1",
+      city: "Ho Chi Minh",
+      country: "Vietnam",
+      postalCode: "70000",
+    },
+    description:
+      "From Norodom Palace to Independence Palace 1868-1966” explores the century-long history of the building that once served as the seat of the French colonial government in Cochinchina. In 1954, this building was renamed Independence Palace. It subsequently witnessed many dramatic episodes in the rise and decline of the government of Ngo Dinh Diem, the founding leader of the Republic of Vietnam",
+  },
+  {
+    id: 5,
+    attractionName: "Chua Vinh Nghiem",
+    subCategoryId: 1,
+    cityId: 1,
+    numberOfReviews: 118,
+    imageUrl:
+      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/28/58/e9/52/caption.jpg?w=100&h=-1&s=1",
+    websiteUrl: "http://www.vinhnghiemvn.com/",
+    addressObj: {
+      address: "339 Nam Ky Khoi Nghia",
+      ward: "7",
+      district: "3",
+      city: "Ho Chi Minh",
+      country: "Vietnam",
+      postalCode: "70000",
+    },
+    description:
+      "Vĩnh Nghiêm Pagoda, nestled in District 3, Ho Chi Minh City, exudes tranquility. Its 7-story tower, standing 40 meters tall, blends traditional Vietnamese architecture with concrete. Here, Gautama Buddha and two bodhisattvas—Manjusri and Samantabhadra—are revered. The Peace Bell, a gift from a Fukushima monk, resonates with serenity. The pagoda’s library houses ancient Buddhist texts, while the main hall showcases a 4.5-tonne statue of Gautama Buddha. The pagoda’s architecture, with its intricate carvings and vibrant colors, is a testament to Vietnamese craftsmanship.",
   },
 ];
