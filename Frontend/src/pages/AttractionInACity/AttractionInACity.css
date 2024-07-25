@@ -1,0 +1,139 @@
+.attraction-section {
+    margin-top: 3vw;
+    padding-inline: 10%;
+}
+
+/*style .attraction-header*/
+.attraction-header {
+    display: flex;
+    align-items: center;
+}
+
+.attraction-header .attraction-title {
+    font-size: 42px;
+    font-weight: 800;
+    color: #000;
+    flex: 1;
+}
+
+.icons-container {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.icon-wrapper {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 16px;
+    border: 1px solid #000;
+    cursor: pointer;
+    transition: all .1s ease;
+}
+
+.icon-wrapper:hover {
+    background: #000;
+}
+.icon-wrapper:hover svg {
+    fill: #fff;
+}
+
+/*style .attraction-contents*/
+.attraction-contents {
+    margin-top: 16px;
+}
+
+.number-of-reviews-and-subcategory {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+}
+
+.number-of-reviews-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.number-of-reviews-container::after {
+    content: "\2022";
+    margin-inline: 8px;
+}
+
+/*style .attraction-details-container*/
+.attraction-details-container {
+    padding-top: 32px;
+    display: grid;grid-template-columns: 4fr 8fr;gap: 16px;
+}
+
+.attraction-details-container .details-container {
+    display: grid;
+    grid-template-rows: 1fr auto;
+    grid-template-areas: "detail-top" "detail-bottom";
+    box-shadow: 0 2px 12px rgba(0,0,0,.3);
+    border-radius: 8px;
+}
+
+.attraction-details-container .details-container .details-top {
+    grid-area: detail-top;
+    padding: 32px 16px 16px 16px;
+}
+
+.details-top-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 24px;
+}
+
+.attraction-description {
+    margin-bottom: 24px;
+}
+
+.details-bottom {
+    grid-area: detail-bottom;
+    padding: 32px 24px;
+}
+
+.details-bottom {
+    border-top: 1px solid #e0e0e0;
+}
+
+.details-bottom .details-bottom-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 8px;
+}
+
+.details-bottom .details-bottom-description {
+    font-size: 16px;
+    font-weight: 400;
+    color: #333;
+}
+
+.details-bottom button {
+    background: #000;
+    color: #fff;
+    width: 100%;
+    outline: none;
+    padding: 18px 24px;
+    border-radius: 28px;
+    border: none;
+    cursor: pointer;
+    margin-top: 32px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.details-bottom button:hover {
+   box-shadow: 0 5px 10px rgba(0,0,0,.1);
+}
+
+.attraction-details-container .image-container img {
+    width: 100%;height: 450px;max-height: 500px;display: block;object-fit: cover;
+}
