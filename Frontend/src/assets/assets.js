@@ -257,7 +257,7 @@ export const attractions = [
     cityId: 1,
     numberOfReviews: 6260,
     imageUrl:
-      "https://dynamic-media-cdn.tripadvisor.com/media/ph…d4/2a/bitexco-financial-tower.jpg?w=500&h=400&s=1",
+      "https://media-cdn.tripadvisor.com/media/photo-f/14/11/d4/2a/bitexco-financial-tower.jpg",
     websiteUrl: "http://www.bitexcofinancialtower.com/",
     addressObj: {
       address: "36 Ho Tung Mau",
@@ -297,7 +297,7 @@ export const attractions = [
     cityId: 1,
     numberOfReviews: 25993,
     imageUrl:
-      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1b/2a/05/1c/photo8jpg.jpg?w=100&h=-1&s=1",
+      "https://media-cdn.tripadvisor.com/media/photo-s/1b/2a/05/1c/photo8jpg.jpg",
     websiteUrl: "http://diadaocuchi.com.vn/",
     addressObj: {},
     description:
@@ -329,7 +329,7 @@ export const attractions = [
     cityId: 1,
     numberOfReviews: 118,
     imageUrl:
-      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/28/58/e9/52/caption.jpg?w=100&h=-1&s=1",
+      "https://media-cdn.tripadvisor.com/media/photo-f/28/58/e9/52/caption.jpg",
     websiteUrl: "http://www.vinhnghiemvn.com/",
     addressObj: {
       address: "339 Nam Ky Khoi Nghia",
