@@ -1,19 +1,39 @@
 import React from "react";
 import "./TravelDestinationBigCard.css";
+import { subCategory } from "../../assets/assets";
+import { Link } from "react-router-dom";
+import { replaceWhiteSpaceWithUnderScore } from "../../functions/replaceWhiteSpaceWithUnderScore";
 
-const TravelDestinationBigCard = () => {
+const TravelDestinationBigCard = ({ attraction, index }) => {
+  const cityState = localStorage.getItem("cityState");
+  const findSubCategory = (attraction) => {
+    const foundSubCategory = subCategory.find(
+      (subCategory) => subCategory.id === attraction.subCategoryId
+    );
+    console.log("foundSubCategory is", foundSubCategory);
+    return foundSubCategory;
+  };
   return (
-    <div className="travel-destination-big-card">
+    <Link
+      className="travel-destination-big-card"
+      to={`/cities/${replaceWhiteSpaceWithUnderScore(
+        cityState
+      )}/attractions/${replaceWhiteSpaceWithUnderScore(
+        attraction.attractionName
+      )}`}
+    >
       <div className="travel-destination-big-card-image-container">
         <img
-          src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/14/11/d4/2a/bitexco-financial-tower.jpg?w=500&h=400&s=1"
-          alt=""
+          src={attraction.imageUrl}
+          alt={`${attraction.attractionName} image`}
         />
       </div>
       <div className="travel-destination-big-card-contents">
         <div className="travel-destination-big-card-header-container">
           <div className="travel-destination-big-card-header">
-            <div className="header-title">1. Bitexco Financial Tower</div>
+            <div className="header-title">
+              {index + 1}. {attraction.attractionName}
+            </div>
             <div className="header-rating">
               <svg
                 className="rating-stars"
@@ -46,18 +66,19 @@ const TravelDestinationBigCard = () => {
                   transform="translate(104 0)"
                 ></path>
               </svg>
-              <span className="number-of-reviews">6,260 reviews</span>
+              <span className="number-of-reviews">
+                {attraction.numberOfReviews.toLocaleString("en-US")} reviews
+              </span>
             </div>
           </div>
-          <div className="travel-destination-big-card-category">Landmarks</div>
+          <div className="travel-destination-big-card-category">
+            {findSubCategory(attraction).subCategoryName}
+          </div>
         </div>
         <div className="travel-destination-big-card-description-container">
           <hr />
           <div className="travel-destination-big-card-description">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos
-            voluptas et voluptatum distinctio exercitationem sit, quisquam cum
-            repudiandae eius in. Repellat reprehenderit impedit corporis ipsa
-            quibusdam cupiditate praesentium consequuntur voluptatem.
+            {attraction.description}
             {/* <span className="description-more-dotted">
               ...
               <span className="description-more">More</span>
@@ -65,7 +86,7 @@ const TravelDestinationBigCard = () => {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
