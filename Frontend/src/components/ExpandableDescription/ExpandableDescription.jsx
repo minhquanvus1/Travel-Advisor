@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./ExpandableDescription.css";
 
-const ExpandableDescription = ({ title, text }) => {
+const ExpandableDescription = ({ text, lineClamp = 3 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [showReadMoreButton, setShowReadMoreButton] = useState(false);
   useEffect(() => {
@@ -9,8 +9,12 @@ const ExpandableDescription = ({ title, text }) => {
   }, []);
   return (
     <div className="description">
-      <h2>{title}</h2>
-      <p className={isOpen ? "expanded" : ""}>{text}</p>
+      <p
+        className={isOpen ? "expanded" : ""}
+        style={{ WebkitLineClamp: lineClamp }}
+      >
+        {text}
+      </p>
       {showReadMoreButton && (
         <div onClick={() => setIsOpen(!isOpen)}>
           {isOpen ? (
