@@ -52,10 +52,14 @@ const City = () => {
           <div className="city-header">
             <img src={city && city.imageUrl} alt="city header" />
           </div>
-          <ExpandableDescription
-            title={city.name}
-            text={city.description}
-          ></ExpandableDescription>
+          <div className="description-container">
+            <h2>{city.name}</h2>
+            <ExpandableDescription
+              text={city.description}
+              lineClamp={3}
+            ></ExpandableDescription>
+          </div>
+
           {city.travelAdvice && <TravelAdviceBanner></TravelAdviceBanner>}
           <div className="city-cuisine-section">
             <h2 className="city-cuisine-section-title">

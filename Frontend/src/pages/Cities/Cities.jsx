@@ -26,10 +26,13 @@ const Cities = () => {
   return (
     <div className="cities">
       <CitiesHeader></CitiesHeader>
-      <ExpandableDescription
-        title={"Cities, Vietnam"}
-        text={text}
-      ></ExpandableDescription>
+      <div className="description-container">
+        <h2>Cities, Vietnam</h2>
+        <ExpandableDescription
+          text={text}
+          lineClamp={3}
+        ></ExpandableDescription>
+      </div>
       {/* <div className="cities-description">
         <h2>Cities, Vietnam</h2>
         <p className={isOpen ? "expanded" : ""}>{text}</p>
