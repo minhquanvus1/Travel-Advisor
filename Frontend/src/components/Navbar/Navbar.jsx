@@ -43,6 +43,7 @@ const Navbar = ({ restaurantState, setRestaurantState }) => {
       //   return replaceUnderScoreWithWhiteSpace(cityPart);
       // }
       // return null;
+      console.log("pathParts are", pathParts);
       if (
         pathParts.includes("cities") &&
         pathParts.includes("restaurants") &&
@@ -55,6 +56,12 @@ const Navbar = ({ restaurantState, setRestaurantState }) => {
           pathParts.includes("things-to-do")
             ? pathParts[pathParts.length - 2]
             : pathParts[pathParts.length - 1];
+        if (pathParts.includes("attractions") && pathParts.length === 5) {
+          return pathParts[pathParts.length - 3];
+        }
+        if (pathParts.includes("attractions") && pathParts.length === 4) {
+          return pathParts[pathParts.length - 2];
+        }
         return replaceUnderScoreWithWhiteSpace(cityPart);
       }
       return null;
@@ -76,6 +83,22 @@ const Navbar = ({ restaurantState, setRestaurantState }) => {
     },
     [location.pathname]
   );
+
+  const extractAttractionName = useCallback(
+    (pathname) => {
+      const pathParts = pathname.split("/");
+      if (
+        pathParts.includes("cities") &&
+        pathParts.includes("attractions") &&
+        pathParts.length === 5
+      ) {
+        return replaceUnderScoreWithWhiteSpace(pathParts[pathParts.length - 1]);
+      }
+      return null;
+    },
+    [location.pathname]
+  );
+
   // const extractCityName = () => {
   //   if (!cityState) {
   //     const pathParts = location.pathname.split("/");
@@ -188,6 +211,13 @@ const Navbar = ({ restaurantState, setRestaurantState }) => {
     console.log("restaurantState in navbar is", restaurantState);
     const cityName = extractCityName(location.pathname);
     const restaurantName = extractRestaurantName(location.pathname);
+    const attractionName = extractAttractionName(location.pathname);
+    console.log("attractionName is", attractionName);
+    console.log(
+      `match string attractionName is /cities/${replaceWhiteSpaceWithUnderScore(
+        cityName
+      )}/attractions/${replaceWhiteSpaceWithUnderScore(attractionName)}`
+    );
     console.log("restaurantName in navbar is", restaurantName);
     console.log("cityName in navbar is", cityName);
     console.log(
@@ -227,6 +257,12 @@ const Navbar = ({ restaurantState, setRestaurantState }) => {
         setMenu("things_to_do");
         break;
       case `/cities/${replaceWhiteSpaceWithUnderScore(cityName)}/things-to-do`:
+        setMenu("things_to_do");
+        break;
+      case `/cities/${replaceWhiteSpaceWithUnderScore(cityName)}/attractions`:
+      case `/cities/${replaceWhiteSpaceWithUnderScore(
+        cityName
+      )}/attractions/${replaceWhiteSpaceWithUnderScore(attractionName)}`:
         setMenu("things_to_do");
         break;
       case "/travel-categories":
