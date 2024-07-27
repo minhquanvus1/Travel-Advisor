@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./TourInACity.css";
 import ExpandableDescription from "../../components/ExpandableDescription/ExpandableDescription";
+import { Link } from "react-scroll";
 
 const TourInACity = () => {
   const [toggleAccordion, setToggleAccordion] = useState("");
@@ -297,6 +298,7 @@ const TourInACity = () => {
               </div>
             </div>
             <div
+              id="departure-and-return"
               className={`accordion-box ${
                 toggleAccordion === "departure" ? "active" : ""
               }`}
@@ -512,7 +514,76 @@ const TourInACity = () => {
           </div>
         </div>
       </div>
-      <div className="tour-itinerary-container"></div>
+      <div className="tour-itinerary-container">
+        <div className="tour-itinerary-title">Itinerary</div>
+        <div className="tour-itinerary-details-container">
+          <div className="tour-itinerary-details">
+            <ul>
+              <li>
+                <div className="itinerary-icon">
+                  <span className="first-itinerary">
+                    <svg viewBox="0 0 24 24" width="1em" height="1em">
+                      <path d="M12 2C7.745 2 4.27 5.475 4.27 9.73c0 4.539 4.539 9.056 6.971 11.486L12 22l.759-.761c2.433-2.453 6.972-6.97 6.972-11.509C19.73 5.475 16.256 2 12 2zm0 10.986c-1.93 0-3.5-1.569-3.5-3.5 0-1.93 1.57-3.5 3.5-3.5s3.5 1.57 3.5 3.5c0 1.931-1.57 3.5-3.5 3.5z"></path>
+                    </svg>
+                  </span>
+                </div>
+                <div className="itinerary-details">
+                  <div className="itinerary-details-title">You'll start at</div>
+                  <div className="itinerary-details-description">
+                    123 Ly Tu Trong
+                  </div>
+                  <div className="itinerary-details-description">
+                    Or, you can also get picked up
+                  </div>
+                  <a
+                    className="itinerary-details-more"
+                    href="#departure-and-return"
+                  >
+                    See departure details
+                  </a>
+                  {/* <Link
+                    to="#departure-and-return"
+                    smooth={true}
+                    offset={0}
+                    duration={500}
+                    className="itinerary-details-more"
+                  >
+                    See departure details
+                  </Link> */}
+                </div>
+              </li>
+              <li>
+                <div className="itinerary-icon">
+                  <span>1</span>
+                </div>
+                <div className="itinerary-details">
+                  <div className="itinerary-details-title">Cu Chi Tunnels</div>
+                  <div className="itinerary-details-description">
+                    <ExpandableDescription
+                      text={`Around 8:00AM or 12:10PM. Start with pickup from the center of Ho Chi Minh City or meet at the meeting point then depart for Cu Chi Tunnels. After 1.5 hour drive, we arrive at the Tunnels where You'll have the opportunity to explore the tunnel system, which includes narrow passageways, hidden entrances, and underground chambers. Learn about the daily life of the Cu Chi guerrilla fighters and how they managed to survive in the tunnels. You can crawl distances through the tunnels that were used by the guerrilla fighters during the Vietnam War. You may see kitchens, living quarters, among other things used during the war. Learn about how different types traps were created and set up. Visit the weapon rooms and learn how the ingenious soldiers made them. You can also safely try your hand at the shooting range with an AK-47. After exploration, we travel back to Ho Chi Minh City. Arrive approximately at 3:00pm for the morning tour and 6:50pm for the afternoon tour.`}
+                      lineClamp={7}
+                    ></ExpandableDescription>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div className="itinerary-icon">
+                  <span className="first-itinerary">
+                    <svg viewBox="0 0 24 24" width="1em" height="1em">
+                      <path d="M12 2C7.745 2 4.27 5.475 4.27 9.73c0 4.539 4.539 9.056 6.971 11.486L12 22l.759-.761c2.433-2.453 6.972-6.97 6.972-11.509C19.73 5.475 16.256 2 12 2zm0 10.986c-1.93 0-3.5-1.569-3.5-3.5 0-1.93 1.57-3.5 3.5-3.5s3.5 1.57 3.5 3.5c0 1.931-1.57 3.5-3.5 3.5z"></path>
+                    </svg>
+                  </span>
+                </div>
+                <div className="itinerary-details">
+                  <div className="itinerary-details-title">
+                    You'll return to the starting point
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

@@ -360,3 +360,79 @@
     font-weight: 400;
     color: #333;
 }
+
+/*style .tour-itinerary-container*/
+.tour-itinerary-container {
+    margin-block: 32px;
+}
+
+.tour-itinerary-container .tour-itinerary-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 16px;
+}
+
+.tour-itinerary-container .tour-itinerary-details-container {
+    display: grid;
+    grid-template-columns: 7fr 8fr;
+    grid-template-rows: auto;
+    grid-template-areas: "itinerary-details map";
+    gap: 16px;
+}
+
+.tour-itinerary-details-container .tour-itinerary-details {
+    grid-area: itinerary-details;
+}
+
+.tour-itinerary-details ul li {
+    /* display: grid;
+    grid-template-columns: auto 1fr; */
+    display: flex;
+    /*ONLY "align-items: stretch;" that displays the background-image repeat, otherwise, the background-image disappear*/
+    /* align-items: flex-start; */
+}
+
+.itinerary-icon > span {
+    background: #000;
+    border: 1px solid #000;
+    border-radius: 50%;
+    font-size: 14px;
+    color: #fff;
+    display: inline-grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+}
+
+span.first-itinerary {
+    font-size: 20px;
+    background: #fff;
+}
+
+.tour-itinerary-details ul li .itinerary-icon {
+    background: url('https://static.tacdn.com/img2/attractions/apd/dotted-line.svg') repeat-y center 50%;
+}
+
+.tour-itinerary-details ul li .itinerary-details {
+    padding: 0 0 16px 14px;
+    flex: 1;
+}
+
+.itinerary-details .itinerary-details-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #000;
+}
+
+.itinerary-details .itinerary-details-description {
+    font-size: 16px;
+    font-weight: 400;
+    color: #333;
+}
+
+.itinerary-details .itinerary-details-more {
+    font-weight: 700;
+    color: #000;
+    text-decoration: underline;
+}
