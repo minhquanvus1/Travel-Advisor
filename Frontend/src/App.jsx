@@ -13,6 +13,7 @@ import RestaurantsInACity from "./pages/RestaurantsInACity/RestaurantsInACity";
 import RestaurantInACity from "./pages/RestaurantInACity/RestaurantInACity";
 import ThingsToDoInACity from "./pages/ThingsToDoInACity/ThingsToDoInACity";
 import AttractionInACity from "./pages/AttractionInACity/AttractionInACity";
+import TourInACity from "./pages/TourInAcity/TourInACity";
 
 const App = () => {
   const [showBackToTopButton, setShowBackToTopButton] = useState(false);
@@ -74,6 +75,10 @@ const App = () => {
         <Route
           path="/cities/:cityName/attractions/:attractionName"
           element={<AttractionInACity />}
+        />
+        <Route
+          path="/cities/:cityName/tours/:tourName"
+          element={<TourInACity />}
         />
       </Routes>
       {showBackToTopButton && <BackToTopButton />}

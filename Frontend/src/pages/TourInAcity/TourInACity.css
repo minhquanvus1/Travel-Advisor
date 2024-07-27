@@ -1,0 +1,308 @@
+.tour-section {
+    margin-top: 3vw;
+    padding-inline: 10%;
+}
+
+.tour-header-container {
+    margin-block: 42px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.tour-title-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tour-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: #000;
+}
+
+.tour-header-container .number-of-reviews-container::after {
+    content: none;
+}
+
+/*style .tour-details-container*/
+.tour-details-container {
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    grid-auto-rows: auto auto;
+    grid-template-areas: "hero hero" "primary booking";
+    /* column-gap: 4px;
+    row-gap: 32px; */
+    grid-gap: 32px 4px;
+}
+
+
+/*style .tour-hero-container*/
+.tour-details-container .tour-hero-container {
+    height: 407px;
+    grid-area: hero;
+    display: grid;
+    grid-template-columns: 7fr 5fr;
+    grid-template-rows: repeat(2, calc(50% - 4px/2));
+    grid-template-areas: "left top" "left bottom";
+    gap: 4px;
+    border-radius: 12px;
+    overflow: hidden; /*we need to set overflow: hidden so that we can see the border-radius takes effect. Otherwise, the children will OVERFLOW the parent, make us think that the border-radius NOT take effect, but in fact, it does take effect, but is OVERFLOWN by its children*/
+}
+
+.tour-hero-container > * {
+    width: 100%;
+    height: 100%;
+}
+
+.tour-hero-container .tour-image-left {
+    grid-area: left;
+}
+
+.tour-hero-container .tour-image-top-right {
+    grid-area: top;
+}
+
+.tour-hero-container .tour-image-bottom-right {
+    grid-area: bottom;
+}
+
+.tour-image-left > img, .tour-image-top-right > img, .tour-image-bottom-right > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+/*style .tour-primary-details-container*/
+.tour-primary-details-container {
+    grid-area: primary;
+    display: grid;
+    grid-auto-rows: min-content;
+    row-gap: 24px;
+}
+
+.tour-primary-details-container .about-container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    /* margin-bottom: 24px; */
+}
+
+.tour-primary-details-container .about-container .about-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #000;
+}
+
+.tour-primary-details-container .price-container {
+    font-size: 16px;
+    font-weight: 400;
+    color: #333;
+    letter-spacing: .5px;
+    /* margin-bottom: 24px; */
+}
+
+.tour-primary-details-container .price-container .price-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: #000;
+}
+
+.tour-primary-details-container .booking-benefits-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tour-primary-details-container .booking-benefits-container .benefit-icon {
+    padding: 4px;
+    background: #fee39a;
+    border-radius: 50%;
+    display: inline-grid;
+    place-items: center;
+} 
+
+.tour-primary-details-container .booking-benefits-container .booking-benefits {
+    width: 100%;
+    font-size: 16px;
+    font-weight: 400;
+    color: #333;
+    display: flex;
+    align-items: center;
+}
+
+.tour-primary-details-container .booking-benefits-container .booking-benefits .booking-benefit {
+   min-width: fit-content;
+}
+
+.tour-primary-details-container .booking-benefits-container .booking-benefits .booking-benefit .booking-benefit-text {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.tour-primary-details-container .booking-benefits-container .booking-benefits .booking-benefit:nth-child(2)::before {
+    content: "\2022";
+    padding-inline: 8px;
+}
+
+.tour-primary-details-container .booking-benefits-container .booking-benefits .booking-benefit:nth-child(2)::after {
+    content: "\2022";
+    padding-inline: 8px;
+}
+
+.tour-details-container hr {
+    border: none;
+    border-top: 1px solid #e0e0e0;
+}
+
+/*style .tour-general-details-container*/
+.tour-primary-details-container .tour-general-details-container {
+    display: grid;
+    grid-auto-rows: auto;
+    row-gap: 8px;
+}
+
+.tour-general-details-container .age, .tour-general-details-container .duration, .tour-general-details-container .start-time, .tour-general-details-container .mobile-ticket, .tour-general-details-container .live-guide {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tour-general-details-container .age .age-details, .tour-general-details-container .duration .duration-details, .tour-general-details-container .start-time .start-time-details, .tour-general-details-container .mobile-ticket .mobile-ticket-details, .tour-general-details-container .live-guide .live-guide-details {
+    font-size: 16px;
+    font-weight: 400;
+    color: #333;
+}
+
+/*style .highlights*/
+.tour-primary-details-container .highlights .highlights-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 16px;
+}
+
+.highlights ul {
+    padding-left: 1em;
+}
+
+.highlights ul li {
+    margin-bottom: 8px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #333;
+}
+
+.highlights ul li::marker {
+    font-size: .8em;
+}
+
+.highlights ul li > a {
+    text-decoration: underline;
+    font-weight: 650;
+}
+
+/*style .tour-accordion-container*/
+.tour-accordion-container .accordion-box {
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e0e0e0;
+    cursor: pointer;
+}
+
+.accordion-box:not(:first-child) {
+    margin-top: 1rem;
+}
+
+.tour-accordion-container .accordion-box .question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tour-accordion-container .accordion-box .question span, .answer .answer-wrapper .not-included span {
+    font-size: 16px;
+    font-weight: 700;
+    color: #000;
+}
+
+.tour-accordion-container .accordion-box .answer .answer-wrapper {
+    padding-top: 16px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #333;
+}
+
+.tour-accordion-container .accordion-box .answer .answer-wrapper ul {
+    padding-left: 1em;
+    margin-bottom: 24px;
+}
+
+.tour-accordion-container .accordion-box .answer .answer-wrapper ul li:not(:last-child) {
+    margin-bottom: 4px;
+}
+
+.tour-accordion-container .accordion-box .answer .answer-wrapper ul li::marker {
+    font-size: .8em;
+}
+
+.answer .answer-wrapper .not-included ul {
+    padding-top: 16px;
+}
+
+.answer .answer-wrapper .expect {
+    white-space: pre-wrap;
+    font-size: 16px;
+    font-weight: 400;
+    color: #333;
+}
+
+.question:hover span {
+    text-decoration: underline;
+}
+
+.answer-wrapper .departure-item {
+    margin-block: 8px 16px;
+    /* display: flex;
+    align-items: flex-start;
+    gap: 8px; */
+    display: grid;
+    grid-template-columns: 3fr 28fr;
+    column-gap: 8px;align-items: start;
+}
+
+.departure-item .bullet-point {
+    font-size: 16px;
+    font-weight: 700;
+    color: #000;
+}
+/* .departure-item svg {flex: 0 0 20px;} */
+.departure-item div .bullet-point {
+    margin-bottom: 4px;
+}
+
+.answer-wrapper .support-phone-number {
+    text-decoration: underline;
+    font-size: 16px;
+    font-weight: 700;
+    color: #000;
+    margin-top: 4px;
+}
+
+.answer {
+    max-height: 0px;
+    overflow: hidden;
+}
+
+.question svg {
+    transition: transform .4s ease-in;
+}
+
+.accordion-box.active .question svg {
+    transform: rotate(180deg);
+}
+
+.accordion-box.active .answer {
+    max-height: min-content;
+}
