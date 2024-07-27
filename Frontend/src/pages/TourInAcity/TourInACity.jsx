@@ -486,7 +486,31 @@ const TourInACity = () => {
             </div>
           </div>
         </div>
-        <div className="tour-booking-container"></div>
+        <div className="tour-booking-container">
+          <div className="tour-booking-title">Reserve your spot</div>
+          <button className="reserve-button">Reserve Now</button>
+          <div className="refund-container">
+            <span className="refund-icon">
+              <svg viewBox="0 0 24 24" width="12px" height="12px">
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M11.23 12.452v-5.4h1.5v6.022L9.7 16.102l-1.06-1.061 2.588-2.589zM20.586 15.377l-5.416 5.417-2.89-2.89 1.06-1.061 1.83 1.83 4.356-4.357 1.06 1.061z"
+                ></path>
+                <path d="M20.219 12.484a8.24 8.24 0 00-8.127-8.239v-1.5c5.327.06 9.627 4.398 9.627 9.74 0 .089-.002.178-.004.267h-1.5a8.25 8.25 0 00.004-.268zM11.946 20.723a8.24 8.24 0 01-5.46-14.38l-.979-1.137a9.715 9.715 0 00-3.267 7.278c0 5.368 4.342 9.721 9.706 9.74v-1.5z"></path>
+                <path
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                  d="M5.23 6.218H1.9v-1.5h4.83v4.829h-1.5v-3.33z"
+                ></path>
+              </svg>
+            </span>
+            <div className="refund-text">
+              Not sure? You can cancel this reservation up to 24 hours in
+              advance for a full refund.
+            </div>
+          </div>
+        </div>
       </div>
       <div className="tour-itinerary-container"></div>
     </div>

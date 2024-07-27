@@ -306,3 +306,57 @@
 .accordion-box.active .answer {
     max-height: min-content;
 }
+
+/*style .tour-booking-container*/
+.tour-booking-container {
+    grid-area: booking;
+    padding: 24px;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    margin-left: 32px;
+    position: sticky;
+    top: 128px;
+}
+
+.tour-booking-container .tour-booking-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 24px;
+}
+
+.tour-booking-container .reserve-button {
+    border: none;
+    border-radius: 24px;
+    outline: none;
+    padding: 14px 24px;
+    background: #f2b203;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+    font-weight: 700;
+    color: #000;
+    text-align: center;
+}
+
+.tour-booking-container .refund-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-top: 24px;
+}
+
+.tour-booking-container .refund-container .refund-icon {
+    background: #c9f2e3;
+    fill: #004f32;
+    border-radius: 50%;
+    padding: 4px;
+    display: inline-flex;
+    place-items: center;
+}
+
+.tour-booking-container .refund-container .refund-text {
+    font-size: 16px;
+    font-weight: 400;
+    color: #333;
+}
