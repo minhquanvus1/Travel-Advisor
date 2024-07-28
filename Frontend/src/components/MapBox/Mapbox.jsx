@@ -29,7 +29,7 @@ const Mapbox = ({
     <Map
       {...viewState}
       onMove={(event) => setViewState(event.viewState)}
-      style={{ width: "100%", minHeight: "30vw" }}
+      style={{ width: "100%", minHeight: "30vw", maxHeight: "50vw" }}
       mapStyle="mapbox://styles/mapbox/streets-v12"
       mapboxAccessToken={mapboxAccessToken}
     >
