@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./TourInACity.css";
 import ExpandableDescription from "../../components/ExpandableDescription/ExpandableDescription";
 import { Link } from "react-scroll";
+import Mapbox from "../../components/MapBox/Mapbox";
 
 const TourInACity = () => {
   const [toggleAccordion, setToggleAccordion] = useState("");
@@ -581,6 +582,9 @@ const TourInACity = () => {
                 </div>
               </li>
             </ul>
+          </div>
+          <div className="tour-itinerary-map">
+            <Mapbox></Mapbox>
           </div>
         </div>
       </div>

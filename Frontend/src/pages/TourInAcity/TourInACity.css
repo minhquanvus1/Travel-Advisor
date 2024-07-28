@@ -436,3 +436,9 @@ span.first-itinerary {
     color: #000;
     text-decoration: underline;
 }
+
+/*style .tour-itinerary-map*/
+.tour-itinerary-details-container .tour-itinerary-map {
+    grid-area: map;
+    border-radius: 12px;overflow: hidden;
+}
