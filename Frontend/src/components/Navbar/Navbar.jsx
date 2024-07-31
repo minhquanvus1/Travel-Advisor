@@ -250,10 +250,10 @@ const Navbar = ({ restaurantState, setRestaurantState }) => {
     );
     if (cityName && cityName !== cityState) {
       console.log("cityName !== cityState");
-      checkAndSetCityState(cityName);
+      checkAndSetCityState(replaceUnderScoreWithWhiteSpace(cityName));
     }
     if (restaurantName && restaurantName !== restaurantState) {
-      checkAndSetCityState(cityName);
+      checkAndSetCityState(replaceUnderScoreWithWhiteSpace(cityName));
       setRestaurantState(restaurantName);
     }
     switch (location.pathname) {
