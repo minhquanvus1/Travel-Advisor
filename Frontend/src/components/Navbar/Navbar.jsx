@@ -56,10 +56,16 @@ const Navbar = ({ restaurantState, setRestaurantState }) => {
           pathParts.includes("things-to-do")
             ? pathParts[pathParts.length - 2]
             : pathParts[pathParts.length - 1];
-        if (pathParts.includes("attractions") && pathParts.length === 5) {
+        if (
+          pathParts.includes("attractions") ||
+          (pathParts.includes("tours") && pathParts.length === 5)
+        ) {
           return pathParts[pathParts.length - 3];
         }
-        if (pathParts.includes("attractions") && pathParts.length === 4) {
+        if (
+          pathParts.includes("attractions") ||
+          (pathParts.includes("tours") && pathParts.length === 4)
+        ) {
           return pathParts[pathParts.length - 2];
         }
         return replaceUnderScoreWithWhiteSpace(cityPart);
@@ -90,6 +96,21 @@ const Navbar = ({ restaurantState, setRestaurantState }) => {
       if (
         pathParts.includes("cities") &&
         pathParts.includes("attractions") &&
+        pathParts.length === 5
+      ) {
+        return replaceUnderScoreWithWhiteSpace(pathParts[pathParts.length - 1]);
+      }
+      return null;
+    },
+    [location.pathname]
+  );
+
+  const extractTourName = useCallback(
+    (pathname) => {
+      const pathParts = pathname.split("/");
+      if (
+        pathParts.includes("cities") &&
+        pathParts.includes("tours") &&
         pathParts.length === 5
       ) {
         return replaceUnderScoreWithWhiteSpace(pathParts[pathParts.length - 1]);
@@ -212,6 +233,7 @@ const Navbar = ({ restaurantState, setRestaurantState }) => {
     const cityName = extractCityName(location.pathname);
     const restaurantName = extractRestaurantName(location.pathname);
     const attractionName = extractAttractionName(location.pathname);
+    const tourName = extractTourName(location.pathname);
     console.log("attractionName is", attractionName);
     console.log(
       `match string attractionName is /cities/${replaceWhiteSpaceWithUnderScore(
@@ -263,6 +285,12 @@ const Navbar = ({ restaurantState, setRestaurantState }) => {
       case `/cities/${replaceWhiteSpaceWithUnderScore(
         cityName
       )}/attractions/${replaceWhiteSpaceWithUnderScore(attractionName)}`:
+        setMenu("things_to_do");
+        break;
+      case `/cities/${replaceWhiteSpaceWithUnderScore(cityName)}/tours`:
+      case `/cities/${replaceWhiteSpaceWithUnderScore(
+        cityName
+      )}/tours/${replaceWhiteSpaceWithUnderScore(tourName)}`:
         setMenu("things_to_do");
         break;
       case "/travel-categories":
