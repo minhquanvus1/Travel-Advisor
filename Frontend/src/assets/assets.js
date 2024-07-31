@@ -343,3 +343,144 @@ export const attractions = [
       "Vĩnh Nghiêm Pagoda, nestled in District 3, Ho Chi Minh City, exudes tranquility. Its 7-story tower, standing 40 meters tall, blends traditional Vietnamese architecture with concrete. Here, Gautama Buddha and two bodhisattvas—Manjusri and Samantabhadra—are revered. The Peace Bell, a gift from a Fukushima monk, resonates with serenity. The pagoda’s library houses ancient Buddhist texts, while the main hall showcases a 4.5-tonne statue of Gautama Buddha. The pagoda’s architecture, with its intricate carvings and vibrant colors, is a testament to Vietnamese craftsmanship.",
   },
 ];
+
+export const tours = [
+  {
+    id: 1,
+    tourName: "Cu Chi Tunnels Luxury Tour - Morning or Afternoon",
+    cityId: 1,
+    subCategoryId: 7,
+    numberOfReviews: 10403,
+    imageObject: {
+      primaryImage: {
+        imageUrl:
+          "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/06/fb/9b/d2.jpg",
+      },
+      images: [
+        {
+          imageUrl:
+            "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/11/d8/64/47.jpg",
+        },
+        {
+          imageUrl:
+            "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/11/d8/64/41.jpg",
+        },
+      ],
+    },
+    languages: [
+      {
+        languageID: 1,
+        languageName: "English",
+      },
+      {
+        languageID: 2,
+        languageName: "Chinese",
+      },
+      {
+        languageID: 3,
+        languageName: "French",
+      },
+    ],
+    minAge: 3,
+    maxAge: 99,
+    maxGroupSize: 25,
+    duration: 6,
+    price: "17.90",
+    highlights: [
+      {
+        highlightID: 1,
+        highlightText:
+          "Guided tour of the Cu Chi Tunnels from Ho Chi Minh City",
+      },
+      {
+        highlightID: 2,
+        highlightText:
+          "Incredible photo opportunities in the tunnels and with trapdoors",
+      },
+      {
+        highlightID: 3,
+        highlightText: "Save money on a group tour with entrance included",
+      },
+      {
+        highlightID: 4,
+        highlightText:
+          "Hassle-free hotel pickup and round-trip transport from Ho Chi Minh City",
+      },
+    ],
+    description:
+      "Used by the Viet Cong during the Vietnam War, the Cu Chi Tunnels are a network of underground tunnels stretching more than 124 miles (200 kilometers). For travelers on a budget, this group tour of up to 20 people offers great value, including hotel pickup, round-trip transport, and a guided tour of the tunnels. Choose from a morning or afternoon tour to suit your schedule.",
+
+    tourDetails: {
+      included: [
+        "Transfer by Air-conditioned Bus",
+        "English-speaking Tour Guide",
+        "Entrance ticket",
+        "Tapioca, hot tea, bottled water",
+        "Hotel pickup in center of District 1 (except for Tan Dinh & Dakao Ward)",
+        "Lunch (if VIP option selected)",
+        "Entry/Admission - Cu Chi Tunnels",
+      ],
+      notIncluded: [
+        "Tips (optional & recommended)",
+        "Bullets (if you try shooting the war gun)",
+      ],
+      whatToExpect: `After pickup from your Ho Chi Minh City hotel in the morning or afternoon (depending on option selected), travel to the Cu Chi Tunnels and follow your guide on a tour of the tunnels. Learn how the Viet Cong soldiers used the vast network of underground tunnels during the Vietnam War/. Step inside the tunnels and see the former war bunkers, ammunition stores, and field hospitals. Then pose for photos peeking out of a camouflaged trapdoor, climb aboard an old American army tank, or visit the shooting range (optional: own expense). 
+
+Your tour ends with drop-off in Ho Chi Minh’s city center.`,
+      additionalInformation: [
+        "Confirmation will be received at time of booking",
+        "Most travelers can participate",
+        "You must be above the age of 18 to participate in shooting experience",
+        "After the morning tour, visit a nearby restaurant for restroom, feel free to enjoy a light lunch on your own",
+        "This tour/activity will have a maximum of 25 travelers",
+      ],
+      accessibility: [
+        "Not wheel chair accessible",
+        "Near public transportation",
+        "Infants must sit on laps",
+      ],
+      departureAndReturn: {
+        start: {
+          description: "Multiple pickup locations offered.",
+          address:
+            "123 Lý Tự Trọng, Phường Bến Thành, Quận 1, Hồ Chí Minh, Vietnam",
+        },
+        pickupDetails: {
+          description:
+            "Pickup is offered in the center of District 1. Other Districts, please come to the meeting point (Vietnam Adventure Tours office) at: 123 Ly Tu Trong street, District 1 by 8:00AM for Morning Tour or 12:10PM for Afternoon Tour.",
+          hotelPickupOffered: true,
+          hotelPickupNote:
+            "During checkout you will be able to select from the list of included hotels.",
+        },
+        end: {
+          description: "This activity ends back at the meeting point.",
+        },
+      },
+    },
+  },
+];
+
+export const days = [{ id: 1, tourId: 1 }];
+
+export const stops = [
+  {
+    id: 1,
+    tourId: 1,
+    dayId: 1,
+    stopName: "Cu Chi Tunnels",
+    description:
+      "Around 8:00AM or 12:10PM. Start with pickup from the center of Ho Chi Minh City or meet at the meeting point then depart for Cu Chi Tunnels. After 1.5 hour drive, we arrive at the Tunnels where You'll have the opportunity to explore the tunnel system, which includes narrow passageways, hidden entrances, and underground chambers. Learn about the daily life of the Cu Chi guerrilla fighters and how they managed to survive in the tunnels. You can crawl distances through the tunnels that were used by the guerrilla fighters during the Vietnam War. You may see kitchens, living quarters, among other things used during the war. Learn about how different types traps were created and set up. Visit the weapon rooms and learn how the ingenious soldiers made them. You can also safely try your hand at the shooting range with an AK-47. After exploration, we travel back to Ho Chi Minh City. Arrive approximately at 3:00pm for the morning tour and 6:50pm for the afternoon tour.",
+    latitude: "11.061",
+    longitude: "106.526",
+  },
+  {
+    id: 2,
+    tourId: 1,
+    dayId: 1,
+    stopName: "skibidi",
+    description:
+      "Around 8:00AM or 12:10PM. Start with pickup from the center of Ho Chi Minh City or meet at the meeting point then depart for Cu Chi Tunnels. After 1.5 hour drive, we arrive at the Tunnels where You'll have the opportunity to explore the tunnel system, which includes narrow passageways, hidden entrances, and underground chambers. Learn about the daily life of the Cu Chi guerrilla fighters and how they managed to survive in the tunnels. You can crawl distances through the tunnels that were used by the guerrilla fighters during the Vietnam War. You may see kitchens, living quarters, among other things used during the war. Learn about how different types traps were created and set up. Visit the weapon rooms and learn how the ingenious soldiers made them. You can also safely try your hand at the shooting range with an AK-47. After exploration, we travel back to Ho Chi Minh City. Arrive approximately at 3:00pm for the morning tour and 6:50pm for the afternoon tour.",
+    latitude: "10.7815271",
+    longitude: "106.6409313",
+  },
+];
