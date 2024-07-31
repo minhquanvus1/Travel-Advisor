@@ -22,7 +22,7 @@
     color: #000;
 }
 
-.tour-header-container .number-of-reviews-container::after {
+.tour-header-container .number-of-reviews-container::after, .itinerary-details .number-of-reviews-container::after {
     content: none;
 }
 
@@ -441,4 +441,40 @@ span.first-itinerary {
 .tour-itinerary-details-container .tour-itinerary-map {
     grid-area: map;
     border-radius: 12px;overflow: hidden;
+}
+
+.itinerary-details.attraction {
+    display: flex;
+    flex-direction: column;
+}
+
+.itinerary-attraction-image-container {
+    width: 100%;height: 100%;border-radius: 8px;overflow: hidden;margin-block: 4px 16px;
+}
+
+.itinerary-attraction-image-container img {
+    width: 100%;height: 100%;aspect-ratio: 16/9;
+    object-fit: cover;display: block;
+}
+
+.itinerary-attraction-more-about-button {
+    padding: 8px 14px;
+    border: 1.5px solid #000;
+    border-radius: 20px;
+    color: #000;
+    background-color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    text-align: center;
+    margin-top: 16px;
+    transition: .3s ease;
+}
+
+.itinerary-attraction-more-about-button:hover {
+    background-color: #000;
+    color: #fff;
+}
+
+.itinerary-details.attraction .number-of-reviews-container {
+    margin-top: 4px;
 }

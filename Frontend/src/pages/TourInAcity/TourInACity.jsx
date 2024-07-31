@@ -1,19 +1,48 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./TourInACity.css";
 import ExpandableDescription from "../../components/ExpandableDescription/ExpandableDescription";
-import { Link } from "react-scroll";
+import { Link } from "react-router-dom";
 import Mapbox from "../../components/MapBox/Mapbox";
-
+import { stops as allStops, tours, attractions } from "../../assets/assets";
+import { replaceWhiteSpaceWithUnderScore } from "../../functions/replaceWhiteSpaceWithUnderScore";
 const TourInACity = () => {
   const [toggleAccordion, setToggleAccordion] = useState("");
-
+  const [tour, setTour] = useState(tours[0]);
+  const [stops, setStops] = useState([]);
+  const cityState = localStorage.getItem("cityState");
+  console.log("cityState in tourInACity is", cityState);
+  const findAllStopsOfThisTour = () => {
+    const foundStops = allStops.filter((stop) => stop.tourId === tours[0].id);
+    const stopsArray = foundStops.map((foundStop) => {
+      const matchingAttraction = attractions.find(
+        (attraction) =>
+          attraction.attractionName.trim().toLowerCase() ===
+          foundStop.stopName.trim().toLowerCase()
+      );
+      if (matchingAttraction) {
+        return {
+          ...foundStop,
+          isAttraction: true,
+          imageUrl: matchingAttraction.imageUrl,
+          attractionName: matchingAttraction.attractionName,
+          numberOfReviews: matchingAttraction.numberOfReviews,
+        };
+      }
+      return foundStop;
+    });
+    console.log("stops in function are", stopsArray);
+    return stopsArray;
+  };
+  useEffect(() => {
+    const stopsArray = findAllStopsOfThisTour();
+    setStops(stopsArray);
+  }, [allStops]);
+  console.log("stops in city are", stops);
   return (
     <div className="tour-section">
       <div className="tour-header-container">
         <div className="tour-title-container">
-          <h1 className="tour-title">
-            Cu Chi Tunnels Luxury Tour - Morning or Afternoon
-          </h1>
+          <h1 className="tour-title">{tour.tourName}</h1>
           <div className="icons-container">
             <div className="icon-wrapper">
               <svg viewBox="0 0 24 24" width="20px" height="20px">
@@ -66,7 +95,9 @@ const TourInACity = () => {
                 transform="translate(104 0)"
               ></path>
             </svg>
-            <span className="number-of-reviews">10,403 reviews</span>
+            <span className="number-of-reviews">
+              {tour.numberOfReviews.toLocaleString("en-US")} reviews
+            </span>
           </div>
         </div>
       </div>
@@ -74,34 +105,40 @@ const TourInACity = () => {
         <div className="tour-hero-container">
           <div className="tour-image-left">
             <img
-              src="https://media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/06/fb/9b/d2.jpg"
-              alt=""
+              src={tour.imageObject.primaryImage.imageUrl}
+              alt={`${tour.tourName} image left`}
             />
           </div>
-          <div className="tour-image-top-right">
-            <img
-              src="https://media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/11/d8/64/47.jpg"
-              alt=""
-            />
-          </div>
-          <div className="tour-image-bottom-right">
-            <img
-              src="https://media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/11/d8/64/41.jpg"
-              alt=""
-            />
-          </div>
+          {tour.imageObject.images.length > 0 &&
+            tour.imageObject.images.map((image, index) => {
+              return index === 0 ? (
+                <div key={index} className="tour-image-top-right">
+                  <img
+                    src={image.imageUrl}
+                    alt={`${tour.tourName} image top right`}
+                  />
+                </div>
+              ) : (
+                <div key={index} className="tour-image-bottom-right">
+                  <img
+                    src={image.imageUrl}
+                    alt={`${tour.tourName} image bottom right`}
+                  />
+                </div>
+              );
+            })}
         </div>
         <div className="tour-primary-details-container">
           <div className="about-container">
             <div className="about-title">About</div>
             <ExpandableDescription
-              text={`Used by the Viet Cong during the Vietnam War, the Cu Chi Tunnels are a network of underground tunnels stretching more than 124 miles (200 kilometers). For travelers on a budget, this group tour of up to 20 people offers great value, including hotel pickup, round-trip transport, and a guided tour of the tunnels. Choose from a morning or afternoon tour to suit your schedule.`}
+              text={tour.description}
               lineClamp={3}
             ></ExpandableDescription>
           </div>
           <div className="price-container">
-            from <span className="price-value">$17.90</span> per adult (price
-            varies by group size)
+            from <span className="price-value">${tour.price}</span> per adult
+            (price varies by group size)
           </div>
           <div className="booking-benefits-container">
             <span className="benefit-icon">
@@ -142,7 +179,7 @@ const TourInACity = () => {
                 <path d="M12 12.28l-.008.75h.02L12 12.28zM2 18.51h-.75v.752l.752-.002L2 18.51zm0-2.92l-.585-.469-.165.206v.263H2zm3.855-1.85v.75-.75zm3.855 1.85h.75v-.263l-.165-.206-.585.469zm0 2.9l.002.75.748-.002v-.748h-.75zm4.6.02h-.75v.752l.752-.002-.002-.75zm0-2.92l-.585-.469-.165.206v.263h.75zm3.855-1.85v.75-.75zm3.855 1.85h.75v-.263l-.165-.206-.585.469zm0 2.9l.002.75.748-.002v-.748h-.75zM13.27 7c0 .69-.56 1.25-1.25 1.25v1.5A2.75 2.75 0 0014.77 7h-1.5zm-1.25 1.25c-.69 0-1.25-.56-1.25-1.25h-1.5a2.75 2.75 0 002.75 2.75v-1.5zM10.77 7c0-.69.56-1.25 1.25-1.25v-1.5A2.75 2.75 0 009.27 7h1.5zm1.25-1.25c.69 0 1.25.56 1.25 1.25h1.5a2.75 2.75 0 00-2.75-2.75v1.5zm-3.267 8.802a4.11 4.11 0 011.445-1.132l-.638-1.357a5.61 5.61 0 00-1.973 1.545l1.166.944zm1.445-1.132a4.11 4.11 0 011.794-.39l.016-1.5a5.61 5.61 0 00-2.448.533l.638 1.357zm1.815-.39a4.1 4.1 0 011.814.39l.639-1.358a5.6 5.6 0 00-2.479-.532l.026 1.5zm1.814.39a4.1 4.1 0 011.457 1.148l1.172-.936a5.6 5.6 0 00-1.99-1.57l-.639 1.357zM2.75 18.51v-2.92h-1.5v2.92h1.5zm-.165-2.451a4.19 4.19 0 011.456-1.157l-.649-1.352a5.69 5.69 0 00-1.977 1.571l1.17.938zm1.456-1.157a4.19 4.19 0 011.814-.413v-1.5a5.69 5.69 0 00-2.463.56l.65 1.353zm1.814-.413a4.19 4.19 0 011.814.413l.649-1.352a5.69 5.69 0 00-2.463-.56v1.5zm1.814.413a4.19 4.19 0 011.456 1.157l1.17-.938a5.69 5.69 0 00-1.977-1.571l-.65 1.352zm1.291.688v2.9h1.5v-2.9h-1.5zm.748 2.15l-7.71.02.004 1.5 7.71-.02-.004-1.5zM20.02 9c0 .69-.56 1.25-1.25 1.25v1.5A2.75 2.75 0 0021.52 9h-1.5zm-1.25 1.25c-.69 0-1.25-.56-1.25-1.25h-1.5a2.75 2.75 0 002.75 2.75v-1.5zM17.52 9c0-.69.56-1.25 1.25-1.25v-1.5A2.75 2.75 0 0016.02 9h1.5zm1.25-1.25c.69 0 1.25.56 1.25 1.25h1.5a2.75 2.75 0 00-2.75-2.75v1.5zM6.52 9c0 .69-.56 1.25-1.25 1.25v1.5A2.75 2.75 0 008.02 9h-1.5zm-1.25 1.25c-.69 0-1.25-.56-1.25-1.25h-1.5a2.75 2.75 0 002.75 2.75v-1.5zM4.02 9c0-.69.56-1.25 1.25-1.25v-1.5A2.75 2.75 0 002.52 9h1.5zm1.25-1.25c.69 0 1.25.56 1.25 1.25h1.5a2.75 2.75 0 00-2.75-2.75v1.5zm9.79 10.76v-2.92h-1.5v2.92h1.5zm-.165-2.451a4.19 4.19 0 011.457-1.157l-.65-1.352a5.69 5.69 0 00-1.977 1.571l1.17.938zm1.457-1.157a4.19 4.19 0 011.813-.413v-1.5a5.69 5.69 0 00-2.463.56l.65 1.353zm1.813-.413a4.19 4.19 0 011.814.413l.649-1.352a5.69 5.69 0 00-2.463-.56v1.5zm1.814.413a4.19 4.19 0 011.456 1.157l1.17-.938a5.691 5.691 0 00-1.977-1.571l-.65 1.352zm1.291.688v2.9h1.5v-2.9h-1.5zm.748 2.15l-7.71.02.004 1.5 7.71-.02-.004-1.5z"></path>
               </svg>
               <span className="age-details">
-                Ages 3-99, max of 25 per group
+                {`Ages ${tour.minAge}-${tour.maxAge}, max of ${tour.maxGroupSize} per group`}
               </span>
             </div>
             <div className="duration">
@@ -158,7 +195,9 @@ const TourInACity = () => {
                   d="M6.323 4.935h-3.55v-1.5h5.05v5.05h-1.5v-3.55zM11.333 13.034v-5.36h1.5v5.457c0 .312-.116.612-.326.842l-2.765 3.033-1.109-1.01 2.7-2.962z"
                 ></path>
               </svg>
-              <span className="duration-details">Duration: 6h</span>
+              <span className="duration-details">
+                Duration: {tour.duration}h
+              </span>
             </div>
             <div className="start-time">
               <svg viewBox="0 0 24 24" width="18px" height="18px">
@@ -201,22 +240,26 @@ const TourInACity = () => {
                   d="M20.833 12.778h-8.75v6.648h5.255l3.495 2.325v-8.973zm-1.5 1.5v4.673l-1.542-1.025h-4.209v-3.648h5.75z"
                 ></path>
               </svg>
-              <span className="live-guide-details">Live guide: English</span>
+              <span className="live-guide-details">
+                Live guide:{" "}
+                {tour.languages
+                  .map((language) => language.languageName)
+                  .join(", ")}
+              </span>
             </div>
           </div>
           <hr />
           <div className="highlights">
             <div className="highlights-title">Highlights</div>
             <ul>
-              <li>Guided tour of the Cu Chi Tunnels from Ho Chi Minh City</li>
-              <li>
-                Incredible photo opportunities in the tunnels and with trapdoors
-              </li>
-              <li>Save money on a group tour with entrance included</li>
-              <li>
-                Hassle-free hotel pickup and round-trip transport from Ho Chi
-                Minh City
-              </li>
+              {tour.highlights.length > 0 &&
+                tour.highlights.map((highlight) => {
+                  return (
+                    <li key={highlight.highlightID}>
+                      {highlight.highlightText}
+                    </li>
+                  );
+                })}
               <li>
                 <a href="#itinerary">See itinerary</a>
               </li>
@@ -243,22 +286,18 @@ const TourInACity = () => {
               <div className="answer">
                 <div className="answer-wrapper">
                   <ul>
-                    <li>Transfer by Air-conditioned Bus</li>
-                    <li>English-speaking Tour Guide</li>
-                    <li>Entrance ticket</li>
-                    <li>Tapioca, hot tea, bottled water</li>
-                    <li>
-                      Hotel pickup in center of District 1 (except for Tan Dinh
-                      & Dakao Ward)
-                    </li>
-                    <li>Lunch (if VIP option selected)</li>
-                    <li>Entry/Admission - Cu Chi Tunnels</li>
+                    {tour.tourDetails.included.length > 0 &&
+                      tour.tourDetails.included.map((item, index) => {
+                        return <li key={index}>{item}</li>;
+                      })}
                   </ul>
                   <div className="not-included">
                     <span>What's not included</span>
                     <ul>
-                      <li>Tips (optional & recommended)</li>
-                      <li>Bullets (if you try shooting the war gun)</li>
+                      {tour.tourDetails.notIncluded.length > 0 &&
+                        tour.tourDetails.notIncluded.map((item, index) => {
+                          return <li key={index}>{item}</li>;
+                        })}
                     </ul>
                   </div>
                 </div>
@@ -283,17 +322,8 @@ const TourInACity = () => {
               <div className="answer">
                 <div className="answer-wrapper">
                   <span className="expect">
-                    After pickup from your Ho Chi Minh City hotel in the morning
-                    or afternoon (depending on option selected), travel to the
-                    Cu Chi Tunnels and follow your guide on a tour of the
-                    tunnels. Learn how the Viet Cong soldiers used the vast
-                    network of underground tunnels during the Vietnam War. Step
-                    inside the tunnels and see the former war bunkers,
-                    ammunition stores, and field hospitals. Then pose for photos
-                    peeking out of a camouflaged trapdoor, climb aboard an old
-                    American army tank, or visit the shooting range (optional:
-                    own expense). Your tour ends with drop-off in Ho Chi Minh’s
-                    city center.
+                    {tour.tourDetails.whatToExpect &&
+                      tour.tourDetails.whatToExpect}
                   </span>
                 </div>
               </div>
@@ -319,15 +349,16 @@ const TourInACity = () => {
                 <div className="answer-wrapper">
                   <div className="departure-item">
                     <span className="bullet-point">Start: </span>
-                    <span>multiple pickup locations offered.</span>
+                    <span>
+                      {tour.tourDetails.departureAndReturn.start.description}
+                    </span>
                   </div>
                   <div className="departure-item">
                     <svg viewBox="0 0 24 24" width="20px" height="20px">
                       <path d="M11.277 20.26l.53-.532-.53.532zm.035.035l.537-.524-.008-.008-.53.532zM12 21l-.537.524.529.542.537-.534L12 21zm.688-.684l.529.532.002-.002-.53-.53zm.303-8.458l-.287-.693.287.693zm-1.98-4.783l-.288-.693.287.693zM12 2.25c-4.262 0-7.75 3.46-7.75 7.707h1.5c0-3.41 2.808-6.207 6.25-6.207v-1.5zM4.25 9.957c0 2.269 1.128 4.455 2.452 6.292 1.335 1.85 2.947 3.45 4.047 4.543l1.057-1.064c-1.108-1.1-2.634-2.62-3.887-4.356-1.262-1.75-2.169-3.62-2.169-5.415h-1.5zm6.499 10.835l.034.035 1.058-1.064-.035-.035-1.057 1.064zm.026.026l.688.706 1.074-1.048-.688-.705-1.074 1.047zm1.754.714l.688-.684-1.058-1.064-.688.684 1.058 1.064zm.69-.686c1.096-1.098 2.717-2.706 4.06-4.566 1.333-1.846 2.471-4.043 2.471-6.323h-1.5c0 1.806-.916 3.685-2.187 5.445-1.262 1.747-2.797 3.275-3.905 4.384l1.06 1.06zm6.531-10.89c0-4.246-3.488-7.706-7.75-7.706v1.5c3.442 0 6.25 2.797 6.25 6.207h1.5zm-6.051-1.193a1.838 1.838 0 01-.995 2.402l.574 1.386a3.338 3.338 0 001.807-4.362l-1.386.574zm-.995 2.402a1.838 1.838 0 01-2.402-.995l-1.386.574a3.338 3.338 0 004.362 1.807l-.574-1.386zm-2.402-.995a1.838 1.838 0 01.995-2.402l-.574-1.386a3.338 3.338 0 00-1.807 4.362l1.386-.574zm.995-2.402a1.838 1.838 0 012.402.995l1.386-.574a3.338 3.338 0 00-4.362-1.807l.574 1.386z"></path>
                     </svg>
                     <span className="bullet-point">
-                      123 Lý Tự Trọng, Phường Bến Thành, Quận 1, Hồ Chí Minh,
-                      Vietnam
+                      {tour.tourDetails.departureAndReturn.start.address}
                     </span>
                   </div>
                   <div className="departure-item">
@@ -342,33 +373,40 @@ const TourInACity = () => {
                     <div>
                       <div className="bullet-point">Pickup details</div>
                       <div className="pickup-details-description">
-                        Pickup is offered in the center of District 1. Other
-                        Districts, please come to the meeting point (Vietnam
-                        Adventure Tours office) at: 123 Ly Tu Trong street,
-                        District 1 by 8:00AM for Morning Tour or 12:10PM for
-                        Afternoon Tour.
+                        {
+                          tour.tourDetails.departureAndReturn.pickupDetails
+                            .description
+                        }
                       </div>
                     </div>
                   </div>
-                  <div className="departure-item">
-                    <svg viewBox="0 0 24 24" width="20px" height="20px">
-                      <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M3.252 5.405c0-.47.38-.85.85-.85h15.624c.47 0 .85.38.85.85v6.649c.68.562 1.22 1.393 1.22 2.544v4.847h-1.5V17.77H3.704v1.674h-1.5V14.57c.025-.654.304-1.588 1.05-2.35V5.404zm2.635 5.587a6.6 6.6 0 01.836-.052h3.896c-.502-.482-1.31-.93-2.433-.93-1.09 0-1.83.466-2.3.982zm7.389-.052h4.468l.036.004a5.2 5.2 0 01.537.082 2.351 2.351 0 00-.222-.233c-.447-.41-1.18-.783-2.254-.783-1.078 0-1.75.273-2.18.584a2.396 2.396 0 00-.385.346zm5.8-1.282c-.726-.652-1.812-1.148-3.235-1.148-1.347 0-2.338.347-3.06.868-.342.247-.61.525-.821.802-.736-.861-2.005-1.67-3.774-1.67-1.629 0-2.733.712-3.434 1.503V6.055h14.324v3.603zM3.703 16.27h16.594v-1.673c0-.703-.355-1.188-.888-1.545-.56-.374-1.263-.561-1.74-.613H6.724c-1.118 0-1.81.317-2.237.678-.57.482-.765 1.123-.783 1.496v1.657z"
-                      ></path>
-                    </svg>
-                    <div>
-                      <div className="bullet-point">Hotel pickup offered</div>
-                      <div className="pickup-details-description">
-                        During checkout you will be able to select from the list
-                        of included hotels.
+                  {tour.tourDetails.departureAndReturn.pickupDetails
+                    .hotelPickupOffered && (
+                    <div className="departure-item">
+                      <svg viewBox="0 0 24 24" width="20px" height="20px">
+                        <path
+                          fillRule="evenodd"
+                          clipRule="evenodd"
+                          d="M3.252 5.405c0-.47.38-.85.85-.85h15.624c.47 0 .85.38.85.85v6.649c.68.562 1.22 1.393 1.22 2.544v4.847h-1.5V17.77H3.704v1.674h-1.5V14.57c.025-.654.304-1.588 1.05-2.35V5.404zm2.635 5.587a6.6 6.6 0 01.836-.052h3.896c-.502-.482-1.31-.93-2.433-.93-1.09 0-1.83.466-2.3.982zm7.389-.052h4.468l.036.004a5.2 5.2 0 01.537.082 2.351 2.351 0 00-.222-.233c-.447-.41-1.18-.783-2.254-.783-1.078 0-1.75.273-2.18.584a2.396 2.396 0 00-.385.346zm5.8-1.282c-.726-.652-1.812-1.148-3.235-1.148-1.347 0-2.338.347-3.06.868-.342.247-.61.525-.821.802-.736-.861-2.005-1.67-3.774-1.67-1.629 0-2.733.712-3.434 1.503V6.055h14.324v3.603zM3.703 16.27h16.594v-1.673c0-.703-.355-1.188-.888-1.545-.56-.374-1.263-.561-1.74-.613H6.724c-1.118 0-1.81.317-2.237.678-.57.482-.765 1.123-.783 1.496v1.657z"
+                        ></path>
+                      </svg>
+                      <div>
+                        <div className="bullet-point">Hotel pickup offered</div>
+                        <div className="pickup-details-description">
+                          {
+                            tour.tourDetails.departureAndReturn.pickupDetails
+                              .hotelPickupNote
+                          }
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  )}
+
                   <div className="departure-item">
                     <span className="bullet-point">End: </span>
-                    <span>This activity ends back at the meeting point.</span>
+                    <span>
+                      {tour.tourDetails.departureAndReturn.end.description}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -392,9 +430,10 @@ const TourInACity = () => {
               <div className="answer">
                 <div className="answer-wrapper">
                   <ul>
-                    <li>Not wheelchair accessible</li>
-                    <li>Near public transportation</li>
-                    <li>Infants must sit on laps</li>
+                    {tour.tourDetails.accessibility.length > 0 &&
+                      tour.tourDetails.accessibility.map((item, index) => {
+                        return <li key={index}>{item}</li>;
+                      })}
                   </ul>
                   <div>
                     If you have questions about accessibility, we’d be happy to
@@ -531,7 +570,7 @@ const TourInACity = () => {
                 <div className="itinerary-details">
                   <div className="itinerary-details-title">You'll start at</div>
                   <div className="itinerary-details-description">
-                    123 Ly Tu Trong
+                    {tour.tourDetails.departureAndReturn.start.address}
                   </div>
                   <div className="itinerary-details-description">
                     Or, you can also get picked up
@@ -553,20 +592,99 @@ const TourInACity = () => {
                   </Link> */}
                 </div>
               </li>
-              <li>
-                <div className="itinerary-icon">
-                  <span>1</span>
-                </div>
-                <div className="itinerary-details">
-                  <div className="itinerary-details-title">Cu Chi Tunnels</div>
-                  <div className="itinerary-details-description">
-                    <ExpandableDescription
-                      text={`Around 8:00AM or 12:10PM. Start with pickup from the center of Ho Chi Minh City or meet at the meeting point then depart for Cu Chi Tunnels. After 1.5 hour drive, we arrive at the Tunnels where You'll have the opportunity to explore the tunnel system, which includes narrow passageways, hidden entrances, and underground chambers. Learn about the daily life of the Cu Chi guerrilla fighters and how they managed to survive in the tunnels. You can crawl distances through the tunnels that were used by the guerrilla fighters during the Vietnam War. You may see kitchens, living quarters, among other things used during the war. Learn about how different types traps were created and set up. Visit the weapon rooms and learn how the ingenious soldiers made them. You can also safely try your hand at the shooting range with an AK-47. After exploration, we travel back to Ho Chi Minh City. Arrive approximately at 3:00pm for the morning tour and 6:50pm for the afternoon tour.`}
-                      lineClamp={7}
-                    ></ExpandableDescription>
-                  </div>
-                </div>
-              </li>
+              {stops.length > 0 &&
+                stops.map((stop, index) => {
+                  if (stop.isAttraction) {
+                    return (
+                      <li key={stop.id}>
+                        <div className="itinerary-icon">
+                          <span>{index + 1}</span>
+                        </div>
+                        <div className="itinerary-details attraction">
+                          <div className="itinerary-details-title">
+                            {stop.stopName}
+                          </div>
+                          <div className="number-of-reviews-container">
+                            <svg
+                              viewBox="0 0 128 24"
+                              width="88"
+                              height="16"
+                              aria-labelledby=":lithium-r2s:"
+                              className="rating-stars"
+                            >
+                              <title id=":lithium-r2s:"></title>
+                              <path
+                                d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
+                                transform=""
+                              ></path>
+                              <path
+                                d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
+                                transform="translate(26 0)"
+                              ></path>
+                              <path
+                                d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
+                                transform="translate(52 0)"
+                              ></path>
+                              <path
+                                d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
+                                transform="translate(78 0)"
+                              ></path>
+                              <path
+                                d="M 12 0C5.389 0 0 5.389 0 12c0 6.62 5.389 12 12 12 6.62 0 12-5.379 12-12S18.621 0 12 0zm0 2a9.984 9.984 0 0110 10 9.976 9.976 0 01-10 10z"
+                                transform="translate(104 0)"
+                              ></path>
+                            </svg>
+                            <span className="number-of-reviews">
+                              {stop.numberOfReviews.toLocaleString("en-US")}{" "}
+                              reviews
+                            </span>
+                          </div>
+                          <div className="itinerary-attraction-image-container">
+                            <img
+                              src={stop.imageUrl}
+                              alt={`${stop.stopName} image`}
+                            />
+                          </div>
+                          <div className="itinerary-details-description">
+                            <ExpandableDescription
+                              text={`Around 8:00AM or 12:10PM. Start with pickup from the center of Ho Chi Minh City or meet at the meeting point then depart for Cu Chi Tunnels. After 1.5 hour drive, we arrive at the Tunnels where You'll have the opportunity to explore the tunnel system, which includes narrow passageways, hidden entrances, and underground chambers. Learn about the daily life of the Cu Chi guerrilla fighters and how they managed to survive in the tunnels. You can crawl distances through the tunnels that were used by the guerrilla fighters during the Vietnam War. You may see kitchens, living quarters, among other things used during the war. Learn about how different types traps were created and set up. Visit the weapon rooms and learn how the ingenious soldiers made them. You can also safely try your hand at the shooting range with an AK-47. After exploration, we travel back to Ho Chi Minh City. Arrive approximately at 3:00pm for the morning tour and 6:50pm for the afternoon tour.`}
+                              lineClamp={7}
+                            ></ExpandableDescription>
+                          </div>
+                          <Link
+                            to={`/cities/${replaceWhiteSpaceWithUnderScore(
+                              cityState
+                            )}/attractions/${replaceWhiteSpaceWithUnderScore(
+                              stop.attractionName
+                            )}`}
+                            className="itinerary-attraction-more-about-button"
+                            target="_blank"
+                          >
+                            More about {stop.attractionName}
+                          </Link>
+                        </div>
+                      </li>
+                    );
+                  }
+                  return (
+                    <li key={stop.id}>
+                      <div className="itinerary-icon">
+                        <span>{index + 1}</span>
+                      </div>
+                      <div className="itinerary-details">
+                        <div className="itinerary-details-title">
+                          {stop.stopName}
+                        </div>
+                        <div className="itinerary-details-description">
+                          <ExpandableDescription
+                            text={stop.description}
+                            lineClamp={7}
+                          ></ExpandableDescription>
+                        </div>
+                      </div>
+                    </li>
+                  );
+                })}
               <li>
                 <div className="itinerary-icon">
                   <span className="first-itinerary">
@@ -584,7 +702,9 @@ const TourInACity = () => {
             </ul>
           </div>
           <div className="tour-itinerary-map">
-            <Mapbox></Mapbox>
+            {stops && stops.length > 0 && (
+              <Mapbox stops={stops} zoom={8}></Mapbox>
+            )}
           </div>
         </div>
       </div>
