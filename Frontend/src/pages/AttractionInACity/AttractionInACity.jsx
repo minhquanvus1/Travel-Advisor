@@ -1,14 +1,23 @@
 import React, { useState, useEffect } from "react";
 import "./AttractionInACity.css";
-import { useParams } from "react-router-dom";
-import { cities, attractions, subCategory } from "../../assets/assets";
+import { Link, useParams } from "react-router-dom";
+import {
+  cities,
+  attractions,
+  subCategory,
+  restaurants,
+} from "../../assets/assets";
 import { replaceUnderScoreWithWhiteSpace } from "../../functions/replaceUnderScoreWithWhiteSpace";
+import { replaceWhiteSpaceWithUnderScore } from "../../functions/replaceWhiteSpaceWithUnderScore";
 import ExpandableDescription from "../../components/ExpandableDescription/ExpandableDescription";
+import Mapbox from "../../components/MapBox/Mapbox";
 
 const AttractionInACity = () => {
   const [attraction, setAttraction] = useState(null);
   const { cityName, attractionName } = useParams();
-  const findAttraction = () => {
+  const cityState = localStorage.getItem("cityState");
+
+  const findAllAttractionsInThisCity = () => {
     const currentCity = cities.find(
       (city) => city.name === replaceUnderScoreWithWhiteSpace(cityName)
     );
@@ -19,6 +28,10 @@ const AttractionInACity = () => {
     const allAttractionsInCurrentCity = attractions.filter(
       (attraction) => attraction.cityId === currentCity.id
     );
+    return allAttractionsInCurrentCity;
+  };
+  const findAttraction = () => {
+    const allAttractionsInCurrentCity = findAllAttractionsInThisCity();
     if (allAttractionsInCurrentCity.length <= 0) {
       console.log(`this city ${cityName} does not have any attractions`);
       return;
@@ -35,13 +48,29 @@ const AttractionInACity = () => {
       );
       return;
     }
-    setAttraction(currentAttraction);
     console.log("currentAttraction is", currentAttraction);
     return currentAttraction;
   };
+  const findRestaurantsInThisCity = () => {
+    if (!cityState) return;
+    const foundCity = cities.find((city) => city.name === cityState);
+    console.log("foundCity in restaurants is", foundCity);
+    const allRestaurantsInThisCity = restaurants.filter(
+      (restaurant) => restaurant.cityId === foundCity.id
+    );
+    if (allRestaurantsInThisCity.length === 0) {
+      console.log("this city has no restaurants");
+      return;
+    }
+    console.log("all restaurants are", allRestaurantsInThisCity);
+    return allRestaurantsInThisCity;
+  };
+  const allRestaurantsInThisCity = findRestaurantsInThisCity();
+  const allAttractionsInThisCity = findAllAttractionsInThisCity();
   useEffect(() => {
-    findAttraction();
-  }, []);
+    const currentAttraction = findAttraction();
+    setAttraction(currentAttraction);
+  }, [cityName, attractionName]);
   const findSubCategory = (attraction) => {
     const foundSubCategory = subCategory.find(
       (subCategory) => subCategory.id === attraction.subCategoryId
@@ -49,6 +78,7 @@ const AttractionInACity = () => {
     console.log("foundSubCategory is", foundSubCategory);
     return foundSubCategory;
   };
+
   return (
     <div className="attraction-section">
       {!attraction && (
@@ -147,6 +177,274 @@ const AttractionInACity = () => {
                   src={attraction.imageUrl}
                   alt={`${attraction.attractionName} image`}
                 />
+              </div>
+            </div>
+            <div className="area-container">
+              <h2 className="area-title">The area</h2>
+              <div className="area-contents">
+                <div className="area">
+                  {Object.keys(attraction.addressObj).length > 0 && (
+                    <div className="attraction-address">
+                      <span className="address">
+                        {attraction.addressObj.address} street,&nbsp;
+                        {!isNaN(attraction.addressObj.ward)
+                          ? `Ward ${attraction.addressObj.ward}`
+                          : `${attraction.addressObj.ward} Ward`}
+                        ,{" "}
+                        {!isNaN(attraction.addressObj.district)
+                          ? `District ${attraction.addressObj.district}`
+                          : `${attraction.addressObj.district} District`}
+                        ,&nbsp;{attraction.addressObj.city} City{" "}
+                        {attraction.addressObj.postalCode}{" "}
+                        {attraction.addressObj.country}
+                      </span>
+                    </div>
+                  )}
+                  {attraction.websiteUrl && (
+                    <React.Fragment>
+                      <div
+                        style={{
+                          marginBottom: "16px",
+                          fontSize: "16px",
+                          fontWeight: "700",
+                          color: "#000",
+                        }}
+                      >
+                        Reach out directly
+                      </div>
+                      <div className="visit-website-container">
+                        <a
+                          href={attraction.websiteUrl}
+                          className="visit-website-text"
+                        >
+                          Visit website
+                          <svg viewBox="0 0 24 24" width="16px" height="16px">
+                            <path d="M7.561 15.854l-1.415-1.415 8.293-8.293H7.854v-2h10v10h-2V7.561z"></path>
+                          </svg>
+                        </a>
+                      </div>
+                    </React.Fragment>
+                  )}
+                </div>
+                <div className="nearby-restaurants">
+                  <div className="nearby-title">Best nearby</div>
+                  <div className="nearby-restaurants-title">Restaurants</div>
+                  <div
+                    style={{
+                      marginBottom: "16px",
+                      fontSize: "16px",
+                      fontWeight: "400",
+                      color: "#000",
+                    }}
+                  >{`${allRestaurantsInThisCity.length.toLocaleString(
+                    "en-US"
+                  )} within ${cityState}`}</div>
+                  <div className="area-small-card-list">
+                    {allRestaurantsInThisCity.length > 0 &&
+                      allRestaurantsInThisCity.slice(0, 3).map((restaurant) => (
+                        <div key={restaurant.id}>
+                          <Link
+                            to={`/cities/${replaceWhiteSpaceWithUnderScore(
+                              cityState
+                            )}/restaurants/${replaceWhiteSpaceWithUnderScore(
+                              restaurant.name
+                            )}`}
+                          >
+                            <div className="area-small-card">
+                              <div className="area-small-card-image-container">
+                                <img
+                                  src={restaurant.imageUrl}
+                                  alt={restaurant.name}
+                                />
+                              </div>
+                              <div className="area-small-card-contents">
+                                <div className="area-small-card-title">
+                                  {restaurant.name}
+                                </div>
+                                <div className="card-rating-count">
+                                  <svg
+                                    viewBox="0 0 128 24"
+                                    width="68"
+                                    height="12"
+                                    aria-labelledby=":lithium-Rlokd979qilt5vlq:"
+                                    className="rating-stars"
+                                  >
+                                    <title id=":lithium-Rlokd979qilt5vlq:"></title>
+                                    <path
+                                      d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
+                                      transform=""
+                                    ></path>
+                                    <path
+                                      d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
+                                      transform="translate(26 0)"
+                                    ></path>
+                                    <path
+                                      d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
+                                      transform="translate(52 0)"
+                                    ></path>
+                                    <path
+                                      d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
+                                      transform="translate(78 0)"
+                                    ></path>
+                                    <path
+                                      d="M 12 0C5.389 0 0 5.389 0 12c0 6.62 5.389 12 12 12 6.62 0 12-5.379 12-12S18.621 0 12 0zm0 2a9.984 9.984 0 0110 10 9.976 9.976 0 01-10 10z"
+                                      transform="translate(104 0)"
+                                    ></path>
+                                  </svg>
+                                  <span>
+                                    {restaurant.numberOfReviews.toLocaleString(
+                                      "en-US"
+                                    )}
+                                  </span>
+                                </div>
+                                <span className="cuisines-list">
+                                  Cuisines: &nbsp;
+                                  {restaurant.cuisines.length >= 3 &&
+                                    restaurant.cuisines
+                                      .slice(0, 3)
+                                      .map((cuisine, index) => {
+                                        return (
+                                          <span
+                                            key={index}
+                                            style={{ fontSize: "14px" }}
+                                          >
+                                            {index > 0 && <span>, </span>}
+                                            {cuisine.name}
+                                          </span>
+                                        );
+                                      })}
+                                </span>
+                              </div>
+                            </div>
+                          </Link>
+                        </div>
+                      ))}
+                  </div>
+                  <div className="see-all">
+                    <Link
+                      to={`/cities/${replaceWhiteSpaceWithUnderScore(
+                        cityName
+                      )}/things-to-do`}
+                    >
+                      See all
+                    </Link>
+                  </div>
+                </div>
+                <div className="nearby-attractions">
+                  <div className="nearby-attractions-title">Attractions</div>
+                  <div
+                    style={{
+                      marginBottom: "16px",
+                      fontSize: "16px",
+                      fontWeight: "400",
+                      color: "#000",
+                    }}
+                  >{`${allRestaurantsInThisCity.length.toLocaleString(
+                    "en-US"
+                  )} within ${cityState}`}</div>
+                  <div className="area-small-card-list">
+                    {allAttractionsInThisCity.length > 0 &&
+                      allAttractionsInThisCity
+                        .filter((item) => item.id !== attraction.id)
+                        .slice(0, 3)
+                        .map((attraction) => (
+                          <div key={attraction.id}>
+                            <Link
+                              to={`/cities/${replaceWhiteSpaceWithUnderScore(
+                                cityState
+                              )}/attractions/${replaceWhiteSpaceWithUnderScore(
+                                attraction.attractionName
+                              )}`}
+                            >
+                              <div className="area-small-card">
+                                <div className="area-small-card-image-container">
+                                  <img
+                                    src={attraction.imageUrl}
+                                    alt={attraction.attractionName}
+                                  />
+                                </div>
+                                <div className="area-small-card-contents">
+                                  <div className="area-small-card-title">
+                                    {attraction.attractionName}
+                                  </div>
+                                  <div className="card-rating-count">
+                                    <svg
+                                      viewBox="0 0 128 24"
+                                      width="68"
+                                      height="12"
+                                      aria-labelledby=":lithium-Rlokd979qilt5vlq:"
+                                      className="rating-stars"
+                                    >
+                                      <title id=":lithium-Rlokd979qilt5vlq:"></title>
+                                      <path
+                                        d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
+                                        transform=""
+                                      ></path>
+                                      <path
+                                        d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
+                                        transform="translate(26 0)"
+                                      ></path>
+                                      <path
+                                        d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
+                                        transform="translate(52 0)"
+                                      ></path>
+                                      <path
+                                        d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
+                                        transform="translate(78 0)"
+                                      ></path>
+                                      <path
+                                        d="M 12 0C5.389 0 0 5.389 0 12c0 6.62 5.389 12 12 12 6.62 0 12-5.379 12-12S18.621 0 12 0zm0 2a9.984 9.984 0 0110 10 9.976 9.976 0 01-10 10z"
+                                        transform="translate(104 0)"
+                                      ></path>
+                                    </svg>
+                                    <span>
+                                      {attraction.numberOfReviews.toLocaleString(
+                                        "en-US"
+                                      )}
+                                    </span>
+                                  </div>
+                                  <div
+                                    className="attraction-subcategory"
+                                    style={{ fontSize: "14px" }}
+                                  >
+                                    {
+                                      findSubCategory(attraction)
+                                        .subCategoryName
+                                    }
+                                  </div>
+                                  {/* <span className="cuisines-list">
+                                    Cuisines: &nbsp;
+                                    {restaurant.cuisines.length >= 3 &&
+                                      restaurant.cuisines
+                                        .slice(0, 3)
+                                        .map((cuisine, index) => {
+                                          return (
+                                            <span key={index}>
+                                              {index > 0 && <span>, </span>}
+                                              {cuisine.name}
+                                            </span>
+                                          );
+                                        })}
+                                  </span> */}
+                                </div>
+                              </div>
+                            </Link>
+                          </div>
+                        ))}
+                  </div>
+                  <div className="see-all">
+                    <Link
+                      to={`/cities/${replaceWhiteSpaceWithUnderScore(
+                        cityName
+                      )}/things-to-do`}
+                    >
+                      See all
+                    </Link>
+                  </div>
+                </div>
+                <div className="area-map">
+                  <Mapbox zoom={8} stops={[attraction]}></Mapbox>
+                </div>
               </div>
             </div>
           </div>
