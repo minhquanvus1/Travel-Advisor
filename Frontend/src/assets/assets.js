@@ -267,6 +267,8 @@ export const attractions = [
       country: "Vietnam",
       postalCode: "70000",
     },
+    latitude: "10.771853",
+    longitude: "106.704529",
     description:
       "Bitexco Financial Tower at a height of 262 meters is the tallest building in Ho Chi Minh City up to date. With design concept is taken from the shape of a lotus bud, the Vietnam national flower, Bitexco Financial Tower is not merely a building which is covered in glass and steel, but also a symbol of beauty and the rapid development of Ho Chi Minh City economy, a key economic region in Vietnam. Bitexco Financial Tower is a typical example for creativity and unique design. One of the tower highlights is the first observation in the city at 49th floors. Saigon Skydeck has opened for all visitors from January 1, 2011. With a full range of services and facilities for visitors, the Skydeck has officially opened to welcome visitors both domestic and international visitors since July, 2011. Visitors have the opportunity to visit Saigon Skydeck, not only enjoy the full sight of the Ho Chi Minh City and Saigon River, but also have the chance to use the facilities and services at this Skydeck. With many activities will be held at the Skydeck during this year, with special offer prices for different customer groups, the Skydeck will be an attractive destination in the journey of Ho Chi Minh City's for both domestic and international tourists.",
   },
@@ -287,6 +289,8 @@ export const attractions = [
       country: "Vietnam",
       postalCode: "70000",
     },
+    latitude: "10.772521",
+    longitude: "106.698019",
     description:
       "This central market is the symbol and soul of Saigon, with over 1,500 booths trading wholesale and retail items ranging from food and apparel to fabric and cosmetics. There are four main gates and 12 entrances—with the main entrance located near the big clock tower. Here, you can spot interesting souvenir picks like embroidered wallets, lacquerware and silk scarves. If you’re a coffee lover, locals would recommend homegrown brands like Trung Nguyen, Metrang, Wakeup and Mr. Viet Coffee. When hungry, treat yourself to a comforting bowl of pho, a dragon fruit smoothie and Hue cake for dessert.",
   },
@@ -300,6 +304,8 @@ export const attractions = [
       "https://media-cdn.tripadvisor.com/media/photo-s/1b/2a/05/1c/photo8jpg.jpg",
     websiteUrl: "http://diadaocuchi.com.vn/",
     addressObj: {},
+    latitude: "11.061",
+    longitude: "106.526",
     description:
       "On your guided tour of the Cu Chi Tunnels, you’ll learn about the history of this underground system. The tunnels were dug during the Vietnam War by Viet Cong soldiers as a way to move undetected and launch surprise attacks. Experience the tight squeeze firsthand by crawling through the tunnels, and fire assault rifles at the shooting range after. Pack bug spray and dress for hot and humid weather, arriving earlier in the day to beat the crowds and the afternoon sun. It's not recommended to visit the tunnels after a downpour, as the area will get very muddy.",
   },
@@ -319,6 +325,8 @@ export const attractions = [
       country: "Vietnam",
       postalCode: "70000",
     },
+    latitude: "10.7769",
+    longitude: "106.6953",
     description:
       "From Norodom Palace to Independence Palace 1868-1966” explores the century-long history of the building that once served as the seat of the French colonial government in Cochinchina. In 1954, this building was renamed Independence Palace. It subsequently witnessed many dramatic episodes in the rise and decline of the government of Ngo Dinh Diem, the founding leader of the Republic of Vietnam",
   },
@@ -339,6 +347,8 @@ export const attractions = [
       country: "Vietnam",
       postalCode: "70000",
     },
+    latitude: "10.7904",
+    longitude: "106.6823",
     description:
       "Vĩnh Nghiêm Pagoda, nestled in District 3, Ho Chi Minh City, exudes tranquility. Its 7-story tower, standing 40 meters tall, blends traditional Vietnamese architecture with concrete. Here, Gautama Buddha and two bodhisattvas—Manjusri and Samantabhadra—are revered. The Peace Bell, a gift from a Fukushima monk, resonates with serenity. The pagoda’s library houses ancient Buddhist texts, while the main hall showcases a 4.5-tonne statue of Gautama Buddha. The pagoda’s architecture, with its intricate carvings and vibrant colors, is a testament to Vietnamese craftsmanship.",
   },
