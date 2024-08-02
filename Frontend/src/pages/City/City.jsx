@@ -6,14 +6,15 @@ import ExpandableDescription from "../../components/ExpandableDescription/Expand
 import { useLocation } from "react-router-dom";
 import { CityContext } from "../../context/CityContextProvider";
 import { replaceWhiteSpaceWithUnderScore } from "../../functions/replaceWhiteSpaceWithUnderScore";
-import { replaceUnderScoreWithWhiteSpace } from "../../functions/replaceUnderScoreWithWhiteSpace";
 import TravelAdviceBanner from "../../components/TravelAdviceBanner/TravelAdviceBanner";
+import EssentialSection from "../../components/EssentialSection/EssentialSection";
 
 const City = () => {
   const { cityName } = useParams();
   const [city, setCity] = useState(null);
   const location = useLocation();
   const { setCityState, checkAndSetCityState } = useContext(CityContext);
+  const [currentSection, setCurrentSection] = useState("");
   console.log("cityName is", cityName);
 
   const findCityByName = () => {
@@ -26,11 +27,12 @@ const City = () => {
       return;
     }
     console.log("city in function is", foundCity);
-    setCity(foundCity);
     return foundCity;
   };
   useEffect(() => {
-    findCityByName();
+    const foundCity = findCityByName();
+    setCity(foundCity);
+    setCurrentSection("");
   }, []);
   // useEffect(() => {
   //   if (!cityState) {
@@ -43,6 +45,7 @@ const City = () => {
   //     }
   //   }
   // }, [location.pathname]);
+
   return (
     <div className="city">
       {!city && "No city found"}
@@ -61,6 +64,26 @@ const City = () => {
           </div>
 
           {city.travelAdvice && <TravelAdviceBanner></TravelAdviceBanner>}
+          <div className="essential-container">
+            <div className="essential-title-container">
+              <h2 className="essential-title">Essential {city.name}</h2>
+              <div
+                style={{ fontSize: "16px", fontWeight: "400", color: "#000" }}
+              >
+                Pick a category to filter your recs
+              </div>
+            </div>
+            <div className="essential-details-container">
+              <EssentialSection
+                title={"Things to do"}
+                currentSection={"things-to-do"}
+              ></EssentialSection>
+              <EssentialSection
+                title={"Food & drink"}
+                currentSection={"restaurants"}
+              ></EssentialSection>
+            </div>
+          </div>
           <div className="city-cuisine-section">
             <h2 className="city-cuisine-section-title">
               Cuisine in {city.name}

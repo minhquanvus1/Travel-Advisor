@@ -98,3 +98,19 @@
     font-weight: 400;
     color: #333;
 }
+
+/*style .city .essential-container*/
+.city .essential-container {
+    margin-block: 64px;
+}
+
+.essential-container .essential-title-container .essential-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: #000;
+    margin-bottom: 4px;
+}
+
+.essential-container .essential-details-container {
+    margin-top: 24px;
+}
