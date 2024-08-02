@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./TourInACity.css";
 import ExpandableDescription from "../../components/ExpandableDescription/ExpandableDescription";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Mapbox from "../../components/MapBox/Mapbox";
 import { stops as allStops, tours, attractions } from "../../assets/assets";
 import { replaceWhiteSpaceWithUnderScore } from "../../functions/replaceWhiteSpaceWithUnderScore";
@@ -9,8 +9,17 @@ const TourInACity = () => {
   const [toggleAccordion, setToggleAccordion] = useState("");
   const [tour, setTour] = useState(tours[0]);
   const [stops, setStops] = useState([]);
+  const { cityName, tourName } = useParams();
+  console.log("tourName is", tourName);
   const cityState = localStorage.getItem("cityState");
   console.log("cityState in tourInACity is", cityState);
+  if (
+    !tours.find(
+      (tour) => replaceWhiteSpaceWithUnderScore(tour.tourName) === tourName
+    )
+  ) {
+    return <div>{`This ${tourName} does not exist`}</div>;
+  }
   const findAllStopsOfThisTour = () => {
     const foundStops = allStops.filter((stop) => stop.tourId === tours[0].id);
     const stopsArray = foundStops.map((foundStop) => {
