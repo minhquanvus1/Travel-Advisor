@@ -68,3 +68,76 @@
     color: #fff;
     background-color: #000;
 }
+
+/*style .tour-display-section*/
+.tour-display-section {
+    list-style: none;
+}
+
+.tour-display-title-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.tour-display-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: #000;
+}
+
+.tour-display-title-container a {
+    display: block;
+    text-decoration: underline;
+    font-size: 16px;
+    font-weight: 700;
+    color: #000;
+    justify-self: end;
+}
+
+.tour-display-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 32px 16px;
+    
+    /* display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(300px, 1fr);
+    gap: 32px 16px;
+    overflow-x: hidden; */
+}
+
+.tour-display-section li:last-child hr {
+    display: none;
+}
+
+/* .tour-display-list-slider {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.right-arrow, .left-arrow {
+    padding: 8px;
+    border: 1.5px solid #000;
+    border-radius: 20px;
+    background: #fff;
+    color: #000;
+    display: flex;
+    place-items: center;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-150%);
+    right: 0;z-index: 2;
+}
+.left-arrow {left: 0;right: auto;}
+.right-arrow:hover, .left-arrow:hover {
+    background: #000;
+    color: #fff;
+}
+
+.right-arrow svg, .left-arrow svg {
+    fill: currentColor;
+} */
