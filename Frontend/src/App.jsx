@@ -15,6 +15,7 @@ import ThingsToDoInACity from "./pages/ThingsToDoInACity/ThingsToDoInACity";
 import AttractionInACity from "./pages/AttractionInACity/AttractionInACity";
 import TourInACity from "./pages/TourInAcity/TourInACity";
 import Footer from "./components/Footer/Footer";
+import ThingsToDo from "./pages/ThingsToDo/ThingsToDo";
 
 const App = () => {
   const [showBackToTopButton, setShowBackToTopButton] = useState(false);
@@ -55,6 +56,7 @@ const App = () => {
         <Route path="/cities/:cityName" element={<City />} />
         <Route path="/restaurants" element={<Restaurants />} />
         <Route path="/travel-destinations" element={<TravelDestinations />} />
+        <Route path="/things-to-do" element={<ThingsToDo />} />
         <Route path="/tours" element={<Tours />} />
         <Route
           path="/cities/:cityName/restaurants"
