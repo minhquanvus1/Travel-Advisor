@@ -1,0 +1,110 @@
+.footer-section {
+    padding-block: 32px;
+    padding-inline: 10%;
+    background: #faf1ed;
+    color: #000;
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr) 2fr;
+    grid-template-rows: auto 1fr;
+    grid-template-areas: "links1 links2 links3 . partners" "legals legals legals legals socials";
+    grid-gap: 16px;
+}
+
+/*style .about-links*/
+.about-links {
+    grid-area: links1;
+}
+
+.about-links-title, .explore-links-title, .do-business-links-title, .get-the-app-links-title, .partners-links-title {
+    font-size: 16px;
+    font-weight: 400;
+    color: #333;
+    margin-bottom: 6px;
+}
+
+.about-links-contents, .explore-links-contents,.do-business-links-contents , .get-the-app-links-contents, .partners-links-contents {
+    font-size: 14px;
+    font-weight: 400;
+    color: #333;
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.about-links-contents ul li:not(:last-child), .explore-links-contents ul li:not(:last-child), .do-business-links-contents ul li:not(:last-child), .get-the-app-links-contents ul li:not(:last-child), .partners-links-contents ul li:not(:last-child) {
+    margin-bottom: 7px;
+}
+
+/*style .explore-links*/
+.explore-links {
+    grid-area: links2;
+}
+
+/*style .do-business-links*/
+.do-business-links-container {
+    grid-area: links3;
+}
+
+.get-the-app-links {
+    margin-top: 14px;
+}
+
+/*style .partners-links*/
+.partners-links {
+    grid-area: partners;
+}
+
+/*style .legals*/
+.legals {
+    grid-area: legals;
+}
+
+.legals-top {
+    margin-bottom: 6px;
+    display: flex;
+    gap: 16px;
+}
+
+.legals-top-image-container {
+    width: 103px;
+    height: 76px;
+    flex: 1 0 103px;
+}
+
+.legals-top-image-container img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.legals-top-contents .legals-item-list {
+    margin-top: 16px;
+}
+
+.legals-top-contents .legals-item-list .legals-item {
+    font-size: 16px;
+    font-weight: 600;
+    color: #000;
+    text-decoration: underline;
+}
+
+.legals-top-contents .legals-item-list .legals-item:not(:last-child) {
+    margin-right: 16px;
+}
+
+/*style .socials*/
+.socials {
+    grid-area: socials;
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: end;
+    align-content: end;
+    gap: 8px;
+}
+
+.socials a {
+    padding: 12px;
+}

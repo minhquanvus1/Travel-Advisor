@@ -14,6 +14,7 @@ import RestaurantInACity from "./pages/RestaurantInACity/RestaurantInACity";
 import ThingsToDoInACity from "./pages/ThingsToDoInACity/ThingsToDoInACity";
 import AttractionInACity from "./pages/AttractionInACity/AttractionInACity";
 import TourInACity from "./pages/TourInAcity/TourInACity";
+import Footer from "./components/Footer/Footer";
 
 const App = () => {
   const [showBackToTopButton, setShowBackToTopButton] = useState(false);
@@ -82,6 +83,7 @@ const App = () => {
         />
       </Routes>
       {showBackToTopButton && <BackToTopButton />}
+      <Footer></Footer>
     </div>
   );
 };
