@@ -1,0 +1,48 @@
+.restaurants-service-section {
+    margin-block: 40px;
+    /*using Flex here will cause the problem that: the height of each .service-box will be different depending on its content, so we need to set the height for the .service-box if we want all .service-box to have the same height*/
+    /* display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px; */
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-flow: column;
+    gap: 24px;
+    place-content: center;
+}
+
+.service-box {
+    flex: 1 0 33%;
+    border: 1px solid #e0e0e0;
+    padding: 31px 18px 16px;
+    position: relative;
+    text-align: center;
+}
+
+.service-box .image-container {
+    position: absolute;
+    top: -24px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.service-box .image-container img {
+    display: block;
+}
+
+.service-box .box-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #00aa6c;
+    line-height: 22px;
+    margin-block: 6px;
+}
+
+.service-box .box-description {
+    font-size: 16px;
+    font-weight: 400;
+    color: #333;
+    line-height: 20px;
+    /* min-height: 50px; */
+}
