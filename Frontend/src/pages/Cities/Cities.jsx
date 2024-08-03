@@ -4,6 +4,8 @@ import CitiesHeader from "../../components/CitiesHeader/CitiesHeader";
 import { cities } from "../../assets/assets";
 import CityCard from "../../components/CityCard/CityCard";
 import ExpandableDescription from "../../components/ExpandableDescription/ExpandableDescription";
+import { Link } from "react-router-dom";
+import { replaceWhiteSpaceWithUnderScore } from "../../functions/replaceWhiteSpaceWithUnderScore";
 
 const Cities = () => {
   //   const [isOpen, setIsOpen] = useState(false);
@@ -55,7 +57,15 @@ const Cities = () => {
       <div className="cities-list">
         {cities.length > 0 &&
           cities.map((city, index) => {
-            return <CityCard key={city.id} city={city}></CityCard>;
+            return (
+              <Link
+                to={`/cities/${replaceWhiteSpaceWithUnderScore(city.name)}`}
+                className="city-link"
+                key={city.id}
+              >
+                <CityCard city={city}></CityCard>
+              </Link>
+            );
           })}
       </div>
     </div>
