@@ -11,3 +11,35 @@
 .restaurants-service-container {
     margin-block: 40px;
 }
+
+/*style .restaurants-in-top-cities-container*/
+.restaurants-in-top-cities-container .restaurants-in-top-cities-header {
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.restaurants-in-top-cities-container .restaurants-in-top-cities-header .title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #000;
+}
+
+.restaurants-in-top-cities-container .restaurants-in-top-cities-header a {
+    font-size: 16px;
+    font-weight: 400;
+    color: #333;
+}
+
+.restaurants-in-top-cities-list {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 24px;
+    margin-bottom: 45px;
+}
+
+.restaurants-in-top-cities-list a {
+    display: block;
+    flex: 0 25%;
+}
