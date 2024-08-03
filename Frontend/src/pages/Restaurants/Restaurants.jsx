@@ -8,7 +8,9 @@ const Restaurants = () => {
     <div className="restaurants-section">
       <RestaurantsHeader></RestaurantsHeader>
       <div className="restaurants">
-        <RestaurantsService></RestaurantsService>
+        <div className="restaurants-service-container">
+          <RestaurantsService></RestaurantsService>
+        </div>
       </div>
     </div>
   );

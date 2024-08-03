@@ -1,5 +1,4 @@
 .restaurants-service-section {
-    margin-block: 40px;
     /*using Flex here will cause the problem that: the height of each .service-box will be different depending on its content, so we need to set the height for the .service-box if we want all .service-box to have the same height*/
     /* display: flex;
     justify-content: center;
