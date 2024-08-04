@@ -35,11 +35,11 @@
 .restaurants-in-top-cities-list {
     display: flex;
     flex-flow: row wrap;
-    gap: 24px;
+    gap: 16px;
     margin-bottom: 45px;
 }
 
 .restaurants-in-top-cities-list a {
     display: block;
-    flex: 0 25%;
+    flex: 0 24%;
 }
