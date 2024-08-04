@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import "./Restaurants.css";
+import { CityContext } from "../../context/CityContextProvider";
 import RestaurantsHeader from "../../components/RestaurantsHeader/RestaurantsHeader";
 import RestaurantsService from "../../components/RestaurantsService/RestaurantsService";
 import { Link } from "react-router-dom";
@@ -8,6 +9,10 @@ import CityCard from "../../components/CityCard/CityCard";
 import { replaceWhiteSpaceWithUnderScore } from "../../functions/replaceWhiteSpaceWithUnderScore";
 
 const Restaurants = () => {
+  const { setCityState } = useContext(CityContext);
+  useEffect(() => {
+    setCityState("");
+  }, []);
   return (
     <div className="restaurants-section">
       <RestaurantsHeader></RestaurantsHeader>
