@@ -10,6 +10,10 @@
     padding-inline: 10%;
 }
 
+.restaurant .image-container {
+    margin-bottom: 16px;
+}
+
 .restaurant img {
     width: 100%;
     display: block;
