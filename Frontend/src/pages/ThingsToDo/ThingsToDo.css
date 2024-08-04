@@ -19,3 +19,21 @@
     color: #000;
     margin-bottom: 24px;
 }
+
+/*style .recommendation-info-section*/
+.recommendation-info-section {
+    margin-block: 48px;
+}
+
+.recommendation-info-section .title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 16px;
+}
+
+.recommendation-info-section .description {
+    font-size: 16px;
+    font-weight: 400;
+    color: #333;
+}

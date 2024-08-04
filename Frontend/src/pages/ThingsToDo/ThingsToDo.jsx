@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import "./ThingsToDo.css";
+import { CityContext } from "../../context/CityContextProvider";
 import TravelDestinationsHeader from "../../components/TravelDestinationsHeader/TravelDestinationsHeader";
 import TravelDestinationsService from "../../components/TravelDestinationsService/TravelDestinationsService";
 import { cities, attractions, subCategory } from "../../assets/assets";
@@ -8,6 +9,10 @@ import CityCard from "../../components/CityCard/CityCard";
 import { replaceWhiteSpaceWithUnderScore } from "../../functions/replaceWhiteSpaceWithUnderScore";
 
 const ThingsToDo = () => {
+  const { setCityState } = useContext(CityContext);
+  useEffect(() => {
+    setCityState("");
+  }, []);
   const findSubCategory = (attraction) => {
     const foundSubCategory = subCategory.find(
       (subCategory) => subCategory.id === attraction.subCategoryId
@@ -119,6 +124,16 @@ const ThingsToDo = () => {
                   );
                 })}
             </div>
+          </div>
+        </div>
+        <div className="recommendation-info-section">
+          <div className="title">Top things to do and attractions near me</div>
+          <div className="description">
+            Explore the best things to do around the world on Travel Advisor to
+            get recommendations and read reviews from those who have been there
+            before. From family-friendly activities and adventure excursions to
+            city tours, museums and iconic attractions, discover amazing
+            experiences near and far to start planning your next trip.
           </div>
         </div>
       </div>
