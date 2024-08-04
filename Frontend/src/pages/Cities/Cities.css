@@ -57,3 +57,68 @@
     /* grid-template-rows: minmax(200px, 1fr); */
     gap: 2rem;margin-bottom: 20px;
 }
+
+/*style .essentials-in-a-country*/
+.essentials-in-a-country {
+    margin-block: 64px;
+}
+
+.essentials-in-a-country .title {
+    font-size: 28px;
+    font-weight: 800;
+    color: #000;
+    margin-bottom: 24px;
+}
+
+/*style .essentials-list-container*/
+.essentials-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+}
+
+.essentials-list {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-areas: "essentials-description essentials-items";
+    align-items: start;
+    gap: 32px 16px;
+}
+
+.essentials-description-container {
+    grid-area: essentials-description;
+    grid-column: 1/4;
+}
+
+.essentials-items-list {
+    grid-area: essentials-items;
+    grid-column: 4/13;
+    /* display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 8px; */
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+/* .essentials-items-list a {flex: 0 0 32%;} */
+.essentials-description-container .essentials-description-title {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: start;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+/* .essentials-description-container {align-self: start; max-width: 80%;} */
+.essentials-description-container .essentials-description-title h3 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #000;
+}
+
+.essentials-description-container .essentials-description {
+    font-size: 18px;
+    font-weight: 400;
+    color: #333;
+}
