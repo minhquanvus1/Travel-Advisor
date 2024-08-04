@@ -122,3 +122,9 @@
     font-weight: 400;
     color: #333;
 }
+.essentials-in-a-country .image-container img {
+    display: block;
+    width: 100%;
+    object-fit: cover;
+    aspect-ratio: 4/3;
+}
