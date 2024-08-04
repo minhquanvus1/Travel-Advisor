@@ -1,16 +1,20 @@
 import React, { useContext } from "react";
 import "./RestaurantsInACity.css";
-import SmallCard from "../../components/SmallCard/SmallCard";
 import { restaurants, cities } from "../../assets/assets";
 import { CityContext } from "../../context/CityContextProvider";
 import RestaurantBigCard from "../../components/RestaurantBigCard/RestaurantBigCard";
-import TravelDestinationBigCard from "../../components/TravelDestinationBigCard/TravelDestinationBigCard";
+import { Link, useParams } from "react-router-dom";
+import { replaceWhiteSpaceWithUnderScore } from "../../functions/replaceWhiteSpaceWithUnderScore";
+import { replaceUnderScoreWithWhiteSpace } from "../../functions/replaceUnderScoreWithWhiteSpace";
 
 const RestaurantsInACity = () => {
+  const { cityName } = useParams();
   const { cityState } = useContext(CityContext);
   const findRestaurantsInThisCity = () => {
-    if (!cityState) return;
-    const foundCity = cities.find((city) => city.name === cityState);
+    if (!cityName) return;
+    const foundCity = cities.find(
+      (city) => city.name === replaceUnderScoreWithWhiteSpace(cityName)
+    );
     console.log("foundCity in restaurants is", foundCity);
     const allRestaurantsInThisCity = restaurants.filter(
       (restaurant) => restaurant.cityId === foundCity.id
@@ -29,27 +33,34 @@ const RestaurantsInACity = () => {
       {allRestaurantsInThisCity && (
         <>
           <h1 className="restaurants-in-city-section-title">
-            Restaurants in {cityState}
+            Restaurants in {replaceUnderScoreWithWhiteSpace(cityName)}
           </h1>
           <div className="restaurants-in-city-section-contents">
             <div className="restaurant-small-card-list">
               {allRestaurantsInThisCity.map((restaurant, index) => (
-                <RestaurantBigCard
+                <div
                   key={restaurant.id}
-                  index={index}
-                  imageUrl={restaurant.imageUrl}
-                  cardTitle={restaurant.name}
-                  numberOfReviews={restaurant.numberOfReviews}
-                  cardDescription={restaurant.description}
-                ></RestaurantBigCard>
+                  style={{
+                    width: "clamp(272px, 70%, 100%)",
+                    height: "clamp(min-content, 14vw, 17vw)",
+                  }}
+                >
+                  <Link
+                    to={`/cities/${cityName}/restaurants/${replaceWhiteSpaceWithUnderScore(
+                      restaurant.name
+                    )}`}
+                  >
+                    <RestaurantBigCard
+                      index={index}
+                      imageUrl={restaurant.imageUrl}
+                      cardTitle={restaurant.name}
+                      numberOfReviews={restaurant.numberOfReviews}
+                      cardDescription={restaurant.description}
+                    ></RestaurantBigCard>
+                  </Link>
+                </div>
               ))}
             </div>
-            <SmallCard
-              imageUrl={allRestaurantsInThisCity[0].imageUrl}
-              cardTitle={allRestaurantsInThisCity[0].name}
-              numberOfReviews={allRestaurantsInThisCity[0].numberOfReviews}
-            ></SmallCard>
-            {/* <TravelDestinationBigCard></TravelDestinationBigCard> */}
           </div>
         </>
       )}

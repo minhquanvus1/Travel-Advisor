@@ -1,7 +1,7 @@
 .restaurant-big-card {
     /* width: 60%; */
     /* margin: 30px auto; */
-    width: clamp(272px, 70%, 100%);
+    /* width: clamp(272px, 70%, 100%); */
     display: grid;
     grid-template: auto / 3fr 7fr;
     column-gap: 16px;
@@ -9,7 +9,7 @@
     border-radius: 4px;
     background: #fff;
     position: relative;
-    height: clamp(min-content, 14vw, 17vw);
+    /* height: clamp(min-content, 14vw, 17vw); */
 }
 
 .restaurant-big-card-image-container img {

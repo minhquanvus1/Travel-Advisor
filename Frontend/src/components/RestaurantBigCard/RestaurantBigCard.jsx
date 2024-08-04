@@ -1,8 +1,5 @@
-import React, { useContext } from "react";
+import React from "react";
 import "./RestaurantBigCard.css";
-import { Link } from "react-router-dom";
-import { CityContext } from "../../context/CityContextProvider";
-import { replaceWhiteSpaceWithUnderScore } from "../../functions/replaceWhiteSpaceWithUnderScore";
 
 const RestaurantBigCard = ({
   cardTitle,
@@ -11,14 +8,8 @@ const RestaurantBigCard = ({
   cardDescription,
   index,
 }) => {
-  const { cityState } = useContext(CityContext);
   return (
-    <Link
-      className="restaurant-big-card"
-      to={`/cities/${replaceWhiteSpaceWithUnderScore(
-        cityState
-      )}/restaurants/${replaceWhiteSpaceWithUnderScore(cardTitle)}`}
-    >
+    <div className="restaurant-big-card">
       <div className="restaurant-big-card-image-container">
         <img src={imageUrl} alt={`${cardTitle} image`} />
       </div>
@@ -76,7 +67,7 @@ const RestaurantBigCard = ({
           </div>
         </div>
       </div>
-    </Link>
+    </div>
   );
 };
 
