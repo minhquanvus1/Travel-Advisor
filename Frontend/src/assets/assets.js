@@ -315,6 +315,7 @@ export const attractions = [
     id: 4,
     attractionName: "The Independence Palace",
     subCategoryId: 2,
+    cityId: 1,
     numberOfReviews: 10355,
     imageUrl:
       "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/07/41/18/98/the-independence-palace.jpg?w=100&h=-1&s=1",
