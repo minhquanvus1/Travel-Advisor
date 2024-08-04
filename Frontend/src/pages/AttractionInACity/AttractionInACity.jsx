@@ -52,8 +52,10 @@ const AttractionInACity = () => {
     return currentAttraction;
   };
   const findRestaurantsInThisCity = () => {
-    if (!cityState) return;
-    const foundCity = cities.find((city) => city.name === cityState);
+    if (!cityName) return;
+    const foundCity = cities.find(
+      (city) => city.name === replaceUnderScoreWithWhiteSpace(cityName)
+    );
     console.log("foundCity in restaurants is", foundCity);
     const allRestaurantsInThisCity = restaurants.filter(
       (restaurant) => restaurant.cityId === foundCity.id
@@ -244,9 +246,7 @@ const AttractionInACity = () => {
                       allRestaurantsInThisCity.slice(0, 3).map((restaurant) => (
                         <div key={restaurant.id}>
                           <Link
-                            to={`/cities/${replaceWhiteSpaceWithUnderScore(
-                              cityState
-                            )}/restaurants/${replaceWhiteSpaceWithUnderScore(
+                            to={`/cities/${cityName}/restaurants/${replaceWhiteSpaceWithUnderScore(
                               restaurant.name
                             )}`}
                           >
@@ -350,9 +350,7 @@ const AttractionInACity = () => {
                         .map((attraction) => (
                           <div key={attraction.id}>
                             <Link
-                              to={`/cities/${replaceWhiteSpaceWithUnderScore(
-                                cityState
-                              )}/attractions/${replaceWhiteSpaceWithUnderScore(
+                              to={`/cities/${cityName}/attractions/${replaceWhiteSpaceWithUnderScore(
                                 attraction.attractionName
                               )}`}
                             >

@@ -1,11 +1,12 @@
 import React from "react";
 import "./TravelDestinationBigCard.css";
 import { subCategory } from "../../assets/assets";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { replaceWhiteSpaceWithUnderScore } from "../../functions/replaceWhiteSpaceWithUnderScore";
 
 const TravelDestinationBigCard = ({ attraction, index }) => {
   const cityState = localStorage.getItem("cityState");
+  const { cityName } = useParams();
   const findSubCategory = (attraction) => {
     const foundSubCategory = subCategory.find(
       (subCategory) => subCategory.id === attraction.subCategoryId
@@ -14,14 +15,7 @@ const TravelDestinationBigCard = ({ attraction, index }) => {
     return foundSubCategory;
   };
   return (
-    <Link
-      className="travel-destination-big-card"
-      to={`/cities/${replaceWhiteSpaceWithUnderScore(
-        cityState
-      )}/attractions/${replaceWhiteSpaceWithUnderScore(
-        attraction.attractionName
-      )}`}
-    >
+    <div className="travel-destination-big-card">
       <div className="travel-destination-big-card-image-container">
         <img
           src={attraction.imageUrl}
@@ -86,7 +80,7 @@ const TravelDestinationBigCard = ({ attraction, index }) => {
           </div>
         </div>
       </div>
-    </Link>
+    </div>
   );
 };
 

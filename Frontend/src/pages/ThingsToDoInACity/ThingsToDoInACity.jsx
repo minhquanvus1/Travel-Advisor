@@ -12,14 +12,17 @@ import {
   tours,
   category,
 } from "../../assets/assets";
+import { replaceUnderScoreWithWhiteSpace } from "../../functions/replaceUnderScoreWithWhiteSpace";
 
 const ThingsToDoInACity = () => {
   const { cityState } = useContext(CityContext);
   const { cityName } = useParams();
   const tourDisplayListRef = useRef();
   const findAttractionsInThisCity = () => {
-    if (!cityState) return;
-    const foundCity = cities.find((city) => city.name === cityState);
+    if (!cityName) return;
+    const foundCity = cities.find(
+      (city) => city.name === replaceUnderScoreWithWhiteSpace(cityName)
+    );
     console.log("foundCity in thingstodoinacity is", foundCity);
     const allAttractionsInThisCity = attractions.filter(
       (attraction) => attraction.cityId === foundCity.id
@@ -33,8 +36,10 @@ const ThingsToDoInACity = () => {
   };
   const allAttractionsInThisCity = findAttractionsInThisCity();
   const findAllToursInThisCity = () => {
-    if (!cityState) return;
-    const foundCity = cities.find((city) => city.name === cityState);
+    if (!cityName) return;
+    const foundCity = cities.find(
+      (city) => city.name === replaceUnderScoreWithWhiteSpace(cityName)
+    );
     const allToursInThisCity = tours.filter(
       (tour) => tour.cityId === foundCity.id
     );
@@ -102,11 +107,17 @@ const ThingsToDoInACity = () => {
             {allAttractionsInThisCity &&
               allAttractionsInThisCity.map((attraction, index) => {
                 return (
-                  <TravelDestinationBigCard
+                  <Link
+                    to={`/cities/${cityName}/attractions/${replaceWhiteSpaceWithUnderScore(
+                      attraction.attractionName
+                    )}`}
                     key={attraction.id}
-                    index={index}
-                    attraction={attraction}
-                  ></TravelDestinationBigCard>
+                  >
+                    <TravelDestinationBigCard
+                      index={index}
+                      attraction={attraction}
+                    ></TravelDestinationBigCard>
+                  </Link>
                 );
               })}
           </div>
