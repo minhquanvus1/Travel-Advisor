@@ -1,9 +1,21 @@
-.travel-destinations-section {
+.things-to-do-section {
     width: 100%;
     margin-top: .1px;
 }
 
-.travel-destinations {
+.things-to-do {
     padding-inline: 10%;
     margin-top: 3vw;
+}
+
+/*style .top-destinations-section*/
+.top-destinations-section {
+    margin-block: 48px;
+}
+
+.top-destinations-section .top-destinations-container .title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 24px;
 }
