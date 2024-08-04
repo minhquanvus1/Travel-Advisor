@@ -1,13 +1,13 @@
 import React, { useState, useEffect, createContext } from "react";
 import { cities } from "../assets/assets";
-
+import { useLocation } from "react-router-dom";
 export const CityContext = createContext(null);
 const CityContextProvider = ({ children }) => {
   const [cityState, setCityState] = useState(() => {
     const cityStateFromLocalStorage = localStorage.getItem("cityState");
     return cityStateFromLocalStorage ? cityStateFromLocalStorage : "";
   });
-
+  const location = useLocation();
   const checkAndSetCityState = (cityName) => {
     const isCityNameExist = cities.some(
       (city) => city.name.toLowerCase() === cityName.toLowerCase()
@@ -27,7 +27,7 @@ const CityContextProvider = ({ children }) => {
       return;
     }
     localStorage.setItem("cityState", cityState);
-  }, [cityState]);
+  }, [cityState, location]);
   useEffect(() => {
     console.log("cityState now is", cityState);
   });
