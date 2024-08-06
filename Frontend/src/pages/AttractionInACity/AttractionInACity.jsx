@@ -355,7 +355,7 @@ const AttractionInACity = () => {
                       fontWeight: "400",
                       color: "#000",
                     }}
-                  >{`${allRestaurantsInThisCity.length.toLocaleString(
+                  >{`${allAttractionsInThisCity.length.toLocaleString(
                     "en-US"
                   )} within ${replaceUnderScoreWithWhiteSpace(cityName)}`}</div>
                   <div className="area-small-card-list">
