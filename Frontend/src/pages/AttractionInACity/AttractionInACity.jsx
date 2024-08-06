@@ -340,7 +340,7 @@ const AttractionInACity = () => {
                     <Link
                       to={`/cities/${replaceWhiteSpaceWithUnderScore(
                         cityName
-                      )}/things-to-do`}
+                      )}/restaurants`}
                     >
                       See all
                     </Link>
