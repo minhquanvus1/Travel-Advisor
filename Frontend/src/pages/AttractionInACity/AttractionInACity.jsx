@@ -15,7 +15,6 @@ import Mapbox from "../../components/MapBox/Mapbox";
 const AttractionInACity = () => {
   const [attraction, setAttraction] = useState(null);
   const { cityName, attractionName } = useParams();
-  const cityState = localStorage.getItem("cityState");
 
   const findAllAttractionsInThisCity = () => {
     const currentCity = cities.find(
@@ -60,10 +59,10 @@ const AttractionInACity = () => {
     const allRestaurantsInThisCity = restaurants.filter(
       (restaurant) => restaurant.cityId === foundCity.id
     );
-    if (allRestaurantsInThisCity.length === 0) {
-      console.log("this city has no restaurants");
-      return;
-    }
+    // if (allRestaurantsInThisCity.length === 0) {
+    //   console.log("this city has no restaurants");
+    //   return;
+    // }
     console.log("all restaurants are", allRestaurantsInThisCity);
     return allRestaurantsInThisCity;
   };
@@ -188,17 +187,34 @@ const AttractionInACity = () => {
                   {Object.keys(attraction.addressObj).length > 0 && (
                     <div className="attraction-address">
                       <span className="address">
-                        {attraction.addressObj.address} street,&nbsp;
-                        {!isNaN(attraction.addressObj.ward)
-                          ? `Ward ${attraction.addressObj.ward}`
-                          : `${attraction.addressObj.ward} Ward`}
-                        ,{" "}
-                        {!isNaN(attraction.addressObj.district)
-                          ? `District ${attraction.addressObj.district}`
-                          : `${attraction.addressObj.district} District`}
-                        ,&nbsp;{attraction.addressObj.city} City{" "}
-                        {attraction.addressObj.postalCode}{" "}
-                        {attraction.addressObj.country}
+                        {attraction.addressObj.address
+                          ? `${attraction.addressObj.address} street`
+                          : ""}
+                        {attraction.addressObj.address &&
+                          attraction.addressObj.ward &&
+                          ", "}
+                        {attraction.addressObj.ward
+                          ? !isNaN(attraction.addressObj.ward)
+                            ? `Ward ${attraction.addressObj.ward}`
+                            : `${attraction.addressObj.ward} Ward`
+                          : ""}
+                        {attraction.addressObj.ward &&
+                          attraction.addressObj.district &&
+                          ", "}
+                        {attraction.addressObj.district
+                          ? !isNaN(attraction.addressObj.district)
+                            ? `District ${attraction.addressObj.district}`
+                            : `${attraction.addressObj.district} District`
+                          : ""}
+                        {attraction.addressObj.district &&
+                          attraction.addressObj.city &&
+                          ", "}
+                        {attraction.addressObj.city &&
+                          `${attraction.addressObj.city} City `}
+                        {attraction.addressObj.postalCode &&
+                          `${attraction.addressObj.postalCode} `}
+                        {attraction.addressObj.country &&
+                          `${attraction.addressObj.country}`}
                       </span>
                     </div>
                   )}
@@ -240,7 +256,7 @@ const AttractionInACity = () => {
                     }}
                   >{`${allRestaurantsInThisCity.length.toLocaleString(
                     "en-US"
-                  )} within ${cityState}`}</div>
+                  )} within ${replaceUnderScoreWithWhiteSpace(cityName)}`}</div>
                   <div className="area-small-card-list">
                     {allRestaurantsInThisCity.length > 0 &&
                       allRestaurantsInThisCity.slice(0, 3).map((restaurant) => (
@@ -341,7 +357,7 @@ const AttractionInACity = () => {
                     }}
                   >{`${allRestaurantsInThisCity.length.toLocaleString(
                     "en-US"
-                  )} within ${cityState}`}</div>
+                  )} within ${replaceUnderScoreWithWhiteSpace(cityName)}`}</div>
                   <div className="area-small-card-list">
                     {allAttractionsInThisCity.length > 0 &&
                       allAttractionsInThisCity
