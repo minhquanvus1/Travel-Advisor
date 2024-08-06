@@ -17,7 +17,9 @@ import "slick-carousel/slick/slick-theme.css";
 
 function SampleNextArrow(props) {
   const { currentSlide, slideCount, slidesToShow, className, onClick } = props;
-  const isLastSlide = currentSlide >= slideCount / slidesToShow - 1;
+  // const isLastSlide = currentSlide >= slideCount / slidesToShow - 1;
+  const maxSlides = Math.ceil(slideCount / slidesToShow) * slidesToShow;
+  const isLastSlide = currentSlide >= maxSlides - slidesToShow;
   console.log("currentSlide is", currentSlide);
   console.log("slideCount are", slideCount);
   console.log("isLastSlide is", isLastSlide);
