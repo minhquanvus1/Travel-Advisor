@@ -247,7 +247,7 @@ export const restaurants = [
       address: "04 Nguyễn Trung Tín Đối diện tòa nhà FLC Sea Tower",
       city: "Quy Nhon",
       country: "Vietnam",
-      postalCode: "55113",
+      postalCode: "55110",
     },
     cuisines: [{ name: "Asian" }, { name: "Seafood" }, { name: "Vietnamese" }],
     lowestPrice: "0.00",
@@ -389,7 +389,7 @@ export const attractions = [
     addressObj: {
       city: "Quy Nhon",
       country: "Vietnam",
-      postalCode: "70000",
+      postalCode: "55100",
     },
     latitude: "13.8014",
     longitude: "109.2216",
@@ -410,7 +410,7 @@ Renowned as a cultural and spiritual landmark in Binh Dinh, Vietnam, Ong Nui Tem
     addressObj: {
       city: "Quy Nhon",
       country: "Vietnam",
-      postalCode: "70000",
+      postalCode: "55100",
     },
     latitude: "13.8625",
     longitude: "109.2357",
@@ -429,7 +429,7 @@ Renowned as a cultural and spiritual landmark in Binh Dinh, Vietnam, Ong Nui Tem
     addressObj: {
       city: "Quy Nhon",
       country: "Vietnam",
-      postalCode: "70000",
+      postalCode: "55100",
     },
     latitude: "13.7626",
     longitude: "109.2828",
