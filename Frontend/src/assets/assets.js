@@ -340,7 +340,7 @@ export const attractions = [
     cityId: 1,
     numberOfReviews: 10355,
     imageUrl:
-      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/07/41/18/98/the-independence-palace.jpg?w=100&h=-1&s=1",
+      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/07/41/18/98/the-independence-palace.jpg?w=900&h=600&s=1",
     websiteUrl: "https://www.dinhdoclap.gov.vn/",
     addressObj: {
       address: "106 Nguyen Du",
