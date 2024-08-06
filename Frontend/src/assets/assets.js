@@ -355,6 +355,26 @@ export const attractions = [
     description:
       "Vĩnh Nghiêm Pagoda, nestled in District 3, Ho Chi Minh City, exudes tranquility. Its 7-story tower, standing 40 meters tall, blends traditional Vietnamese architecture with concrete. Here, Gautama Buddha and two bodhisattvas—Manjusri and Samantabhadra—are revered. The Peace Bell, a gift from a Fukushima monk, resonates with serenity. The pagoda’s library houses ancient Buddhist texts, while the main hall showcases a 4.5-tonne statue of Gautama Buddha. The pagoda’s architecture, with its intricate carvings and vibrant colors, is a testament to Vietnamese craftsmanship.",
   },
+  {
+    id: 6,
+    attractionName: "Chua Ong Nui",
+    subCategoryId: 1,
+    cityId: 2,
+    numberOfReviews: 14,
+    imageUrl:
+      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/16/d4/fe/ea/photo0jpg.jpg?w=900&h=600&s=1",
+    websiteUrl: "https://www.facebook.com/ChuaOngNuiBinhDinh/",
+    addressObj: {
+      city: "Quy Nhon",
+      country: "Vietnam",
+      postalCode: "70000",
+    },
+    latitude: "13.8014",
+    longitude: "109.2216",
+    description: `Ong Nui Temple, also known as Linh Phong Son Tu, is situated atop Chop Vung Peak in Phu Cat District, approximately 30 kilometers from the city of Quy Nhon. At an elevation of around 600 meters above sea level, Ong Nui Temple is one of the places that have a cool and pristine climate in Central Vietnam. 
+
+Renowned as a cultural and spiritual landmark in Binh Dinh, Vietnam, Ong Nui Temple attracts numerous local and foreign visitors who come to marvel at its breathtaking scenery and the majestic Buddha statue perched atop the peak. To reach the entrance of Ong Nui Temple and the colossal seated Buddha statue, visitors must ascend approximately 600 steps, spanning from the foot of Ba Mountain to the summit.`,
+  },
 ];
 
 export const tours = [
