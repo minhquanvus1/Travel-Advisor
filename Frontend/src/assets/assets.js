@@ -233,6 +233,27 @@ export const restaurants = [
     highestPrice: "39.00",
     numberOfReviews: 3907,
   },
+  {
+    id: 4,
+    cityId: 2,
+    name: "Nhà Hàng Cá Khói",
+    imageUrl:
+      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/28/8e/ea/68/ca-khoi-restaurant.jpg?w=1200&h=-1&s=1",
+    description:
+      "Ca Khoi restaurant in Quy Nhon . We are serve fresh seafood, Vietnamese cuisine of three regions, BBQ, fresh juice, beer, draught beer",
+    websiteUrl: "https://www.facebook.com/nhahangcakhoiqn/",
+    phoneNumber: "+84 96 377 43 77",
+    addressObj: {
+      address: "04 Nguyễn Trung Tín Đối diện tòa nhà FLC Sea Tower",
+      city: "Quy Nhon",
+      country: "Vietnam",
+      postalCode: "55113",
+    },
+    cuisines: [{ name: "Asian" }, { name: "Seafood" }, { name: "Vietnamese" }],
+    lowestPrice: "0.00",
+    highestPrice: "1.00",
+    numberOfReviews: 52,
+  },
 ];
 
 export const category = [
@@ -245,6 +266,7 @@ export const subCategory = [
   { id: 2, subCategoryName: "Points of Interest & Landmarks", categoryId: 1 },
   { id: 3, subCategoryName: "Observation Decks & Towers", categoryId: 1 },
   { id: 4, subCategoryName: "Flea & Street Markets", categoryId: 1 },
+  { id: 8, subCategoryName: "Beaches", categoryId: 1 },
 
   { id: 5, subCategoryName: "Full-day Tours", categoryId: 2 },
   { id: 6, subCategoryName: "City Tours", categoryId: 2 },
@@ -374,6 +396,44 @@ export const attractions = [
     description: `Ong Nui Temple, also known as Linh Phong Son Tu, is situated atop Chop Vung Peak in Phu Cat District, approximately 30 kilometers from the city of Quy Nhon. At an elevation of around 600 meters above sea level, Ong Nui Temple is one of the places that have a cool and pristine climate in Central Vietnam. 
 
 Renowned as a cultural and spiritual landmark in Binh Dinh, Vietnam, Ong Nui Temple attracts numerous local and foreign visitors who come to marvel at its breathtaking scenery and the majestic Buddha statue perched atop the peak. To reach the entrance of Ong Nui Temple and the colossal seated Buddha statue, visitors must ascend approximately 600 steps, spanning from the foot of Ba Mountain to the summit.`,
+  },
+  {
+    id: 7,
+    attractionName: "Eo Gio",
+    subCategoryId: 8,
+    cityId: 2,
+    numberOfReviews: 164,
+    imageUrl:
+      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/16/d6/01/c5/caption.jpg?w=900&h=600&s=1",
+    websiteUrl:
+      "https://www.tripadvisor.in/Attraction_Review-g608528-d7989053-Reviews-Eo_Gio-Quy_Nhon_Binh_Dinh_Province.html",
+    addressObj: {
+      city: "Quy Nhon",
+      country: "Vietnam",
+      postalCode: "70000",
+    },
+    latitude: "13.8625",
+    longitude: "109.2357",
+    description: `Eo Gio is a captivating coastal gem in Quy Nhon, Vietnam. Nestled approximately 20 kilometers northeast of Quy Nhon city center, it lies within the Nhơn Lý commune. Here’s how to get there: from Quy Nhơn, follow Vo Nguyen Giap Street, cross the Thi Nai Bridge to Phuong Mai Peninsula, and then turn left at the second intersection. Continue straight until you reach Nhơn Lý commune, where you’ll find the entrance to Eo Gio. The journey offers breathtaking vistas of majestic rocky mountains, winding coastlines, and the azure sea. Eo Gio’s unique blend of natural beauty—white waves crashing against the shore, cacti dotting the landscape, and panoramic views—makes it an ideal destination for nature lovers. Visit during the dry season (December to May) for the best experience. Don’t miss the chance to capture stunning photos and immerse yourself in this picturesque haven!`,
+  },
+  {
+    id: 8,
+    attractionName: "Ky Co Beach",
+    subCategoryId: 8,
+    cityId: 2,
+    numberOfReviews: 210,
+    imageUrl:
+      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/15/4e/50/01/k-co-m-t-ngay-bi-n-d.jpg?w=900&amp;h=600&amp;s=1",
+    websiteUrl:
+      "https://www.tripadvisor.in/Attraction_Review-g608528-d7989053-Reviews-Eo_Gio-Quy_Nhon_Binh_Dinh_Province.html",
+    addressObj: {
+      city: "Quy Nhon",
+      country: "Vietnam",
+      postalCode: "70000",
+    },
+    latitude: "13.7626",
+    longitude: "109.2828",
+    description: `Ky Co Beach, nestled at the foot of Phuong Mai mountain in Nhon Ly Commune, Quy Nhon, Binh Dinh province, Vietnam, awaits travelers with its enchanting beauty. Located approximately 25-30 kilometers northeast of Quy Nhon city center, this pristine beach offers an idyllic escape from the city’s hustle and bustle. Imagine verdant mountains gently sloping toward a crescent-shaped beach, where turquoise waters meet the shore. Ky Co is often hailed as Vietnam’s answer to the Maldives, captivating visitors with its magnificent landscapes. Whether you arrive by car, taxi, motorbike, or guided tour, this untouched paradise promises a tranquil environment for unwinding and capturing breathtaking photos.`,
   },
 ];
 
