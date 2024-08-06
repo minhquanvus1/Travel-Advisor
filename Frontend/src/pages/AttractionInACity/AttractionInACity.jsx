@@ -188,7 +188,7 @@ const AttractionInACity = () => {
                     <div className="attraction-address">
                       <span className="address">
                         {attraction.addressObj.address
-                          ? `${attraction.addressObj.address} street`
+                          ? `${attraction.addressObj.address} street `
                           : ""}
                         {attraction.addressObj.address &&
                           attraction.addressObj.ward &&
