@@ -14,6 +14,7 @@ import { replaceWhiteSpaceWithUnderScore } from "../../functions/replaceWhiteSpa
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import RatingStars from "../../components/RatingStars/RatingStars";
 
 function SampleNextArrow(props) {
   const { currentSlide, slideCount, slidesToShow, className, onClick } = props;
@@ -180,7 +181,7 @@ const Cities = () => {
                                 {attraction.attractionName}
                               </div>
                               <div className="card-rating-count">
-                                <svg
+                                {/* <svg
                                   viewBox="0 0 128 24"
                                   width="68"
                                   height="12"
@@ -207,7 +208,13 @@ const Cities = () => {
                                     d="M 12 0C5.389 0 0 5.389 0 12c0 6.62 5.389 12 12 12 6.62 0 12-5.379 12-12S18.621 0 12 0zm0 2a9.984 9.984 0 0110 10 9.976 9.976 0 01-10 10z"
                                     transform="translate(104 0)"
                                   ></path>
-                                </svg>
+                                </svg> */}
+                                <RatingStars
+                                  rating={attraction.rating}
+                                  width={68}
+                                  height={12}
+                                ></RatingStars>
+
                                 <span>
                                   {attraction.numberOfReviews.toLocaleString(
                                     "en-US"
@@ -279,7 +286,7 @@ const Cities = () => {
                                 {restaurant.name}
                               </div>
                               <div className="card-rating-count">
-                                <svg
+                                {/* <svg
                                   viewBox="0 0 128 24"
                                   width="68"
                                   height="12"
@@ -306,7 +313,13 @@ const Cities = () => {
                                     d="M 12 0C5.389 0 0 5.389 0 12c0 6.62 5.389 12 12 12 6.62 0 12-5.379 12-12S18.621 0 12 0zm0 2a9.984 9.984 0 0110 10 9.976 9.976 0 01-10 10z"
                                     transform="translate(104 0)"
                                   ></path>
-                                </svg>
+                                </svg> */}
+                                <RatingStars
+                                  rating={restaurant.rating}
+                                  width={68}
+                                  height={12}
+                                ></RatingStars>
+
                                 <span>
                                   {restaurant.numberOfReviews.toLocaleString(
                                     "en-US"

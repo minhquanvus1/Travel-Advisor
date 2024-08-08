@@ -7,6 +7,7 @@ import { cities, attractions, subCategory } from "../../assets/assets";
 import { Link } from "react-router-dom";
 import CityCard from "../../components/CityCard/CityCard";
 import { replaceWhiteSpaceWithUnderScore } from "../../functions/replaceWhiteSpaceWithUnderScore";
+import RatingStars from "../../components/RatingStars/RatingStars";
 
 const ThingsToDo = () => {
   const { setCityState } = useContext(CityContext);
@@ -78,7 +79,7 @@ const ThingsToDo = () => {
                             {attraction.attractionName}
                           </div>
                           <div className="card-rating-count">
-                            <svg
+                            {/* <svg
                               viewBox="0 0 128 24"
                               width="68"
                               height="12"
@@ -105,7 +106,13 @@ const ThingsToDo = () => {
                                 d="M 12 0C5.389 0 0 5.389 0 12c0 6.62 5.389 12 12 12 6.62 0 12-5.379 12-12S18.621 0 12 0zm0 2a9.984 9.984 0 0110 10 9.976 9.976 0 01-10 10z"
                                 transform="translate(104 0)"
                               ></path>
-                            </svg>
+                            </svg> */}
+                            <RatingStars
+                              rating={attraction.rating}
+                              width={68}
+                              height={12}
+                            ></RatingStars>
+
                             <span>
                               {attraction.numberOfReviews.toLocaleString(
                                 "en-US"

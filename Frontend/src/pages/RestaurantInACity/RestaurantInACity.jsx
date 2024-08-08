@@ -3,6 +3,7 @@ import "./RestaurantInACity.css";
 import { useParams } from "react-router-dom";
 import { restaurants } from "../../assets/assets";
 import { replaceWhiteSpaceWithUnderScore } from "../../functions/replaceWhiteSpaceWithUnderScore";
+import RatingStars from "../../components/RatingStars/RatingStars";
 
 const RestaurantInACity = ({ restaurantState, setRestaurantState }) => {
   const [restaurant, setRestaurant] = useState(null);
@@ -38,36 +39,13 @@ const RestaurantInACity = ({ restaurantState, setRestaurantState }) => {
           <div className="restaurant-heading">
             <h1>{restaurant.name}</h1>
             <div className="restaurant-number-of-reviews-and-cuisines">
-              <span>
-                <svg
-                  viewBox="0 0 128 24"
-                  width="88"
-                  height="16"
-                  aria-labelledby=":lithium-Rlokd979qilt5vlq:"
-                  className="rating-stars"
-                >
-                  <title id=":lithium-Rlokd979qilt5vlq:"></title>
-                  <path
-                    d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
-                    transform=""
-                  ></path>
-                  <path
-                    d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
-                    transform="translate(26 0)"
-                  ></path>
-                  <path
-                    d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
-                    transform="translate(52 0)"
-                  ></path>
-                  <path
-                    d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
-                    transform="translate(78 0)"
-                  ></path>
-                  <path
-                    d="M 12 0C5.389 0 0 5.389 0 12c0 6.62 5.389 12 12 12 6.62 0 12-5.379 12-12S18.621 0 12 0zm0 2a9.984 9.984 0 0110 10 9.976 9.976 0 01-10 10z"
-                    transform="translate(104 0)"
-                  ></path>
-                </svg>
+              <span style={{ display: "inline-flex", alignItems: "center" }}>
+                <RatingStars
+                  rating={restaurant.rating}
+                  width={88}
+                  height={16}
+                ></RatingStars>
+
                 <span className="number-of-reviews">
                   {restaurant.numberOfReviews.toLocaleString("en-US")} reviews
                 </span>
@@ -158,36 +136,16 @@ const RestaurantInACity = ({ restaurantState, setRestaurantState }) => {
                   Ratings and reviews
                 </div>
                 <div className="ratings-and-reviews">
-                  <span className="rating-value">4.5</span>
-                  <svg
-                    viewBox="0 0 128 24"
-                    width="88"
-                    height="16"
-                    aria-labelledby=":lithium-r1b:"
-                    className="rating-stars"
-                  >
-                    <title id=":lithium-r1b:">4.5 of 5 bubbles</title>
-                    <path
-                      d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
-                      transform=""
-                    ></path>
-                    <path
-                      d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
-                      transform="translate(26 0)"
-                    ></path>
-                    <path
-                      d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
-                      transform="translate(52 0)"
-                    ></path>
-                    <path
-                      d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
-                      transform="translate(78 0)"
-                    ></path>
-                    <path
-                      d="M 12 0C5.389 0 0 5.389 0 12c0 6.62 5.389 12 12 12 6.62 0 12-5.379 12-12S18.621 0 12 0zm0 2a9.984 9.984 0 0110 10 9.976 9.976 0 01-10 10z"
-                      transform="translate(104 0)"
-                    ></path>
-                  </svg>
+                  <span className="rating-value">
+                    {restaurant.rating.toFixed(1)}
+                  </span>
+
+                  <RatingStars
+                    rating={restaurant.rating}
+                    width={88}
+                    height={16}
+                  ></RatingStars>
+
                   <span className="reviews-count">
                     {restaurant.numberOfReviews.toLocaleString("en-US")} reviews
                   </span>
