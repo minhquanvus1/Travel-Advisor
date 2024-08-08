@@ -186,6 +186,7 @@ export const restaurants = [
     lowestPrice: "109.00",
     highestPrice: "390.00",
     numberOfReviews: 18,
+    rating: 4.5,
   },
   {
     id: 2,
@@ -209,6 +210,7 @@ export const restaurants = [
     lowestPrice: "19.00",
     highestPrice: "39.00",
     numberOfReviews: 48,
+    rating: 4.5,
   },
   {
     id: 3,
@@ -232,6 +234,7 @@ export const restaurants = [
     lowestPrice: "19.00",
     highestPrice: "39.00",
     numberOfReviews: 3907,
+    rating: 5,
   },
   {
     id: 4,
@@ -253,6 +256,7 @@ export const restaurants = [
     lowestPrice: "0.00",
     highestPrice: "1.00",
     numberOfReviews: 52,
+    rating: 4,
   },
 ];
 
@@ -293,6 +297,7 @@ export const attractions = [
     },
     latitude: "10.771853",
     longitude: "106.704529",
+    rating: 5,
     description:
       "Bitexco Financial Tower at a height of 262 meters is the tallest building in Ho Chi Minh City up to date. With design concept is taken from the shape of a lotus bud, the Vietnam national flower, Bitexco Financial Tower is not merely a building which is covered in glass and steel, but also a symbol of beauty and the rapid development of Ho Chi Minh City economy, a key economic region in Vietnam. Bitexco Financial Tower is a typical example for creativity and unique design. One of the tower highlights is the first observation in the city at 49th floors. Saigon Skydeck has opened for all visitors from January 1, 2011. With a full range of services and facilities for visitors, the Skydeck has officially opened to welcome visitors both domestic and international visitors since July, 2011. Visitors have the opportunity to visit Saigon Skydeck, not only enjoy the full sight of the Ho Chi Minh City and Saigon River, but also have the chance to use the facilities and services at this Skydeck. With many activities will be held at the Skydeck during this year, with special offer prices for different customer groups, the Skydeck will be an attractive destination in the journey of Ho Chi Minh City's for both domestic and international tourists.",
   },
@@ -315,6 +320,7 @@ export const attractions = [
     },
     latitude: "10.772521",
     longitude: "106.698019",
+    rating: 5,
     description:
       "This central market is the symbol and soul of Saigon, with over 1,500 booths trading wholesale and retail items ranging from food and apparel to fabric and cosmetics. There are four main gates and 12 entrances—with the main entrance located near the big clock tower. Here, you can spot interesting souvenir picks like embroidered wallets, lacquerware and silk scarves. If you’re a coffee lover, locals would recommend homegrown brands like Trung Nguyen, Metrang, Wakeup and Mr. Viet Coffee. When hungry, treat yourself to a comforting bowl of pho, a dragon fruit smoothie and Hue cake for dessert.",
   },
@@ -330,6 +336,7 @@ export const attractions = [
     addressObj: {},
     latitude: "11.061",
     longitude: "106.526",
+    rating: 5,
     description:
       "On your guided tour of the Cu Chi Tunnels, you’ll learn about the history of this underground system. The tunnels were dug during the Vietnam War by Viet Cong soldiers as a way to move undetected and launch surprise attacks. Experience the tight squeeze firsthand by crawling through the tunnels, and fire assault rifles at the shooting range after. Pack bug spray and dress for hot and humid weather, arriving earlier in the day to beat the crowds and the afternoon sun. It's not recommended to visit the tunnels after a downpour, as the area will get very muddy.",
   },
@@ -352,6 +359,7 @@ export const attractions = [
     },
     latitude: "10.7769",
     longitude: "106.6953",
+    rating: 4.5,
     description:
       "From Norodom Palace to Independence Palace 1868-1966” explores the century-long history of the building that once served as the seat of the French colonial government in Cochinchina. In 1954, this building was renamed Independence Palace. It subsequently witnessed many dramatic episodes in the rise and decline of the government of Ngo Dinh Diem, the founding leader of the Republic of Vietnam",
   },
@@ -374,6 +382,7 @@ export const attractions = [
     },
     latitude: "10.7904",
     longitude: "106.6823",
+    rating: 4.5,
     description:
       "Vĩnh Nghiêm Pagoda, nestled in District 3, Ho Chi Minh City, exudes tranquility. Its 7-story tower, standing 40 meters tall, blends traditional Vietnamese architecture with concrete. Here, Gautama Buddha and two bodhisattvas—Manjusri and Samantabhadra—are revered. The Peace Bell, a gift from a Fukushima monk, resonates with serenity. The pagoda’s library houses ancient Buddhist texts, while the main hall showcases a 4.5-tonne statue of Gautama Buddha. The pagoda’s architecture, with its intricate carvings and vibrant colors, is a testament to Vietnamese craftsmanship.",
   },
@@ -393,6 +402,7 @@ export const attractions = [
     },
     latitude: "13.8014",
     longitude: "109.2216",
+    rating: 5,
     description: `Ong Nui Temple, also known as Linh Phong Son Tu, is situated atop Chop Vung Peak in Phu Cat District, approximately 30 kilometers from the city of Quy Nhon. At an elevation of around 600 meters above sea level, Ong Nui Temple is one of the places that have a cool and pristine climate in Central Vietnam. 
 
 Renowned as a cultural and spiritual landmark in Binh Dinh, Vietnam, Ong Nui Temple attracts numerous local and foreign visitors who come to marvel at its breathtaking scenery and the majestic Buddha statue perched atop the peak. To reach the entrance of Ong Nui Temple and the colossal seated Buddha statue, visitors must ascend approximately 600 steps, spanning from the foot of Ba Mountain to the summit.`,
@@ -414,6 +424,7 @@ Renowned as a cultural and spiritual landmark in Binh Dinh, Vietnam, Ong Nui Tem
     },
     latitude: "13.8625",
     longitude: "109.2357",
+    rating: 5,
     description: `Eo Gio is a captivating coastal gem in Quy Nhon, Vietnam. Nestled approximately 20 kilometers northeast of Quy Nhon city center, it lies within the Nhơn Lý commune. Here’s how to get there: from Quy Nhơn, follow Vo Nguyen Giap Street, cross the Thi Nai Bridge to Phuong Mai Peninsula, and then turn left at the second intersection. Continue straight until you reach Nhơn Lý commune, where you’ll find the entrance to Eo Gio. The journey offers breathtaking vistas of majestic rocky mountains, winding coastlines, and the azure sea. Eo Gio’s unique blend of natural beauty—white waves crashing against the shore, cacti dotting the landscape, and panoramic views—makes it an ideal destination for nature lovers. Visit during the dry season (December to May) for the best experience. Don’t miss the chance to capture stunning photos and immerse yourself in this picturesque haven!`,
   },
   {
@@ -433,6 +444,7 @@ Renowned as a cultural and spiritual landmark in Binh Dinh, Vietnam, Ong Nui Tem
     },
     latitude: "13.7626",
     longitude: "109.2828",
+    rating: 5,
     description: `Ky Co Beach, nestled at the foot of Phuong Mai mountain in Nhon Ly Commune, Quy Nhon, Binh Dinh province, Vietnam, awaits travelers with its enchanting beauty. Located approximately 25-30 kilometers northeast of Quy Nhon city center, this pristine beach offers an idyllic escape from the city’s hustle and bustle. Imagine verdant mountains gently sloping toward a crescent-shaped beach, where turquoise waters meet the shore. Ky Co is often hailed as Vietnam’s answer to the Maldives, captivating visitors with its magnificent landscapes. Whether you arrive by car, taxi, motorbike, or guided tour, this untouched paradise promises a tranquil environment for unwinding and capturing breathtaking photos.`,
   },
 ];
@@ -479,6 +491,7 @@ export const tours = [
     maxGroupSize: 25,
     duration: 6,
     price: "17.90",
+    rating: 4.5,
     highlights: [
       {
         highlightID: 1,
@@ -592,6 +605,7 @@ Your tour ends with drop-off in Ho Chi Minh’s city center.`,
     maxGroupSize: 25,
     duration: 6,
     price: "17.90",
+    rating: 4.5,
     highlights: [
       {
         highlightID: 1,
@@ -705,6 +719,7 @@ Your tour ends with drop-off in Ho Chi Minh’s city center.`,
     maxGroupSize: 25,
     duration: 6,
     price: "17.90",
+    rating: 4.5,
     highlights: [
       {
         highlightID: 1,
@@ -818,6 +833,7 @@ Your tour ends with drop-off in Ho Chi Minh’s city center.`,
     maxGroupSize: 25,
     duration: 6,
     price: "17.90",
+    rating: 4.5,
     highlights: [
       {
         highlightID: 1,
@@ -982,7 +998,7 @@ export const attractionReviews = [
     reviewTitle: "Wonderful, majestic",
     reviewDescription:
       "Gorgeous sea peninsula views from the top of the big Buddha. Loads of steps - we chose to take the motorbike ride up and walked down. Bike ride one way was 20k and another 20k entrance fee. Beautiful and peaceful inside. Worth the visit. We went as part of a day tour with Private driver booked through Quy Nhon sports club.",
-    rating: "5",
+    rating: "4.5",
     reviewDate: "March 28, 2024",
   },
   {
@@ -992,7 +1008,7 @@ export const attractionReviews = [
     reviewTitle: "Super duper, awesome",
     reviewDescription:
       "Gorgeous sea peninsula views from the top of the big Buddha. Loads of steps - we chose to take the motorbike ride up and walked down. Bike ride one way was 20k and another 20k entrance fee. Beautiful and peaceful inside. Worth the visit. We went as part of a day tour with Private driver booked through Quy Nhon sports club.",
-    rating: "5",
+    rating: "4.5",
     reviewDate: "March 29, 2024",
   },
   {
@@ -1002,7 +1018,7 @@ export const attractionReviews = [
     reviewTitle: "Best experiences ever",
     reviewDescription:
       "Gorgeous sea peninsula views from the top of the big Buddha. Loads of steps - we chose to take the motorbike ride up and walked down. Bike ride one way was 20k and another 20k entrance fee. Beautiful and peaceful inside. Worth the visit. We went as part of a day tour with Private driver booked through Quy Nhon sports club.",
-    rating: "5",
+    rating: "4",
     reviewDate: "March 30, 2024",
   },
   {
@@ -1012,7 +1028,7 @@ export const attractionReviews = [
     reviewTitle: "Lovely, gorgeous, awe",
     reviewDescription:
       "Gorgeous sea peninsula views from the top of the big Buddha. Loads of steps - we chose to take the motorbike ride up and walked down. Bike ride one way was 20k and another 20k entrance fee. Beautiful and peaceful inside. Worth the visit. We went as part of a day tour with Private driver booked through Quy Nhon sports club.",
-    rating: "5",
+    rating: "3.5",
     reviewDate: "March 31, 2024",
   },
 ];
