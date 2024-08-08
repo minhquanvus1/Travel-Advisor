@@ -47,11 +47,11 @@ const App = () => {
       />
       <div className="app">
         <Routes>
-          <Route path="/" element={<Home />} />
           <Route path="/a" />
         </Routes>
       </div>
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route path="/cities" element={<Cities />} />
         <Route path="/cities/:cityName" element={<City />} />
         <Route path="/restaurants" element={<Restaurants />} />
