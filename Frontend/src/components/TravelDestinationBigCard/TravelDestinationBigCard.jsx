@@ -1,6 +1,7 @@
 import React from "react";
 import "./TravelDestinationBigCard.css";
 import { subCategory } from "../../assets/assets";
+import RatingStars from "../RatingStars/RatingStars";
 
 const TravelDestinationBigCard = ({ attraction, index }) => {
   const findSubCategory = (attraction) => {
@@ -25,37 +26,12 @@ const TravelDestinationBigCard = ({ attraction, index }) => {
               {index + 1}. {attraction.attractionName}
             </div>
             <div className="header-rating">
-              <svg
-                className="rating-stars"
-                viewBox="0 0 128 24"
-                width="68"
-                height="12"
-                aria-labelledby=":lithium-Rclkco6f1l9klt5vlq:"
-              >
-                <title id=":lithium-Rclkco6f1l9klt5vlq:">
-                  5.0 of 5 bubbles
-                </title>
-                <path
-                  d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
-                  transform=""
-                ></path>
-                <path
-                  d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
-                  transform="translate(26 0)"
-                ></path>
-                <path
-                  d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
-                  transform="translate(52 0)"
-                ></path>
-                <path
-                  d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
-                  transform="translate(78 0)"
-                ></path>
-                <path
-                  d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
-                  transform="translate(104 0)"
-                ></path>
-              </svg>
+              <RatingStars
+                rating={attraction.rating}
+                width={68}
+                height={12}
+              ></RatingStars>
+
               <span className="number-of-reviews">
                 {attraction.numberOfReviews.toLocaleString("en-US")} reviews
               </span>

@@ -56,6 +56,7 @@ const RestaurantsInACity = () => {
                       cardTitle={restaurant.name}
                       numberOfReviews={restaurant.numberOfReviews}
                       cardDescription={restaurant.description}
+                      rating={restaurant.rating}
                     ></RestaurantBigCard>
                   </Link>
                 </div>
