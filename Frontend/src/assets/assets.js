@@ -916,3 +916,103 @@ export const stops = [
     longitude: "106.6409313",
   },
 ];
+
+export const users = [
+  {
+    id: 1,
+    name: "Lincoln",
+    city: "Ho Chi Minh",
+    country: "Vietnam",
+    imageUrl:
+      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0a/5a/3f/f6/mm-153.jpg?w=100&h=-1&s=1",
+  },
+  {
+    id: 2,
+    name: "Trump",
+    city: "New York",
+    country: "USA",
+    imageUrl:
+      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0a/5a/3f/f6/mm-153.jpg?w=100&h=-1&s=1",
+  },
+  {
+    id: 3,
+    name: "Putin",
+    city: "Moscow",
+    country: "Russia",
+    imageUrl:
+      "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0a/5a/3f/f6/mm-153.jpg?w=100&h=-1&s=1",
+  },
+];
+
+export const attractionReviews = [
+  {
+    id: 1,
+    userId: 1,
+    attractionId: 6,
+    reviewTitle: "Stunning views and peaceful",
+    reviewDescription:
+      "Gorgeous sea peninsula views from the top of the big Buddha. Loads of steps - we chose to take the motorbike ride up and walked down. Bike ride one way was 20k and another 20k entrance fee. Beautiful and peaceful inside. Worth the visit. We went as part of a day tour with Private driver booked through Quy Nhon sports club.",
+    rating: "5",
+    reviewDate: "March 22, 2024",
+  },
+  {
+    id: 2,
+    userId: 2,
+    attractionId: 7,
+    reviewTitle: "Magnificient",
+    reviewDescription:
+      "Gorgeous sea peninsula views from the top of the big Buddha. Loads of steps - we chose to take the motorbike ride up and walked down. Bike ride one way was 20k and another 20k entrance fee. Beautiful and peaceful inside. Worth the visit. We went as part of a day tour with Private driver booked through Quy Nhon sports club.",
+    rating: "5",
+    reviewDate: "March 25, 2024",
+  },
+  {
+    id: 3,
+    userId: 3,
+    attractionId: 8,
+    reviewTitle: "Spectacular, fantastic",
+    reviewDescription:
+      "Gorgeous sea peninsula views from the top of the big Buddha. Loads of steps - we chose to take the motorbike ride up and walked down. Bike ride one way was 20k and another 20k entrance fee. Beautiful and peaceful inside. Worth the visit. We went as part of a day tour with Private driver booked through Quy Nhon sports club.",
+    rating: "5",
+    reviewDate: "March 27, 2024",
+  },
+  {
+    id: 4,
+    userId: 3,
+    attractionId: 3,
+    reviewTitle: "Wonderful, majestic",
+    reviewDescription:
+      "Gorgeous sea peninsula views from the top of the big Buddha. Loads of steps - we chose to take the motorbike ride up and walked down. Bike ride one way was 20k and another 20k entrance fee. Beautiful and peaceful inside. Worth the visit. We went as part of a day tour with Private driver booked through Quy Nhon sports club.",
+    rating: "5",
+    reviewDate: "March 28, 2024",
+  },
+  {
+    id: 5,
+    userId: 3,
+    attractionId: 1,
+    reviewTitle: "Super duper, awesome",
+    reviewDescription:
+      "Gorgeous sea peninsula views from the top of the big Buddha. Loads of steps - we chose to take the motorbike ride up and walked down. Bike ride one way was 20k and another 20k entrance fee. Beautiful and peaceful inside. Worth the visit. We went as part of a day tour with Private driver booked through Quy Nhon sports club.",
+    rating: "5",
+    reviewDate: "March 29, 2024",
+  },
+  {
+    id: 6,
+    userId: 3,
+    attractionId: 5,
+    reviewTitle: "Best experiences ever",
+    reviewDescription:
+      "Gorgeous sea peninsula views from the top of the big Buddha. Loads of steps - we chose to take the motorbike ride up and walked down. Bike ride one way was 20k and another 20k entrance fee. Beautiful and peaceful inside. Worth the visit. We went as part of a day tour with Private driver booked through Quy Nhon sports club.",
+    rating: "5",
+    reviewDate: "March 30, 2024",
+  },
+  {
+    id: 7,
+    userId: 3,
+    attractionId: 6,
+    reviewTitle: "Lovely, gorgeous, awe",
+    reviewDescription:
+      "Gorgeous sea peninsula views from the top of the big Buddha. Loads of steps - we chose to take the motorbike ride up and walked down. Bike ride one way was 20k and another 20k entrance fee. Beautiful and peaceful inside. Worth the visit. We went as part of a day tour with Private driver booked through Quy Nhon sports club.",
+    rating: "5",
+    reviewDate: "March 31, 2024",
+  },
+];
