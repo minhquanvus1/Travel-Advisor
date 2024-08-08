@@ -7,7 +7,7 @@
     position: absolute;
     bottom: 17px;
     left: 83px;
-    color: black;
+    color: inherit;
     padding: 4px;
     border-bottom: 1px solid black;
     padding-left:120px; font-weight: 500;
@@ -33,7 +33,7 @@
     position: absolute;
     bottom: 300px;
     left: 110px;
-    color: black;
+    color: inherit;
     padding: 4px;
     border-bottom: 1px solid black; padding-left:90px;font-weight: 500;
 }
@@ -58,7 +58,7 @@
     position: absolute;
     bottom: 150px;
     left: 155px;
-    color: black;
+    color: inherit;
     padding: 4px;
     border-bottom: 1px solid black; padding-left:50px;font-weight: 500;
 }
