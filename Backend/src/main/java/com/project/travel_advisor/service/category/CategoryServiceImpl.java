@@ -61,8 +61,13 @@ public class CategoryServiceImpl implements CategoryService{
     @Override
     public Category updateACategory(Category category, Long id) {
         Category foundCategory = categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("This Category with id " + id + " does not exist"));
+        if (category.getName() == null || category.getName().isBlank()) {
+            throw new BadRequestException("Category name can not be null");
+        }
         foundCategory.setName(category.getName());
-        foundCategory.replaceSubcategories(category.getSubcategories());
+        if (category.getSubcategories() != null) {
+            foundCategory.replaceSubcategories(category.getSubcategories());
+        }
         return categoryRepository.save(foundCategory);
     }
 
