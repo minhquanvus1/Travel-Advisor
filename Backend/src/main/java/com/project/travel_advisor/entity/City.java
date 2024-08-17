@@ -1,5 +1,6 @@
 package com.project.travel_advisor.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,9 +21,10 @@ public class City {
 
     private String name;
 
+    @Column(columnDefinition="TEXT")
     private String description;
 
-    @Column(name = "image_url")
+    @Column(name = "image_url", columnDefinition = "TEXT")
     private String imageUrl;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "city")
@@ -34,6 +36,7 @@ public class City {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "city")
     private List<Tour> tours;
 
-    @ManyToMany(mappedBy = "cities")
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "cities")
     private List<Cuisine> cuisines;
+
 }
