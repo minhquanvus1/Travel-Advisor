@@ -1,8 +1,11 @@
 package com.project.travel_advisor.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -29,11 +32,13 @@ public class Cuisine {
     @JoinTable(name = "restaurant_cuisines",
     joinColumns = {@JoinColumn(name = "cuisine_id")},
     inverseJoinColumns = {@JoinColumn(name = "restaurant_id")})
+    @JsonIgnore
     private List<Restaurant> restaurants;
 
     @ManyToMany
     @JoinTable(name = "city_cuisines",
             joinColumns = @JoinColumn(name = "cuisine_id"),
             inverseJoinColumns = @JoinColumn(name = "city_id"))
-    private List<City> cities;
+    @JsonIgnore
+    private List<City> cities = new ArrayList<>();
 }
