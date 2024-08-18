@@ -43,6 +43,25 @@ public class Restaurant {
 
     private BigDecimal rating;
 
+    @Override
+    public String toString() {
+        return "Restaurant{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", websiteUrl='" + websiteUrl + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", description='" + description + '\'' +
+                ", lowestPrice=" + lowestPrice +
+                ", highestPrice=" + highestPrice +
+                ", numberOfReviews=" + numberOfReviews +
+                ", rating=" + rating +
+                ", city=" + city +
+                ", cuisines=" + cuisines +
+                ", address=" + address +
+                '}';
+    }
+
     @ManyToOne
     @JoinColumn(name = "city_id")
     private City city;
@@ -51,6 +70,6 @@ public class Restaurant {
     private List<Cuisine> cuisines;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id")
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
 }

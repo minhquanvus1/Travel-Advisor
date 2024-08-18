@@ -20,6 +20,19 @@ public class Address {
 
     private String ward;
 
+    @Override
+    public String toString() {
+        return "Address{" +
+                "id=" + id +
+                ", address='" + address + '\'' +
+                ", ward='" + ward + '\'' +
+                ", district='" + district + '\'' +
+                ", city='" + city + '\'' +
+                ", country='" + country + '\'' +
+                ", postalCode='" + postalCode + '\'' +
+                '}';
+    }
+
     private String district;
 
     private String city;
