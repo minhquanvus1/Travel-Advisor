@@ -21,6 +21,18 @@ public class Cuisine {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Override
+    public String toString() {
+        return "Cuisine{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+//                ", restaurants=" + restaurants +
+                ", cities=" + cities +
+                '}';
+    }
+
     private String name;
 
     private String description;
@@ -33,7 +45,7 @@ public class Cuisine {
     joinColumns = {@JoinColumn(name = "cuisine_id")},
     inverseJoinColumns = {@JoinColumn(name = "restaurant_id")})
     @JsonIgnore
-    private List<Restaurant> restaurants;
+    private List<Restaurant> restaurants = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(name = "city_cuisines",
@@ -41,4 +53,11 @@ public class Cuisine {
             inverseJoinColumns = @JoinColumn(name = "city_id"))
     @JsonIgnore
     private List<City> cities = new ArrayList<>();
+
+    public void addRestaurant(Restaurant restaurant) {
+        if (this.restaurants == null) {
+            this.restaurants = new ArrayList<>();
+        }
+        this.restaurants.add(restaurant);
+    }
 }
