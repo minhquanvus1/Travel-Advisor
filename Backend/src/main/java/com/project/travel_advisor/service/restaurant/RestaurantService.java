@@ -1,12 +1,15 @@
 package com.project.travel_advisor.service.restaurant;
 
+import com.project.travel_advisor.dto.RestaurantDto;
 import com.project.travel_advisor.entity.Restaurant;
 
 import java.util.List;
 
 public interface RestaurantService {
 
-    List<Restaurant> findAllRestaurant();
+    List<RestaurantDto> findAllRestaurant();
 
-    Restaurant findRestaurantById(Long id);
+    RestaurantDto findRestaurantById(Long id);
+
+    RestaurantDto createARestaurant(RestaurantDto restaurantDto);
 }
