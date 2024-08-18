@@ -75,4 +75,28 @@ public class RestaurantServiceImpl implements RestaurantService {
         System.out.println("saved restaurant is " + savedRestaurant);
         return RestaurantMapper.mapToRestaurantDto(savedRestaurant);
     }
+
+    @Override
+    @Transactional
+    public void deleteRestaurantById(Long id) {
+        Restaurant foundRestaurant = restaurantRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("This Restaurant with id " + id + " does not exist"));
+
+        if (foundRestaurant.getCity() != null) {
+            foundRestaurant.getCity().getRestaurants().remove(foundRestaurant);
+            foundRestaurant.setCity(null);
+        }
+
+        foundRestaurant.setAddress(null);
+
+        foundRestaurant.getCuisines().forEach(cuisine -> {
+            cuisine.getRestaurants().remove(foundRestaurant);
+            if (cuisine.getRestaurants().isEmpty()) {
+                cuisineRepository.delete(cuisine);
+            }
+        });
+        foundRestaurant.setCuisines(null);
+
+        restaurantRepository.delete(foundRestaurant);
+
+    }
 }

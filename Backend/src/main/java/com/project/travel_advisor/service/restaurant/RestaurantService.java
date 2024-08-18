@@ -12,4 +12,6 @@ public interface RestaurantService {
     RestaurantDto findRestaurantById(Long id);
 
     RestaurantDto createARestaurant(RestaurantDto restaurantDto);
+
+    void deleteRestaurantById(Long id);
 }
