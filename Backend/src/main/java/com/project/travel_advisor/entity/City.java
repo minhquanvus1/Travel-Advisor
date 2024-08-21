@@ -2,6 +2,7 @@ package com.project.travel_advisor.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.util.List;
@@ -38,5 +39,9 @@ public class City {
 
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "cities")
     private List<Cuisine> cuisines;
+
+    @OneToOne(mappedBy = "city", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private TravelAdvice travelAdvice;
 
 }
