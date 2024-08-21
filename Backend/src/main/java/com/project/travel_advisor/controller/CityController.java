@@ -1,8 +1,8 @@
 package com.project.travel_advisor.controller;
 
 import com.project.travel_advisor.dto.CityDto;
-import com.project.travel_advisor.entity.City;
 import com.project.travel_advisor.service.city.CityService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +29,7 @@ public class CityController {
     }
 
     @PostMapping("/cities")
-    public ResponseEntity<CityDto> createACity(@RequestBody CityDto cityDto) {
+    public ResponseEntity<CityDto> createACity(@Valid @RequestBody CityDto cityDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(cityService.createACity(cityDto));
     }
 
