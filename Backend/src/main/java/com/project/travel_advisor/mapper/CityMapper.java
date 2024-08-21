@@ -12,6 +12,7 @@ public class CityMapper {
                 .imageUrl(cityDto.imageUrl())
                 .description(cityDto.description())
                 .cuisines(cityDto.cuisines())
+                .travelAdvice(cityDto.travelAdvice())
                 .build();
     }
 
@@ -21,7 +22,8 @@ public class CityMapper {
                 city.getName(),
                 city.getImageUrl(),
                 city.getDescription(),
-                city.getCuisines()
+                city.getCuisines(),
+                city.getTravelAdvice()
                 );
     }
 }
