@@ -3,35 +3,26 @@ package com.project.travel_advisor.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.math.BigDecimal;
-
 @Entity
-@Table(name = "stop")
+@Table(name = "tour_image")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @Builder
-public class Stop {
+public class TourImage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    @Column(name = "image_url")
+    private String imageUrl;
 
-    private double latitude;
-
-    private double longitude;
-
-    @Column(columnDefinition = "TEXT")
-    private String description;
+    @Column(name = "is_primary")
+    private Boolean isPrimary;
 
     @ManyToOne
     @JoinColumn(name = "tour_id")
     private Tour tour;
-
-    @ManyToOne
-    @JoinColumn(name = "day_id")
-    private Day day;
 }
