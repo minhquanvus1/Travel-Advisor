@@ -16,6 +16,7 @@ public class IncludedItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 2000)
     private String item;
 
     @ManyToOne

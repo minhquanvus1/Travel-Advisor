@@ -30,6 +30,7 @@ public class Restaurant {
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     @Column(name = "lowest_price")

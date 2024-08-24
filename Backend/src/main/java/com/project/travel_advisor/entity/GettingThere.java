@@ -19,6 +19,7 @@ public class GettingThere {
 
     private String mode;
 
+    @Column(length = 2000)
     private String advice;
 
     @ManyToOne

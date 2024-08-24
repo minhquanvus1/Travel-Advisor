@@ -21,11 +21,13 @@ public class TravelAdvice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(columnDefinition = "TEXT")
     private String visa;
 
     @Column(name = "best_time_to_visit", columnDefinition = "TEXT")
     private String bestTimeToVisit;
 
+    @Column(columnDefinition = "TEXT")
     private String tipping;
 
     @OneToOne

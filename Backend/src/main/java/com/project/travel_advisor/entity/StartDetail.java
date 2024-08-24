@@ -17,8 +17,10 @@ public class StartDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 3000)
     private String address;
 
+    @Column(length = 3000)
     private String description;
 
     @OneToOne

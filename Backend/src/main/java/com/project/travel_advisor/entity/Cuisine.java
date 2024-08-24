@@ -35,6 +35,7 @@ public class Cuisine {
 
     private String name;
 
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     @Column(name = "image_url")
