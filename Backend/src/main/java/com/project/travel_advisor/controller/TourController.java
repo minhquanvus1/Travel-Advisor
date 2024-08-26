@@ -2,7 +2,6 @@ package com.project.travel_advisor.controller;
 
 import com.project.travel_advisor.dto.TourRequestDto;
 import com.project.travel_advisor.dto.TourResponseDto;
-import com.project.travel_advisor.entity.Tour;
 import com.project.travel_advisor.service.tour.TourService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +27,11 @@ public class TourController {
     @GetMapping("/tours/{id}")
     public ResponseEntity<TourResponseDto> findTourById(@PathVariable Long id) {
         return ResponseEntity.ok(tourService.findById(id));
+    }
+
+    @GetMapping("/cities/{cityName}/tours")
+    public ResponseEntity<List<TourResponseDto>> findToursInCityWithName(@PathVariable String cityName) {
+        return ResponseEntity.ok(tourService.findToursInCityWithName(cityName));
     }
 
     @PostMapping("/tours")

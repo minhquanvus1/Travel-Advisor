@@ -5,6 +5,7 @@ import com.project.travel_advisor.dto.TourResponseDto;
 import com.project.travel_advisor.entity.*;
 import com.project.travel_advisor.exception.BadRequestException;
 import com.project.travel_advisor.exception.ResourceNotFoundException;
+import com.project.travel_advisor.mapper.RestaurantMapper;
 import com.project.travel_advisor.mapper.TourMapper;
 import com.project.travel_advisor.repository.CityRepository;
 import com.project.travel_advisor.repository.LanguageRepository;
@@ -36,6 +37,14 @@ public class TourServiceImpl implements TourService{
     @Override
     public TourResponseDto findById(Long id) {
         return tourRepository.findById(id).map(TourMapper::mapToTourResponseDto).orElseThrow(() -> new ResourceNotFoundException("This Tour with id " + id + " does not exist"));
+    }
+
+    @Override
+    public List<TourResponseDto> findToursInCityWithName(String cityName) {
+
+        City foundCity = cityRepository.findCityByNameIgnoreCase(cityName).orElseThrow(() -> new ResourceNotFoundException("This city with name " + cityName + " does not exist"));
+
+        return foundCity.getTours().stream().map(TourMapper::mapToTourResponseDto).toList();
     }
 
     @Override
