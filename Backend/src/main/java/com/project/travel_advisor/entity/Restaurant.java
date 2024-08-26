@@ -5,7 +5,9 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "restaurant")
@@ -70,7 +72,7 @@ public class Restaurant {
     private City city;
 
     @ManyToMany(mappedBy = "restaurants")
-    private List<Cuisine> cuisines;
+    private Set<Cuisine> cuisines = new HashSet<>();
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "address_id", referencedColumnName = "id")

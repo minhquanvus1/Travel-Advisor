@@ -5,6 +5,7 @@ import com.project.travel_advisor.entity.Language;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 
 public record TourResponseDto(
         Long id,
@@ -19,7 +20,7 @@ public record TourResponseDto(
 
         TourImageObjectDto imageObject,
 
-        List<LanguageDto> languages,
+        Set<LanguageDto> languages,
 
         int minAge,
 

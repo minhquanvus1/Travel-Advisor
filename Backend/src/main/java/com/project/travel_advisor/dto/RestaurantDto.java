@@ -4,6 +4,7 @@ import com.project.travel_advisor.entity.Address;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 
 public record RestaurantDto(
         Long id,
@@ -27,6 +28,6 @@ public record RestaurantDto(
         BigDecimal rating,
 
         Address addressObj,
-        List<CuisineDto> cuisines
+        Set<CuisineDto> cuisines
 ) {
 }

@@ -5,6 +5,7 @@ import com.project.travel_advisor.entity.TravelAdvice;
 import jakarta.validation.constraints.NotBlank;
 
 import java.util.List;
+import java.util.Set;
 
 public record CityDto(
         Long id,
@@ -18,7 +19,7 @@ public record CityDto(
         @NotBlank(message = "city description is mandatory")
         String description,
 
-        List<Cuisine> cuisines,
+        Set<Cuisine> cuisines,
 
         TravelAdvice travelAdvice
 ) {

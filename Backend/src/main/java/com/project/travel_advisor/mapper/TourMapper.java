@@ -8,6 +8,7 @@ import com.project.travel_advisor.entity.Tour;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TourMapper {
 
@@ -44,7 +45,7 @@ public class TourMapper {
                 tour.getSubcategory().getId(),
                 tour.getNumberOfReviews(),
                 TourImageMapper.mapToTourImageObjectDto(tour.getTourImages()),
-                tour.getLanguages().stream().map(LanguageMapper::mapToLanguageDto).toList(),
+                tour.getLanguages().stream().map(LanguageMapper::mapToLanguageDto).collect(Collectors.toSet()),
                 tour.getMinAge(),
                 tour.getMaxAge(),
                 tour.getMaxGroupSize(),

@@ -7,7 +7,9 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "tour")
@@ -69,7 +71,7 @@ public class Tour {
     private List<Highlight> highlights = new ArrayList<>();
 
     @ManyToMany(mappedBy = "tours", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    private List<Language> languages = new ArrayList<>();
+    private Set<Language> languages = new HashSet<>();
 
     @OneToOne(mappedBy = "tour", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference

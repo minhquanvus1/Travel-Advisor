@@ -4,6 +4,8 @@ import com.project.travel_advisor.dto.RestaurantDto;
 import com.project.travel_advisor.entity.Restaurant;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.stream.Collectors;
 
 
 public class RestaurantMapper {
@@ -23,7 +25,7 @@ public class RestaurantMapper {
                     .phoneNumber(restaurantDto.phoneNumber())
                     .numberOfReviews(restaurantDto.numberOfReviews())
                     .city(null)
-                    .cuisines(new ArrayList<>())
+                    .cuisines(new HashSet<>())
 //                    .cuisines(restaurantDto.cuisineDtos().stream().map(CuisineMapper::mapToCuisine).toList())
                     .build();
     }
@@ -42,7 +44,7 @@ public class RestaurantMapper {
                 restaurant.getNumberOfReviews(),
                 restaurant.getRating(),
                 restaurant.getAddress(),
-                restaurant.getCuisines().stream().map(CuisineMapper::mapToCuisineDto).toList()
+                restaurant.getCuisines().stream().map(CuisineMapper::mapToCuisineDto).collect(Collectors.toSet())
         );
 
     }

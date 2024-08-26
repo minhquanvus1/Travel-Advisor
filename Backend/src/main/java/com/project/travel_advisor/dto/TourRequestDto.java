@@ -6,6 +6,7 @@ import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 
 public record TourRequestDto(
 
@@ -25,7 +26,7 @@ public record TourRequestDto(
 
         List<TourImage> tourImages,
 
-        List<Language> languages,
+        Set<Language> languages,
 
         @Min(value = 0, message = "minAge must be >= 0")
         int minAge,

@@ -5,7 +5,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "city")
@@ -41,7 +43,7 @@ public class City {
     private List<Tour> tours;
 
     @ManyToMany(mappedBy = "cities", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    private List<Cuisine> cuisines;
+    private Set<Cuisine> cuisines = new HashSet<>();
 
     @OneToOne(mappedBy = "city", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference

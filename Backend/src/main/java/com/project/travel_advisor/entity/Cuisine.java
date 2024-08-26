@@ -6,7 +6,9 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "cuisine")
@@ -46,18 +48,18 @@ public class Cuisine {
     joinColumns = {@JoinColumn(name = "cuisine_id")},
     inverseJoinColumns = {@JoinColumn(name = "restaurant_id")})
     @JsonIgnore
-    private List<Restaurant> restaurants = new ArrayList<>();
+    private Set<Restaurant> restaurants = new HashSet<>();
 
     @ManyToMany
     @JoinTable(name = "city_cuisines",
             joinColumns = @JoinColumn(name = "cuisine_id"),
             inverseJoinColumns = @JoinColumn(name = "city_id"))
     @JsonIgnore
-    private List<City> cities = new ArrayList<>();
+    private Set<City> cities = new HashSet<>();
 
     public void addRestaurant(Restaurant restaurant) {
         if (this.restaurants == null) {
-            this.restaurants = new ArrayList<>();
+            this.restaurants = new HashSet<>();
         }
         this.restaurants.add(restaurant);
     }
