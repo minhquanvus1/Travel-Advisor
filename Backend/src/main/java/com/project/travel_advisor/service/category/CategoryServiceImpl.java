@@ -1,9 +1,11 @@
 package com.project.travel_advisor.service.category;
 
+import com.project.travel_advisor.dto.CategoryDto;
 import com.project.travel_advisor.entity.Category;
 import com.project.travel_advisor.entity.Subcategory;
 import com.project.travel_advisor.exception.BadRequestException;
 import com.project.travel_advisor.exception.ResourceNotFoundException;
+import com.project.travel_advisor.mapper.CategoryMapper;
 import com.project.travel_advisor.repository.CategoryRepository;
 import com.project.travel_advisor.repository.SubcategoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,19 +24,19 @@ public class CategoryServiceImpl implements CategoryService{
     private final SubcategoryRepository subcategoryRepository;
 
     @Override
-    public List<Category> getAllCategory() {
+    public List<CategoryDto> getAllCategory() {
 
-        return categoryRepository.findAll();
+        return categoryRepository.findAll().stream().map(CategoryMapper::mapToCategoryDto).toList();
     }
 
     @Override
-    public Category getCategoryById(Long id) {
-        return categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("This Category with id " + id + " does not exist"));
+    public CategoryDto getCategoryById(Long id) {
+        return categoryRepository.findById(id).map(CategoryMapper::mapToCategoryDto).orElseThrow(() -> new ResourceNotFoundException("This Category with id " + id + " does not exist"));
     }
 
     @Override
     public Category createACategory(Category category) {
-        Optional<Category> foundCategory = categoryRepository.findCategoryByName(category.getName());
+        Optional<Category> foundCategory = categoryRepository.findCategoryByNameIgnoreCase(category.getName());
         if (foundCategory.isPresent()) {
             throw new BadRequestException("This Category " + category.getName() + " already exists");
         }

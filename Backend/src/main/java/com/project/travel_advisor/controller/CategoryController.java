@@ -1,5 +1,6 @@
 package com.project.travel_advisor.controller;
 
+import com.project.travel_advisor.dto.CategoryDto;
 import com.project.travel_advisor.entity.Category;
 import com.project.travel_advisor.service.category.CategoryService;
 import lombok.RequiredArgsConstructor;
@@ -18,12 +19,12 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @GetMapping("/categories")
-    public ResponseEntity<List<Category>> getAllCategory() {
+    public ResponseEntity<List<CategoryDto>> getAllCategory() {
         return ResponseEntity.ok(categoryService.getAllCategory());
     }
 
     @GetMapping("/categories/{id}")
-    public ResponseEntity<Category> getCategoryById(@PathVariable Long id) {
+    public ResponseEntity<CategoryDto> getCategoryById(@PathVariable Long id) {
         return ResponseEntity.ok(categoryService.getCategoryById(id));
     }
 
