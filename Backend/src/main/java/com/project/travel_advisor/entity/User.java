@@ -1,6 +1,7 @@
 package com.project.travel_advisor.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -35,5 +36,6 @@ public class User {
     private String imageUrl;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @JsonManagedReference
     private List<AttractionReview> attractionReviews;
 }

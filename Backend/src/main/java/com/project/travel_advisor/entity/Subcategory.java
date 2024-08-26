@@ -1,6 +1,7 @@
 package com.project.travel_advisor.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,8 +28,10 @@ public class Subcategory {
     private Category category;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subcategory")
+    @JsonManagedReference
     private List<Attraction> attractions;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "subcategory")
+    @JsonManagedReference
     private List<Tour> tours;
 }

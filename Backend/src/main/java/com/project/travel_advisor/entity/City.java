@@ -29,12 +29,15 @@ public class City {
     private String imageUrl;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "city")
+    @JsonManagedReference
     private List<Restaurant> restaurants;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "city")
+    @JsonManagedReference
     private List<Attraction> attractions;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "city")
+    @JsonManagedReference
     private List<Tour> tours;
 
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "cities")

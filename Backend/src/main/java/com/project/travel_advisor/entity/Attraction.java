@@ -1,5 +1,7 @@
 package com.project.travel_advisor.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -40,13 +42,16 @@ public class Attraction {
 
     @ManyToOne
     @JoinColumn(name = "city_id")
+    @JsonBackReference
     private City city;
 
     @ManyToOne
     @JoinColumn(name = "subcategory_id")
+    @JsonBackReference
     private Subcategory subcategory;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "attraction")
+    @JsonManagedReference
     private List<AttractionReview> attractionReviews;
 
     @OneToOne(cascade = CascadeType.ALL)

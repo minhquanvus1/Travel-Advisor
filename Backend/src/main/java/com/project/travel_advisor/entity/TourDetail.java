@@ -1,5 +1,6 @@
 package com.project.travel_advisor.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
@@ -25,18 +26,23 @@ public class TourDetail {
 
     @OneToOne
     @JoinColumn(name = "tour_id")
+    @JsonBackReference
     private Tour tour;
 
     @OneToMany(mappedBy = "tourDetail", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<IncludedItem> includedItems = new ArrayList<>();
 
     @OneToMany(mappedBy = "tourDetail", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<NotIncludedItem> notIncludedItems = new ArrayList<>();
 
     @OneToMany(mappedBy = "tourDetail", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<AdditionalInformation> additionalInformations = new ArrayList<>();
 
     @OneToMany(mappedBy = "tourDetail", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Accessibility> accessibilities = new ArrayList<>();
 
     @OneToOne(mappedBy = "tourDetail", cascade = CascadeType.ALL, orphanRemoval = true)

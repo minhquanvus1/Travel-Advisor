@@ -1,5 +1,6 @@
 package com.project.travel_advisor.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -65,6 +66,7 @@ public class Restaurant {
 
     @ManyToOne
     @JoinColumn(name = "city_id")
+    @JsonBackReference
     private City city;
 
     @ManyToMany(mappedBy = "restaurants")

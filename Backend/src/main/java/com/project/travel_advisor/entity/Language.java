@@ -1,5 +1,6 @@
 package com.project.travel_advisor.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,5 +26,6 @@ public class Language {
     @JoinTable(name = "tour_languages",
     joinColumns = {@JoinColumn(name = "language_id")},
     inverseJoinColumns = {@JoinColumn(name = "tour_id")})
+    @JsonIgnore
     private List<Tour> tours = new ArrayList<>();
 }
