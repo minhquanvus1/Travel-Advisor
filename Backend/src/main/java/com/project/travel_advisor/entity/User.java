@@ -35,7 +35,7 @@ public class User {
     @Column(name = "image_url")
     private String imageUrl;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
     @JsonManagedReference
     private List<AttractionReview> attractionReviews;
 }

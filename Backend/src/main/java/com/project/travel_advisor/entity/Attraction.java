@@ -50,11 +50,11 @@ public class Attraction {
     @JsonBackReference
     private Subcategory subcategory;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "attraction")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "attraction", orphanRemoval = true)
     @JsonManagedReference
     private List<AttractionReview> attractionReviews;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "address_id")
     private Address address;
 }

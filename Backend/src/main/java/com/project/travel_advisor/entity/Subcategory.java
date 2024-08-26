@@ -27,11 +27,11 @@ public class Subcategory {
     @JsonBackReference
     private Category category;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subcategory")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subcategory", orphanRemoval = true)
     @JsonManagedReference
     private List<Attraction> attractions;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subcategory")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "subcategory", orphanRemoval = true)
     @JsonManagedReference
     private List<Tour> tours;
 }

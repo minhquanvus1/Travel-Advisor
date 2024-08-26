@@ -68,7 +68,7 @@ public class Tour {
     @JsonManagedReference
     private List<Highlight> highlights = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "tours", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "tours", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private List<Language> languages = new ArrayList<>();
 
     @OneToOne(mappedBy = "tour", cascade = CascadeType.ALL, orphanRemoval = true)

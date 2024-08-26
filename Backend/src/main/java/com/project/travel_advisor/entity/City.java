@@ -28,19 +28,19 @@ public class City {
     @Column(name = "image_url", columnDefinition = "TEXT")
     private String imageUrl;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "city")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "city", orphanRemoval = true)
     @JsonManagedReference
     private List<Restaurant> restaurants;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "city")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "city", orphanRemoval = true)
     @JsonManagedReference
     private List<Attraction> attractions;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "city")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "city", orphanRemoval = true)
     @JsonManagedReference
     private List<Tour> tours;
 
-    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "cities")
+    @ManyToMany(mappedBy = "cities", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private List<Cuisine> cuisines;
 
     @OneToOne(mappedBy = "city", cascade = CascadeType.ALL, orphanRemoval = true)
