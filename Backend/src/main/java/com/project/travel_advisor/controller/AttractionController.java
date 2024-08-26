@@ -1,7 +1,6 @@
 package com.project.travel_advisor.controller;
 
 import com.project.travel_advisor.dto.AttractionDto;
-import com.project.travel_advisor.entity.Attraction;
 import com.project.travel_advisor.service.attraction.AttractionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,6 +25,11 @@ public class AttractionController {
     @GetMapping("/attractions/{id}")
     public ResponseEntity<AttractionDto> findAttractionById(@PathVariable Long id) {
         return ResponseEntity.ok(attractionService.findAttractionById(id));
+    }
+
+    @GetMapping("/cities/{cityName}/attractions")
+    public ResponseEntity<List<AttractionDto>> findAttractionsInCityWithName(@PathVariable String cityName) {
+        return ResponseEntity.ok(attractionService.findAttractionsInCityWithName(cityName));
     }
 
     @PostMapping("/attractions")

@@ -37,6 +37,14 @@ public class AttractionServiceImpl implements AttractionService{
     }
 
     @Override
+    public List<AttractionDto> findAttractionsInCityWithName(String cityName) {
+
+        City foundCity = cityRepository.findCityByNameIgnoreCase(cityName).orElseThrow(() -> new ResourceNotFoundException("This city with name " + cityName + " does not exist"));
+
+        return foundCity.getAttractions().stream().map(AttractionMapper::mapToAttractionDto).toList();
+    }
+
+    @Override
     @Transactional
     public AttractionDto createAnAttraction(AttractionDto attractionDto) {
 
