@@ -12,4 +12,6 @@ public interface SubcategoryService {
     List<SubcategoryDto> findAllSubcategory();
 
     SubcategoryDto findSubcategoryById(Long id);
+
+    List<SubcategoryDto> findSubcategoriesOfCategoryWithName(String categoryName);
 }

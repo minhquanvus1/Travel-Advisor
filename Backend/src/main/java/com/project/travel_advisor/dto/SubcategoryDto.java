@@ -9,9 +9,8 @@ public record SubcategoryDto(Long id,
 
                              String name,
 
-                             Long categoryId,
-                             List<Attraction> attractions,
-                             List<Tour> tours) {
+                             Long categoryId
+                             ) {
 
 
 }

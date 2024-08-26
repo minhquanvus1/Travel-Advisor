@@ -26,4 +26,9 @@ public class SubcategoryController {
     public ResponseEntity<SubcategoryDto> findSubcategoryById(@PathVariable Long id) {
         return ResponseEntity.ok(subcategoryService.findSubcategoryById(id));
     }
+
+    @GetMapping("/categories/{categoryName}/subcategories")
+    public ResponseEntity<List<SubcategoryDto>> findSubcategoriesOfCategoryWithName(@PathVariable String categoryName) {
+        return ResponseEntity.ok(subcategoryService.findSubcategoriesOfCategoryWithName(categoryName));
+    }
 }
