@@ -43,6 +43,22 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
+    public List<RestaurantDto> findRestaurantsInCityWithName(String cityName) {
+
+        City foundCity = cityRepository.findCityByNameIgnoreCase(cityName).orElseThrow(() -> new ResourceNotFoundException("This city with name " + cityName + " does not exist"));
+
+        return foundCity.getRestaurants().stream().map(RestaurantMapper::mapToRestaurantDto).toList();
+    }
+
+    @Override
+    public RestaurantDto findRestaurantByName(String restaurantName) {
+
+        Restaurant foundRestaurant = restaurantRepository.findRestaurantByNameIgnoreCase(restaurantName).orElseThrow(() -> new ResourceNotFoundException("This Restaurant with name " + restaurantName + " does not exist"));
+
+        return RestaurantMapper.mapToRestaurantDto(foundRestaurant);
+    }
+
+    @Override
     @Transactional
     public RestaurantDto createARestaurant(RestaurantDto restaurantDto) {
         Restaurant restaurant = RestaurantMapper.mapToRestaurant(restaurantDto);
@@ -54,7 +70,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         City foundCity = cityRepository.findById(restaurantDto.cityId()).orElseThrow(() -> new ResourceNotFoundException("This Restaurant belongs to a City with id " + restaurantDto.cityId() + " does not exist"));
         restaurant.setCity(foundCity);
         foundCity.getRestaurants().add(restaurant);
-        List<Cuisine> cuisines = restaurantDto.cuisineDtos().stream().map(CuisineMapper::mapToCuisine).toList();
+        List<Cuisine> cuisines = restaurantDto.cuisines().stream().map(CuisineMapper::mapToCuisine).toList();
         for (Cuisine cuisine : cuisines) {
             Optional<Cuisine> foundCuisine = cuisineRepository.findCuisineByNameIgnoreCase(cuisine.getName());
 

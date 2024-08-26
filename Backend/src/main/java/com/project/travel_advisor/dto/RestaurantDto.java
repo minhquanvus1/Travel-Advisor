@@ -27,6 +27,6 @@ public record RestaurantDto(
         BigDecimal rating,
 
         Address addressObj,
-        List<CuisineDto> cuisineDtos
+        List<CuisineDto> cuisines
 ) {
 }

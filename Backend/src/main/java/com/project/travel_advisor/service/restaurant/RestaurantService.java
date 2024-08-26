@@ -11,6 +11,10 @@ public interface RestaurantService {
 
     RestaurantDto findRestaurantById(Long id);
 
+    List<RestaurantDto> findRestaurantsInCityWithName(String cityName);
+
+    RestaurantDto findRestaurantByName(String restaurantName);
+
     RestaurantDto createARestaurant(RestaurantDto restaurantDto);
 
     void deleteRestaurantById(Long id);

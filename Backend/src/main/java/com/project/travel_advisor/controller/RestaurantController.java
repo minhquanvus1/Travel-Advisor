@@ -28,6 +28,16 @@ public class RestaurantController {
         return ResponseEntity.ok(restaurantService.findRestaurantById(id));
     }
 
+    @GetMapping("/cities/{cityName}/restaurants")
+    public ResponseEntity<List<RestaurantDto>> findRestaurantsInCityWithName(@PathVariable String cityName) {
+        return ResponseEntity.ok(restaurantService.findRestaurantsInCityWithName(cityName));
+    }
+
+    @GetMapping("/restaurants/search")
+    public ResponseEntity<RestaurantDto> findRestaurantByName(@RequestParam String restaurantName) {
+        return ResponseEntity.ok(restaurantService.findRestaurantByName(restaurantName));
+    }
+
     @PostMapping("/restaurants")
     public ResponseEntity<RestaurantDto> createARestaurant(@RequestBody RestaurantDto restaurantDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(restaurantService.createARestaurant(restaurantDto));
