@@ -11,6 +11,8 @@ public record AttractionDto(
 
         Long subcategoryId,
 
+        String subcategoryName,
+
         Long cityId,
 
         int numberOfReviews,
