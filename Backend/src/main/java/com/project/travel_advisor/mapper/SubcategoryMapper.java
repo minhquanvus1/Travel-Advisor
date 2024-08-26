@@ -9,9 +9,7 @@ public class SubcategoryMapper {
         return new SubcategoryDto(
                 subcategory.getId(),
                 subcategory.getName(),
-                subcategory.getCategory() != null ? subcategory.getCategory().getId() : null,
-                subcategory.getAttractions(),
-                subcategory.getTours()
+                subcategory.getCategory() != null ? subcategory.getCategory().getId() : null
         );
     }
 }
