@@ -1,5 +1,6 @@
 package com.project.travel_advisor.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
