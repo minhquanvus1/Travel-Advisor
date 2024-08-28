@@ -24,25 +24,23 @@ public class City {
 
     private String name;
 
-    @Column(columnDefinition="TEXT")
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     @Column(name = "image_url", columnDefinition = "TEXT")
     private String imageUrl;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "city", orphanRemoval = true)
-    @JsonManagedReference
     private List<Restaurant> restaurants;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "city", orphanRemoval = true)
-    @JsonManagedReference
     private List<Attraction> attractions;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "city", orphanRemoval = true)
-    @JsonManagedReference
     private List<Tour> tours;
 
-    @ManyToMany(mappedBy = "cities", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToMany(mappedBy = "cities", cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
+            CascadeType.REFRESH })
     private Set<Cuisine> cuisines = new HashSet<>();
 
     @OneToOne(mappedBy = "city", cascade = CascadeType.ALL, orphanRemoval = true)

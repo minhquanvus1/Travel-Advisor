@@ -1,7 +1,5 @@
 package com.project.travel_advisor.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -50,34 +48,27 @@ public class Tour {
 
     @ManyToOne
     @JoinColumn(name = "city_id")
-    @JsonBackReference
     private City city;
 
     @ManyToOne
     @JoinColumn(name = "subcategory_id")
-    @JsonBackReference
     private Subcategory subcategory;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tour", orphanRemoval = true)
-    @JsonManagedReference
     private List<Day> days = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tour", orphanRemoval = true)
-    @JsonManagedReference
     private List<Stop> stops = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tour", orphanRemoval = true)
-    @JsonManagedReference
     private List<Highlight> highlights = new ArrayList<>();
 
     @ManyToMany(mappedBy = "tours", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private Set<Language> languages = new HashSet<>();
 
     @OneToOne(mappedBy = "tour", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
     private TourDetail tourDetail;
 
     @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
     private List<TourImage> tourImages = new ArrayList<>();
 }

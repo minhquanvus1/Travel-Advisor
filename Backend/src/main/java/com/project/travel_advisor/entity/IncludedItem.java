@@ -1,6 +1,5 @@
 package com.project.travel_advisor.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,6 +21,5 @@ public class IncludedItem {
 
     @ManyToOne
     @JoinColumn(name = "tour_detail_id")
-    @JsonBackReference
     private TourDetail tourDetail;
 }

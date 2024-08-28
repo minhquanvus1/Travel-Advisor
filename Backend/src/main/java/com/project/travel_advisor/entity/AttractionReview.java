@@ -1,6 +1,5 @@
 package com.project.travel_advisor.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -32,11 +31,9 @@ public class AttractionReview {
 
     @ManyToOne
     @JoinColumn(name = "attraction_id")
-    @JsonBackReference
     private Attraction attraction;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonBackReference
     private User user;
 }
