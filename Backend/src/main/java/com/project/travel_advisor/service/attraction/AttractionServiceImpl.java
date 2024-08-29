@@ -7,6 +7,7 @@ import com.project.travel_advisor.entity.Subcategory;
 import com.project.travel_advisor.exception.BadRequestException;
 import com.project.travel_advisor.exception.ResourceNotFoundException;
 import com.project.travel_advisor.mapper.AttractionMapper;
+import com.project.travel_advisor.repository.AddressRepository;
 import com.project.travel_advisor.repository.AttractionRepository;
 import com.project.travel_advisor.repository.CityRepository;
 import com.project.travel_advisor.repository.SubcategoryRepository;
@@ -25,6 +26,8 @@ public class AttractionServiceImpl implements AttractionService{
     private final CityRepository cityRepository;
 
     private final SubcategoryRepository subcategoryRepository;
+
+    private final AddressRepository addressRepository;
 
     @Override
     public List<AttractionDto> findAllAttractions() {
@@ -58,6 +61,9 @@ public class AttractionServiceImpl implements AttractionService{
         attractionRepository.findByAttractionNameIgnoreCaseAndSubcategoryId(attractionDto.name(), attractionDto.subcategoryId()).ifPresent((foundAttraction) -> {throw new BadRequestException("This Attraction with name " + attractionDto.name() + " already exist in this Subcategory id " + attractionDto.subcategoryId());
         });
 
+        addressRepository.findAddressByAddressIgnoreCase(attractionDto.addressObj().getAddress()).ifPresent((foundAddress) -> {throw new BadRequestException("This Address " + attractionDto.addressObj().getAddress() + " already exists");
+        });
+
         Attraction attraction = AttractionMapper.mapToAttraction(attractionDto);
 
         attraction.setCity(foundCity);
@@ -72,6 +78,7 @@ public class AttractionServiceImpl implements AttractionService{
     }
 
     @Override
+    @Transactional
     public void deleteAttractionById(Long id) {
         Attraction foundAttraction = attractionRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("This Attraction with id " + id + " does not exist"));
 
