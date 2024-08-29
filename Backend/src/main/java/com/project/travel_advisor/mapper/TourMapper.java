@@ -7,6 +7,7 @@ import com.project.travel_advisor.entity.Stop;
 import com.project.travel_advisor.entity.Tour;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,7 +32,7 @@ public class TourMapper {
                 .days(tourRequestDto.days())
                 .stops(stopsList)
                 .highlights(tourRequestDto.highlights())
-                .languages(tourRequestDto.languages())
+                .languages(new HashSet<>())
                 .tourDetail(tourRequestDto.tourDetail())
                 .tourImages(tourRequestDto.tourImages())
                 .build();
