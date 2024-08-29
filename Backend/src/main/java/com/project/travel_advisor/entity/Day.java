@@ -1,6 +1,9 @@
 package com.project.travel_advisor.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -20,6 +23,8 @@ public class Day {
     private Long id;
 
     @Column(name = "day_number", nullable = false)
+    @NotNull(message = "Day Number must be provided")
+    @Min(value = 1, message = "Day Number must be >= 1")
     private int dayNumber;
 
     @ManyToOne
@@ -27,7 +32,7 @@ public class Day {
     private Tour tour;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "day")
-    private List<Stop> stops = new ArrayList<>();
+    private List<@Valid Stop> stops = new ArrayList<>();
 
     public void addStops(List<Stop> stops) {
         this.stops.addAll(stops);

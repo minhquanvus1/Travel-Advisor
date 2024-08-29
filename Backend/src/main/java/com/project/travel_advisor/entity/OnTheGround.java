@@ -2,6 +2,7 @@ package com.project.travel_advisor.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Entity
@@ -18,9 +19,11 @@ public class OnTheGround {
     private Long id;
 
     @Column(length = 2000)
+    @NotBlank(message = "Question of On the Ground must be provided")
     private String question;
 
     @Column(length = 2000)
+    @NotBlank(message = "Answer of On the Ground must be provided")
     private String answer;
 
     @ManyToOne

@@ -1,6 +1,7 @@
 package com.project.travel_advisor.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Entity
@@ -17,6 +18,7 @@ public class Highlight {
     private Long id;
 
     @Column(length = 2000)
+    @NotBlank(message = "Highlight Description must be provided")
     private String description;
 
     @ManyToOne

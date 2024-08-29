@@ -3,6 +3,7 @@ package com.project.travel_advisor.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class Cuisine {
                 '}';
     }
 
+    @NotBlank(message = "Cuisine Name must be provided")
     private String name;
 
     @Column(columnDefinition = "TEXT")
@@ -62,5 +64,12 @@ public class Cuisine {
             this.restaurants = new HashSet<>();
         }
         this.restaurants.add(restaurant);
+    }
+
+    public void addCity(City city) {
+        if (this.cities == null) {
+            this.cities = new HashSet<>();
+        }
+        this.cities.add(city);
     }
 }

@@ -1,6 +1,7 @@
 package com.project.travel_advisor.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Entity
@@ -16,6 +17,8 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
+    @NotBlank(message = "address string must be provided")
     private String address;
 
     private String ward;
@@ -32,6 +35,7 @@ public class Address {
                 ", postalCode='" + postalCode + '\'' +
                 '}';
     }
+
 
     private String district;
 

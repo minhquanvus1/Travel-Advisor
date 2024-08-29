@@ -3,6 +3,8 @@ package com.project.travel_advisor.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -22,12 +24,15 @@ public class TravelAdvice {
     private Long id;
 
     @Column(columnDefinition = "TEXT")
+    @NotBlank(message = "Visa advice must be provided")
     private String visa;
 
     @Column(name = "best_time_to_visit", columnDefinition = "TEXT")
+    @NotBlank(message = "Best Time to Visit advice must be provided")
     private String bestTimeToVisit;
 
     @Column(columnDefinition = "TEXT")
+    @NotBlank(message = "Tipping advice must be provided")
     private String tipping;
 
     @OneToOne
@@ -37,18 +42,18 @@ public class TravelAdvice {
 
     @OneToMany(mappedBy = "travelAdvice", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private List<GettingThere> gettingTheres = new ArrayList<>();
+    private List<@Valid GettingThere> gettingTheres = new ArrayList<>();
 
     @OneToMany(mappedBy = "travelAdvice", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private List<GettingAround> gettingArounds = new ArrayList<>();
+    private List<@Valid GettingAround> gettingArounds = new ArrayList<>();
 
     @OneToMany(mappedBy = "travelAdvice", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private List<OnTheGround> onTheGrounds = new ArrayList<>();
+    private List<@Valid OnTheGround> onTheGrounds = new ArrayList<>();
 
     @OneToMany(mappedBy = "travelAdvice", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private List<Custom> customs = new ArrayList<>();
+    private List<@Valid Custom> customs = new ArrayList<>();
 
 }
