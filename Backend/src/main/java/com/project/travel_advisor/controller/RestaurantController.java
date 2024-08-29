@@ -1,8 +1,8 @@
 package com.project.travel_advisor.controller;
 
 import com.project.travel_advisor.dto.RestaurantDto;
-import com.project.travel_advisor.entity.Restaurant;
 import com.project.travel_advisor.service.restaurant.RestaurantService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +39,7 @@ public class RestaurantController {
     }
 
     @PostMapping("/restaurants")
-    public ResponseEntity<RestaurantDto> createARestaurant(@RequestBody RestaurantDto restaurantDto) {
+    public ResponseEntity<RestaurantDto> createARestaurant(@Valid @RequestBody RestaurantDto restaurantDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(restaurantService.createARestaurant(restaurantDto));
     }
 

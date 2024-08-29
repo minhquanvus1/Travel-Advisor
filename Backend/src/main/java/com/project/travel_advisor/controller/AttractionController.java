@@ -2,6 +2,7 @@ package com.project.travel_advisor.controller;
 
 import com.project.travel_advisor.dto.AttractionDto;
 import com.project.travel_advisor.service.attraction.AttractionService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public class AttractionController {
     }
 
     @PostMapping("/attractions")
-    public ResponseEntity<AttractionDto> createAnAttraction(@RequestBody AttractionDto attractionDto) {
+    public ResponseEntity<AttractionDto> createAnAttraction(@Valid @RequestBody AttractionDto attractionDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(attractionService.createAnAttraction(attractionDto));
     }
 
