@@ -2,6 +2,7 @@ package com.project.travel_advisor.service.city;
 
 import com.project.travel_advisor.dto.CityDto;
 import com.project.travel_advisor.entity.City;
+import com.project.travel_advisor.entity.Cuisine;
 import com.project.travel_advisor.entity.TravelAdvice;
 import com.project.travel_advisor.exception.BadRequestException;
 import com.project.travel_advisor.exception.ResourceNotFoundException;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -39,7 +41,22 @@ public class CityServiceImpl implements CityService{
         City city = CityMapper.mapToCity(cityDto);
         System.out.println("City object is " + city.getCuisines());
         cityRepository.findCityByNameIgnoreCase(city.getName()).ifPresent((foundCity) -> {throw new BadRequestException("City with name " + city.getName() + " already exists");});
-        city.getCuisines().forEach(cuisine -> cuisine.getCities().add(city));
+        List<Cuisine> cuisines = cityDto.cuisines().stream().toList();
+        for (Cuisine cuisine : cuisines) {
+            Optional<Cuisine> foundCuisine = cuisineRepository.findCuisineByNameIgnoreCase(cuisine.getName());
+
+            if (foundCuisine.isPresent()) {
+                // Existing cuisine found - associate it with the restaurant
+                Cuisine existingCuisine = foundCuisine.get();
+                existingCuisine.addCity(city);
+                city.getCuisines().add(existingCuisine);  // Add existing cuisine to the restaurant
+            } else {
+                // New cuisine - add it to the restaurant and save it
+                cuisine.addCity(city);
+                city.getCuisines().add(cuisine);
+                cuisineRepository.save(cuisine);
+            }
+        }
         city.getTravelAdvice().setCity(city);
         TravelAdvice travelAdvice = city.getTravelAdvice();
         travelAdvice.getGettingTheres().forEach(i -> i.setTravelAdvice(travelAdvice));
@@ -65,11 +82,17 @@ public class CityServiceImpl implements CityService{
             }
         });
         foundCity.getCuisines().clear();
+
         TravelAdvice travelAdvice = foundCity.getTravelAdvice();
         travelAdvice.getGettingTheres().forEach(i -> i.setTravelAdvice(null));
         travelAdvice.getGettingArounds().forEach(i -> i.setTravelAdvice(null));
         travelAdvice.getOnTheGrounds().forEach(i -> i.setTravelAdvice(null));
         travelAdvice.getCustoms().forEach(i -> i.setTravelAdvice(null));
+        travelAdvice.getGettingTheres().clear();
+        travelAdvice.getGettingArounds().clear();
+        travelAdvice.getOnTheGrounds().clear();
+        travelAdvice.getCustoms().clear();
+
         travelAdvice.setCity(null);
         foundCity.setTravelAdvice(null);
         cityRepository.delete(foundCity);
