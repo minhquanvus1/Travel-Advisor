@@ -7,12 +7,15 @@ import com.project.travel_advisor.exception.BadRequestException;
 import com.project.travel_advisor.exception.ResourceNotFoundException;
 import com.project.travel_advisor.mapper.SubcategoryMapper;
 import com.project.travel_advisor.repository.CategoryRepository;
+import com.project.travel_advisor.repository.LanguageRepository;
 import com.project.travel_advisor.repository.SubcategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,13 +26,18 @@ public class SubcategoryServiceImpl implements SubcategoryService{
 
     private final CategoryRepository categoryRepository;
 
+    private final LanguageRepository languageRepository;
+
     @Override
-    public Subcategory createASubcategory(Subcategory subCategory) {
-        Optional<Subcategory> foundSubcategory = subcategoryRepository.findSubCategoryByName(subCategory.getName());
+    public SubcategoryDto createASubcategory(SubcategoryDto subcategoryDto) {
+        Optional<Subcategory> foundSubcategory = subcategoryRepository.findSubCategoryByNameIgnoreCase(subcategoryDto.name());
         if (foundSubcategory.isPresent()) {
-            throw new BadRequestException("This Subcategory " + subCategory.getName() + " already exists");
+            throw new BadRequestException("This Subcategory " + subcategoryDto.name() + " already exists");
         }
-        return subcategoryRepository.save(subCategory);
+        Category foundCategory = categoryRepository.findById(subcategoryDto.categoryId()).orElseThrow(() -> new ResourceNotFoundException("This Subcategory belongs to a Category with id " + subcategoryDto.categoryId() + " does not exist"));
+        Subcategory subcategory = SubcategoryMapper.mapToSubcategory(subcategoryDto);
+        foundCategory.addSubcategories(Set.of(subcategory));
+        return SubcategoryMapper.mapToSubcategoryDto(subcategoryRepository.save(subcategory));
     }
 
     @Override
@@ -43,7 +51,6 @@ public class SubcategoryServiceImpl implements SubcategoryService{
         return subcategories.stream()
                 .map(SubcategoryMapper::mapToSubcategoryDto)
                 .collect(Collectors.toList());
-//        return subcategoryRepository.findAll().stream().map(SubcategoryMapper::mapToSubcategoryDto).collect(Collectors.toList());
     }
 
     @Override
@@ -57,5 +64,23 @@ public class SubcategoryServiceImpl implements SubcategoryService{
         Category foundCategory = categoryRepository.findCategoryByNameIgnoreCase(categoryName).orElseThrow(() -> new ResourceNotFoundException("This Category with name " + categoryName + " does not exist"));
 
         return foundCategory.getSubcategories().stream().map(SubcategoryMapper::mapToSubcategoryDto).toList();
+    }
+
+    @Override
+    @Transactional
+    public void deleteSubcategoryById(Long id) {
+        Subcategory foundSubcategory = subcategoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("This Subcategory with id " + id + " does not exist"));
+        Category foundCategory = categoryRepository.findById(foundSubcategory.getCategory().getId()).get();
+
+        foundSubcategory.getAttractions().clear();
+
+        foundSubcategory.getTours().forEach(tour -> {tour.getLanguages().forEach(language -> {language.getTours().remove(tour); if(language.getTours().isEmpty()) {languageRepository.delete(language);}});
+        tour.getLanguages().clear();});
+        foundSubcategory.getTours().clear();
+
+        foundSubcategory.setCategory(null);
+        foundCategory.getSubcategories().remove(foundSubcategory);
+
+        subcategoryRepository.delete(foundSubcategory);
     }
 }
