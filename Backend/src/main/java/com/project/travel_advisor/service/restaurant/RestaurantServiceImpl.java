@@ -12,7 +12,6 @@ import com.project.travel_advisor.repository.AddressRepository;
 import com.project.travel_advisor.repository.CityRepository;
 import com.project.travel_advisor.repository.CuisineRepository;
 import com.project.travel_advisor.repository.RestaurantRepository;
-import com.project.travel_advisor.service.restaurant.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -63,9 +62,9 @@ public class RestaurantServiceImpl implements RestaurantService {
     public RestaurantDto createARestaurant(RestaurantDto restaurantDto) {
         Restaurant restaurant = RestaurantMapper.mapToRestaurant(restaurantDto);
         System.out.println("Restaurant converted is " + restaurant);
-        restaurantRepository.findRestaurantByNameIgnoreCase(restaurant.getName()).ifPresent((foundRestaurant) -> {throw new BadRequestException("This Restaurant with name " + restaurant.getName() + " already exist");
+        restaurantRepository.findRestaurantByNameIgnoreCase(restaurant.getName()).ifPresent((foundRestaurant) -> {throw new BadRequestException("This Restaurant with name " + restaurant.getName() + " already exists");
         });
-        addressRepository.findAddressByAddressIgnoreCase(restaurant.getAddress().getAddress()).ifPresent((foundAddress) -> {throw new BadRequestException("This Restaurant with Address " + restaurant.getAddress() + " already exist");
+        addressRepository.findAddressByAddressIgnoreCase(restaurant.getAddress().getAddress()).ifPresent((foundAddress) -> {throw new BadRequestException("This Address " + restaurant.getAddress().getAddress() + " already exists");
         });
         City foundCity = cityRepository.findById(restaurantDto.cityId()).orElseThrow(() -> new ResourceNotFoundException("This Restaurant belongs to a City with id " + restaurantDto.cityId() + " does not exist"));
         restaurant.setCity(foundCity);
