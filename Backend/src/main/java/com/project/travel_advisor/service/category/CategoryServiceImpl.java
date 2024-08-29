@@ -1,15 +1,18 @@
 package com.project.travel_advisor.service.category;
 
-import com.project.travel_advisor.dto.CategoryDto;
+import com.project.travel_advisor.dto.CategoryResponseDto;
+import com.project.travel_advisor.dto.CategoryRequestDto;
 import com.project.travel_advisor.entity.Category;
 import com.project.travel_advisor.entity.Subcategory;
 import com.project.travel_advisor.exception.BadRequestException;
 import com.project.travel_advisor.exception.ResourceNotFoundException;
 import com.project.travel_advisor.mapper.CategoryMapper;
 import com.project.travel_advisor.repository.CategoryRepository;
+import com.project.travel_advisor.repository.LanguageRepository;
 import com.project.travel_advisor.repository.SubcategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,59 +26,77 @@ public class CategoryServiceImpl implements CategoryService{
 
     private final SubcategoryRepository subcategoryRepository;
 
+    private final LanguageRepository languageRepository;
+
     @Override
-    public List<CategoryDto> getAllCategory() {
+    public List<CategoryResponseDto> getAllCategory() {
 
         return categoryRepository.findAll().stream().map(CategoryMapper::mapToCategoryDto).toList();
     }
 
     @Override
-    public CategoryDto getCategoryById(Long id) {
+    public CategoryResponseDto getCategoryById(Long id) {
         return categoryRepository.findById(id).map(CategoryMapper::mapToCategoryDto).orElseThrow(() -> new ResourceNotFoundException("This Category with id " + id + " does not exist"));
     }
 
     @Override
-    public Category createACategory(Category category) {
-        Optional<Category> foundCategory = categoryRepository.findCategoryByNameIgnoreCase(category.getName());
+    public CategoryResponseDto createACategory(CategoryRequestDto categoryRequestDto) {
+        Optional<Category> foundCategory = categoryRepository.findCategoryByNameIgnoreCase(categoryRequestDto.name());
         if (foundCategory.isPresent()) {
-            throw new BadRequestException("This Category " + category.getName() + " already exists");
+            throw new BadRequestException("This Category " + categoryRequestDto.name() + " already exists");
         }
+        Category category = CategoryMapper.mapToCategory(categoryRequestDto);
         // Set the category reference in each subcategory
-//        if (category.getSubcategories() != null) {
-//            category.getSubcategories().forEach(subcategory -> subcategory.setCategory(category));
-//        }
-        checkSubcategoriesList(category.getSubcategories());
-        category.addSubcategories(category.getSubcategories());
-        return categoryRepository.save(category);
+        if (categoryRequestDto.subcategories() != null) {
+            checkSubcategoriesList(categoryRequestDto.subcategories());
+            category.addSubcategories(categoryRequestDto.subcategories());
+        }
+
+        return CategoryMapper.mapToCategoryDto(categoryRepository.save(category));
     }
 
     @Override
+    @Transactional
     public void deleteACategory(Long categoryId) {
         Category foundCategory = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("This Category with id " + categoryId + " does not exist"));
+
+        for(Subcategory subcategory : foundCategory.getSubcategories()) {
+            subcategory.getTours().forEach(tour -> {tour.getLanguages().forEach(language -> {language.getTours().remove(tour); if(language.getTours().isEmpty()) {languageRepository.delete(language);}});
+                tour.getLanguages().clear();});
+        }
+
+        foundCategory.getSubcategories().clear();
         categoryRepository.delete(foundCategory);
     }
 
     @Override
+    @Transactional
     public void deleteAllCategory() {
-        categoryRepository.deleteAll();
+        List<Category> categoryList = categoryRepository.findAll();
+        for(Category category : categoryList) {
+            for(Subcategory subcategory : category.getSubcategories()) {
+                subcategory.getTours().forEach(tour -> {tour.getLanguages().forEach(language -> {language.getTours().remove(tour); if(language.getTours().isEmpty()) {languageRepository.delete(language);}});
+                    tour.getLanguages().clear();});
+            }
+            category.getSubcategories().clear();
+            categoryRepository.delete(category);
+        }
     }
 
     @Override
-    public Category updateACategory(Category category, Long id) {
+    public CategoryResponseDto updateACategory(CategoryRequestDto categoryRequestDto, Long id) {
         Category foundCategory = categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("This Category with id " + id + " does not exist"));
-        if (category.getName() == null || category.getName().isBlank()) {
-            throw new BadRequestException("Category name can not be null");
+
+        foundCategory.setName(categoryRequestDto.name());
+        if (categoryRequestDto.subcategories() != null) {
+            foundCategory.replaceSubcategories(categoryRequestDto.subcategories());
         }
-        foundCategory.setName(category.getName());
-        if (category.getSubcategories() != null) {
-            foundCategory.replaceSubcategories(category.getSubcategories());
-        }
-        return categoryRepository.save(foundCategory);
+        return CategoryMapper.mapToCategoryDto(categoryRepository.save(foundCategory));
     }
 
     public void checkSubcategoriesList(Set<Subcategory> subcategories) {
         for (Subcategory subcategory : subcategories) {
-            Optional<Subcategory> foundSubcategory = subcategoryRepository.findSubCategoryByName(subcategory.getName());
+            Optional<Subcategory> foundSubcategory = subcategoryRepository.findSubCategoryByNameIgnoreCase(subcategory.getName());
             if (foundSubcategory.isPresent()) {
                 throw new BadRequestException("This Subcategory " + subcategory.getName() + " already exists");
             }

@@ -1,22 +1,22 @@
 package com.project.travel_advisor.service.category;
 
-import com.project.travel_advisor.dto.CategoryDto;
-import com.project.travel_advisor.entity.Category;
+import com.project.travel_advisor.dto.CategoryResponseDto;
+import com.project.travel_advisor.dto.CategoryRequestDto;
 
 import java.util.List;
 
 public interface CategoryService {
 
-    List<CategoryDto> getAllCategory();
+    List<CategoryResponseDto> getAllCategory();
 
-    CategoryDto getCategoryById(Long id);
+    CategoryResponseDto getCategoryById(Long id);
 
-    Category createACategory(Category category);
+    CategoryResponseDto createACategory(CategoryRequestDto categoryRequestDto);
 
     void deleteACategory(Long categoryId);
 
     void deleteAllCategory();
 
-    Category updateACategory(Category category, Long id);
+    CategoryResponseDto updateACategory(CategoryRequestDto categoryRequestDto, Long id);
 
 }

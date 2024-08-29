@@ -1,8 +1,9 @@
 package com.project.travel_advisor.controller;
 
-import com.project.travel_advisor.dto.CategoryDto;
-import com.project.travel_advisor.entity.Category;
+import com.project.travel_advisor.dto.CategoryResponseDto;
+import com.project.travel_advisor.dto.CategoryRequestDto;
 import com.project.travel_advisor.service.category.CategoryService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,23 +20,23 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @GetMapping("/categories")
-    public ResponseEntity<List<CategoryDto>> getAllCategory() {
+    public ResponseEntity<List<CategoryResponseDto>> getAllCategory() {
         return ResponseEntity.ok(categoryService.getAllCategory());
     }
 
     @GetMapping("/categories/{id}")
-    public ResponseEntity<CategoryDto> getCategoryById(@PathVariable Long id) {
+    public ResponseEntity<CategoryResponseDto> getCategoryById(@PathVariable Long id) {
         return ResponseEntity.ok(categoryService.getCategoryById(id));
     }
 
     @PostMapping("/categories")
-    public ResponseEntity<Category> createACategory(@RequestBody Category category) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(categoryService.createACategory(category));
+    public ResponseEntity<CategoryResponseDto> createACategory(@Valid @RequestBody CategoryRequestDto categoryRequestDto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(categoryService.createACategory(categoryRequestDto));
     }
 
     @PutMapping("/categories/{id}")
-    public ResponseEntity<Category> updateACategory(@RequestBody Category category, @PathVariable Long id) {
-        return ResponseEntity.ok(categoryService.updateACategory(category, id));
+    public ResponseEntity<CategoryResponseDto> updateACategory(@Valid @RequestBody CategoryRequestDto categoryRequestDto, @PathVariable Long id) {
+        return ResponseEntity.ok(categoryService.updateACategory(categoryRequestDto, id));
     }
 
     @DeleteMapping("/categories/{id}")
