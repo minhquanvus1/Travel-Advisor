@@ -5,7 +5,6 @@ import com.project.travel_advisor.dto.TourResponseDto;
 import com.project.travel_advisor.entity.*;
 import com.project.travel_advisor.exception.BadRequestException;
 import com.project.travel_advisor.exception.ResourceNotFoundException;
-import com.project.travel_advisor.mapper.RestaurantMapper;
 import com.project.travel_advisor.mapper.TourMapper;
 import com.project.travel_advisor.repository.CityRepository;
 import com.project.travel_advisor.repository.LanguageRepository;
@@ -16,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -65,7 +65,22 @@ public class TourServiceImpl implements TourService{
 
         tour.getHighlights().forEach(highlight -> highlight.setTour(tour));
 
-        tour.getLanguages().forEach(language -> language.getTours().add(tour));
+        List<Language> languages = tourRequestDto.languages().stream().toList();
+        for (Language language : languages) {
+            Optional<Language> foundLanguage = languageRepository.findLanguageByNameIgnoreCase(language.getName());
+
+            if (foundLanguage.isPresent()) {
+                // Existing language found - associate it with the tour
+                Language existingLanguage = foundLanguage.get();
+                existingLanguage.getTours().add(tour);
+                tour.getLanguages().add(existingLanguage);  // Add existing language to the tour
+            } else {
+                // New language - add it to the tour and save it
+                language.getTours().add(tour);
+                tour.getLanguages().add(language);
+                languageRepository.save(language);
+            }
+        }
 
         tour.getStops().forEach(stop -> stop.setTour(tour));
 
@@ -140,17 +155,18 @@ public class TourServiceImpl implements TourService{
 
         DepartureAndReturn departureAndReturn = tourDetail.getDepartureAndReturn();
 
-        departureAndReturn.getStartDetail().setDepartureAndReturn(departureAndReturn);
-        departureAndReturn.getPickupDetail().setDepartureAndReturn(departureAndReturn);
-        departureAndReturn.getEndDetail().setDepartureAndReturn(departureAndReturn);
+        departureAndReturn.getStartDetail().setDepartureAndReturn(null);
+        departureAndReturn.getPickupDetail().setDepartureAndReturn(null);
+        departureAndReturn.getEndDetail().setDepartureAndReturn(null);
 
         departureAndReturn.setStartDetail(null);
         departureAndReturn.setPickupDetail(null);
         departureAndReturn.setEndDetail(null);
 
-
+        departureAndReturn.setTourDetail(null);
         tourDetail.setDepartureAndReturn(null);
         tourDetail.setTour(null);
+        tour.setTourDetail(null);
 
         // Finally, delete the tour
         tourRepository.delete(tour);
