@@ -2,6 +2,7 @@ package com.project.travel_advisor.dto;
 
 import com.project.travel_advisor.entity.Cuisine;
 import com.project.travel_advisor.entity.TravelAdvice;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 
 import java.util.List;
@@ -19,8 +20,9 @@ public record CityDto(
         @NotBlank(message = "city description is mandatory")
         String description,
 
-        Set<Cuisine> cuisines,
+        Set<@Valid Cuisine> cuisines,
 
+        @Valid
         TravelAdvice travelAdvice
 ) {
 }

@@ -24,9 +24,9 @@ public record TourRequestDto(
         @Min(value = 0, message = "number of reviews must be >= 0")
         int numberOfReviews,
 
-        List<TourImage> tourImages,
+        List<@Valid TourImage> tourImages,
 
-        Set<Language> languages,
+        Set<@Valid Language> languages,
 
         @Min(value = 0, message = "minAge must be >= 0")
         int minAge,
@@ -48,9 +48,9 @@ public record TourRequestDto(
         @DecimalMax(value = "5.0", message = "rating must be <= 5.0")
         BigDecimal rating,
 
-        List<Highlight> highlights,
+        List<@Valid Highlight> highlights,
 
-        List<Day> days,
+        List<@Valid Day> days,
 
         String description,
 
