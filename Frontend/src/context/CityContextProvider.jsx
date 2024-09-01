@@ -1,6 +1,8 @@
 import React, { useState, useEffect, createContext } from "react";
-import { cities } from "../assets/assets";
+// import { cities } from "../assets/assets";
 import { useLocation } from "react-router-dom";
+import { axiosInstance } from "../apis/axiosInstance";
+import { useAxios } from "../hooks/useAxios";
 export const CityContext = createContext(null);
 const CityContextProvider = ({ children }) => {
   const [cityState, setCityState] = useState(() => {
@@ -8,6 +10,12 @@ const CityContextProvider = ({ children }) => {
     return cityStateFromLocalStorage ? cityStateFromLocalStorage : "";
   });
   const location = useLocation();
+  const [cities] = useAxios({
+    axiosInstance: axiosInstance,
+    url: "/cities",
+    method: "GET",
+  });
+  console.log("city fetched from api is", cities);
   const checkAndSetCityState = (cityName) => {
     const isCityNameExist = cities.some(
       (city) => city.name.toLowerCase() === cityName.toLowerCase()
