@@ -5,10 +5,9 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
-@Table(name = "attraction_reviews")
+@Table(name = "attraction_reviews", uniqueConstraints = {@UniqueConstraint(name = "UniqueUserIdAndAttractionId", columnNames = {"user_id", "attraction_id"})})
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -22,8 +21,10 @@ public class AttractionReview {
 
     private String title;
 
+    @Column(columnDefinition = "TEXT")
     private String description;
 
+    @Column(precision = 2, scale = 1)
     private BigDecimal rating;
 
     @Column(name = "review_date")
