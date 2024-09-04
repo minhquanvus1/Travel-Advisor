@@ -36,6 +36,13 @@ public class CityServiceImpl implements CityService{
     }
 
     @Override
+    public CityDto findCityByName(String name) {
+        City foundCity = cityRepository.findCityByNameIgnoreCase(name).orElseThrow(() -> new ResourceNotFoundException("This City with nane " + name + " does not exist"));
+
+        return CityMapper.mapToCityDto(foundCity);
+    }
+
+    @Override
     @Transactional
     public CityDto createACity(CityDto cityDto) {
         City city = CityMapper.mapToCity(cityDto);

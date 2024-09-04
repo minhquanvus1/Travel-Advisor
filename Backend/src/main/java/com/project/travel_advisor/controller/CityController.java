@@ -28,6 +28,11 @@ public class CityController {
         return ResponseEntity.ok(cityService.findCityById(id));
     }
 
+    @GetMapping("/cities/search")
+    public ResponseEntity<CityDto> findCityByName(@RequestParam String name) {
+        return ResponseEntity.ok(cityService.findCityByName(name));
+    }
+
     @PostMapping("/cities")
     public ResponseEntity<CityDto> createACity(@Valid @RequestBody CityDto cityDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(cityService.createACity(cityDto));

@@ -11,6 +11,8 @@ public interface CityService {
 
     CityDto findCityById(Long id);
 
+    CityDto findCityByName(String name);
+
     CityDto createACity(CityDto cityDto);
 
     void deleteACityById(Long id);
