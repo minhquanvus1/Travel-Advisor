@@ -1,13 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./Cities.css";
 import CitiesHeader from "../../components/CitiesHeader/CitiesHeader";
-import {
-  cities,
-  attractions,
-  subCategory,
-  restaurants,
-} from "../../assets/assets";
+import { attractions, subCategory, restaurants } from "../../assets/assets";
 import CityCard from "../../components/CityCard/CityCard";
+import { CityContext } from "../../context/CityContextProvider";
 import ExpandableDescription from "../../components/ExpandableDescription/ExpandableDescription";
 import { Link } from "react-router-dom";
 import { replaceWhiteSpaceWithUnderScore } from "../../functions/replaceWhiteSpaceWithUnderScore";
@@ -15,6 +11,8 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import RatingStars from "../../components/RatingStars/RatingStars";
+import { axiosInstance } from "../../apis/axiosInstance";
+import { useAxios } from "../../hooks/useAxios";
 
 function SampleNextArrow(props) {
   const { currentSlide, slideCount, slidesToShow, className, onClick } = props;
@@ -63,6 +61,19 @@ function SamplePrevArrow(props) {
 const Cities = () => {
   //   const [isOpen, setIsOpen] = useState(false);
   //   const [showReadMoreButton, setShowReadMoreButton] = useState(false);
+  const { cities } = useContext(CityContext);
+
+  const [attractions, attractionsError, attractionsLoading] = useAxios({
+    axiosInstance: axiosInstance,
+    url: "/attractions",
+    method: "GET",
+  });
+
+  const [restaurants, restaurantsError, restaurantsLoading] = useAxios({
+    axiosInstance: axiosInstance,
+    url: "/restaurants",
+    method: "GET",
+  });
   console.log("cities are", cities);
   const text = `Vietnam's cities offer a harmonious blend of rich history, natural
           beauty, and vibrant urban life. In no short supply of cultural and
@@ -79,17 +90,17 @@ const Cities = () => {
   //     setShowReadMoreButton(text.length > 100);
   //   }, []);
 
-  const findSubCategory = (attraction) => {
-    const foundSubCategory = subCategory.find(
-      (subCategory) => subCategory.id === attraction.subCategoryId
-    );
-    console.log("foundSubCategory is", foundSubCategory);
-    return foundSubCategory;
-  };
-  const findCityById = (cityId) => {
-    const foundCity = cities.find((city) => city.id === cityId);
-    return foundCity;
-  };
+  // const findSubCategory = (attraction) => {
+  //   const foundSubCategory = subCategory.find(
+  //     (subCategory) => subCategory.id === attraction.subCategoryId
+  //   );
+  //   console.log("foundSubCategory is", foundSubCategory);
+  //   return foundSubCategory;
+  // };
+  // const findCityById = (cityId) => {
+  //   const foundCity = cities.find((city) => city.id === cityId);
+  //   return foundCity;
+  // };
   const settings = {
     dots: true,
     infinite: true,
@@ -130,6 +141,7 @@ const Cities = () => {
         )}
       </div> */}
       <div className="cities-list">
+        {cities.length <= 0 && "No cities found"}
         {cities.length > 0 &&
           cities.map((city, index) => {
             return (
@@ -159,56 +171,27 @@ const Cities = () => {
               {attractions.length > 0 && (
                 <Slider {...settings}>
                   {attractions.map((attraction, index) => {
-                    const foundCity = findCityById(attraction.cityId);
                     return (
                       <div key={attraction.id}>
                         <Link
                           to={`/cities/${replaceWhiteSpaceWithUnderScore(
-                            foundCity?.name
+                            attraction.cityName
                           )}/attractions/${replaceWhiteSpaceWithUnderScore(
-                            attraction.attractionName
+                            attraction.name
                           )}`}
                         >
                           <div className="small-card">
                             <div className="image-container">
                               <img
                                 src={attraction.imageUrl}
-                                alt={`${attraction.attractionName} image`}
+                                alt={`${attraction.name} image`}
                               />
                             </div>
                             <div className="card-contents">
                               <div className="card-title">
-                                {attraction.attractionName}
+                                {attraction.name}
                               </div>
                               <div className="card-rating-count">
-                                {/* <svg
-                                  viewBox="0 0 128 24"
-                                  width="68"
-                                  height="12"
-                                  aria-labelledby=":lithium-Rlokd979qilt5vlq:"
-                                >
-                                  <title id=":lithium-Rlokd979qilt5vlq:"></title>
-                                  <path
-                                    d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
-                                    transform=""
-                                  ></path>
-                                  <path
-                                    d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
-                                    transform="translate(26 0)"
-                                  ></path>
-                                  <path
-                                    d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
-                                    transform="translate(52 0)"
-                                  ></path>
-                                  <path
-                                    d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
-                                    transform="translate(78 0)"
-                                  ></path>
-                                  <path
-                                    d="M 12 0C5.389 0 0 5.389 0 12c0 6.62 5.389 12 12 12 6.62 0 12-5.379 12-12S18.621 0 12 0zm0 2a9.984 9.984 0 0110 10 9.976 9.976 0 01-10 10z"
-                                    transform="translate(104 0)"
-                                  ></path>
-                                </svg> */}
                                 <RatingStars
                                   rating={attraction.rating}
                                   width={68}
@@ -229,7 +212,7 @@ const Cities = () => {
                                   color: "#333",
                                 }}
                               >
-                                {findSubCategory(attraction).subCategoryName}
+                                {attraction.subcategoryName}
                               </div>
                               <div
                                 className="attraction-city"
@@ -239,7 +222,7 @@ const Cities = () => {
                                   color: "#333",
                                 }}
                               >
-                                {`${foundCity?.name}, Vietnam`}
+                                {`${attraction.cityName}, Vietnam`}
                               </div>
                             </div>
                           </div>
@@ -264,12 +247,11 @@ const Cities = () => {
               {restaurants.length > 0 && (
                 <Slider {...settings}>
                   {restaurants.map((restaurant, index) => {
-                    const foundCity = findCityById(restaurant.cityId);
                     return (
                       <div key={restaurant.id}>
                         <Link
                           to={`/cities/${replaceWhiteSpaceWithUnderScore(
-                            foundCity?.name
+                            restaurant.cityName
                           )}/restaurants/${replaceWhiteSpaceWithUnderScore(
                             restaurant.name
                           )}`}
@@ -286,34 +268,6 @@ const Cities = () => {
                                 {restaurant.name}
                               </div>
                               <div className="card-rating-count">
-                                {/* <svg
-                                  viewBox="0 0 128 24"
-                                  width="68"
-                                  height="12"
-                                  aria-labelledby=":lithium-Rlokd979qilt5vlq:"
-                                >
-                                  <title id=":lithium-Rlokd979qilt5vlq:"></title>
-                                  <path
-                                    d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
-                                    transform=""
-                                  ></path>
-                                  <path
-                                    d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
-                                    transform="translate(26 0)"
-                                  ></path>
-                                  <path
-                                    d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
-                                    transform="translate(52 0)"
-                                  ></path>
-                                  <path
-                                    d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
-                                    transform="translate(78 0)"
-                                  ></path>
-                                  <path
-                                    d="M 12 0C5.389 0 0 5.389 0 12c0 6.62 5.389 12 12 12 6.62 0 12-5.379 12-12S18.621 0 12 0zm0 2a9.984 9.984 0 0110 10 9.976 9.976 0 01-10 10z"
-                                    transform="translate(104 0)"
-                                  ></path>
-                                </svg> */}
                                 <RatingStars
                                   rating={restaurant.rating}
                                   width={68}
@@ -328,7 +282,7 @@ const Cities = () => {
                               </div>
                               <span className="cuisines-list">
                                 Cuisines: &nbsp;
-                                {restaurant.cuisines.length >= 3 &&
+                                {restaurant.cuisines.length > 0 &&
                                   restaurant.cuisines
                                     .slice(0, 3)
                                     .map((cuisine, index) => {
@@ -351,7 +305,7 @@ const Cities = () => {
                                   color: "#333",
                                 }}
                               >
-                                {`${foundCity?.name}, Vietnam`}
+                                {`${restaurant.cityName}, Vietnam`}
                               </div>
                             </div>
                           </div>
