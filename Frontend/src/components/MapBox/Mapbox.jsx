@@ -93,7 +93,7 @@ const Mapbox = ({ zoom = 8, stops }) => {
                       border: "1px solid #000",
                     }}
                   >
-                    {stop.stopName || stop.attractionName}
+                    {stop.name}
                   </div>
                 </Popup>
               )}

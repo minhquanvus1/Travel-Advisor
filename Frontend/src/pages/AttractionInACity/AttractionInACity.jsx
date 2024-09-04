@@ -12,11 +12,27 @@ import { replaceWhiteSpaceWithUnderScore } from "../../functions/replaceWhiteSpa
 import ExpandableDescription from "../../components/ExpandableDescription/ExpandableDescription";
 import Mapbox from "../../components/MapBox/Mapbox";
 import RatingStars from "../../components/RatingStars/RatingStars";
+import { axiosInstance } from "../../apis/axiosInstance";
+import { useAxios } from "../../hooks/useAxios";
 
 const AttractionInACity = () => {
   const [attraction, setAttraction] = useState(null);
   const { cityName, attractionName } = useParams();
 
+  const [attractionsData, attractionsDataError, attractionsDataLoading] =
+    useAxios({
+      axiosInstance: axiosInstance,
+      url: `/cities/${replaceUnderScoreWithWhiteSpace(cityName)}/attractions`,
+      method: "GET",
+    });
+  const [restaurantsData, restaurantsDataError, restaurantsDataLoading] =
+    useAxios({
+      axiosInstance: axiosInstance,
+      url: `/cities/${replaceUnderScoreWithWhiteSpace(cityName)}/restaurants`,
+      method: "GET",
+    });
+  console.log("restaurants fetched from api is", restaurantsData);
+  console.log("attractions fetched from api is", attractionsData);
   const findAllAttractionsInThisCity = () => {
     const currentCity = cities.find(
       (city) => city.name === replaceUnderScoreWithWhiteSpace(cityName)
@@ -30,14 +46,37 @@ const AttractionInACity = () => {
     );
     return allAttractionsInCurrentCity;
   };
-  const findAttraction = () => {
-    const allAttractionsInCurrentCity = findAllAttractionsInThisCity();
-    if (allAttractionsInCurrentCity.length <= 0) {
+  const findCurrentAttraction = () => {
+    if (attractionsData.length <= 0) {
       console.log(`this city ${cityName} does not have any attractions`);
       return;
     }
 
-    const currentAttraction = allAttractionsInCurrentCity.find(
+    const currentAttraction = attractionsData.find(
+      (attraction) =>
+        attraction.name === replaceUnderScoreWithWhiteSpace(attractionName)
+    );
+    if (!currentAttraction) {
+      console.log(
+        `this currentAttraction ${attractionName} does not exist in this city ${cityName}`
+      );
+      return;
+    }
+    console.log("currentAttraction is", currentAttraction);
+    return currentAttraction;
+  };
+  console.log("currentAttractionData is ", findCurrentAttraction());
+  const findAttraction = () => {
+    const allAttractionsInCurrentCity = findAllAttractionsInThisCity();
+    if (
+      !allAttractionsInCurrentCity ||
+      allAttractionsInCurrentCity.length <= 0
+    ) {
+      console.log(`this city ${cityName} does not have any attractions`);
+      return;
+    }
+
+    const currentAttraction = allAttractionsInCurrentCity?.find(
       (attraction) =>
         attraction.attractionName ===
         replaceUnderScoreWithWhiteSpace(attractionName)
@@ -58,7 +97,7 @@ const AttractionInACity = () => {
     );
     console.log("foundCity in restaurants is", foundCity);
     const allRestaurantsInThisCity = restaurants.filter(
-      (restaurant) => restaurant.cityId === foundCity.id
+      (restaurant) => restaurant.cityId === foundCity?.id
     );
     // if (allRestaurantsInThisCity.length === 0) {
     //   console.log("this city has no restaurants");
@@ -70,9 +109,10 @@ const AttractionInACity = () => {
   const allRestaurantsInThisCity = findRestaurantsInThisCity();
   const allAttractionsInThisCity = findAllAttractionsInThisCity();
   useEffect(() => {
-    const currentAttraction = findAttraction();
+    const currentAttraction = findCurrentAttraction();
     setAttraction(currentAttraction);
-  }, [cityName, attractionName]);
+    console.log("currentAttraction inside useeffect is", currentAttraction);
+  }, [cityName, attractionName, attractionsData]);
   const findSubCategory = (attraction) => {
     const foundSubCategory = subCategory.find(
       (subCategory) => subCategory.id === attraction.subCategoryId
@@ -83,6 +123,8 @@ const AttractionInACity = () => {
 
   return (
     <div className="attraction-section">
+      {attractionsDataError && "No attractions found"}
+      {attractionsDataLoading && "Loading..."}
       {!attraction && (
         <h1>
           This {cityName} does not have this attraction {attractionName}
@@ -91,7 +133,7 @@ const AttractionInACity = () => {
       {attraction && (
         <>
           <div className="attraction-header">
-            <h1 className="attraction-title">{attraction.attractionName}</h1>
+            <h1 className="attraction-title">{attraction.name}</h1>
             <div className="icons-container">
               <div className="icon-wrapper">
                 <svg viewBox="0 0 24 24" width="20px" height="20px">
@@ -127,7 +169,7 @@ const AttractionInACity = () => {
                 </span>
               </div>
               <div className="attraction-subcategory">
-                {findSubCategory(attraction).subCategoryName}
+                {attraction.subcategoryName}
               </div>
             </div>
             <div className="attraction-details-container">
@@ -154,7 +196,7 @@ const AttractionInACity = () => {
               <div className="image-container">
                 <img
                   src={attraction.imageUrl}
-                  alt={`${attraction.attractionName} image`}
+                  alt={`${attraction.name} image`}
                 />
               </div>
             </div>
@@ -232,12 +274,14 @@ const AttractionInACity = () => {
                       fontWeight: "400",
                       color: "#000",
                     }}
-                  >{`${allRestaurantsInThisCity.length.toLocaleString(
+                  >{`${restaurantsData.length.toLocaleString(
                     "en-US"
                   )} within ${replaceUnderScoreWithWhiteSpace(cityName)}`}</div>
                   <div className="area-small-card-list">
-                    {allRestaurantsInThisCity.length > 0 &&
-                      allRestaurantsInThisCity.slice(0, 3).map((restaurant) => (
+                    {restaurantsDataError && "No restaurants found"}
+                    {restaurantsDataLoading && "Loading..."}
+                    {restaurantsData.length > 0 &&
+                      restaurantsData.slice(0, 3).map((restaurant) => (
                         <div key={restaurant.id}>
                           <Link
                             to={`/cities/${cityName}/restaurants/${replaceWhiteSpaceWithUnderScore(
@@ -256,35 +300,6 @@ const AttractionInACity = () => {
                                   {restaurant.name}
                                 </div>
                                 <div className="card-rating-count">
-                                  {/* <svg
-                                    viewBox="0 0 128 24"
-                                    width="68"
-                                    height="12"
-                                    aria-labelledby=":lithium-Rlokd979qilt5vlq:"
-                                    className="rating-stars"
-                                  >
-                                    <title id=":lithium-Rlokd979qilt5vlq:"></title>
-                                    <path
-                                      d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
-                                      transform=""
-                                    ></path>
-                                    <path
-                                      d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
-                                      transform="translate(26 0)"
-                                    ></path>
-                                    <path
-                                      d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
-                                      transform="translate(52 0)"
-                                    ></path>
-                                    <path
-                                      d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
-                                      transform="translate(78 0)"
-                                    ></path>
-                                    <path
-                                      d="M 12 0C5.389 0 0 5.389 0 12c0 6.62 5.389 12 12 12 6.62 0 12-5.379 12-12S18.621 0 12 0zm0 2a9.984 9.984 0 0110 10 9.976 9.976 0 01-10 10z"
-                                      transform="translate(104 0)"
-                                    ></path>
-                                  </svg> */}
                                   <RatingStars
                                     rating={restaurant.rating}
                                     width={68}
@@ -299,7 +314,7 @@ const AttractionInACity = () => {
                                 </div>
                                 <span className="cuisines-list">
                                   Cuisines: &nbsp;
-                                  {restaurant.cuisines.length >= 3 &&
+                                  {restaurant.cuisines.length > 0 &&
                                     restaurant.cuisines
                                       .slice(0, 3)
                                       .map((cuisine, index) => {
@@ -339,62 +354,33 @@ const AttractionInACity = () => {
                       fontWeight: "400",
                       color: "#000",
                     }}
-                  >{`${allAttractionsInThisCity.length.toLocaleString(
+                  >{`${attractionsData.length.toLocaleString(
                     "en-US"
                   )} within ${replaceUnderScoreWithWhiteSpace(cityName)}`}</div>
                   <div className="area-small-card-list">
-                    {allAttractionsInThisCity.length > 0 &&
-                      allAttractionsInThisCity
+                    {attractionsData.length > 0 &&
+                      attractionsData
                         .filter((item) => item.id !== attraction.id)
                         .slice(0, 3)
                         .map((attraction) => (
                           <div key={attraction.id}>
                             <Link
                               to={`/cities/${cityName}/attractions/${replaceWhiteSpaceWithUnderScore(
-                                attraction.attractionName
+                                attraction.name
                               )}`}
                             >
                               <div className="area-small-card">
                                 <div className="area-small-card-image-container">
                                   <img
                                     src={attraction.imageUrl}
-                                    alt={attraction.attractionName}
+                                    alt={attraction.name}
                                   />
                                 </div>
                                 <div className="area-small-card-contents">
                                   <div className="area-small-card-title">
-                                    {attraction.attractionName}
+                                    {attraction.name}
                                   </div>
                                   <div className="card-rating-count">
-                                    {/* <svg
-                                      viewBox="0 0 128 24"
-                                      width="68"
-                                      height="12"
-                                      aria-labelledby=":lithium-Rlokd979qilt5vlq:"
-                                      className="rating-stars"
-                                    >
-                                      <title id=":lithium-Rlokd979qilt5vlq:"></title>
-                                      <path
-                                        d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
-                                        transform=""
-                                      ></path>
-                                      <path
-                                        d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
-                                        transform="translate(26 0)"
-                                      ></path>
-                                      <path
-                                        d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
-                                        transform="translate(52 0)"
-                                      ></path>
-                                      <path
-                                        d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
-                                        transform="translate(78 0)"
-                                      ></path>
-                                      <path
-                                        d="M 12 0C5.389 0 0 5.389 0 12c0 6.62 5.389 12 12 12 6.62 0 12-5.379 12-12S18.621 0 12 0zm0 2a9.984 9.984 0 0110 10 9.976 9.976 0 01-10 10z"
-                                        transform="translate(104 0)"
-                                      ></path>
-                                    </svg> */}
                                     <RatingStars
                                       rating={attraction.rating}
                                       width={68}
@@ -411,10 +397,7 @@ const AttractionInACity = () => {
                                     className="attraction-subcategory"
                                     style={{ fontSize: "14px" }}
                                   >
-                                    {
-                                      findSubCategory(attraction)
-                                        .subCategoryName
-                                    }
+                                    {attraction.subcategoryName}
                                   </div>
                                   {/* <span className="cuisines-list">
                                     Cuisines: &nbsp;
