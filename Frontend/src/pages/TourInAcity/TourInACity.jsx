@@ -3,67 +3,85 @@ import "./TourInACity.css";
 import ExpandableDescription from "../../components/ExpandableDescription/ExpandableDescription";
 import { Link, useParams } from "react-router-dom";
 import Mapbox from "../../components/MapBox/Mapbox";
-import { stops as allStops, tours, attractions } from "../../assets/assets";
 import { replaceWhiteSpaceWithUnderScore } from "../../functions/replaceWhiteSpaceWithUnderScore";
+import { axiosInstance } from "../../apis/axiosInstance";
+import { useAxios } from "../../hooks/useAxios";
+import { replaceUnderScoreWithWhiteSpace } from "../../functions/replaceUnderScoreWithWhiteSpace";
+import RatingStars from "../../components/RatingStars/RatingStars";
 const TourInACity = () => {
   const [toggleAccordion, setToggleAccordion] = useState("");
-  const [tour, setTour] = useState(null);
   const [stops, setStops] = useState([]);
   const { cityName, tourName } = useParams();
   console.log("tourName is", tourName);
   const cityState = localStorage.getItem("cityState");
   console.log("cityState in tourInACity is", cityState);
 
-  const findTourByName = () => {
-    const foundTour = tours.find(
-      (tour) => replaceWhiteSpaceWithUnderScore(tour.tourName) === tourName
-    );
-    if (!foundTour) {
-      console.log(`This ${tourName} does not exist`);
-      return;
-    }
-    console.log("foundTour is", foundTour);
-    return foundTour;
-  };
-  const findAllStopsOfThisTour = (foundTour) => {
-    const foundStops = allStops.filter((stop) => stop.tourId === foundTour?.id);
-    const stopsArray = foundStops.map((foundStop) => {
-      const matchingAttraction = attractions.find(
-        (attraction) =>
-          attraction.attractionName.trim().toLowerCase() ===
-          foundStop.stopName.trim().toLowerCase()
-      );
-      if (matchingAttraction) {
-        return {
-          ...foundStop,
-          isAttraction: true,
-          imageUrl: matchingAttraction.imageUrl,
-          attractionName: matchingAttraction.attractionName,
-          numberOfReviews: matchingAttraction.numberOfReviews,
-        };
-      }
-      return foundStop;
-    });
-    console.log("stops in function are", stopsArray);
-    return stopsArray;
-  };
+  const [tour, error, loading] = useAxios({
+    axiosInstance: axiosInstance,
+    url: `/tours/search?tourName=${replaceUnderScoreWithWhiteSpace(
+      tourName
+    )}&cityName=${replaceUnderScoreWithWhiteSpace(cityName)}`,
+    method: "GET",
+  });
+  console.log("tour fetched from api is ", tour);
   useEffect(() => {
-    const foundTour = findTourByName();
-    if (foundTour) {
-      const stopsArray = findAllStopsOfThisTour(foundTour);
-      setTour(foundTour);
-      setStops(stopsArray);
+    if (!Array.isArray(tour) && tour) {
+      const allStops = tour.days.flatMap((day) => day.stops);
+      setStops(allStops);
     }
-  }, [tours, allStops]);
-  console.log("stops in city are", stops);
+  }, [tour]);
+
+  // const findTourByName = () => {
+  //   const foundTour = tours.find(
+  //     (tour) => replaceWhiteSpaceWithUnderScore(tour.tourName) === tourName
+  //   );
+  //   if (!foundTour) {
+  //     console.log(`This ${tourName} does not exist`);
+  //     return;
+  //   }
+  //   console.log("foundTour is", foundTour);
+  //   return foundTour;
+  // };
+  // const findAllStopsOfThisTour = (foundTour) => {
+  //   const foundStops = allStops.filter((stop) => stop.tourId === foundTour?.id);
+  //   const stopsArray = foundStops.map((foundStop) => {
+  //     const matchingAttraction = attractions.find(
+  //       (attraction) =>
+  //         attraction.attractionName.trim().toLowerCase() ===
+  //         foundStop.stopName.trim().toLowerCase()
+  //     );
+  //     if (matchingAttraction) {
+  //       return {
+  //         ...foundStop,
+  //         isAttraction: true,
+  //         imageUrl: matchingAttraction.imageUrl,
+  //         attractionName: matchingAttraction.attractionName,
+  //         numberOfReviews: matchingAttraction.numberOfReviews,
+  //       };
+  //     }
+  //     return foundStop;
+  //   });
+  //   console.log("stops in function are", stopsArray);
+  //   return stopsArray;
+  // };
+  // useEffect(() => {
+  //   const foundTour = findTourByName();
+  //   if (foundTour) {
+  //     const stopsArray = findAllStopsOfThisTour(foundTour);
+  //     setTour(foundTour);
+  //     setStops(stopsArray);
+  //   }
+  // }, [tours, allStops]);
+  // console.log("stops in city are", stops);
   return (
     <div className="tour-section">
-      {!tour && `This ${tourName} does not exist`}
-      {tour && (
+      {loading && "Loading..."}
+      {error && `This ${tourName} does not exist`}
+      {!Array.isArray(tour) && tour && (
         <>
           <div className="tour-header-container">
             <div className="tour-title-container">
-              <h1 className="tour-title">{tour.tourName}</h1>
+              <h1 className="tour-title">{tour.name}</h1>
               <div className="icons-container">
                 <div className="icon-wrapper">
                   <svg viewBox="0 0 24 24" width="20px" height="20px">
@@ -87,35 +105,12 @@ const TourInACity = () => {
             </div>
             <div className="number-of-reviews-and-subcategory">
               <div className="number-of-reviews-container">
-                <svg
-                  viewBox="0 0 128 24"
-                  width="88"
-                  height="16"
-                  aria-labelledby=":lithium-r2s:"
-                  className="rating-stars"
-                >
-                  <title id=":lithium-r2s:"></title>
-                  <path
-                    d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
-                    transform=""
-                  ></path>
-                  <path
-                    d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
-                    transform="translate(26 0)"
-                  ></path>
-                  <path
-                    d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
-                    transform="translate(52 0)"
-                  ></path>
-                  <path
-                    d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
-                    transform="translate(78 0)"
-                  ></path>
-                  <path
-                    d="M 12 0C5.389 0 0 5.389 0 12c0 6.62 5.389 12 12 12 6.62 0 12-5.379 12-12S18.621 0 12 0zm0 2a9.984 9.984 0 0110 10 9.976 9.976 0 01-10 10z"
-                    transform="translate(104 0)"
-                  ></path>
-                </svg>
+                <RatingStars
+                  rating={tour.rating}
+                  width={88}
+                  height={16}
+                ></RatingStars>
+
                 <span className="number-of-reviews">
                   {tour.numberOfReviews.toLocaleString("en-US")} reviews
                 </span>
@@ -127,7 +122,7 @@ const TourInACity = () => {
               <div className="tour-image-left">
                 <img
                   src={tour.imageObject.primaryImage.imageUrl}
-                  alt={`${tour.tourName} image left`}
+                  alt={`${tour.name} image left`}
                 />
               </div>
               {tour.imageObject.images.length > 0 &&
@@ -136,14 +131,14 @@ const TourInACity = () => {
                     <div key={index} className="tour-image-top-right">
                       <img
                         src={image.imageUrl}
-                        alt={`${tour.tourName} image top right`}
+                        alt={`${tour.name} image top right`}
                       />
                     </div>
                   ) : (
                     <div key={index} className="tour-image-bottom-right">
                       <img
                         src={image.imageUrl}
-                        alt={`${tour.tourName} image bottom right`}
+                        alt={`${tour.name} image bottom right`}
                       />
                     </div>
                   );
@@ -158,8 +153,9 @@ const TourInACity = () => {
                 ></ExpandableDescription>
               </div>
               <div className="price-container">
-                from <span className="price-value">${tour.price}</span> per
-                adult (price varies by group size)
+                from{" "}
+                <span className="price-value">${tour.price.toFixed(2)}</span>{" "}
+                per adult (price varies by group size)
               </div>
               <div className="booking-benefits-container">
                 <span className="benefit-icon">
@@ -265,9 +261,7 @@ const TourInACity = () => {
                   </svg>
                   <span className="live-guide-details">
                     Live guide:{" "}
-                    {tour.languages
-                      .map((language) => language.languageName)
-                      .join(", ")}
+                    {tour.languages.map((language) => language.name).join(", ")}
                   </span>
                 </div>
               </div>
@@ -278,9 +272,7 @@ const TourInACity = () => {
                   {tour.highlights.length > 0 &&
                     tour.highlights.map((highlight) => {
                       return (
-                        <li key={highlight.highlightID}>
-                          {highlight.highlightText}
-                        </li>
+                        <li key={highlight.id}>{highlight.description}</li>
                       );
                     })}
                   <li>
@@ -309,16 +301,16 @@ const TourInACity = () => {
                   <div className="answer">
                     <div className="answer-wrapper">
                       <ul>
-                        {tour.tourDetails.included.length > 0 &&
-                          tour.tourDetails.included.map((item, index) => {
+                        {tour.tourDetail.included.length > 0 &&
+                          tour.tourDetail.included.map((item, index) => {
                             return <li key={index}>{item}</li>;
                           })}
                       </ul>
                       <div className="not-included">
                         <span>What's not included</span>
                         <ul>
-                          {tour.tourDetails.notIncluded.length > 0 &&
-                            tour.tourDetails.notIncluded.map((item, index) => {
+                          {tour.tourDetail.notIncluded.length > 0 &&
+                            tour.tourDetail.notIncluded.map((item, index) => {
                               return <li key={index}>{item}</li>;
                             })}
                         </ul>
@@ -345,8 +337,8 @@ const TourInACity = () => {
                   <div className="answer">
                     <div className="answer-wrapper">
                       <span className="expect">
-                        {tour.tourDetails.whatToExpect &&
-                          tour.tourDetails.whatToExpect}
+                        {tour.tourDetail.whatToExpect &&
+                          tour.tourDetail.whatToExpect}
                       </span>
                     </div>
                   </div>
@@ -374,7 +366,7 @@ const TourInACity = () => {
                         <span className="bullet-point">Start: </span>
                         <span>
                           {
-                            tour.tourDetails.departureAndReturn.start
+                            tour.tourDetail.departureAndReturn.startDetail
                               .description
                           }
                         </span>
@@ -384,7 +376,10 @@ const TourInACity = () => {
                           <path d="M11.277 20.26l.53-.532-.53.532zm.035.035l.537-.524-.008-.008-.53.532zM12 21l-.537.524.529.542.537-.534L12 21zm.688-.684l.529.532.002-.002-.53-.53zm.303-8.458l-.287-.693.287.693zm-1.98-4.783l-.288-.693.287.693zM12 2.25c-4.262 0-7.75 3.46-7.75 7.707h1.5c0-3.41 2.808-6.207 6.25-6.207v-1.5zM4.25 9.957c0 2.269 1.128 4.455 2.452 6.292 1.335 1.85 2.947 3.45 4.047 4.543l1.057-1.064c-1.108-1.1-2.634-2.62-3.887-4.356-1.262-1.75-2.169-3.62-2.169-5.415h-1.5zm6.499 10.835l.034.035 1.058-1.064-.035-.035-1.057 1.064zm.026.026l.688.706 1.074-1.048-.688-.705-1.074 1.047zm1.754.714l.688-.684-1.058-1.064-.688.684 1.058 1.064zm.69-.686c1.096-1.098 2.717-2.706 4.06-4.566 1.333-1.846 2.471-4.043 2.471-6.323h-1.5c0 1.806-.916 3.685-2.187 5.445-1.262 1.747-2.797 3.275-3.905 4.384l1.06 1.06zm6.531-10.89c0-4.246-3.488-7.706-7.75-7.706v1.5c3.442 0 6.25 2.797 6.25 6.207h1.5zm-6.051-1.193a1.838 1.838 0 01-.995 2.402l.574 1.386a3.338 3.338 0 001.807-4.362l-1.386.574zm-.995 2.402a1.838 1.838 0 01-2.402-.995l-1.386.574a3.338 3.338 0 004.362 1.807l-.574-1.386zm-2.402-.995a1.838 1.838 0 01.995-2.402l-.574-1.386a3.338 3.338 0 00-1.807 4.362l1.386-.574zm.995-2.402a1.838 1.838 0 012.402.995l1.386-.574a3.338 3.338 0 00-4.362-1.807l.574 1.386z"></path>
                         </svg>
                         <span className="bullet-point">
-                          {tour.tourDetails.departureAndReturn.start.address}
+                          {
+                            tour.tourDetail.departureAndReturn.startDetail
+                              .address
+                          }
                         </span>
                       </div>
                       <div className="departure-item">
@@ -400,13 +395,13 @@ const TourInACity = () => {
                           <div className="bullet-point">Pickup details</div>
                           <div className="pickup-details-description">
                             {
-                              tour.tourDetails.departureAndReturn.pickupDetails
+                              tour.tourDetail.departureAndReturn.pickupDetail
                                 .description
                             }
                           </div>
                         </div>
                       </div>
-                      {tour.tourDetails.departureAndReturn.pickupDetails
+                      {tour.tourDetail.departureAndReturn.pickupDetail
                         .hotelPickupOffered && (
                         <div className="departure-item">
                           <svg viewBox="0 0 24 24" width="20px" height="20px">
@@ -422,8 +417,8 @@ const TourInACity = () => {
                             </div>
                             <div className="pickup-details-description">
                               {
-                                tour.tourDetails.departureAndReturn
-                                  .pickupDetails.hotelPickupNote
+                                tour.tourDetail.departureAndReturn.pickupDetail
+                                  .hotelPickupNote
                               }
                             </div>
                           </div>
@@ -433,7 +428,10 @@ const TourInACity = () => {
                       <div className="departure-item">
                         <span className="bullet-point">End: </span>
                         <span>
-                          {tour.tourDetails.departureAndReturn.end.description}
+                          {
+                            tour.tourDetail.departureAndReturn.endDetail
+                              .description
+                          }
                         </span>
                       </div>
                     </div>
@@ -458,8 +456,8 @@ const TourInACity = () => {
                   <div className="answer">
                     <div className="answer-wrapper">
                       <ul>
-                        {tour.tourDetails.accessibility.length > 0 &&
-                          tour.tourDetails.accessibility.map((item, index) => {
+                        {tour.tourDetail.accessibility.length > 0 &&
+                          tour.tourDetail.accessibility.map((item, index) => {
                             return <li key={index}>{item}</li>;
                           })}
                       </ul>
@@ -493,7 +491,7 @@ const TourInACity = () => {
                   </div>
                   <div className="answer">
                     <div className="answer-wrapper">
-                      <ul>
+                      {/* <ul>
                         <li>
                           Confirmation will be received at time of booking
                         </li>
@@ -510,6 +508,14 @@ const TourInACity = () => {
                         <li>
                           This tour/activity will have a maximum of 25 travelers
                         </li>
+                      </ul> */}
+                      <ul>
+                        {tour.tourDetail.additionalInformation.length > 0 &&
+                          tour.tourDetail.additionalInformation.map(
+                            (item, index) => {
+                              return <li key={index}>{item}</li>;
+                            }
+                          )}
                       </ul>
                     </div>
                   </div>
@@ -610,7 +616,7 @@ const TourInACity = () => {
                         You'll start at
                       </div>
                       <div className="itinerary-details-description">
-                        {tour.tourDetails.departureAndReturn.start.address}
+                        {tour.tourDetail.departureAndReturn.startDetail.address}
                       </div>
                       <div className="itinerary-details-description">
                         Or, you can also get picked up
@@ -642,38 +648,14 @@ const TourInACity = () => {
                             </div>
                             <div className="itinerary-details attraction">
                               <div className="itinerary-details-title">
-                                {stop.stopName}
+                                {stop.name}
                               </div>
                               <div className="number-of-reviews-container">
-                                <svg
-                                  viewBox="0 0 128 24"
-                                  width="88"
-                                  height="16"
-                                  aria-labelledby=":lithium-r2s:"
-                                  className="rating-stars"
-                                >
-                                  <title id=":lithium-r2s:"></title>
-                                  <path
-                                    d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
-                                    transform=""
-                                  ></path>
-                                  <path
-                                    d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
-                                    transform="translate(26 0)"
-                                  ></path>
-                                  <path
-                                    d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
-                                    transform="translate(52 0)"
-                                  ></path>
-                                  <path
-                                    d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
-                                    transform="translate(78 0)"
-                                  ></path>
-                                  <path
-                                    d="M 12 0C5.389 0 0 5.389 0 12c0 6.62 5.389 12 12 12 6.62 0 12-5.379 12-12S18.621 0 12 0zm0 2a9.984 9.984 0 0110 10 9.976 9.976 0 01-10 10z"
-                                    transform="translate(104 0)"
-                                  ></path>
-                                </svg>
+                                <RatingStars
+                                  rating={stop.rating}
+                                  width={88}
+                                  height={16}
+                                ></RatingStars>
                                 <span className="number-of-reviews">
                                   {stop.numberOfReviews.toLocaleString("en-US")}{" "}
                                   reviews
@@ -682,7 +664,7 @@ const TourInACity = () => {
                               <div className="itinerary-attraction-image-container">
                                 <img
                                   src={stop.imageUrl}
-                                  alt={`${stop.stopName} image`}
+                                  alt={`${stop.name} image`}
                                 />
                               </div>
                               <div className="itinerary-details-description">
@@ -713,7 +695,7 @@ const TourInACity = () => {
                           </div>
                           <div className="itinerary-details">
                             <div className="itinerary-details-title">
-                              {stop.stopName}
+                              {stop.name}
                             </div>
                             <div className="itinerary-details-description">
                               <ExpandableDescription
