@@ -20,6 +20,9 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import RatingStars from "../../components/RatingStars/RatingStars";
+import { axiosInstance } from "../../apis/axiosInstance";
+import { useAxios } from "../../hooks/useAxios";
+import { useAxiosFunction } from "../../hooks/useAxiosFunction";
 
 function SampleNextArrow(props) {
   const { currentSlide, slideCount, slidesToShow, className, onClick } = props;
@@ -72,6 +75,67 @@ const ThingsToDoInACity = () => {
   const [attractionReviewsList, setAttractionReviewsList] = useState([]);
   const [openReportReviewModal, setOpenReportReviewModal] = useState(null);
   const tourDisplayListRef = useRef();
+  const [
+    tourSubcategoryData,
+    tourSubcategoryError,
+    tourSubcategoryLoading,
+    axiosFetch,
+  ] = useAxiosFunction();
+
+  const [attractionsData, attractionsError, attractionsLoading] = useAxios({
+    axiosInstance: axiosInstance,
+    url: `/cities/${replaceUnderScoreWithWhiteSpace(cityName)}/attractions`,
+    method: "GET",
+  });
+
+  const [toursData, toursError, toursLoading] = useAxios({
+    axiosInstance: axiosInstance,
+    url: `/cities/${replaceUnderScoreWithWhiteSpace(cityName)}/tours`,
+    method: "GET",
+  });
+  const tourCategoryName = toursData[0]?.categoryName;
+  console.log("tourCategoryName is ", tourCategoryName);
+
+  useEffect(() => {
+    if (tourCategoryName) {
+      axiosFetch({
+        axiosInstance: axiosInstance,
+        url: `/categories/${tourCategoryName}/subcategories`,
+        method: "GET",
+      });
+      window.scrollTo(0, 0);
+    }
+  }, [tourCategoryName]);
+
+  console.log("tourSubcategoryData is", tourSubcategoryData);
+
+  const [
+    attractionReviewsData,
+    attractionReviewsError,
+    attractionReviewsLoading,
+  ] = useAxios({
+    axiosInstance: axiosInstance,
+    url: "/attraction-reviews",
+    method: "GET",
+  });
+
+  // Format the reviewDate directly in the render
+  const formattedReviews = attractionReviewsData.map((review) => {
+    const dateObject = new Date(review.reviewDate);
+    const formattedDate = new Intl.DateTimeFormat("en-US", {
+      year: "numeric",
+      day: "2-digit",
+      month: "long",
+    }).format(dateObject);
+
+    return { ...review, reviewDate: formattedDate };
+  });
+  console.log("formattedReviews are", formattedReviews);
+  console.log("attractionsData is ", attractionsData);
+  console.log("toursData is ", toursData);
+  const extractedAttractionNames = attractionsData
+    .map((attraction) => attraction.name)
+    .slice(0, 4);
   const findAttractionsInThisCity = () => {
     if (!cityName) return;
     const foundCity = cities.find(
@@ -79,7 +143,7 @@ const ThingsToDoInACity = () => {
     );
     console.log("foundCity in thingstodoinacity is", foundCity);
     const allAttractionsInThisCity = attractions.filter(
-      (attraction) => attraction.cityId === foundCity.id
+      (attraction) => attraction.cityId === foundCity?.id
     );
     if (allAttractionsInThisCity.length === 0) {
       console.log("this city has no attractions");
@@ -114,33 +178,6 @@ const ThingsToDoInACity = () => {
     console.log("tourSubCategoryList is", tourSubCategoryList);
     return tourSubCategoryList;
   };
-  // const showNext = () => {
-  //   if (tourDisplayListRef.current) {
-  //     tourDisplayListRef.current.scrollBy({
-  //       left: 300, // Adjust this value as needed
-  //       behavior: "smooth",
-  //     });
-  //     updateArrows();
-  //   }
-  // };
-
-  // const updateArrows = () => {
-  //   const maxScrollLeft =
-  //     tourDisplayListRef.current.scrollWidth -
-  //     tourDisplayListRef.current.clientWidth;
-  //   document.querySelector(".left-arrow").style.display =
-  //     tourDisplayListRef.current.scrollLeft > 0 ? "block" : "none";
-  //   document.querySelector(".right-arrow").style.display =
-  //     tourDisplayListRef.current.scrollLeft < maxScrollLeft ? "block" : "none";
-  // };
-
-  // useEffect(() => {
-  //   updateArrows();
-  //   tourDisplayListRef.current.addEventListener("scroll", updateArrows);
-  //   return () => {
-  //     tourDisplayListRef.current.removeEventListener("scroll", updateArrows);
-  //   };
-  // }, []);
 
   const findAttractionById = (id) => {
     const attractionObj = attractions.find((item) => item.id === id);
@@ -178,26 +215,28 @@ const ThingsToDoInACity = () => {
   return (
     <div className="things-to-do-in-a-city-section">
       <div className="things-to-do-in-a-city">
-        <ThingsToDoInACityHeader></ThingsToDoInACityHeader>
+        <ThingsToDoInACityHeader
+          attractionNames={extractedAttractionNames}
+        ></ThingsToDoInACityHeader>
         <hr />
         <div className="top-attractions-section">
           <div className="top-attractions-title-container">
             <h2 className="top-attractions-title">
-              Top Attractions in Ho Chi Minh City
+              Top Attractions in {replaceUnderScoreWithWhiteSpace(cityName)}
             </h2>
             <Link to="/" className="attractions-link">
               See all
             </Link>
           </div>
+          {attractionsLoading && "Loading..."}
+          {attractionsError && "No Attractions found in this City"}
           <div className="top-attractions-list">
-            {!allAttractionsInThisCity &&
-              `City ${cityState} has no attractions`}
-            {allAttractionsInThisCity &&
-              allAttractionsInThisCity.map((attraction, index) => {
+            {attractionsData.length > 0 &&
+              attractionsData.map((attraction, index) => {
                 return (
                   <Link
                     to={`/cities/${cityName}/attractions/${replaceWhiteSpaceWithUnderScore(
-                      attraction.attractionName
+                      attraction.name
                     )}`}
                     key={attraction.id}
                   >
@@ -213,132 +252,90 @@ const ThingsToDoInACity = () => {
             See all
           </Link>
         </div>
-        <hr />
+        {tourSubcategoryData.length > 0 && toursData.length > 0 && <hr />}
         <ul className="tour-display-section">
-          {findTourSubCategory().map((subCategory) => {
-            const filteredTours = findAllToursInThisCity().filter(
-              (tour) => tour.subCategoryId === subCategory.id
-            );
-            console.log("filteredTours are", filteredTours);
-            return (
-              <li key={subCategory.id}>
-                <div>
-                  <div className="tour-display-container">
-                    <div className="tour-display-title-container">
-                      <div className="tour-display-title">
-                        {subCategory.subCategoryName}
+          {tourSubcategoryLoading && "Loading..."}
+          {tourSubcategoryError && "No Tour Subcategory found in this city"}
+          {toursLoading && "Loading..."}
+          {toursError && "No Tours found in this city"}
+          {tourSubcategoryData.length > 0 &&
+            toursData.length > 0 &&
+            tourSubcategoryData.map((subCategory) => {
+              const filteredTours = toursData.filter(
+                (tour) => tour.subcategoryId === subCategory.id
+              );
+              console.log("filteredTours are", filteredTours);
+              return (
+                <li key={subCategory.id}>
+                  <div>
+                    <div className="tour-display-container">
+                      <div className="tour-display-title-container">
+                        <div className="tour-display-title">
+                          {subCategory.name}
+                        </div>
+                        <Link
+                          to={`/cities/${cityName}/tours/${replaceWhiteSpaceWithUnderScore(
+                            subCategory.name
+                          )}`}
+                        >
+                          See all
+                        </Link>
                       </div>
-                      <Link
-                        to={`/cities/${cityName}/tours/${replaceWhiteSpaceWithUnderScore(
-                          subCategory.subCategoryName
-                        )}`}
-                      >
-                        See all
-                      </Link>
-                    </div>
-                    <div className="tour-display-list-slider">
-                      {/* <button className="left-arrow" onClick={showNext}>
-                        <svg viewBox="0 0 24 24" width="24px" height="24px">
-                          <path
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M10.736 20.792l-8.58-8.581 8.58-8.58 1.06 1.06-6.77 6.77h16.08v1.5H5.026l6.77 6.77-1.06 1.06z"
-                          ></path>
-                        </svg>
-                      </button> */}
-                      <div
-                        className="tour-display-list"
-                        ref={tourDisplayListRef}
-                      >
-                        {filteredTours.map((tour) => (
-                          <Link
-                            to={`/cities/${replaceWhiteSpaceWithUnderScore(
-                              cityName
-                            )}/tours/${replaceWhiteSpaceWithUnderScore(
-                              tour.tourName
-                            )}`}
-                            className="city-link"
-                            key={tour.id}
-                            // style={{ maxWidth: "30%" }}
-                          >
-                            <div className="small-card">
-                              <div className="image-container">
-                                <img
-                                  src={tour.imageObject.primaryImage.imageUrl}
-                                  alt={`${tour.tourName} image`}
-                                />
-                              </div>
-                              <div className="card-contents">
-                                <div className="card-title">
-                                  {tour.tourName}
+                      <div className="tour-display-list-slider">
+                        <div
+                          className="tour-display-list"
+                          ref={tourDisplayListRef}
+                        >
+                          {filteredTours.map((tour) => (
+                            <Link
+                              to={`/cities/${replaceWhiteSpaceWithUnderScore(
+                                cityName
+                              )}/tours/${replaceWhiteSpaceWithUnderScore(
+                                tour.name
+                              )}`}
+                              className="city-link"
+                              key={tour.id}
+                              // style={{ maxWidth: "30%" }}
+                            >
+                              <div className="small-card">
+                                <div className="image-container">
+                                  <img
+                                    src={tour.imageObject.primaryImage.imageUrl}
+                                    alt={`${tour.name} image`}
+                                  />
                                 </div>
-                                <div className="card-rating-count">
-                                  {/* <svg
-                                    viewBox="0 0 128 24"
-                                    width="68"
-                                    height="12"
-                                    aria-labelledby=":lithium-Rlokd979qilt5vlq:"
+                                <div className="card-contents">
+                                  <div className="card-title">{tour.name}</div>
+                                  <div className="card-rating-count">
+                                    <RatingStars
+                                      rating={tour.rating}
+                                      width={68}
+                                      height={12}
+                                    ></RatingStars>
+                                    <span>
+                                      {tour.numberOfReviews.toLocaleString(
+                                        "en-US"
+                                      )}
+                                    </span>
+                                  </div>
+                                  <div
+                                    className="attraction-subcategory"
+                                    style={{ fontSize: "14px" }}
                                   >
-                                    <title id=":lithium-Rlokd979qilt5vlq:"></title>
-                                    <path
-                                      d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
-                                      transform=""
-                                    ></path>
-                                    <path
-                                      d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
-                                      transform="translate(26 0)"
-                                    ></path>
-                                    <path
-                                      d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
-                                      transform="translate(52 0)"
-                                    ></path>
-                                    <path
-                                      d="M 12 0C5.388 0 0 5.388 0 12s5.388 12 12 12 12-5.38 12-12c0-6.612-5.38-12-12-12z"
-                                      transform="translate(78 0)"
-                                    ></path>
-                                    <path
-                                      d="M 12 0C5.389 0 0 5.389 0 12c0 6.62 5.389 12 12 12 6.62 0 12-5.379 12-12S18.621 0 12 0zm0 2a9.984 9.984 0 0110 10 9.976 9.976 0 01-10 10z"
-                                      transform="translate(104 0)"
-                                    ></path>
-                                  </svg> */}
-                                  <RatingStars
-                                    rating={tour.rating}
-                                    width={68}
-                                    height={12}
-                                  ></RatingStars>
-                                  <span>
-                                    {tour.numberOfReviews.toLocaleString(
-                                      "en-US"
-                                    )}
-                                  </span>
-                                </div>
-                                <div
-                                  className="attraction-subcategory"
-                                  style={{ fontSize: "14px" }}
-                                >
-                                  {subCategory.subCategoryName}
+                                    {subCategory.name}
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          </Link>
-                        ))}
+                            </Link>
+                          ))}
+                        </div>
                       </div>
-                      {/* <button className="right-arrow" onClick={showNext}>
-                        <svg viewBox="0 0 24 24" width="24px" height="24px">
-                          <path
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M12.631 3.632l8.578 8.577-8.58 8.58-1.062-1.06 6.77-6.77-16.075.004v-1.5l16.076-.004-6.767-6.767 1.06-1.06z"
-                          ></path>
-                        </svg>
-                      </button> */}
                     </div>
                   </div>
-                </div>
-                <hr />
-              </li>
-            );
-          })}
+                  <hr />
+                </li>
+              );
+            })}
         </ul>
         <hr />
         <div className="user-review-section">
@@ -346,26 +343,29 @@ const ThingsToDoInACity = () => {
             <div>
               <h2 className="title">What travelers are saying</h2>
             </div>
+            {attractionReviewsLoading && "Loading..."}
+            {attractionReviewsError ||
+              (formattedReviews.length <= 0 && "No reviews found")}
             <div className="user-review-list">
               <Slider {...settings}>
-                {attractionReviewsList.length > 0 &&
-                  attractionReviewsList.slice(0, 12).map((review) => {
+                {formattedReviews.length > 0 &&
+                  formattedReviews.slice(0, 12).map((review) => {
                     return (
                       <div className="user-review-card" key={review.id}>
                         <div className="user-info">
                           <div className="user-info-details-container">
                             <div className="user-info-image-container">
                               <img
-                                src={review.userObj.imageUrl}
-                                alt={`${review.userObj.name} image`}
+                                src={review.user.imageUrl}
+                                alt={`${review.user.name} image`}
                               />
                             </div>
                             <div className="user-info-details">
                               <div className="user-info-name">
-                                {review.userObj.name}
+                                {review.user.firstName}
                               </div>
                               <div className="user-info-country">
-                                {`${review.userObj.city}, ${review.userObj.country}`}
+                                {`${review.user.city}, ${review.user.country}`}
                               </div>
                             </div>
                           </div>
@@ -428,7 +428,7 @@ const ThingsToDoInACity = () => {
                         </div>
                         <div className="user-review-description">
                           <ExpandableDescription
-                            text={review.reviewDescription}
+                            text={review.description}
                             lineClamp={7}
                           ></ExpandableDescription>
                         </div>

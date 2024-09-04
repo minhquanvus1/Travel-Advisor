@@ -14,16 +14,13 @@ const TravelDestinationBigCard = ({ attraction, index }) => {
   return (
     <div className="travel-destination-big-card">
       <div className="travel-destination-big-card-image-container">
-        <img
-          src={attraction.imageUrl}
-          alt={`${attraction.attractionName} image`}
-        />
+        <img src={attraction.imageUrl} alt={`${attraction.name} image`} />
       </div>
       <div className="travel-destination-big-card-contents">
         <div className="travel-destination-big-card-header-container">
           <div className="travel-destination-big-card-header">
             <div className="header-title">
-              {index + 1}. {attraction.attractionName}
+              {index + 1}. {attraction.name}
             </div>
             <div className="header-rating">
               <RatingStars
@@ -38,7 +35,7 @@ const TravelDestinationBigCard = ({ attraction, index }) => {
             </div>
           </div>
           <div className="travel-destination-big-card-category">
-            {findSubCategory(attraction).subCategoryName}
+            {attraction.subcategoryName}
           </div>
         </div>
         <div className="travel-destination-big-card-description-container">

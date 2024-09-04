@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import "./ThingsToDoInACityHeader.css";
 import { CityContext } from "../../context/CityContextProvider";
 
-const ThingsToDoInACityHeader = () => {
+const ThingsToDoInACityHeader = ({ attractionNames }) => {
   const { cityState } = useContext(CityContext);
   return (
     <div className="things-to-do-in-a-city-header">
@@ -19,9 +19,9 @@ const ThingsToDoInACityHeader = () => {
           Things to Do in {cityState}
         </h1>
         <div className="things-to-do-in-a-city-content-right-description">
-          Explore must-see sights and activities: War Remnants Museum, Cu Chi
-          Tunnels, Art Galleries, Shopping Malls. For tailored recommendations,
-          try our AI trip-planning service.
+          Explore must-see sights and activities
+          {attractionNames.length > 0 && <>: {attractionNames.join(", ")}</>}.
+          For tailored recommendations, try our AI trip-planning service.
         </div>
       </div>
     </div>

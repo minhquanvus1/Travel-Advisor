@@ -7,7 +7,7 @@
     flex-direction: column;
     gap: 8px;
     background: #fff;
-    position: relative;
+    position: relative;min-height: 100%;
 }
 .travel-destination-big-card-image-container {max-height: 40%;}
 .travel-destination-big-card-image-container img {
