@@ -1,5 +1,6 @@
 package com.project.travel_advisor.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -29,6 +30,7 @@ public class Day {
 
     @ManyToOne
     @JoinColumn(name = "tour_id")
+    @JsonIgnore
     private Tour tour;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "day")

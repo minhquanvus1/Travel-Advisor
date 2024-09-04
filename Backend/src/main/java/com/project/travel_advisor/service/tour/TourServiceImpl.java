@@ -29,14 +29,16 @@ public class TourServiceImpl implements TourService{
 
     private final LanguageRepository languageRepository;
 
+    private final TourMapper tourMapper;
+
     @Override
     public List<TourResponseDto> findAllTour() {
-        return tourRepository.findAll().stream().map(TourMapper::mapToTourResponseDto).toList();
+        return tourRepository.findAll().stream().map(tourMapper::mapToTourResponseDto).toList();
     }
 
     @Override
     public TourResponseDto findById(Long id) {
-        return tourRepository.findById(id).map(TourMapper::mapToTourResponseDto).orElseThrow(() -> new ResourceNotFoundException("This Tour with id " + id + " does not exist"));
+        return tourRepository.findById(id).map(tourMapper::mapToTourResponseDto).orElseThrow(() -> new ResourceNotFoundException("This Tour with id " + id + " does not exist"));
     }
 
     @Override
@@ -44,7 +46,15 @@ public class TourServiceImpl implements TourService{
 
         City foundCity = cityRepository.findCityByNameIgnoreCase(cityName).orElseThrow(() -> new ResourceNotFoundException("This city with name " + cityName + " does not exist"));
 
-        return foundCity.getTours().stream().map(TourMapper::mapToTourResponseDto).toList();
+        return foundCity.getTours().stream().map(tourMapper::mapToTourResponseDto).toList();
+    }
+
+    @Override
+    public TourResponseDto findTourByTourNameAndCityName(String tourName, String cityName) {
+
+        Tour tour = tourRepository.findTourByTourNameAndCityNameIgnoreCase(tourName, cityName).orElseThrow(() -> new ResourceNotFoundException("This Tour with name " + tourName + " does not exist in City with name " + cityName));
+
+        return tourMapper.mapToTourResponseDto(tour);
     }
 
     @Override
@@ -54,7 +64,7 @@ public class TourServiceImpl implements TourService{
         City foundCity = cityRepository.findById(tourRequestDto.cityId()).orElseThrow(() -> new BadRequestException("This Tour belonging to the cityId " + tourRequestDto.cityId() + " that does not exist"));
         Subcategory foundSubcategory = subcategoryRepository.findById(tourRequestDto.subcategoryId()).orElseThrow(() -> new BadRequestException("This Tour belonging to the subcategoryId " + tourRequestDto.subcategoryId() + " that does not exist"));
 
-        Tour tour = TourMapper.mapToTour(tourRequestDto);
+        Tour tour = tourMapper.mapToTour(tourRequestDto);
         tour.setCity(foundCity);
         foundCity.getTours().add(tour);
 
@@ -104,7 +114,7 @@ public class TourServiceImpl implements TourService{
 
         Tour savedTour = tourRepository.save(tour);
 
-        return TourMapper.mapToTourResponseDto(savedTour);
+        return tourMapper.mapToTourResponseDto(savedTour);
     }
 
     @Override

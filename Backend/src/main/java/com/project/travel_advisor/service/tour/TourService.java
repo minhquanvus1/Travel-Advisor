@@ -12,6 +12,8 @@ public interface TourService {
     TourResponseDto findById(Long id);
 
     List<TourResponseDto> findToursInCityWithName(String cityName);
+    
+    TourResponseDto findTourByTourNameAndCityName(String tourName, String cityName);
 
     TourResponseDto createATour(TourRequestDto tourRequestDto);
 

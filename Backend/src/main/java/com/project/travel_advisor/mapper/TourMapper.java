@@ -5,15 +5,21 @@ import com.project.travel_advisor.dto.TourResponseDto;
 import com.project.travel_advisor.entity.Day;
 import com.project.travel_advisor.entity.Stop;
 import com.project.travel_advisor.entity.Tour;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
+@RequiredArgsConstructor
 public class TourMapper {
 
-    public static Tour mapToTour(TourRequestDto tourRequestDto) {
+    private final DayMapper dayMapper;
+
+    public Tour mapToTour(TourRequestDto tourRequestDto) {
         List<Stop> stopsList = new ArrayList<>();
         for (Day day : tourRequestDto.days()) {
             stopsList.addAll(day.getStops());
@@ -38,12 +44,16 @@ public class TourMapper {
                 .build();
     }
 
-    public static TourResponseDto mapToTourResponseDto(Tour tour) {
+    public TourResponseDto mapToTourResponseDto(Tour tour) {
         return new TourResponseDto(
                 tour.getId(),
                 tour.getName(),
                 tour.getCity().getId(),
+                tour.getCity().getName(),
+                tour.getSubcategory().getCategory().getId(),
+                tour.getSubcategory().getCategory().getName(),
                 tour.getSubcategory().getId(),
+                tour.getSubcategory().getName(),
                 tour.getNumberOfReviews(),
                 TourImageMapper.mapToTourImageObjectDto(tour.getTourImages()),
                 tour.getLanguages().stream().map(LanguageMapper::mapToLanguageDto).collect(Collectors.toSet()),
@@ -54,6 +64,7 @@ public class TourMapper {
                 tour.getPrice(),
                 tour.getRating(),
                 tour.getHighlights().stream().map(HighlightMapper::mapToHighlightDto).toList(),
+                tour.getDays().stream().map(dayMapper::mapToDayDto).toList(),
                 tour.getDescription(),
                 TourDetailMapper.mapToTourDetailDto(tour.getTourDetail())
         );

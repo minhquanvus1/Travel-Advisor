@@ -34,6 +34,11 @@ public class TourController {
         return ResponseEntity.ok(tourService.findToursInCityWithName(cityName));
     }
 
+    @GetMapping("/tours/search")
+    public ResponseEntity<TourResponseDto> findTourByTourNameAndCityName(@RequestParam String tourName, @RequestParam String cityName) {
+        return ResponseEntity.ok(tourService.findTourByTourNameAndCityName(tourName, cityName));
+    }
+
     @PostMapping("/tours")
     public ResponseEntity<TourResponseDto> createATour(@Valid @RequestBody TourRequestDto tourRequestDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(tourService.createATour(tourRequestDto));

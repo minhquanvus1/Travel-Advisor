@@ -1,8 +1,5 @@
 package com.project.travel_advisor.dto;
 
-import com.project.travel_advisor.entity.Highlight;
-import com.project.travel_advisor.entity.Language;
-
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
@@ -14,7 +11,15 @@ public record TourResponseDto(
 
         Long cityId,
 
+        String cityName,
+
+        Long categoryId,
+
+        String categoryName,
+
         Long subcategoryId,
+
+        String subcategoryName,
 
         int numberOfReviews,
 
@@ -35,6 +40,8 @@ public record TourResponseDto(
         BigDecimal rating,
 
         List<HighlightDto> highlights,
+
+        List<DayDto> days,
 
         String description,
 
