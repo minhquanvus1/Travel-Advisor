@@ -5,7 +5,6 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -44,6 +43,7 @@ public class Restaurant {
     @Column(name = "number_of_reviews")
     private int numberOfReviews;
 
+    @Column(precision = 2, scale = 1)
     private BigDecimal rating;
 
     @Override

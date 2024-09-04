@@ -58,6 +58,14 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
+    public RestaurantDto findRestaurantByRestaurantNameAndCityName(String restaurantName, String cityName) {
+
+        Restaurant foundRestaurant = restaurantRepository.findRestaurantByRestaurantNameAndCityNameIgnoreCase(restaurantName, cityName).orElseThrow(() -> new ResourceNotFoundException("This Restaurant with name " + restaurantName + " does not exist in City with name " + cityName));
+
+        return RestaurantMapper.mapToRestaurantDto(foundRestaurant);
+    }
+
+    @Override
     @Transactional
     public RestaurantDto createARestaurant(RestaurantDto restaurantDto) {
         Restaurant restaurant = RestaurantMapper.mapToRestaurant(restaurantDto);

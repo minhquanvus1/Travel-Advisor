@@ -15,6 +15,8 @@ public interface RestaurantService {
 
     RestaurantDto findRestaurantByName(String restaurantName);
 
+    RestaurantDto findRestaurantByRestaurantNameAndCityName(String restaurantName, String cityName);
+
     RestaurantDto createARestaurant(RestaurantDto restaurantDto);
 
     void deleteRestaurantById(Long id);

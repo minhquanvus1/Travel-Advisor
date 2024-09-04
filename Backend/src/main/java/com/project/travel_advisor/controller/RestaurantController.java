@@ -34,8 +34,13 @@ public class RestaurantController {
     }
 
     @GetMapping("/restaurants/search")
-    public ResponseEntity<RestaurantDto> findRestaurantByName(@RequestParam String restaurantName) {
+    public ResponseEntity<RestaurantDto> findRestaurantByName(@RequestParam("name") String restaurantName) {
         return ResponseEntity.ok(restaurantService.findRestaurantByName(restaurantName));
+    }
+
+    @GetMapping("/restaurants/search/findRestaurantByRestaurantNameAndCityName")
+    public ResponseEntity<RestaurantDto> findRestaurantByRestaurantNameAndCityName(@RequestParam String restaurantName, @RequestParam String cityName) {
+        return ResponseEntity.ok(restaurantService.findRestaurantByRestaurantNameAndCityName(restaurantName, cityName));
     }
 
     @PostMapping("/restaurants")

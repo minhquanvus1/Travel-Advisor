@@ -34,6 +34,7 @@ public class RestaurantMapper {
         return new RestaurantDto(
                 restaurant.getId(),
                 restaurant.getCity() != null ? restaurant.getCity().getId() : null,
+                restaurant.getCity() != null ? restaurant.getCity().getName() : null,
                 restaurant.getName(),
                 restaurant.getImageUrl(),
                 restaurant.getWebsiteUrl(),
