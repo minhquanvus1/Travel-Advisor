@@ -14,4 +14,7 @@ public interface AttractionRepository extends JpaRepository<Attraction, Long> {
 
     @Query("SELECT a FROM Attraction a WHERE a.name = :attractionName AND a.subcategory.id = :subcategoryId")
     Optional<Attraction> findByAttractionNameIgnoreCaseAndSubcategoryId(@Param("attractionName") String name, @Param("subcategoryId") Long id);
+
+    @Query("SELECT a from Attraction a INNER JOIN Stop s ON UPPER(a.name) = UPPER(:stopName)")
+    Optional<Attraction> findAttractionMatchingStopNameIgnoreCase(@Param("stopName") String stopName);
 }

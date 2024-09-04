@@ -30,6 +30,7 @@ public class AttractionMapper {
                 attraction.getSubcategory().getId(),
                 attraction.getSubcategory().getName(),
                 attraction.getCity().getId(),
+                attraction.getCity().getName(),
                 attraction.getNumberOfReviews(),
                 attraction.getImageUrl(),
                 attraction.getWebsiteUrl(),

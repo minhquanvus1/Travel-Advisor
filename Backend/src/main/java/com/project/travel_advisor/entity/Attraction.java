@@ -34,6 +34,7 @@ public class Attraction {
 
     private double longitude;
 
+    @Column(precision = 2, scale = 1)
     private BigDecimal rating;
 
     private String description;
