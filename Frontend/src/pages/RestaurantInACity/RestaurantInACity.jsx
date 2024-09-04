@@ -3,38 +3,53 @@ import "./RestaurantInACity.css";
 import { useParams } from "react-router-dom";
 import { restaurants } from "../../assets/assets";
 import { replaceWhiteSpaceWithUnderScore } from "../../functions/replaceWhiteSpaceWithUnderScore";
+import { replaceUnderScoreWithWhiteSpace } from "../../functions/replaceUnderScoreWithWhiteSpace";
 import RatingStars from "../../components/RatingStars/RatingStars";
+import { axiosInstance } from "../../apis/axiosInstance";
+import { useAxios } from "../../hooks/useAxios";
 
 const RestaurantInACity = ({ restaurantState, setRestaurantState }) => {
-  const [restaurant, setRestaurant] = useState(null);
-  const { restaurantName } = useParams();
-  const findRestaurantByName = () => {
-    const foundRestaurant = restaurants.find((restaurant) => {
-      console.log("restaurant.name is", restaurant.name);
-      return (
-        replaceWhiteSpaceWithUnderScore(restaurant.name) === restaurantName
-      );
-    });
-    if (!foundRestaurant) {
-      console.log("No restaurant found");
-      return;
-    }
-    console.log("restaurant in function is", foundRestaurant);
-    setRestaurant(foundRestaurant);
-    setRestaurantState(foundRestaurant.name);
-    localStorage.setItem("restaurantState", foundRestaurant.name);
-    return foundRestaurant;
-  };
+  // const [restaurant, setRestaurant] = useState(null);
+  const { cityName, restaurantName } = useParams();
+
+  const [restaurant, error, loading] = useAxios({
+    axiosInstance: axiosInstance,
+    url: `/restaurants/search/findRestaurantByRestaurantNameAndCityName?restaurantName=${replaceUnderScoreWithWhiteSpace(
+      restaurantName
+    )}&cityName=${replaceUnderScoreWithWhiteSpace(cityName)}`,
+    method: "GET",
+  });
+  console.log("restaurantData is", restaurant, error, loading);
+  // const findRestaurantByName = () => {
+  //   const foundRestaurant = restaurants.find((restaurant) => {
+  //     console.log("restaurant.name is", restaurant.name);
+  //     return (
+  //       replaceWhiteSpaceWithUnderScore(restaurant.name) === restaurantName
+  //     );
+  //   });
+  //   if (!foundRestaurant) {
+  //     console.log("No restaurant found");
+  //     return;
+  //   }
+  //   console.log("restaurant in function is", foundRestaurant);
+  //   setRestaurant(foundRestaurant);
+  //   setRestaurantState(foundRestaurant.name);
+  //   localStorage.setItem("restaurantState", foundRestaurant.name);
+  //   return foundRestaurant;
+  // };
   useEffect(() => {
-    findRestaurantByName();
+    // findRestaurantByName();
+    setRestaurantState(restaurant.name);
+    localStorage.setItem("restaurantState", restaurant.name);
     return () => {
       localStorage.removeItem("restaurantState");
     };
-  }, []);
+  }, [restaurant]);
   return (
     <div className="restaurant-section">
-      {!restaurant && "No restaurant found"}
-      {restaurant && (
+      {error && "No restaurant found"}
+      {loading && "Loading..."}
+      {!Array.isArray(restaurant) && restaurant && (
         <>
           <div className="restaurant-heading">
             <h1>{restaurant.name}</h1>
@@ -52,7 +67,7 @@ const RestaurantInACity = ({ restaurantState, setRestaurantState }) => {
               </span>
               <span className="cuisines-list">
                 Cuisines: &nbsp;
-                {restaurant.cuisines.length >= 3 &&
+                {restaurant.cuisines.length > 0 &&
                   restaurant.cuisines.slice(0, 3).map((cuisine, index) => {
                     return (
                       <span key={index}>
