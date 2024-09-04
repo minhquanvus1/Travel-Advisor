@@ -6,31 +6,41 @@ import RestaurantBigCard from "../../components/RestaurantBigCard/RestaurantBigC
 import { Link, useParams } from "react-router-dom";
 import { replaceWhiteSpaceWithUnderScore } from "../../functions/replaceWhiteSpaceWithUnderScore";
 import { replaceUnderScoreWithWhiteSpace } from "../../functions/replaceUnderScoreWithWhiteSpace";
+import { axiosInstance } from "../../apis/axiosInstance";
+import { useAxios } from "../../hooks/useAxios";
 
 const RestaurantsInACity = () => {
   const { cityName } = useParams();
   const { cityState } = useContext(CityContext);
-  const findRestaurantsInThisCity = () => {
-    if (!cityName) return;
-    const foundCity = cities.find(
-      (city) => city.name === replaceUnderScoreWithWhiteSpace(cityName)
-    );
-    console.log("foundCity in restaurants is", foundCity);
-    const allRestaurantsInThisCity = restaurants.filter(
-      (restaurant) => restaurant.cityId === foundCity.id
-    );
-    if (allRestaurantsInThisCity.length === 0) {
-      console.log("this city has no restaurants");
-      return;
-    }
-    console.log("all restaurants are", allRestaurantsInThisCity);
-    return allRestaurantsInThisCity;
-  };
-  const allRestaurantsInThisCity = findRestaurantsInThisCity();
+
+  const [allRestaurantsInThisCity, error, loading] = useAxios({
+    axiosInstance: axiosInstance,
+    url: `/cities/${replaceUnderScoreWithWhiteSpace(cityName)}/restaurants`,
+    method: "GET",
+  });
+
+  // const findRestaurantsInThisCity = () => {
+  //   if (!cityName) return;
+  //   const foundCity = cities.find(
+  //     (city) => city.name === replaceUnderScoreWithWhiteSpace(cityName)
+  //   );
+  //   console.log("foundCity in restaurants is", foundCity);
+  //   const allRestaurantsInThisCity = restaurants.filter(
+  //     (restaurant) => restaurant.cityId === foundCity?.id
+  //   );
+  //   if (allRestaurantsInThisCity.length === 0) {
+  //     console.log("this city has no restaurants");
+  //     return;
+  //   }
+  //   console.log("all restaurants are", allRestaurantsInThisCity);
+  //   return allRestaurantsInThisCity;
+  // };
+  // const allRestaurantsInThisCity = findRestaurantsInThisCity();
   return (
     <div className="restaurants-in-city-section">
-      {!allRestaurantsInThisCity && `City ${cityState} has no restaurants`}
-      {allRestaurantsInThisCity && (
+      {error && `City ${cityState} has no restaurants`}
+      {loading && "Loading..."}
+      {allRestaurantsInThisCity.length > 0 && (
         <>
           <h1 className="restaurants-in-city-section-title">
             Restaurants in {replaceUnderScoreWithWhiteSpace(cityName)}
