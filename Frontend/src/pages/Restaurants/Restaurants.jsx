@@ -4,12 +4,12 @@ import { CityContext } from "../../context/CityContextProvider";
 import RestaurantsHeader from "../../components/RestaurantsHeader/RestaurantsHeader";
 import RestaurantsService from "../../components/RestaurantsService/RestaurantsService";
 import { Link } from "react-router-dom";
-import { cities } from "../../assets/assets";
+// import { cities } from "../../assets/assets";
 import CityCard from "../../components/CityCard/CityCard";
 import { replaceWhiteSpaceWithUnderScore } from "../../functions/replaceWhiteSpaceWithUnderScore";
 
 const Restaurants = () => {
-  const { setCityState } = useContext(CityContext);
+  const { cities, setCityState } = useContext(CityContext);
   useEffect(() => {
     setCityState("");
   }, []);
@@ -26,6 +26,7 @@ const Restaurants = () => {
             <a href="#">See all</a>
           </div>
           <div className="restaurants-in-top-cities-list">
+            {cities.length <= 0 && "No cities found to find Top Restaurants"}
             {cities.length > 0 &&
               cities.map((city, index) => {
                 return (
