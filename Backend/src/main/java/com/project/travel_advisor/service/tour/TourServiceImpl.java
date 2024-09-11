@@ -178,6 +178,8 @@ public class TourServiceImpl implements TourService{
         tourDetail.setTour(null);
         tour.setTourDetail(null);
 
+        tour.getTourBookings().clear();
+
         // Finally, delete the tour
         tourRepository.delete(tour);
     }

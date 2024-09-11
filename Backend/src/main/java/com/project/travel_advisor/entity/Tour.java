@@ -1,5 +1,6 @@
 package com.project.travel_advisor.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -71,4 +72,20 @@ public class Tour {
 
     @OneToMany(mappedBy = "tour", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TourImage> tourImages = new ArrayList<>();
+
+    @OneToMany(mappedBy = "tour", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonIgnore
+    private List<TourBooking> tourBookings = new ArrayList<>();
+
+    public void addTourBooking(TourBooking tourBooking) {
+
+        this.tourBookings.add(tourBooking);
+        tourBooking.setTour(this);
+    }
+
+    public void removeTourBooking(TourBooking tourBooking) {
+
+        this.tourBookings.remove(tourBooking);
+        tourBooking.setTour(null);
+    }
 }
