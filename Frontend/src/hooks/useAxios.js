@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 export const useAxios = (configObj) => {
   const [response, setResponse] = useState([]);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [reload, setReload] = useState(false);
 
@@ -16,7 +16,7 @@ export const useAxios = (configObj) => {
     const controller = new AbortController();
     const fetchData = async () => {
       setLoading(true);
-      setError(false);
+      setError(null);
       try {
         const res = await axiosInstance[method.toLowerCase()](url, {
           ...requestConfig,
@@ -28,7 +28,7 @@ export const useAxios = (configObj) => {
         if (axiosInstance.isCancel(error)) return;
         setLoading(false);
         console.log("error is", error.name);
-        setError(true);
+        setError(error);
       }
     };
     fetchData();

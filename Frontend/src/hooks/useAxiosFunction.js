@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 export const useAxiosFunction = () => {
   const [response, setResponse] = useState([]);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [controller, setController] = useState(null);
 
@@ -12,7 +12,7 @@ export const useAxiosFunction = () => {
     setController(controller);
 
     setLoading(true);
-    setError(false);
+    setError(null);
     try {
       const res = await axiosInstance[method.toLowerCase()](url, {
         ...requestConfig,
@@ -24,7 +24,7 @@ export const useAxiosFunction = () => {
       if (axiosInstance.isCancel(error)) return;
       setLoading(false);
       console.log("error is", error.name);
-      setError(true);
+      setError(error);
     }
   };
 
