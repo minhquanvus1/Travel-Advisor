@@ -7,7 +7,10 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -37,7 +40,7 @@ public class User {
     private String country;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String subject;
 
     @Column(name = "image_url")
@@ -47,4 +50,20 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
     @JsonIgnore
     private List<AttractionReview> attractionReviews;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonIgnore
+    private List<TourBooking> tourBookings = new ArrayList<>();
+
+    public void addTourBooking(TourBooking tourBooking) {
+
+        this.tourBookings.add(tourBooking);
+        tourBooking.setUser(this);
+    }
+
+    public void removeTourBooking(TourBooking tourBooking) {
+
+        this.tourBookings.remove(tourBooking);
+        tourBooking.setUser(null);
+    }
 }

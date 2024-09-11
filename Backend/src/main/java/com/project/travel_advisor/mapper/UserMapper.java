@@ -16,4 +16,17 @@ public class UserMapper {
                 user.getImageUrl()
         );
     }
+
+    public static User mapToUser(UserDto userDto) {
+
+        return User
+                .builder()
+                .id(userDto.id())
+                .firstName(userDto.firstName())
+                .lastName(userDto.lastName())
+                .city(userDto.city())
+                .country(userDto.country())
+                .imageUrl(userDto.imageUrl())
+                .build();
+    }
 }

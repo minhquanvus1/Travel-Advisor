@@ -17,15 +17,17 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     @Override
-    public UserDto createAUser(User user) {
+    public UserDto createAUser(UserDto userDto, String subject) {
 
-        userRepository.findBySubject(user.getSubject()).ifPresent((foundUser) -> {throw new BadRequestException("This User with Subject " + user.getSubject() + " already exists");});
-
-        if(user.getSubject() == null) {
+        if(subject == null) {
             throw new BadRequestException("User Subject must be provided");
         }
 
-        User savedUser = userRepository.save(user);
+        userRepository.findBySubject(subject).ifPresent((foundUser) -> {throw new BadRequestException("This User with Subject " + subject + " already exists");});
+
+        User mappedUser = UserMapper.mapToUser(userDto);
+        mappedUser.setSubject(subject);
+        User savedUser = userRepository.save(mappedUser);
 
         return UserMapper.mapToUserResponseDto(savedUser);
     }
@@ -47,19 +49,29 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto updateAnUser(Long id, User user) {
+    public UserDto findUserBySubject(String subject) {
+
+        User foundUser = userRepository.findBySubject(subject).orElseThrow(() -> new ResourceNotFoundException("This User with subject " + subject + " does not exist in database"));
+
+        return UserMapper.mapToUserResponseDto(foundUser);
+    }
+
+    @Override
+    public UserDto updateAnUser(Long id, UserDto userDto) {
 
         User foundUser = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("This User with id " + id + " does not exist"));
 
-        if(user.getSubject() != null) {
+        User mappedUser = UserMapper.mapToUser(userDto);
+
+        if(mappedUser.getSubject() != null) {
             throw new BadRequestException("User Subject can not be update");
         }
 
-        foundUser.setFirstName(user.getFirstName());
-        foundUser.setLastName(user.getLastName());
-        foundUser.setCountry(user.getCountry());
-        foundUser.setCity(user.getCity());
-        foundUser.setImageUrl(user.getImageUrl());
+        foundUser.setFirstName(mappedUser.getFirstName());
+        foundUser.setLastName(mappedUser.getLastName());
+        foundUser.setCountry(mappedUser.getCountry());
+        foundUser.setCity(mappedUser.getCity());
+        foundUser.setImageUrl(mappedUser.getImageUrl());
 
         return UserMapper.mapToUserResponseDto(userRepository.save(foundUser));
     }
@@ -70,6 +82,8 @@ public class UserServiceImpl implements UserService {
         User foundUser = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("This User with id " + id + " does not exist"));
 
         foundUser.getAttractionReviews().clear();
+
+        foundUser.getTourBookings().clear();
 
         userRepository.deleteById(id);
 

@@ -1,12 +1,13 @@
 package com.project.travel_advisor.controller;
 
 import com.project.travel_advisor.dto.UserDto;
-import com.project.travel_advisor.entity.User;
 import com.project.travel_advisor.service.user.UserService;
+import com.project.travel_advisor.utils.ExtractJWT;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -19,9 +20,13 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/users")
-    public ResponseEntity<List<UserDto>> findAllUsers() {
-
+    @GetMapping("/secure/users")
+    @PreAuthorize("hasAuthority('get:users')")
+    public ResponseEntity<List<UserDto>> findAllUsers(@RequestHeader(value = "Authorization") String token) {
+        String sub = ExtractJWT.payloadJWTExtraction(token, "sub");
+        String permissions = ExtractJWT.payloadJWTExtraction(token, "permissions");
+        System.out.println("sub is " + sub);
+        System.out.println("permissions are " + permissions);
         return ResponseEntity.ok(userService.findAllUsers());
     }
 
@@ -31,16 +36,27 @@ public class UserController {
         return ResponseEntity.ok(userService.findUserById(id));
     }
 
-    @PostMapping("/users")
-    public ResponseEntity<UserDto> createAUser(@Valid @RequestBody User user) {
+    @PostMapping("/secure/users")
+    @PreAuthorize("hasAuthority('post:users')")
+    public ResponseEntity<UserDto> createAUser(@RequestHeader(value = "Authorization") String token, @Valid @RequestBody UserDto userDto) {
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.createAUser(user));
+        String subject = ExtractJWT.payloadJWTExtraction(token, "sub");
+        System.out.println("subject called is " + subject);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.createAUser(userDto, subject));
     }
 
-    @PutMapping("/users/{id}")
-    public ResponseEntity<UserDto> updateAnUser(@PathVariable Long id, @Valid @RequestBody User user) {
+    @GetMapping("/secure/users/search/findBySubject")
+    @PreAuthorize("hasAuthority('get:user')")
+    public ResponseEntity<UserDto> findUserBySubject(@RequestParam String subject) {
 
-        return ResponseEntity.ok(userService.updateAnUser(id, user));
+        return ResponseEntity.ok(userService.findUserBySubject(subject));
+    }
+
+    @PutMapping("/secure/users/{id}")
+    @PreAuthorize("hasAuthority('update:users')")
+    public ResponseEntity<UserDto> updateAnUser(@PathVariable Long id, @Valid @RequestBody UserDto userDto) {
+
+        return ResponseEntity.ok(userService.updateAnUser(id, userDto));
     }
 
     @DeleteMapping("/users/{id}")
