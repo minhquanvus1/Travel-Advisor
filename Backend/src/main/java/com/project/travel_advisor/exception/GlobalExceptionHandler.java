@@ -2,10 +2,12 @@ package com.project.travel_advisor.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.context.request.WebRequest;
 
 import java.util.HashMap;
@@ -24,6 +26,18 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException exception, WebRequest request) {
         ErrorDetails errorDetails = ErrorDetails.builder().success(false).error(HttpStatus.NOT_FOUND.value()).message(exception.getMessage()).build();
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<?> handleAccessDeniedException(AccessDeniedException exception, WebRequest request) {
+        ErrorDetails errorDetails = ErrorDetails.builder().success(false).error(HttpStatus.FORBIDDEN.value()).message(exception.getMessage()).build();
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorDetails);
+    }
+
+    @ExceptionHandler(HttpClientErrorException.Forbidden.class)
+    public ResponseEntity<?> handleAccessDeniedException(HttpClientErrorException.Forbidden exception, WebRequest request) {
+        ErrorDetails errorDetails = ErrorDetails.builder().success(false).error(HttpStatus.FORBIDDEN.value()).message(exception.getMessage()).build();
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorDetails);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
