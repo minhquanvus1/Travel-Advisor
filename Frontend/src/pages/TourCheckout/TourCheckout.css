@@ -1,0 +1,242 @@
+.tour-checkout-section {
+    margin-top: 3vw;
+    padding-inline: 10%;
+    padding-bottom: 80px;
+    display: flex;
+    align-items: flex-start;
+}
+
+.tour-checkout-section .content-left {
+    flex-basis: 65%;
+    padding-right: 10%;
+}
+
+.tour-checkout-section .content-left .title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #000;
+}
+
+.tour-checkout-section .content-left .checkout-btn {
+  background-color: #28a745; /* Green color */
+  color: white;
+  padding: 12px 24px;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
+}
+
+.tour-checkout-section .content-left .checkout-btn:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.tour-checkout-section .content-left .checkout-btn:hover {
+    background-color: #218838; /* Darker green on hover */
+    transform: translateY(-3px); /* Slight lift effect */
+}
+  
+.tour-checkout-section .content-left .checkout-btn:active {
+    background-color: #1e7e34;
+    transform: translateY(1px); /* Slight push-down effect */
+}
+
+.tour-checkout-section .content-right {
+    flex-basis: 35%;
+}
+
+.tour-booking-summary-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.tour-booking-summary-card .card-top, .tour-booking-summary-card .card-bottom {
+    padding: 24px;
+}
+
+.tour-booking-summary-card hr {
+    border: none;
+    border-top: 1px solid #e0e0e0;
+    margin-block: 24px;
+}
+
+.tour-booking-summary-card .card-header {
+    display: flex;
+    gap: 16px;
+}
+
+.card-header .card-header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.card-header .card-header-left .tour-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #000;
+    -webkit-line-clamp: 3;overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical;
+}
+
+.card-header .card-header-left .number-of-reviews-container::after {
+    content: '';
+}
+
+.card-header .card-header-left .number-of-reviews-container .number-of-reviews {
+    font-size: 12px;
+}
+
+.card-header .card-header-left .city-name {
+    font-size: 14px;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.card-header .card-header-right .image-container {
+    width: 112px;
+    height: 112px;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.card-header-right .image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.tour-booking-summary-card .book-details {
+    /* display: grid;
+    grid-template-columns: 1fr 11fr;
+    grid-template-areas: "label value";
+    gap: 16px; */
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.tour-booking-summary-card .book-details .tour-start-date, .tour-booking-summary-card .book-details .number-of-people {
+    display: flex;
+}
+
+.tour-booking-summary-card .book-details .tour-start-date .label, .tour-booking-summary-card .book-details .number-of-people .label  {
+    flex: 1;
+}
+
+.tour-booking-summary-card .book-details .label {
+    font-size: 14px;
+    font-weight: 400;
+    color: #757575;
+}
+
+.tour-booking-summary-card .book-details .value {
+    font-size: 14px;
+    font-weight: 400;
+    color: #000;
+}
+
+.tour-booking-summary-card .free-cancellation {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.tour-booking-summary-card .free-cancellation .date {
+    font-size: 14px;
+    font-weight: 400;
+    color: #333;
+}
+
+.tour-booking-summary-card .free-cancellation svg {
+    width: 25px;
+}
+
+.tour-booking-summary-card .card-bottom {
+    background: #f2f2f2;
+}
+
+.tour-booking-summary-card .card-bottom {
+    border-top: 1px solid #e0e0e0;
+}
+
+.tour-booking-summary-card .total-price-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tour-booking-summary-card .total-price-container .text, .tour-booking-summary-card .total-price-container .total-price {
+    font-size: 18px;
+    font-weight: 500;
+    color: #000;
+}
+
+.book-with-confidence-card {
+    margin-top: 24px;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+}
+
+.book-with-confidence-card .title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #000;
+    padding-top: 4px;
+}
+
+.book-with-confidence-card hr {
+    margin: 24px 0 8px;
+    border: none;
+    height: 1px;
+    background-color: #e0e0e0;
+}
+
+
+.book-summary-container .book-summary-item {
+    padding-top: 16px;
+    display: flex;
+    gap: 18px;
+    align-items: baseline;
+}
+
+.book-summary-item .book-summary-item-title {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.book-summary-item .book-summary-description {
+    padding-top: 4px;
+    margin-right: 18px;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.book-summary-item .book-summary-description .phone-number {
+    text-decoration: underline;
+    cursor: pointer;
+    padding-top: 4px;
+}
+
+.book-summary-item i {
+    cursor: pointer;
+    font-size: 17px;
+}
+
+/* General container styling */
+#card-element {
+    margin: 20px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
+  }

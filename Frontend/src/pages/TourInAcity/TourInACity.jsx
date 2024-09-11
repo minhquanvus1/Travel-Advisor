@@ -13,7 +13,16 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useAccessToken } from "../../hooks/useAccessToken";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-const TourInACity = () => {
+const TourInACity = (
+  {
+    // bookingDetails,
+    // setBookingDetails,
+    // bookTourLoading,
+    // setBookTourLoading,
+    // bookTourError,
+    // setBookTourError,
+  }
+) => {
   const [toggleAccordion, setToggleAccordion] = useState("");
   const [stops, setStops] = useState([]);
   const { cityName, tourName } = useParams();
@@ -25,12 +34,12 @@ const TourInACity = () => {
       }
     );
   });
-  const { userFromDb } = useContext(UserContext);
-  const { isAuthenticated, loginWithRedirect } = useAuth0();
-  const { token } = useAccessToken();
-  const navigate = useNavigate();
-  const [bookTourLoading, setBookTourLoading] = useState(false);
-  const [bookTourError, setBookTourError] = useState(null);
+  // const { userFromDb } = useContext(UserContext);
+  // const { isAuthenticated, loginWithRedirect } = useAuth0();
+  // const { token } = useAccessToken();
+  // const navigate = useNavigate();
+  // const [bookTourLoading, setBookTourLoading] = useState(false);
+  // const [bookTourError, setBookTourError] = useState(null);
   // Handle input change for both date and travelers
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -59,65 +68,71 @@ const TourInACity = () => {
   }, [tour]);
   // Update booking details in localStorage whenever the state changes
   useEffect(() => {
-    localStorage.setItem("bookingDetails", JSON.stringify(bookingDetails));
+    if (
+      bookingDetails &&
+      bookingDetails.tourStartDate &&
+      bookingDetails.numberOfPeople
+    ) {
+      localStorage.setItem("bookingDetails", JSON.stringify(bookingDetails));
+    }
   }, [bookingDetails]);
   let totalPrice = useMemo(() => {
     return (bookingDetails.numberOfPeople * tour.price).toFixed(2);
   }, [bookingDetails.numberOfPeople, tour.price]);
-  const handleBooking = async (e) => {
-    e.preventDefault();
-    if (!isAuthenticated) {
-      alert("Please login to book this tour");
-      loginWithRedirect();
-      return;
-    }
-    const bookingData = {
-      tourId: tour.id,
-      userId: userFromDb.id,
-      numberOfPeople: bookingDetails.numberOfPeople,
-      tourStartDate: bookingDetails.tourStartDate,
-      totalPrice: totalPrice,
-    };
-    setBookTourLoading(true);
-    setBookTourError(null);
-    try {
-      const response = await axiosInstance({
-        method: "POST",
-        url: "/book-tour",
-        data: bookingData,
-        // headers: {
-        //   Authorization: `Bearer ${token}`,
-        // },
-      });
-      console.log("tour booking response is ", response.data);
-      toast.success(
-        "Tour booked successfully with Tour Tracking Number: " +
-          response.data.tourBookingTrackingNumber
-      );
-    } catch (error) {
-      if (error.response) {
-        console.log("error.response.data is", error.response.data);
-        setBookTourError(error.response.data);
-        toast.error(
-          `Error booking tour with response. Please try again later. Error: ${error.response.data}`
-        );
-      } else if (error.request) {
-        console.log("error.request is", error.request);
-        setBookTourError(error.request);
-        toast.error(
-          `Error booking tour with request. Please try again later. Error ${error.request}`
-        );
-      } else {
-        console.log("error is", error);
-        setBookTourError(error);
-        toast.error(
-          `Error booking tour. Please try again later. Error: ${error}`
-        );
-      }
-    } finally {
-      setBookTourLoading(false);
-    }
-  };
+  // const handleBooking = async (e) => {
+  //   e.preventDefault();
+  //   if (!isAuthenticated) {
+  //     alert("Please login to book this tour");
+  //     loginWithRedirect();
+  //     return;
+  //   }
+  //   const bookingData = {
+  //     tourId: tour.id,
+  //     userId: userFromDb.id,
+  //     numberOfPeople: bookingDetails.numberOfPeople,
+  //     tourStartDate: bookingDetails.tourStartDate,
+  //     totalPrice: totalPrice,
+  //   };
+  //   setBookTourLoading(true);
+  //   setBookTourError(null);
+  //   try {
+  //     const response = await axiosInstance({
+  //       method: "POST",
+  //       url: "/book-tour",
+  //       data: bookingData,
+  //       // headers: {
+  //       //   Authorization: `Bearer ${token}`,
+  //       // },
+  //     });
+  //     console.log("tour booking response is ", response.data);
+  //     toast.success(
+  //       "Tour booked successfully with Tour Tracking Number: " +
+  //         response.data.tourBookingTrackingNumber
+  //     );
+  //   } catch (error) {
+  //     if (error.response) {
+  //       console.log("error.response.data is", error.response.data);
+  //       setBookTourError(error.response.data);
+  //       toast.error(
+  //         `Error booking tour with response. Please try again later. Error: ${error.response.data}`
+  //       );
+  //     } else if (error.request) {
+  //       console.log("error.request is", error.request);
+  //       setBookTourError(error.request);
+  //       toast.error(
+  //         `Error booking tour with request. Please try again later. Error ${error.request}`
+  //       );
+  //     } else {
+  //       console.log("error is", error);
+  //       setBookTourError(error);
+  //       toast.error(
+  //         `Error booking tour. Please try again later. Error: ${error}`
+  //       );
+  //     }
+  //   } finally {
+  //     setBookTourLoading(false);
+  //   }
+  // };
   console.log("booking details are ", bookingDetails);
   // const findTourByName = () => {
   //   const foundTour = tours.find(
@@ -696,13 +711,14 @@ const TourInACity = () => {
                 </div>
                 <div className="total-price">Total Price: ${totalPrice}</div>
               </div>
-              <button
+              <Link
                 className="reserve-button"
-                disabled={bookTourLoading}
-                onClick={handleBooking}
+                // disabled={bookTourLoading}
+                // onClick={handleBooking}
+                to={`/${cityName}/tours/${tourName}/checkout`}
               >
                 Reserve Now
-              </button>
+              </Link>
               <div className="refund-container">
                 <span className="refund-icon">
                   <svg viewBox="0 0 24 24" width="12px" height="12px">

@@ -24,6 +24,7 @@ import { axiosInstance } from "./apis/axiosInstance";
 import { useAxiosFunction } from "./hooks/useAxiosFunction";
 import { useAccessToken } from "./hooks/useAccessToken";
 import { useAuth0 } from "@auth0/auth0-react";
+import TourCheckout from "./pages/TourCheckout/TourCheckout";
 const App = () => {
   const [showBackToTopButton, setShowBackToTopButton] = useState(false);
   const [restaurantState, setRestaurantState] = useState(() => {
@@ -33,6 +34,17 @@ const App = () => {
       ? restaurantStateFromLocalStorage
       : "";
   });
+  // const [bookingDetails, setBookingDetails] = useState(() => {
+  //   return (
+  //     JSON.parse(localStorage.getItem("bookingDetails")) || {
+  //       tourStartDate: "",
+  //       numberOfPeople: 1, // Default to 1 traveler
+  //     }
+  //   );
+  // });
+  // const [bookTourLoading, setBookTourLoading] = useState(false);
+  // const [bookTourError, setBookTourError] = useState(null);
+
   // const { token } = useAccessToken();
   // const { user } = useAuth0();
   // const [userFromDb, userFromDbError, userFromDbLoading, axiosFetch] =
@@ -123,7 +135,16 @@ const App = () => {
         />
         <Route
           path="/cities/:cityName/tours/:tourName"
-          element={<TourInACity />}
+          element={
+            <TourInACity
+            // bookingDetails={bookingDetails}
+            // setBookingDetails={setBookingDetails}
+            // bookTourLoading={bookTourLoading}
+            // setBookTourLoading={setBookTourLoading}
+            // bookTourError={bookTourError}
+            // setBookTourError={setBookTourError}
+            />
+          }
         />
         <Route
           path="/users/:userName/profile"
@@ -141,7 +162,12 @@ const App = () => {
             />
           }
         />
+        <Route
+          path="/:cityName/tours/:tourName/checkout"
+          element={<TourCheckout />}
+        />
       </Routes>
+
       {showBackToTopButton && <BackToTopButton />}
       <Footer></Footer>
     </div>
