@@ -11,8 +11,23 @@ import { Link, useLocation } from "react-router-dom";
 import { CityContext } from "../../context/CityContextProvider";
 import { replaceWhiteSpaceWithUnderScore } from "../../functions/replaceWhiteSpaceWithUnderScore";
 import { replaceUnderScoreWithWhiteSpace } from "../../functions/replaceUnderScoreWithWhiteSpace";
+import { useAuth0 } from "@auth0/auth0-react";
+import { axiosInstance } from "../../apis/axiosInstance";
+import { useAxiosFunction } from "../../hooks/useAxiosFunction";
+import { useAccessToken } from "../../hooks/useAccessToken";
+import { UserContext } from "../../context/UserContextProvider";
 
 const Navbar = ({ restaurantState, setRestaurantState }) => {
+  const { token } = useAccessToken();
+  const [userData, userError, userLoading, axiosFetch] = useAxiosFunction();
+  const {
+    loginWithRedirect,
+    user,
+    isAuthenticated,
+    getAccessTokenSilently,
+    logout,
+    isLoading,
+  } = useAuth0();
   const [scroll, setScroll] = useState("");
   const [hrFullWidth, setHrFullWidth] = useState(false);
   const location = useLocation();
@@ -20,6 +35,7 @@ const Navbar = ({ restaurantState, setRestaurantState }) => {
   const [menu, setMenu] = useState("");
   const { cityState, setCityState, checkAndSetCityState } =
     useContext(CityContext);
+  const { userFromDb } = useContext(UserContext);
   // create the ref to the current value of isHomePage.
   // Because the handleScroll() is added ONCE when the component is mounted (due to the [] dependency of the useEffect() that has the EventListener)
   // so the handleScroll() will close over the initial value of isHomePage, and is not re-rendered when the isHomePage value is updated
@@ -31,6 +47,60 @@ const Navbar = ({ restaurantState, setRestaurantState }) => {
   console.log(location.pathname);
   console.log(scroll);
   console.log("hrfullwidth", hrFullWidth);
+  console.log("token data is ", token);
+  useEffect(() => {
+    console.log("Current isAuthenticated value:", isAuthenticated);
+
+    if (!isAuthenticated) {
+      console.log("Clearing bookingDetails from localStorage");
+      localStorage.removeItem("bookingDetails");
+    }
+  }, [isAuthenticated]);
+  useEffect(() => {
+    console.log("isAuthenticated is ", isAuthenticated);
+    console.log("token is ", token);
+    if (isAuthenticated && token) {
+      axiosFetch({
+        axiosInstance: axiosInstance,
+        method: "GET",
+        url: "/secure/users",
+        requestConfig: {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      });
+    }
+  }, [isAuthenticated, token]);
+  console.log("user is ", user);
+  // useEffect(() => {
+  //   console.log("user is", user);
+  //   console.log("isAuthenticated is", isAuthenticated);
+  //   let token;
+  //   const getToken = async () => {
+  //     const token = await getAccessTokenSilently();
+  //     return token;
+  //   };
+  //   if (isAuthenticated) {
+  //     getToken().then((response) => {
+  //       token = response;
+  //       console.log("jwt token is ", token);
+  //       console.log(`Bearer token is: Bearer ${token}`);
+  //       axiosFetch({
+  //         axiosInstance: axiosInstance,
+  //         method: "GET",
+  //         url: "/secure/users",
+  //         requestConfig: {
+  //           headers: {
+  //             Authorization: `Bearer ${token}`,
+  //           },
+  //         },
+  //       });
+  //     });
+  //   }
+  // }, [isAuthenticated]);
+  console.log("userData is ", userData);
+  console.log("userError is ", userError);
   const extractCityName = useCallback(
     (pathname) => {
       const pathParts = pathname.split("/");
@@ -335,7 +405,28 @@ const Navbar = ({ restaurantState, setRestaurantState }) => {
             <li>Travel Tips</li>
             {scroll !== "new-navbar" && <li>More</li>}
           </ul>
-          <button>Sign in</button>
+          {isAuthenticated && user ? (
+            <div className="navbar-profile">
+              <img
+                src={userFromDb?.imageUrl ? userFromDb.imageUrl : user.picture}
+                alt="user profile picture"
+                className="navbar-profile-img"
+              />
+              <ul className="navbar-profile-dropdown">
+                <li>
+                  <Link to={`/users/${user.nickname}/profile`}>Profile</Link>
+                </li>
+                <hr />
+                <li
+                  onClick={() => logout({ returnTo: window.location.origin })}
+                >
+                  Sign out
+                </li>
+              </ul>
+            </div>
+          ) : (
+            <button onClick={() => loginWithRedirect()}>Sign in</button>
+          )}
         </div>
         {scroll === "new-navbar" && (
           <div className="row-2">
