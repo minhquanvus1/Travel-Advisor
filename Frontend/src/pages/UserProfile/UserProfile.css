@@ -1,0 +1,14 @@
+.user-profile-section {
+    margin-top: 3vw;
+    padding-inline: 10%;
+}
+
+.user-profile-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 50px;
+}
+
+.user-profile-container .content-right {
+    margin-top: 2rem;
+}
