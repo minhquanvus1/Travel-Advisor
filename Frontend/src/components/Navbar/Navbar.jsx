@@ -51,11 +51,11 @@ const Navbar = ({ restaurantState, setRestaurantState }) => {
   useEffect(() => {
     console.log("Current isAuthenticated value:", isAuthenticated);
 
-    if (!isAuthenticated) {
+    if (!isAuthenticated && !isLoading) {
       console.log("Clearing bookingDetails from localStorage");
       localStorage.removeItem("bookingDetails");
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, isLoading]);
   useEffect(() => {
     console.log("isAuthenticated is ", isAuthenticated);
     console.log("token is ", token);
