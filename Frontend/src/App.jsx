@@ -16,7 +16,14 @@ import AttractionInACity from "./pages/AttractionInACity/AttractionInACity";
 import TourInACity from "./pages/TourInAcity/TourInACity";
 import Footer from "./components/Footer/Footer";
 import ThingsToDo from "./pages/ThingsToDo/ThingsToDo";
-
+import { AuthenticationGuard } from "./components/AuthenticationGuard/AuthenticationGuard";
+import UserProfile from "./pages/UserProfile/UserProfile";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { axiosInstance } from "./apis/axiosInstance";
+import { useAxiosFunction } from "./hooks/useAxiosFunction";
+import { useAccessToken } from "./hooks/useAccessToken";
+import { useAuth0 } from "@auth0/auth0-react";
 const App = () => {
   const [showBackToTopButton, setShowBackToTopButton] = useState(false);
   const [restaurantState, setRestaurantState] = useState(() => {
@@ -26,6 +33,29 @@ const App = () => {
       ? restaurantStateFromLocalStorage
       : "";
   });
+  // const { token } = useAccessToken();
+  // const { user } = useAuth0();
+  // const [userFromDb, userFromDbError, userFromDbLoading, axiosFetch] =
+  //   useAxiosFunction();
+  // const [postedUser, setPostedUser] = useState(null);
+  // const [postedUserError, setPostedUserError] = useState(null);
+  // const [postedUserLoading, setPostedUserLoading] = useState(false);
+  // useEffect(() => {
+  //   if (user && token) {
+  //     axiosFetch({
+  //       axiosInstance: axiosInstance,
+  //       method: "GET",
+  //       url: `/secure/users/search/findBySubject?subject=${encodeURIComponent(
+  //         user.sub
+  //       )}`,
+  //       requestConfig: {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       },
+  //     });
+  //   }
+  // }, [user, token, postedUser]);
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 1000) {
@@ -44,12 +74,24 @@ const App = () => {
       <Navbar
         restaurantState={restaurantState}
         setRestaurantState={setRestaurantState}
+        // userFromDb={userFromDb}
       />
       <div className="app">
         <Routes>
           <Route path="/a" />
         </Routes>
       </div>
+      <ToastContainer
+        position="top-right" // Position the toast in the top-right corner
+        autoClose={5000} // Auto close after 5 seconds
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/cities" element={<Cities />} />
@@ -82,6 +124,22 @@ const App = () => {
         <Route
           path="/cities/:cityName/tours/:tourName"
           element={<TourInACity />}
+        />
+        <Route
+          path="/users/:userName/profile"
+          element={
+            <AuthenticationGuard
+              // userFromDb={userFromDb}
+              // userFromDbError={userFromDbError}
+              // postedUser={postedUser}
+              // setPostedUser={setPostedUser}
+              // postedUserError={postedUserError}
+              // setPostedUserError={setPostedUserError}
+              // postedUserLoading={postedUserLoading}
+              // setPostedUserLoading={setPostedUserLoading}
+              component={UserProfile}
+            />
+          }
         />
       </Routes>
       {showBackToTopButton && <BackToTopButton />}
