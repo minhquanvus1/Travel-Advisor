@@ -325,6 +325,51 @@
     margin-bottom: 24px;
 }
 
+.tour-booking-container .price-per-person-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tour-booking-container .price-per-person-container .price {
+    font-size: 24px;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 4px;
+}
+
+.tour-booking-container .price-per-person-container .small-text {
+    font-size: 16px;
+    font-weight: 400;
+    color: #333;
+}
+
+.tour-booking-container .select-date-and-traveler-text {
+    font-size: 16px;
+    font-weight: 700;
+    color: #000;
+    margin-top: 24px;
+}
+
+.tour-booking-container .select-date-and-traveler-input-group {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    margin-top: 16px;
+    margin-bottom: 48px;
+}
+
+.select-date-and-traveler-input-group input {
+    padding: 12px 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #333;
+    width: 100%;
+    outline: none;
+}
+
 .tour-booking-container .reserve-button {
     border: none;
     border-radius: 24px;
