@@ -48,6 +48,12 @@ public class AttractionServiceImpl implements AttractionService{
     }
 
     @Override
+    public List<AttractionDto> findAttractionsByNameContainingIgnoreCase(String name) {
+
+        return attractionRepository.findByNameContainingIgnoreCase(name).stream().map(AttractionMapper::mapToAttractionDto).toList();
+    }
+
+    @Override
     @Transactional
     public AttractionDto createAnAttraction(AttractionDto attractionDto) {
 

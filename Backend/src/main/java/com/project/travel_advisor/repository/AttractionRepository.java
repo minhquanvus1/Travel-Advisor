@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface AttractionRepository extends JpaRepository<Attraction, Long> {
@@ -17,4 +18,6 @@ public interface AttractionRepository extends JpaRepository<Attraction, Long> {
 
     @Query("SELECT a from Attraction a INNER JOIN Stop s ON UPPER(a.name) = UPPER(:stopName)")
     Optional<Attraction> findAttractionMatchingStopNameIgnoreCase(@Param("stopName") String stopName);
+
+    List<Attraction> findByNameContainingIgnoreCase(String name);
 }

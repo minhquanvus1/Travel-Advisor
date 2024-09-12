@@ -12,6 +12,8 @@ public interface AttractionService {
 
     List<AttractionDto> findAttractionsInCityWithName(String cityName);
 
+    List<AttractionDto> findAttractionsByNameContainingIgnoreCase(String name);
+
     AttractionDto createAnAttraction(AttractionDto attractionDto);
 
     void deleteAttractionById(Long id);
