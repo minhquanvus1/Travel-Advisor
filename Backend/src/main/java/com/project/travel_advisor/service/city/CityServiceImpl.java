@@ -43,6 +43,12 @@ public class CityServiceImpl implements CityService{
     }
 
     @Override
+    public List<CityDto> findCitiesByNameContainingIgnoreCase(String name) {
+
+        return cityRepository.findByNameContainingIgnoreCase(name).stream().map(CityMapper::mapToCityDto).toList();
+    }
+
+    @Override
     @Transactional
     public CityDto createACity(CityDto cityDto) {
         City city = CityMapper.mapToCity(cityDto);

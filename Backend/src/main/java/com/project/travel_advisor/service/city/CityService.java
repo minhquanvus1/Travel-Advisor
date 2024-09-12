@@ -13,6 +13,8 @@ public interface CityService {
 
     CityDto findCityByName(String name);
 
+    List<CityDto> findCitiesByNameContainingIgnoreCase(String name);
+
     CityDto createACity(CityDto cityDto);
 
     void deleteACityById(Long id);

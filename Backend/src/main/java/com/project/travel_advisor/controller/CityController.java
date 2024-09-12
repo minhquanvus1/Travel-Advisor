@@ -33,6 +33,11 @@ public class CityController {
         return ResponseEntity.ok(cityService.findCityByName(name));
     }
 
+    @GetMapping("/cities/search/findByNameContainingIgnoreCase")
+    public ResponseEntity<List<CityDto>> findCitiesByNameContainingIgnoreCase(@RequestParam String name) {
+        return ResponseEntity.ok(cityService.findCitiesByNameContainingIgnoreCase(name));
+    }
+
     @PostMapping("/cities")
     public ResponseEntity<CityDto> createACity(@Valid @RequestBody CityDto cityDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(cityService.createACity(cityDto));
