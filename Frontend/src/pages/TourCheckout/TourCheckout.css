@@ -239,4 +239,72 @@
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
     width: 100%;
-  }
+}
+
+
+/*style .register-user-btn*/
+.content-left .register-user .title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 24px;
+}
+
+.content-left .register-user .register-user-btn {
+    background-color: #28a745; /* Green color */
+    color: white;
+    padding: 12px 24px;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
+}
+
+.content-left .register-user .register-user-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.content-left .register-user .register-user-btn:hover {
+    background-color: #218838; /* Darker green on hover */
+    transform: translateY(-3px); /* Slight lift effect */
+}
+
+.content-left .register-user .register-user-btn:active {
+    background-color: #1e7e34;
+    transform: translateY(1px); /* Slight push-down effect */
+}
+
+.content-left .register-user form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.content-left .register-user form .form-line {
+    display: flex;
+    gap: 16px;
+}
+
+.content-left .register-user label {
+    font-size: 16px;
+    font-weight: 700;
+    color: #000;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.content-left .register-user form input {
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.content-left .register-user form input:focus {
+    outline: none;
+    border-color: #28a745;
+}

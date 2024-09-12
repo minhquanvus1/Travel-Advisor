@@ -23,11 +23,22 @@ const TourCheckout = () => {
     method: "GET",
   });
   const { user, isAuthenticated, loginWithRedirect } = useAuth0();
-  const { userFromDb } = useContext(UserContext);
+  const { userFromDb, userFromDbError, userFromDbLoading, refetchUser } =
+    useContext(UserContext);
   const [bookTourLoading, setBookTourLoading] = useState(false);
   const [bookTourError, setBookTourError] = useState(null);
   const stripe = useStripe();
   const elements = useElements();
+  const [postedUser, setPostedUser] = useState(null);
+  const [postedUserError, setPostedUserError] = useState(null);
+  const [postedUserLoading, setPostedUserLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    city: "",
+    country: "",
+    imageUrl: "",
+  });
   const bookingDetails = JSON.parse(localStorage.getItem("bookingDetails"));
   let totalPrice = useMemo(() => {
     if (bookingDetails && tour) {
@@ -289,21 +300,167 @@ const TourCheckout = () => {
     //   setBookTourLoading(false);
     // }
   };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setPostedUserLoading(true);
+    setPostedUserError(null);
+    try {
+      const response = await axiosInstance({
+        method: "POST",
+        url: "/secure/users",
+        data: {
+          subject: user.sub,
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          city: formData.city,
+          country: formData.country,
+          imageUrl: formData.imageUrl,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setPostedUser(response.data);
+      toast.success("User registered successfully");
+      setFormData({
+        firstName: "",
+        lastName: "",
+        city: "",
+        country: "",
+        imageUrl: "",
+      });
+      refetchUser();
+    } catch (error) {
+      if (error.response) {
+        console.log("error.response.data is", error.response.data);
+        setPostedUserError(error.response.data);
+        toast.error(
+          `Error registering user with response. Please try again later. Error: ${error.response.data}`
+        );
+      } else if (error.request) {
+        console.log("error.request is", error.request);
+        setPostedUserError(error.request);
+        toast.error(
+          `Error registering user with request. Please try again later. Error ${error.request}`
+        );
+      } else {
+        console.log("error is", error);
+        setPostedUserError(error);
+        toast.error(
+          `Error registering user. Please try again later. Error: ${error}`
+        );
+      }
+    } finally {
+      setPostedUserLoading(false);
+    }
+  };
   if (!bookingDetails) return <div>Booking details not found</div>;
+  if (userFromDbLoading) return <div>Loading...</div>;
   return (
     <div className="tour-checkout-section">
       {!Array.isArray(tour) && tour && (
         <>
           <div className="content-left">
-            <h2 className="title">Pay with Credit Card:</h2>
-            <CardElement id="card-element" />
-            <button
-              className="checkout-btn"
-              disabled={bookTourLoading}
-              onClick={handleBooking}
-            >
-              {bookTourLoading ? "Processing..." : "Check Out"}
-            </button>
+            {isAuthenticated &&
+              Array.isArray(userFromDb) &&
+              userFromDb.length <= 0 &&
+              userFromDbError?.status === 404 && (
+                <div className="register-user">
+                  <h2 className="title">Register User: </h2>
+                  <form onSubmit={handleSubmit}>
+                    <div className="form-line">
+                      <div className="form-line-item">
+                        <label htmlFor="firstName">First Name:</label>
+                        <input
+                          type="text"
+                          name="firstName"
+                          id="firstName"
+                          value={formData.firstName}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+                      <div className="form-line-item">
+                        <label htmlFor="lastName">Last Name:</label>
+                        <input
+                          type="text"
+                          name="lastName"
+                          id="lastName"
+                          value={formData.lastName}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div className="form-line">
+                      <div className="form-line-item">
+                        <label htmlFor="city">City:</label>
+                        <input
+                          type="text"
+                          name="city"
+                          id="city"
+                          value={formData.city}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+                      <div className="form-line-item">
+                        <label htmlFor="country">Country:</label>
+                        <input
+                          type="text"
+                          name="country"
+                          id="country"
+                          value={formData.country}
+                          onChange={handleInputChange}
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div className="form-line">
+                      <div className="form-line-item" style={{ width: "100%" }}>
+                        <label htmlFor="imageUrl">Profile Image URL: </label>
+                        <input
+                          type="url"
+                          name="imageUrl"
+                          value={formData.imageUrl}
+                          onChange={handleInputChange}
+                          style={{ width: "100%" }}
+                        />
+                      </div>
+                    </div>
+
+                    <button
+                      type="submit"
+                      className="register-user-btn"
+                      disabled={postedUserLoading}
+                    >
+                      {postedUserLoading ? "Registering..." : "Register"}
+                    </button>
+                  </form>
+                </div>
+              )}
+            {!Array.isArray(userFromDb) && userFromDb && (
+              <div className="payment-container">
+                <h2 className="title">Pay with Credit Card:</h2>
+                <CardElement id="card-element" />
+                <button
+                  className="checkout-btn"
+                  disabled={bookTourLoading}
+                  onClick={handleBooking}
+                >
+                  {bookTourLoading ? "Processing..." : "Check Out"}
+                </button>
+              </div>
+            )}
           </div>
           <div className="content-right">
             <div className="tour-booking-summary-card">
