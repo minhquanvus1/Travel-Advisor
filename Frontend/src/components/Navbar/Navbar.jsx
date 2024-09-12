@@ -35,7 +35,7 @@ const Navbar = ({ restaurantState, setRestaurantState }) => {
   const [menu, setMenu] = useState("");
   const { cityState, setCityState, checkAndSetCityState } =
     useContext(CityContext);
-  const { userFromDb } = useContext(UserContext);
+  const { userFromDb, userFromDbLoading } = useContext(UserContext);
   // create the ref to the current value of isHomePage.
   // Because the handleScroll() is added ONCE when the component is mounted (due to the [] dependency of the useEffect() that has the EventListener)
   // so the handleScroll() will close over the initial value of isHomePage, and is not re-rendered when the isHomePage value is updated
@@ -379,6 +379,7 @@ const Navbar = ({ restaurantState, setRestaurantState }) => {
         setMenu("");
     }
   }, [location.pathname]);
+  if (isLoading || userFromDbLoading) return <div>Loading...</div>;
   return (
     <div className="navbar-container">
       <div className={`navbar ${scroll}`}>
@@ -405,7 +406,10 @@ const Navbar = ({ restaurantState, setRestaurantState }) => {
             <li>Travel Tips</li>
             {scroll !== "new-navbar" && <li>More</li>}
           </ul>
-          {isAuthenticated && user ? (
+          {isAuthenticated &&
+          user &&
+          !Array.isArray(userFromDb) &&
+          userFromDb ? (
             <div className="navbar-profile">
               <img
                 src={userFromDb?.imageUrl ? userFromDb.imageUrl : user.picture}
