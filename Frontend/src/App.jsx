@@ -82,92 +82,93 @@ const App = () => {
     };
   }, []);
   return (
-    <div>
+    <div className="main-app">
       <Navbar
         restaurantState={restaurantState}
         setRestaurantState={setRestaurantState}
         // userFromDb={userFromDb}
       />
-      <div className="app">
+      <div className="app-content">
+        <div className="app">
+          <Routes>
+            <Route path="/a" />
+          </Routes>
+        </div>
+        <ToastContainer
+          position="top-right" // Position the toast in the top-right corner
+          autoClose={5000} // Auto close after 5 seconds
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
         <Routes>
-          <Route path="/a" />
+          <Route path="/" element={<Home />} />
+          <Route path="/cities" element={<Cities />} />
+          <Route path="/cities/:cityName" element={<City />} />
+          <Route path="/restaurants" element={<Restaurants />} />
+          <Route path="/travel-destinations" element={<TravelDestinations />} />
+          <Route path="/things-to-do" element={<ThingsToDo />} />
+          <Route path="/tours" element={<Tours />} />
+          <Route
+            path="/cities/:cityName/restaurants"
+            element={<RestaurantsInACity />}
+          />
+          <Route
+            path="/cities/:cityName/restaurants/:restaurantName"
+            element={
+              <RestaurantInACity
+                restaurantState={restaurantState}
+                setRestaurantState={setRestaurantState}
+              />
+            }
+          />
+          <Route
+            path="/cities/:cityName/things-to-do"
+            element={<ThingsToDoInACity />}
+          />
+          <Route
+            path="/cities/:cityName/attractions/:attractionName"
+            element={<AttractionInACity />}
+          />
+          <Route
+            path="/cities/:cityName/tours/:tourName"
+            element={
+              <TourInACity
+              // bookingDetails={bookingDetails}
+              // setBookingDetails={setBookingDetails}
+              // bookTourLoading={bookTourLoading}
+              // setBookTourLoading={setBookTourLoading}
+              // bookTourError={bookTourError}
+              // setBookTourError={setBookTourError}
+              />
+            }
+          />
+          <Route
+            path="/users/:userName/profile"
+            element={
+              <AuthenticationGuard
+                // userFromDb={userFromDb}
+                // userFromDbError={userFromDbError}
+                // postedUser={postedUser}
+                // setPostedUser={setPostedUser}
+                // postedUserError={postedUserError}
+                // setPostedUserError={setPostedUserError}
+                // postedUserLoading={postedUserLoading}
+                // setPostedUserLoading={setPostedUserLoading}
+                component={UserProfile}
+              />
+            }
+          />
+          <Route
+            path="/:cityName/tours/:tourName/checkout"
+            element={<TourCheckout />}
+          />
         </Routes>
       </div>
-      <ToastContainer
-        position="top-right" // Position the toast in the top-right corner
-        autoClose={5000} // Auto close after 5 seconds
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/cities" element={<Cities />} />
-        <Route path="/cities/:cityName" element={<City />} />
-        <Route path="/restaurants" element={<Restaurants />} />
-        <Route path="/travel-destinations" element={<TravelDestinations />} />
-        <Route path="/things-to-do" element={<ThingsToDo />} />
-        <Route path="/tours" element={<Tours />} />
-        <Route
-          path="/cities/:cityName/restaurants"
-          element={<RestaurantsInACity />}
-        />
-        <Route
-          path="/cities/:cityName/restaurants/:restaurantName"
-          element={
-            <RestaurantInACity
-              restaurantState={restaurantState}
-              setRestaurantState={setRestaurantState}
-            />
-          }
-        />
-        <Route
-          path="/cities/:cityName/things-to-do"
-          element={<ThingsToDoInACity />}
-        />
-        <Route
-          path="/cities/:cityName/attractions/:attractionName"
-          element={<AttractionInACity />}
-        />
-        <Route
-          path="/cities/:cityName/tours/:tourName"
-          element={
-            <TourInACity
-            // bookingDetails={bookingDetails}
-            // setBookingDetails={setBookingDetails}
-            // bookTourLoading={bookTourLoading}
-            // setBookTourLoading={setBookTourLoading}
-            // bookTourError={bookTourError}
-            // setBookTourError={setBookTourError}
-            />
-          }
-        />
-        <Route
-          path="/users/:userName/profile"
-          element={
-            <AuthenticationGuard
-              // userFromDb={userFromDb}
-              // userFromDbError={userFromDbError}
-              // postedUser={postedUser}
-              // setPostedUser={setPostedUser}
-              // postedUserError={postedUserError}
-              // setPostedUserError={setPostedUserError}
-              // postedUserLoading={postedUserLoading}
-              // setPostedUserLoading={setPostedUserLoading}
-              component={UserProfile}
-            />
-          }
-        />
-        <Route
-          path="/:cityName/tours/:tourName/checkout"
-          element={<TourCheckout />}
-        />
-      </Routes>
-
       {showBackToTopButton && <BackToTopButton />}
       <Footer></Footer>
     </div>
