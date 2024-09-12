@@ -14,5 +14,7 @@ public interface SubcategoryService {
 
     List<SubcategoryDto> findSubcategoriesOfCategoryWithName(String categoryName);
 
+    List<SubcategoryDto> findSubcategoriesByNameContainingIgnoreCase(String name);
+
     void deleteSubcategoryById(Long id);
 }

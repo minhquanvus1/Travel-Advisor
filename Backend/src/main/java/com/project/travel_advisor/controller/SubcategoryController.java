@@ -34,6 +34,11 @@ public class SubcategoryController {
         return ResponseEntity.ok(subcategoryService.findSubcategoriesOfCategoryWithName(categoryName));
     }
 
+    @GetMapping("/subcategories/search/findByNameContainingIgnoreCase")
+    public ResponseEntity<List<SubcategoryDto>> findSubcategoriesByNameContainingIgnoreCase(@RequestParam String name) {
+        return ResponseEntity.ok(subcategoryService.findSubcategoriesByNameContainingIgnoreCase(name));
+    }
+
     @PostMapping("/subcategories")
     public ResponseEntity<SubcategoryDto> createASubcategory(@Valid @RequestBody SubcategoryDto subcategoryDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(subcategoryService.createASubcategory(subcategoryDto));

@@ -67,6 +67,12 @@ public class SubcategoryServiceImpl implements SubcategoryService{
     }
 
     @Override
+    public List<SubcategoryDto> findSubcategoriesByNameContainingIgnoreCase(String name) {
+
+        return subcategoryRepository.findByNameContainingIgnoreCase(name).stream().map(SubcategoryMapper::mapToSubcategoryDto).toList();
+    }
+
+    @Override
     @Transactional
     public void deleteSubcategoryById(Long id) {
         Subcategory foundSubcategory = subcategoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("This Subcategory with id " + id + " does not exist"));
