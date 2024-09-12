@@ -43,6 +43,11 @@ public class RestaurantController {
         return ResponseEntity.ok(restaurantService.findRestaurantByRestaurantNameAndCityName(restaurantName, cityName));
     }
 
+    @GetMapping("/restaurants/search/findByNameContainingIgnoreCase")
+    public ResponseEntity<List<RestaurantDto>> findRestaurantsByNameContainingIgnoreCase(@RequestParam String name) {
+        return ResponseEntity.ok(restaurantService.findRestaurantsByNameContainingIgnoreCase(name));
+    }
+
     @PostMapping("/restaurants")
     public ResponseEntity<RestaurantDto> createARestaurant(@Valid @RequestBody RestaurantDto restaurantDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(restaurantService.createARestaurant(restaurantDto));

@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
@@ -13,4 +14,6 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 
     @Query("SELECT r from Restaurant r WHERE UPPER(r.name) = UPPER(:restaurantName) AND UPPER(r.city.name) = UPPER(:cityName)")
     Optional<Restaurant> findRestaurantByRestaurantNameAndCityNameIgnoreCase(@Param("restaurantName") String restaurantName, @Param("cityName") String cityName);
+
+    List<Restaurant> findByNameContainingIgnoreCase(String name);
 }

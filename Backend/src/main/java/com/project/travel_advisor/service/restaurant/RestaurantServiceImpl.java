@@ -58,6 +58,12 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
+    public List<RestaurantDto> findRestaurantsByNameContainingIgnoreCase(String name) {
+
+        return restaurantRepository.findByNameContainingIgnoreCase(name).stream().map(RestaurantMapper::mapToRestaurantDto).toList();
+    }
+
+    @Override
     public RestaurantDto findRestaurantByRestaurantNameAndCityName(String restaurantName, String cityName) {
 
         Restaurant foundRestaurant = restaurantRepository.findRestaurantByRestaurantNameAndCityNameIgnoreCase(restaurantName, cityName).orElseThrow(() -> new ResourceNotFoundException("This Restaurant with name " + restaurantName + " does not exist in City with name " + cityName));

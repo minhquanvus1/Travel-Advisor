@@ -15,6 +15,8 @@ public interface RestaurantService {
 
     RestaurantDto findRestaurantByName(String restaurantName);
 
+    List<RestaurantDto> findRestaurantsByNameContainingIgnoreCase(String name);
+
     RestaurantDto findRestaurantByRestaurantNameAndCityName(String restaurantName, String cityName);
 
     RestaurantDto createARestaurant(RestaurantDto restaurantDto);
