@@ -35,9 +35,9 @@ const TourInACity = (
     );
   });
   // const { userFromDb } = useContext(UserContext);
-  // const { isAuthenticated, loginWithRedirect } = useAuth0();
+  const { isAuthenticated, loginWithRedirect } = useAuth0();
   // const { token } = useAccessToken();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   // const [bookTourLoading, setBookTourLoading] = useState(false);
   // const [bookTourError, setBookTourError] = useState(null);
   // Handle input change for both date and travelers
@@ -176,6 +176,24 @@ const TourInACity = (
   //   }
   // }, [tours, allStops]);
   // console.log("stops in city are", stops);
+
+  const handleClick = () => {
+    if (!isAuthenticated) {
+      alert("Please login to book this tour");
+      loginWithRedirect();
+      return;
+    }
+    if (!bookingDetails.tourStartDate) {
+      alert("Please select a date to book this tour");
+      return;
+    }
+    if (bookingDetails.numberOfPeople > tour?.maxGroupSize) {
+      alert(`Maximum group size for this tour is ${tour?.maxGroupSize}`);
+      return;
+    }
+
+    navigate(`/${cityName}/tours/${tourName}/checkout`);
+  };
   return (
     <div className="tour-section">
       {loading && "Loading..."}
@@ -711,14 +729,15 @@ const TourInACity = (
                 </div>
                 <div className="total-price">Total Price: ${totalPrice}</div>
               </div>
-              <Link
+              <button
                 className="reserve-button"
                 // disabled={bookTourLoading}
                 // onClick={handleBooking}
-                to={`/${cityName}/tours/${tourName}/checkout`}
+                // to={`/${cityName}/tours/${tourName}/checkout`}
+                onClick={handleClick}
               >
                 Reserve Now
-              </Link>
+              </button>
               <div className="refund-container">
                 <span className="refund-icon">
                   <svg viewBox="0 0 24 24" width="12px" height="12px">
