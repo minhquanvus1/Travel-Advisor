@@ -13,6 +13,10 @@ public record GetTourBookingResponseDto(
 
         Long tourId,
 
+        String tourName,
+
+        String tourPrimaryImageUrl,
+
         String tourBookingTrackingNumber,
 
         int numberOfPeople,
