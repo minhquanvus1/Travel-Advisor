@@ -25,6 +25,7 @@ import { useAxiosFunction } from "./hooks/useAxiosFunction";
 import { useAccessToken } from "./hooks/useAccessToken";
 import { useAuth0 } from "@auth0/auth0-react";
 import TourCheckout from "./pages/TourCheckout/TourCheckout";
+import WriteReview from "./pages/WriteReview/WriteReview";
 const App = () => {
   const [showBackToTopButton, setShowBackToTopButton] = useState(false);
   const [restaurantState, setRestaurantState] = useState(() => {
@@ -166,6 +167,10 @@ const App = () => {
           <Route
             path="/:cityName/tours/:tourName/checkout"
             element={<TourCheckout />}
+          />
+          <Route
+            path="/attractions/:attractionName/write_review"
+            element={<WriteReview />}
           />
         </Routes>
       </div>

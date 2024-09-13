@@ -475,7 +475,13 @@ const AttractionInACity = () => {
         <div className="review-section-header">
           <h2>Contribute</h2>
           <div className="write-review-upload-photo-btn-group">
-            <a href="#">Write a review</a>
+            <Link
+              to={`/attractions/${replaceWhiteSpaceWithUnderScore(
+                attraction?.name
+              )}/write_review`}
+            >
+              Write a review
+            </Link>
             <a href="#">Upload a photo</a>
           </div>
         </div>
