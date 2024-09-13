@@ -33,6 +33,11 @@ public class AttractionController {
         return ResponseEntity.ok(attractionService.findAttractionsInCityWithName(cityName));
     }
 
+    @GetMapping("/attractions/search/findByNameIgnoreCase")
+    public ResponseEntity<AttractionDto> findAttractionByNameIgnoreCase(@RequestParam String name) {
+        return ResponseEntity.ok(attractionService.findAttractionByNameIgnoreCase(name));
+    }
+
     @GetMapping("/attractions/search/findByNameContainingIgnoreCase")
     public ResponseEntity<List<AttractionDto>> findAttractionsByNameContainingIgnoreCase(@RequestParam String name) {
         return ResponseEntity.ok(attractionService.findAttractionsByNameContainingIgnoreCase(name));

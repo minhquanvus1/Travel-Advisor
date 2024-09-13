@@ -20,4 +20,6 @@ public interface AttractionRepository extends JpaRepository<Attraction, Long> {
     Optional<Attraction> findAttractionMatchingStopNameIgnoreCase(@Param("stopName") String stopName);
 
     List<Attraction> findByNameContainingIgnoreCase(String name);
+
+    Optional<Attraction> findByNameIgnoreCase(String name);
 }

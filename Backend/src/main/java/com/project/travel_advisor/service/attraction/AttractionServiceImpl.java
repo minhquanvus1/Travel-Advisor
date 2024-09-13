@@ -54,6 +54,14 @@ public class AttractionServiceImpl implements AttractionService{
     }
 
     @Override
+    public AttractionDto findAttractionByNameIgnoreCase(String name) {
+
+        Attraction foundAttraction = attractionRepository.findByNameIgnoreCase(name).orElseThrow(() -> new ResourceNotFoundException("This Attraction with name " + name + " does not exist"));
+
+        return AttractionMapper.mapToAttractionDto(foundAttraction);
+    }
+
+    @Override
     @Transactional
     public AttractionDto createAnAttraction(AttractionDto attractionDto) {
 
