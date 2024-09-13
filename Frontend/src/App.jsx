@@ -26,6 +26,7 @@ import { useAccessToken } from "./hooks/useAccessToken";
 import { useAuth0 } from "@auth0/auth0-react";
 import TourCheckout from "./pages/TourCheckout/TourCheckout";
 import WriteReview from "./pages/WriteReview/WriteReview";
+import MyTourBooking from "./pages/MyTourBooking/MyTourBooking";
 const App = () => {
   const [showBackToTopButton, setShowBackToTopButton] = useState(false);
   const [restaurantState, setRestaurantState] = useState(() => {
@@ -172,6 +173,7 @@ const App = () => {
             path="/attractions/:attractionName/write_review"
             element={<WriteReview />}
           />
+          <Route path="/users/:id/my_bookings" element={<MyTourBooking />} />
         </Routes>
       </div>
       {showBackToTopButton && <BackToTopButton />}

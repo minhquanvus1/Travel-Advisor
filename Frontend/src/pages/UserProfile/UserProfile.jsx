@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import "./UserProfile.css";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { axiosInstance } from "../../apis/axiosInstance";
 import { useAxiosFunction } from "../../hooks/useAxiosFunction";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -254,11 +254,15 @@ const UserProfile = (
           </div>
           <div className="content-right">
             {showUpdateUserForm ? (
-              <button onClick={() => setShowUpdateUserForm(false)}>
+              <button
+                className="update-user-btn"
+                onClick={() => setShowUpdateUserForm(false)}
+              >
                 Close Form
               </button>
             ) : (
               <button
+                className="update-user-btn"
                 onClick={() => {
                   setShowUpdateUserForm(true);
                   setIsEditing(true);
@@ -266,6 +270,14 @@ const UserProfile = (
               >
                 Update User
               </button>
+            )}
+            {!Array.isArray(userFromDb) && userFromDb && (
+              <Link
+                to={`/users/${userFromDb.id}/my_bookings`}
+                className="my-bookings-btn"
+              >
+                My Bookings
+              </Link>
             )}
             {showUpdateUserForm && (
               <form onSubmit={handleSubmit}>

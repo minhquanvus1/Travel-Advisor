@@ -12,3 +12,27 @@
 .user-profile-container .content-right {
     margin-top: 2rem;
 }
+
+.my-bookings-btn {
+    margin-left: 16px;
+    margin-bottom: 16px;
+    display: inline-block;
+    padding: 10px 20px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background: #00fa9a;
+    font-size: 1rem;
+    border-radius: 50px;
+}
+
+.update-user-btn {
+    padding: 10px 20px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background: #00fa9a;
+    font-size: 1rem;
+    border-radius: 50px;
+    /* margin-bottom: 16px; */
+}

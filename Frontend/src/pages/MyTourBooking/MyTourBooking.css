@@ -1,0 +1,31 @@
+.my-tour-booking-section {
+    padding-inline: 10%;
+    margin-top: 8vw;
+    margin-bottom: 10vw;
+}
+
+.my-tour-booking-title {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr 1fr 1fr 1fr .5fr;
+    align-items: center;
+    color: grey;
+    font-size: max(1vw, 12px);justify-items: center;
+}
+
+.my-tour-booking-section hr {
+    border: none;
+    height: 2px;
+    background-color: #e2e2e2;
+}
+
+.tour-booking-item {
+    margin: 10px 0;
+}
+
+.tour-booking-item img {
+    width: 50px;
+}
+
+.cross {
+    cursor: pointer;
+}
