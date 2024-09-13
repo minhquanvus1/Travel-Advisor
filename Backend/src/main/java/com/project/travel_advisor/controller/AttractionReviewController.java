@@ -25,6 +25,12 @@ public class AttractionReviewController {
         return ResponseEntity.ok(attractionReviewService.findAllAttractionReviews());
     }
 
+    @GetMapping("/attractions/{id}/attraction-reviews")
+    public ResponseEntity<List<AttractionReviewResponseDto>> findAllAttractionReviewsByAttractionId(@PathVariable("id") Long attractionId) {
+
+        return ResponseEntity.ok(attractionReviewService.findAllAttractionReviewsByAttractionId(attractionId));
+    }
+
     @PostMapping("/attraction-reviews")
     public ResponseEntity<AttractionReviewResponseDto> postAnAttractionReview(@Valid @RequestBody AttractionReviewRequestDto attractionReviewRequestDto) {
 

@@ -34,6 +34,14 @@ public class AttractionReviewServiceImpl implements AttractionReviewService {
     }
 
     @Override
+    public List<AttractionReviewResponseDto> findAllAttractionReviewsByAttractionId(Long attractionId) {
+
+        List<AttractionReview> foundAttractionReviews = attractionReviewRepository.findAllByAttractionId(attractionId);
+
+        return foundAttractionReviews.stream().map(AttractionReviewMapper::mapToAttractionReviewResponseDto).toList();
+    }
+
+    @Override
     public AttractionReviewResponseDto postAnAttractionReview(AttractionReviewRequestDto attractionReviewRequestDto) {
 
         User foundUser = userRepository.findById(attractionReviewRequestDto.userId()).orElseThrow(() -> new ResourceNotFoundException("This User with id " + attractionReviewRequestDto.userId() + " does not exist"));

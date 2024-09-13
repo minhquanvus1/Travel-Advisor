@@ -9,6 +9,8 @@ public interface AttractionReviewService {
 
     List<AttractionReviewResponseDto> findAllAttractionReviews();
 
+    List<AttractionReviewResponseDto> findAllAttractionReviewsByAttractionId(Long attractionId);
+
     AttractionReviewResponseDto postAnAttractionReview(AttractionReviewRequestDto attractionReviewRequestDto);
 
     AttractionReviewResponseDto updateAnAttractionReview(Long id, AttractionReviewRequestDto attractionReviewRequestDto);
