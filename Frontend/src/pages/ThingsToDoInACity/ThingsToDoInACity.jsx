@@ -417,11 +417,13 @@ const ThingsToDoInACity = () => {
                           </div>
                         </div>
                         <div className="user-rating">
-                          <RatingStars
-                            rating={review.rating}
-                            width={88}
-                            height={16}
-                          ></RatingStars>
+                          {review.rating && (
+                            <RatingStars
+                              rating={review.rating}
+                              width={88}
+                              height={16}
+                            ></RatingStars>
+                          )}
                         </div>
                         <div className="user-review-title">
                           {review.reviewTitle}
