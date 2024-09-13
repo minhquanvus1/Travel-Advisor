@@ -265,3 +265,219 @@
     color: #000;
     text-decoration: underline;
 }
+
+/*style .review-section*/
+.review-section {
+    padding-block: 64px;
+}
+
+.review-section .review-section-header h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 24px;
+}
+
+.write-review-upload-photo-btn-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.write-review-upload-photo-btn-group a {
+    padding: 12px 22px;
+    border: 1.5px solid #000;
+    border-radius: 24px;
+    font-size: 16px;
+    font-weight: 700;
+    color: #000;
+    cursor: pointer;
+}
+
+/*style .review-and-question-answer-section*/
+.review-and-question-answer-section {
+    padding-block: 32px;
+}
+
+.review-and-question-answer-section-header {
+    display: flex;
+    /* align-items: center; */
+    gap: 24px;
+}
+
+.review-and-question-answer-section-header button {
+    font-size: 24px;
+    font-weight: 700;
+    color: #000;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background: transparent;padding-block: 8px;
+}
+
+.review-and-question-answer-section-header button.active, .review-and-question-answer-section-header button:hover {
+    border-bottom: 2px solid #000;
+    /* padding-top: 8px; */
+}
+
+/*style .user-review-section*/
+.user-review-section {
+    display: grid;
+    grid-template-columns: 4fr 8fr;
+    grid-template-rows: auto auto 1fr;
+    grid-template-areas: "summary filter" "summary divider" "summary reviews";
+    gap: 16px;
+}
+
+.user-review-section .user-review-summary-section {
+    grid-area: summary;
+}
+
+.user-review-section .user-review-filter-section {
+    grid-area: filter;
+    padding-top: 48px;
+    min-height: 308px;
+}
+
+.user-review-section .user-review-divider {
+    grid-area: divider;
+    /* border-top: 1px solid #e0e0e0; */
+}
+
+.user-review-section .user-review-list-section {
+    grid-area: reviews;
+}
+
+/*style .user-review-summary-container .user-review-summary-header*/
+.user-review-summary-container {
+    padding: 48px 24px 24px 0;
+}
+
+.user-review-summary-container .user-review-summary-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.user-review-summary-header .user-review-summary-rating-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: #000;
+}
+
+.user-review-summary-number-of-reviews-container .number-of-reviews {
+    font-size: 16px;
+    font-weight: 400;
+    color: #333;
+}
+
+.user-review-summary-number-of-reviews-container {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/*style .user-review-filter-section*/
+.user-review-filter-section .search-bar-container {
+    width: 100%;
+    padding: 8px 12px;
+    box-shadow: none;
+    border-radius: 48px;
+    border: 1.5px solid #e0e0e0;
+}
+
+/*style .user-review-divider*/
+.user-review-divider hr {
+    margin-block: 16px;
+    border: none;
+    border-top: 1px solid #e0e0e0;
+}
+
+.user-review-list-section .user-review-description {
+    margin-bottom: 16px;
+}
+
+.user-review-list-section .user-review-card hr {
+    margin-block: 32px;
+    border: none;
+    border-top: 1px solid #e0e0e0;
+}
+
+.user-review-summary-rating-box {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-auto-rows: 18px;
+    align-items: center;
+    row-gap: 8px;
+    margin-top: 24px;
+}
+
+.user-review-summary-rating-box .score-line {
+    cursor: pointer;
+    display: contents;
+}
+
+.user-review-summary-rating-box .score-line .rating-category {
+    font-size: 14px;
+    font-weight: 400;
+    color: #000;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    margin-right: 16px;
+}
+
+.user-review-summary-rating-box .score-line .number-of-reviews {
+    font-size: 14px;
+    font-weight: 400;
+    color: #000;
+    margin-left: 8px;
+    justify-self: center;
+}
+
+.user-review-summary-rating-box .score-line .rating-score-bar {
+    min-width: 12px;
+    width: 100%;
+    height: 12px;
+    border-radius: 100px;
+    background: #e0e0e0;
+}
+
+.user-review-summary-rating-box .score-line .rating-score-bar .excellent {
+    background: #00aa6c;
+    /* width: 100%; */
+    height: 100%;
+    border-radius: 100px;
+    min-width: 12px;
+}
+
+.user-review-summary-rating-box .score-line .rating-score-bar .very-good {
+    background: #8cc63f;
+    /* width: 80%; */
+    height: 100%;
+    border-radius: 100px;
+    min-width: 12px;
+}
+
+.user-review-summary-rating-box .score-line .rating-score-bar .average {
+    background: #ffcc00;
+    /* width: 60%; */
+    height: 100%;
+    border-radius: 100px;
+    min-width: 12px;
+}
+
+.user-review-summary-rating-box .score-line .rating-score-bar .poor {
+    background: #ff6600;
+    /* width: 40%; */
+    height: 100%;
+    border-radius: 100px;
+    min-width: 12px;
+}
+
+.user-review-summary-rating-box .score-line .rating-score-bar .terrible {
+    background: #ff0000;
+    /* width: 20%; */
+    height: 100%;
+    border-radius: 100px;
+    min-width: 12px;
+}
