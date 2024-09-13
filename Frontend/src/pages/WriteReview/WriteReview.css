@@ -1,0 +1,193 @@
+.write-review-section {
+    padding-inline: 10%;
+    margin-block: 96px;
+
+    display: flex;
+    align-items: flex-start;
+}
+
+.write-review-section .content-left {
+    padding-right: 48px;
+    border-right: 1px solid #e0e0e0;
+    position: sticky;
+    top: 88px;
+    flex-basis: 40%;
+}
+
+.write-review-section .content-right {
+    padding-left: 48px;
+    flex: 1;
+}
+
+.write-review-section .content-left .title {
+    font-size: 42px;
+    font-weight: 800;
+    color: #000;
+    margin-bottom: 32px;
+}
+
+.content-left .item-card-container {
+    width: 80%;
+}
+
+.write-review-section .content-left .item-card {
+    padding: 16px;
+    border-radius: 4px;
+    border: 1px solid #e0e0e0;
+}
+
+.content-left .item-card .image-container {
+    width: 100%;
+    aspect-ratio: 1/1;
+    /* height: 213px; */
+}
+
+.content-left .item-card .image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.content-left .item-card .item-card-title {
+    margin-top: 16px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #000;
+}
+
+.content-left .item-card .address-string, .content-left .item-card .attraction-city {
+    font-size: 14px;
+    font-weight: 400;
+    color: #333;
+    margin-top: 4px;
+}
+
+/*style .content-right*/
+.content-right form .give-rating-container {
+    margin-bottom: 48px;
+}
+
+.content-right form .give-rating-container .title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 16px;
+}
+
+.give-review-description-container:not(:last-child) {
+    margin-bottom: 48px;
+}
+
+.give-review-description-container:last-child {
+    margin-bottom: 18px;
+}
+
+.give-review-description-container .title-container {
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.give-review-description-container .title-container .title, .give-review-description-container .title-container .title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #000;
+}
+
+.give-review-description-container .title-container .review-tips {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+}
+
+.give-review-description-container .title-container .review-tips .text {
+    font-size: 16px;
+    font-weight: 700;
+    color: #000;
+    text-decoration: underline;
+}
+
+.give-review-description-container .review-description {
+    padding: 16px;
+    border-radius: 4px;
+    border: 2px solid #e0e0e0;
+    box-shadow: 0 0 0 2px #e0e0e0;
+    outline: none;
+    overflow-y: auto;
+    max-height: 450px;
+    resize: none;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0,0,0,.6) transparent;
+    width: 100%;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.give-review-description-container .review-title {
+    padding: 16px;
+    border-radius: 4px;
+    border: 2px solid #e0e0e0;
+    box-shadow: 0 0 0 2px #e0e0e0;
+    outline: none;
+    width: 100%;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.give-review-description-container .review-description:focus, .give-review-description-container .review-title:focus {
+    border: 2px solid #000;
+    box-shadow: none;
+}
+
+.give-review-description-container .validate-rule {
+    font-size: 12px;
+    font-weight: 400;
+    color: #333;
+    margin-top: 8px;
+    text-align: right;
+}
+
+.write-review-condition {
+    margin-bottom: 24px;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.write-review-condition p {
+    font-size: 14px;
+    font-weight: 400;
+    color: #333;
+}
+
+.submit-review-btn {
+    padding: 18px 24px;
+    border: none;
+    outline: none;
+    background: #000;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 28px;
+    font-size: 16px;
+    font-weight: 700;
+    width: 100%;
+}
+
+.submit-review-btn:hover {
+    background: rgba(0,0,0,.9);
+}
+
+.rating-value-description-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 48px;
+}
+
+.rating-value-description-container .rating-description {
+    font-size: 16px;
+    font-weight: 400;
+    color: #333;
+}
