@@ -321,7 +321,7 @@
 }
 
 /*style .user-review-section*/
-.user-review-section {
+.review-and-question-answer-section .user-review-section {
     display: grid;
     grid-template-columns: 4fr 8fr;
     grid-template-rows: auto auto 1fr;
@@ -329,22 +329,22 @@
     gap: 16px;
 }
 
-.user-review-section .user-review-summary-section {
+.review-and-question-answer-section .user-review-section .user-review-summary-section {
     grid-area: summary;
 }
 
-.user-review-section .user-review-filter-section {
+.review-and-question-answer-section .user-review-section .user-review-filter-section {
     grid-area: filter;
     padding-top: 48px;
     min-height: 308px;
 }
 
-.user-review-section .user-review-divider {
+.review-and-question-answer-section .user-review-section .user-review-divider {
     grid-area: divider;
     /* border-top: 1px solid #e0e0e0; */
 }
 
-.user-review-section .user-review-list-section {
+.review-and-question-answer-section .user-review-section .user-review-list-section {
     grid-area: reviews;
 }
 
