@@ -509,7 +509,7 @@ const AttractionInACity = () => {
                       {attraction?.rating.toFixed(1)}
                     </div>
                     <div className="user-review-summary-number-of-reviews-container">
-                      {attraction?.rating && (
+                      {attraction?.rating !== undefined && (
                         <RatingStars
                           rating={attraction.rating}
                           width={88}
@@ -531,10 +531,12 @@ const AttractionInACity = () => {
                           className="excellent"
                           style={{
                             width: `${
-                              (categorizeReviews(attractionReviewsData)
-                                .excellent.length /
-                                attractionReviewsData.length) *
-                              100
+                              attractionReviewsData.length > 0
+                                ? (categorizeReviews(attractionReviewsData)
+                                    .excellent.length /
+                                    attractionReviewsData.length) *
+                                  100
+                                : 0
                             }%`,
                           }}
                         ></div>
@@ -552,10 +554,12 @@ const AttractionInACity = () => {
                           className="very-good"
                           style={{
                             width: `${
-                              (categorizeReviews(attractionReviewsData).veryGood
-                                .length /
-                                attractionReviewsData.length) *
-                              100
+                              attractionReviewsData.length > 0
+                                ? (categorizeReviews(attractionReviewsData)
+                                    .veryGood.length /
+                                    attractionReviewsData.length) *
+                                  100
+                                : 0
                             }%`,
                           }}
                         ></div>
@@ -573,10 +577,12 @@ const AttractionInACity = () => {
                           className="average"
                           style={{
                             width: `${
-                              (categorizeReviews(attractionReviewsData).average
-                                .length /
-                                attractionReviewsData.length) *
-                              100
+                              attractionReviewsData.length > 0
+                                ? (categorizeReviews(attractionReviewsData)
+                                    .average.length /
+                                    attractionReviewsData.length) *
+                                  100
+                                : 0
                             }%`,
                           }}
                         ></div>
@@ -594,10 +600,12 @@ const AttractionInACity = () => {
                           className="poor"
                           style={{
                             width: `${
-                              (categorizeReviews(attractionReviewsData).poor
-                                .length /
-                                attractionReviewsData.length) *
-                              100
+                              attractionReviewsData.length > 0
+                                ? (categorizeReviews(attractionReviewsData).poor
+                                    .length /
+                                    attractionReviewsData.length) *
+                                  100
+                                : 0
                             }%`,
                           }}
                         ></div>
@@ -615,10 +623,12 @@ const AttractionInACity = () => {
                           className="terrible"
                           style={{
                             width: `${
-                              (categorizeReviews(attractionReviewsData).terrible
-                                .length /
-                                attractionReviewsData.length) *
-                              100
+                              attractionReviewsData.length > 0
+                                ? (categorizeReviews(attractionReviewsData)
+                                    .terrible.length /
+                                    attractionReviewsData.length) *
+                                  100
+                                : 0
                             }%`,
                           }}
                         ></div>

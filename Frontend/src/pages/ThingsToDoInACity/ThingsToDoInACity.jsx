@@ -417,7 +417,7 @@ const ThingsToDoInACity = () => {
                           </div>
                         </div>
                         <div className="user-rating">
-                          {review.rating && (
+                          {review.rating !== undefined && (
                             <RatingStars
                               rating={review.rating}
                               width={88}
