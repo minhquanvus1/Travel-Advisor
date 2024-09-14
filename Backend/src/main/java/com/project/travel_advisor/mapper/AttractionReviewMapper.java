@@ -16,6 +16,7 @@ public class AttractionReviewMapper {
                 .title(attractionReviewRequestDto.title())
                 .attraction(null)
                 .user(null)
+                .rating(attractionReviewRequestDto.rating())
                 .description(attractionReviewRequestDto.description())
                 .reviewDate(LocalDate.now())
                 .build();
