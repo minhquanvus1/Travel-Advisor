@@ -1,0 +1,49 @@
+.unauthorized-page {
+    padding-block: 58px;
+    padding-inline: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f8f9fa;
+    color: #343a40;
+  }
+  
+  .unauthorized-content {
+    text-align: center;
+    padding: 2rem;
+    border-radius: 8px;
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .unauthorized-content h1 {
+    font-size: 6rem;
+    color: #dc3545;
+  }
+  
+  .unauthorized-content h2 {
+    font-size: 2rem;
+    margin-top: 0.5rem;
+  }
+  
+  .unauthorized-content p {
+    margin: 1rem 0;
+    font-size: 1rem;
+    color: #6c757d;
+  }
+  
+  .back-home-button {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    margin-top: 1rem;
+    font-size: 1rem;
+    color: white;
+    background-color: #007bff;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .back-home-button:hover {
+    background-color: #0056b3;
+  }

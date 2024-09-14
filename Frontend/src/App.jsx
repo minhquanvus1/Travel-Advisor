@@ -27,6 +27,9 @@ import { useAuth0 } from "@auth0/auth0-react";
 import TourCheckout from "./pages/TourCheckout/TourCheckout";
 import WriteReview from "./pages/WriteReview/WriteReview";
 import MyTourBooking from "./pages/MyTourBooking/MyTourBooking";
+import AdminMainPage from "./pages/AdminMainPage/AdminMainPage";
+import UnauthorizedPage from "./pages/UnauthorizedPage/UnauthorizedPage";
+import NotFound from "./pages/NotFound/NotFound";
 const App = () => {
   const [showBackToTopButton, setShowBackToTopButton] = useState(false);
   const [restaurantState, setRestaurantState] = useState(() => {
@@ -174,6 +177,12 @@ const App = () => {
             element={<WriteReview />}
           />
           <Route path="/users/:id/my_bookings" element={<MyTourBooking />} />
+          <Route
+            path="/admin"
+            element={<AuthenticationGuard component={AdminMainPage} />}
+          />
+          <Route path="/unauthorize" element={<UnauthorizedPage />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
       {showBackToTopButton && <BackToTopButton />}
