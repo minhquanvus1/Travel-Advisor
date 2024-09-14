@@ -64,7 +64,7 @@ const WriteReview = () => {
     const review = {
       description: reviewData.reviewDescription,
       title: reviewData.reviewTitle,
-      rating: reviewData.rating,
+      rating: parseFloat(reviewData.rating),
       attractionId: attraction.id,
       userId: userFromDb.id,
     };
