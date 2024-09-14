@@ -62,7 +62,8 @@ const RestaurantInACity = ({ restaurantState, setRestaurantState }) => {
                 ></RatingStars>
 
                 <span className="number-of-reviews">
-                  {restaurant.numberOfReviews.toLocaleString("en-US")} reviews
+                  {restaurant.numberOfReviews.toLocaleString("en-US")}{" "}
+                  {restaurant.numberOfReviews < 2 ? "review" : "reviews"}
                 </span>
               </span>
               <span className="cuisines-list">
@@ -162,7 +163,8 @@ const RestaurantInACity = ({ restaurantState, setRestaurantState }) => {
                   ></RatingStars>
 
                   <span className="reviews-count">
-                    {restaurant.numberOfReviews.toLocaleString("en-US")} reviews
+                    {restaurant.numberOfReviews.toLocaleString("en-US")}{" "}
+                    {restaurant.numberOfReviews < 2 ? "review" : "reviews"}
                   </span>
                 </div>
                 <hr />

@@ -233,7 +233,8 @@ const TourInACity = (
                 ></RatingStars>
 
                 <span className="number-of-reviews">
-                  {tour.numberOfReviews.toLocaleString("en-US")} reviews
+                  {tour.numberOfReviews.toLocaleString("en-US")}{" "}
+                  {tour.numberOfReviews < 2 ? "review" : "reviews"}
                 </span>
               </div>
             </div>
@@ -821,7 +822,9 @@ const TourInACity = (
                                 ></RatingStars>
                                 <span className="number-of-reviews">
                                   {stop.numberOfReviews.toLocaleString("en-US")}{" "}
-                                  reviews
+                                  {stop.numberOfReviews < 2
+                                    ? "review"
+                                    : "reviews"}
                                 </span>
                               </div>
                               <div className="itinerary-attraction-image-container">

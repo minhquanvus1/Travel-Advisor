@@ -30,7 +30,8 @@ const TravelDestinationBigCard = ({ attraction, index }) => {
               ></RatingStars>
 
               <span className="number-of-reviews">
-                {attraction.numberOfReviews.toLocaleString("en-US")} reviews
+                {attraction.numberOfReviews.toLocaleString("en-US")}{" "}
+                {attraction.numberOfReviews < 2 ? "review" : "reviews"}
               </span>
             </div>
           </div>
