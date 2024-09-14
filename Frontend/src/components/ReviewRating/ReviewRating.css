@@ -1,6 +1,6 @@
 .star-widget-container {
    display: flex;
-    justify-content: flex-start;
+   justify-content: flex-start;align-items: center;
 }
 
 .star-widget input {
@@ -27,4 +27,11 @@
 .star-widget input#rate-5:checked ~ label {
     color: #fe7;
     text-shadow: 0 0 20px #952;
+}
+
+.rating-text {
+    font-size: 20px;
+    color: #555;
+    margin-left: 20px;
+    transition: all 0.2s ease;
 }

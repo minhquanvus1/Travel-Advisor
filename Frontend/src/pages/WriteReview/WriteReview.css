@@ -178,16 +178,3 @@
 .submit-review-btn:hover {
     background: rgba(0,0,0,.9);
 }
-
-.rating-value-description-container {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 48px;
-}
-
-.rating-value-description-container .rating-description {
-    font-size: 16px;
-    font-weight: 400;
-    color: #333;
-}

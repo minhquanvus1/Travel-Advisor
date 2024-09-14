@@ -20,10 +20,11 @@ const WriteReview = () => {
       attractionName
     )}`,
   });
-  const [reviewData, setReviewData] = useState({
-    reviewDescription: "",
-    reviewTitle: "",
-    rating: 0,
+  const [reviewData, setReviewData] = useState(() => {
+    const reviewDataFromLocalStorage = localStorage.getItem("reviewData");
+    return reviewDataFromLocalStorage
+      ? JSON.parse(reviewDataFromLocalStorage)
+      : { reviewDescription: "", reviewTitle: "", rating: 0 };
   });
   const [ratingDescription, setRatingDescription] = useState("");
   const { userFromDb, userFromDbError, userFromDbLoading } =
@@ -106,7 +107,11 @@ const WriteReview = () => {
     }
   }, [reviewData.rating]);
   useEffect(() => {
-    if (reviewData) {
+    if (
+      reviewData.rating !== 0 ||
+      reviewData.reviewDescription.trim() !== "" ||
+      reviewData.reviewTitle.trim() !== ""
+    ) {
       localStorage.setItem("reviewData", JSON.stringify(reviewData));
     }
   }, [reviewData]);
@@ -142,13 +147,10 @@ const WriteReview = () => {
         <form onSubmit={postReview}>
           <div className="give-rating-container">
             <div className="title">How would you rate your experience?</div>
-            <div className="rating-value-description-container">
-              <ReviewRating
-                rating={reviewData.rating}
-                setRating={handleRatingChange}
-              ></ReviewRating>
-              <div className="rating-description">{ratingDescription}</div>
-            </div>
+            <ReviewRating
+              rating={reviewData.rating}
+              setRating={handleRatingChange}
+            ></ReviewRating>
           </div>
           <div className="give-review-description-container">
             <div className="title-container">
