@@ -18,9 +18,11 @@ export const useAxios = (configObj) => {
       setLoading(true);
       setError(null);
       try {
-        const res = await axiosInstance[method.toLowerCase()](url, {
-          ...requestConfig,
+        const res = await axiosInstance({
+          method: method.toLowerCase(),
+          url,
           signal: controller.signal,
+          ...requestConfig,
         });
         setResponse(res.data);
         setLoading(false);
