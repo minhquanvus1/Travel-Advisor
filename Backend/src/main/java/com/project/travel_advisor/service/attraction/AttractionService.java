@@ -1,22 +1,23 @@
 package com.project.travel_advisor.service.attraction;
 
-import com.project.travel_advisor.dto.AttractionDto;
+import com.project.travel_advisor.dto.AttractionRequestDto;
+import com.project.travel_advisor.dto.AttractionResponseDto;
 
 import java.util.List;
 
 public interface AttractionService {
 
-    List<AttractionDto> findAllAttractions();
+    List<AttractionResponseDto> findAllAttractions();
 
-    AttractionDto findAttractionById(Long id);
+    AttractionResponseDto findAttractionById(Long id);
 
-    List<AttractionDto> findAttractionsInCityWithName(String cityName);
+    List<AttractionResponseDto> findAttractionsInCityWithName(String cityName);
 
-    List<AttractionDto> findAttractionsByNameContainingIgnoreCase(String name);
+    List<AttractionResponseDto> findAttractionsByNameContainingIgnoreCase(String name);
 
-    AttractionDto findAttractionByNameIgnoreCase(String name);
+    AttractionResponseDto findAttractionByNameIgnoreCase(String name);
 
-    AttractionDto createAnAttraction(AttractionDto attractionDto);
+    AttractionResponseDto createAnAttraction(AttractionRequestDto attractionRequestDto);
 
     void deleteAttractionById(Long id);
 }

@@ -27,15 +27,9 @@ public class Attraction {
     @Column(name = "website_url")
     private String websiteUrl;
 
-    @Column(name = "number_of_reviews")
-    private int numberOfReviews;
-
     private double latitude;
 
     private double longitude;
-
-    @Column(precision = 2, scale = 1)
-    private BigDecimal rating;
 
     @Column(columnDefinition = "TEXT")
     private String description;

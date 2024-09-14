@@ -6,8 +6,7 @@ import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
 
-public record AttractionDto(
-        Long id,
+public record AttractionRequestDto(
 
         @NotBlank(message = "Attraction Name must be provided")
         String name,
@@ -24,9 +23,6 @@ public record AttractionDto(
 
         String cityName,
 
-        @Positive(message = "number of reviews must be a positive number")
-        int numberOfReviews,
-
         String imageUrl,
 
         String websiteUrl,
@@ -39,11 +35,6 @@ public record AttractionDto(
 
         @NotNull(message = "longitude must be provided")
         double longitude,
-
-        @NotNull(message = "Rating must be provided")
-        @DecimalMin(value = "0.0", message = "rating must be >= 0.0")
-        @DecimalMax(value = "5.0", message = "rating must be <= 5.0")
-        BigDecimal rating,
 
         String description
 ) {

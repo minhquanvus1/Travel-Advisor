@@ -1,6 +1,7 @@
 package com.project.travel_advisor.controller;
 
-import com.project.travel_advisor.dto.AttractionDto;
+import com.project.travel_advisor.dto.AttractionRequestDto;
+import com.project.travel_advisor.dto.AttractionResponseDto;
 import com.project.travel_advisor.service.attraction.AttractionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,33 +20,34 @@ public class AttractionController {
     private final AttractionService attractionService;
 
     @GetMapping("/attractions")
-    public ResponseEntity<List<AttractionDto>> findAllAttractions() {
+    public ResponseEntity<List<AttractionResponseDto>> findAllAttractions() {
+        System.out.println("All attractions are " + attractionService.findAllAttractions());
         return ResponseEntity.ok(attractionService.findAllAttractions());
     }
 
     @GetMapping("/attractions/{id}")
-    public ResponseEntity<AttractionDto> findAttractionById(@PathVariable Long id) {
+    public ResponseEntity<AttractionResponseDto> findAttractionById(@PathVariable Long id) {
         return ResponseEntity.ok(attractionService.findAttractionById(id));
     }
 
     @GetMapping("/cities/{cityName}/attractions")
-    public ResponseEntity<List<AttractionDto>> findAttractionsInCityWithName(@PathVariable String cityName) {
+    public ResponseEntity<List<AttractionResponseDto>> findAttractionsInCityWithName(@PathVariable String cityName) {
         return ResponseEntity.ok(attractionService.findAttractionsInCityWithName(cityName));
     }
 
     @GetMapping("/attractions/search/findByNameIgnoreCase")
-    public ResponseEntity<AttractionDto> findAttractionByNameIgnoreCase(@RequestParam String name) {
+    public ResponseEntity<AttractionResponseDto> findAttractionByNameIgnoreCase(@RequestParam String name) {
         return ResponseEntity.ok(attractionService.findAttractionByNameIgnoreCase(name));
     }
 
     @GetMapping("/attractions/search/findByNameContainingIgnoreCase")
-    public ResponseEntity<List<AttractionDto>> findAttractionsByNameContainingIgnoreCase(@RequestParam String name) {
+    public ResponseEntity<List<AttractionResponseDto>> findAttractionsByNameContainingIgnoreCase(@RequestParam String name) {
         return ResponseEntity.ok(attractionService.findAttractionsByNameContainingIgnoreCase(name));
     }
 
     @PostMapping("/attractions")
-    public ResponseEntity<AttractionDto> createAnAttraction(@Valid @RequestBody AttractionDto attractionDto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(attractionService.createAnAttraction(attractionDto));
+    public ResponseEntity<AttractionResponseDto> createAnAttraction(@Valid @RequestBody AttractionRequestDto attractionRequestDto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(attractionService.createAnAttraction(attractionRequestDto));
     }
 
     @DeleteMapping("/attractions/{id}")

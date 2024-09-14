@@ -1,44 +1,23 @@
 package com.project.travel_advisor.mapper;
 
-import com.project.travel_advisor.dto.AttractionDto;
+import com.project.travel_advisor.dto.AttractionResponseDto;
+import com.project.travel_advisor.dto.AttractionRequestDto;
 import com.project.travel_advisor.entity.Attraction;
 
 public class AttractionMapper {
 
-    public static Attraction mapToAttraction(AttractionDto attractionDto) {
+    public static Attraction mapToAttraction(AttractionRequestDto attractionRequestDto) {
         return Attraction
                 .builder()
-                .id(attractionDto.id())
-                .name(attractionDto.name())
+                .name(attractionRequestDto.name())
                 .city(null)
                 .subcategory(null)
-                .numberOfReviews(attractionDto.numberOfReviews())
-                .imageUrl(attractionDto.imageUrl())
-                .websiteUrl(attractionDto.websiteUrl())
-                .address(attractionDto.addressObj())
-                .description(attractionDto.description())
-                .latitude(attractionDto.latitude())
-                .longitude(attractionDto.longitude())
-                .rating(attractionDto.rating())
+                .imageUrl(attractionRequestDto.imageUrl())
+                .websiteUrl(attractionRequestDto.websiteUrl())
+                .address(attractionRequestDto.addressObj())
+                .description(attractionRequestDto.description())
+                .latitude(attractionRequestDto.latitude())
+                .longitude(attractionRequestDto.longitude())
                 .build();
-    }
-
-    public static AttractionDto mapToAttractionDto(Attraction attraction) {
-        return new AttractionDto(
-                attraction.getId(),
-                attraction.getName(),
-                attraction.getSubcategory().getId(),
-                attraction.getSubcategory().getName(),
-                attraction.getCity().getId(),
-                attraction.getCity().getName(),
-                attraction.getNumberOfReviews(),
-                attraction.getImageUrl(),
-                attraction.getWebsiteUrl(),
-                attraction.getAddress(),
-                attraction.getLatitude(),
-                attraction.getLongitude(),
-                attraction.getRating(),
-                attraction.getDescription()
-        );
     }
 }
