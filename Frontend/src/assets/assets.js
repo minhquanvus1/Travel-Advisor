@@ -1,11 +1,13 @@
 import logo from "./logo.png";
 import vietnam_map from "./vietnam_map.png";
 import small_logo from "./small_logo.png";
+import credit_card from "./credit_card.png";
 
 export const assets = {
   logo,
   vietnam_map,
   small_logo,
+  credit_card,
 };
 
 export const cities = [

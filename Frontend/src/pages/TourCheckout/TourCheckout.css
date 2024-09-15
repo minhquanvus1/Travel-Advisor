@@ -7,8 +7,8 @@
 }
 
 .tour-checkout-section .content-left {
-    flex-basis: 65%;
-    padding-right: 10%;
+    flex-basis: 60%;
+    padding-right: 8%;
 }
 
 .tour-checkout-section .content-left .title {
@@ -230,7 +230,7 @@
 }
 
 /* General container styling */
-#card-element {
+/* #card-element {
     margin: 20px 0;
     padding: 10px;
     border: 1px solid #ddd;
@@ -239,7 +239,7 @@
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
     width: 100%;
-}
+} */
 
 
 /*style .register-user-btn*/
@@ -308,3 +308,141 @@
     outline: none;
     border-color: #28a745;
 }
+
+/*style .payment-container*/
+.payment-container {
+    max-width: 500px;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+  }
+  
+  /* Title styling */
+  .payment-container .title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: #333;
+    text-align: center;
+  }
+  
+  /* Label styling */
+  .payment-container label {
+    display: block;
+    font-size: 0.875rem;
+    margin-bottom: 8px;
+    color: #666;
+  }
+  
+/* Container for input and icon */
+.card-input-container {
+    display: flex;
+    align-items: center;
+  }
+
+  /* Card icon styling */
+.card-icon {
+    position: absolute;
+    right: 16px; /* Align to the right side of the container */
+    height: 24px; /* Adjust height as needed */
+    min-width: 120px;
+    cursor: pointer;
+  }
+
+  .cvc-icon {
+    position: absolute;
+    cursor: pointer;
+    right: 16px;
+    fill: #6d6e78;
+    transition: all 0.3s ease;
+  }
+
+  .cvc-icon.error-active {
+    fill: #df1b41;
+    width: 1.95em;
+    height: 1.95em;
+    animation: pulse .8s ease-in-out;
+  }
+
+  /* Input wrapper styling */
+  .payment-container .input-wrapper {
+    position: relative;
+    margin-bottom: 24px;
+  }
+  
+  /* Input styling */
+  .payment-container .input-wrapper .card-input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid #d1d1d1;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease;
+  }
+  
+  .payment-container .input-wrapper .card-input.error-active {
+    border-color: #df1b41;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.03), 0px 3px 6px rgba(0, 0, 0, 0.02), 0 0 0 1px #df1b41;
+  }
+
+  /* Focus styling */
+  .payment-container .input-wrapper .card-input:focus {
+    border-color: #007bff;
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(38, 143, 255, 0.15);
+  }
+  
+  /* Error message styling */
+  .payment-container .input-wrapper .error-message {
+    font-size: 0.75rem;
+    color: #df1b41;
+    margin-top: 4px;
+  }
+  
+  /* Button styling */
+  .checkout-btn {
+    width: 100%;
+    padding: 14px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 1.125rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-transform: uppercase;
+  }
+  
+  .checkout-btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+  }
+  
+  .checkout-btn:active {
+    background-color: #004494;
+    transform: translateY(0);
+  }
+  
+  .checkout-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  /* Keyframe animation for pulsing effect */
+@keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.18);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
