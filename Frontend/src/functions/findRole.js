@@ -14,8 +14,8 @@ export const findRole = (token) => {
   const parsedJsonPayload = JSON.parse(jsonPayload);
   const permissionList = parsedJsonPayload.permissions;
   if (permissionList.includes("get:users")) {
-    return "admin";
+    return "Admin";
   } else {
-    return "authenticated-user";
+    return "Authenticated User";
   }
 };
