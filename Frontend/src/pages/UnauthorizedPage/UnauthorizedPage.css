@@ -1,9 +1,9 @@
 .unauthorized-page {
-    padding-block: 58px;
+    padding-block: 38px;
     padding-inline: 10%;
     display: flex;
     justify-content: center;
-    align-items: center;
+    /* align-items: center; */
     background-color: #f8f9fa;
     color: #343a40;
   }

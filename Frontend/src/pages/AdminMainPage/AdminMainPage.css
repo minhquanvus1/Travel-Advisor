@@ -1,4 +1,9 @@
 .admin-main-page {
+    /* display: flex; */
+    margin-block: 55px;
+}
+/* .admin-main-page-contents {
     margin-block: 3vw;
     padding-inline: 10%;
-}
+    flex: 1;
+} */

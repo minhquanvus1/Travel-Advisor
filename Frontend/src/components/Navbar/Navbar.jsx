@@ -17,7 +17,7 @@ import { useAxiosFunction } from "../../hooks/useAxiosFunction";
 import { useAccessToken } from "../../hooks/useAccessToken";
 import { UserContext } from "../../context/UserContextProvider";
 
-const Navbar = ({ restaurantState, setRestaurantState }) => {
+const Navbar = ({ restaurantState, setRestaurantState, role }) => {
   const { token } = useAccessToken();
   const [userData, userError, userLoading, axiosFetch] = useAxiosFunction();
   const {
@@ -379,7 +379,7 @@ const Navbar = ({ restaurantState, setRestaurantState }) => {
         setMenu("");
     }
   }, [location.pathname]);
-  if (isLoading || userFromDbLoading) return <div>Loading...</div>;
+  // if (isLoading || userFromDbLoading) return <div>Loading...</div>;
   return (
     <div className="navbar-container">
       <div className={`navbar ${scroll}`}>
@@ -401,7 +401,11 @@ const Navbar = ({ restaurantState, setRestaurantState }) => {
               <Link to="/">Home</Link>
             </li>
             <li>
-              <Link to="/discover">Discover</Link>
+              {role && role === "Admin" ? (
+                <Link to="/admin">Admin</Link>
+              ) : (
+                <Link to="/discover">Discover</Link>
+              )}
             </li>
             <li>Travel Tips</li>
             {scroll !== "new-navbar" && <li>More</li>}
