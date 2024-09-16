@@ -1,3 +1,54 @@
 .manage-users-section {
-    margin-top: 55px;
+    margin-block: 55px;
+}
+
+.manage-users-section-title {
+    margin-bottom: 10px;
+}
+
+.manage-users-section .users-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.users-list-container .users-list-title {
+    display: grid;
+    grid-template-columns: 1.7fr 1fr 1fr 1fr 1fr 1fr;
+    align-items: center;
+    gap: 50px;
+    padding: 10px 12px;
+}
+
+.users-list-container .users-list-title.table-headers{
+    background: gray;
+}
+
+.users-list-container .users-list-title.table-headers p {
+    font-weight: 700;
+}
+
+.users-list-item img {
+    width: 100px;
+}
+
+.users-list-item {
+    border: 1px solid #e0e0e0;
+    border-inline: none;
+}
+
+.users-list-item:first-child {
+    border-top: none;
+}
+
+.users-list-item:last-child {
+    border-bottom: none;
+}
+
+.remove-cross-icon {
+    cursor: pointer;
+}
+
+.users-list-contents .users-list-item-wrapper, .users-list-contents .users-list-item-wrapper .users-list-item-link {
+    display: contents;
 }
