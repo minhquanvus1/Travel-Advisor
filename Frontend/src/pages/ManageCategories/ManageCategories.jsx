@@ -55,11 +55,13 @@ const ManageCategories = () => {
   ]);
   console.log("all categories are ", categories);
 
-  const handleUpdateCategory = async (categoryId) => {
+  const handleUpdateCategory = async (e) => {
+    e.preventDefault();
+    if (!selectedCategory) return;
     const data = await updateCategory({
       axiosInstance: axiosInstance,
       method: "PUT",
-      url: `/categories/${categoryId}`,
+      url: `/categories/${selectedCategory.id}`,
       requestConfig: {
         headers: {
           "Content-Type": "application/json",
@@ -69,7 +71,7 @@ const ManageCategories = () => {
     });
     if (data) {
       toast.success(
-        `Category with id ${categoryId} has been updated successfully`
+        `Category with id ${selectedCategory.id} has been updated successfully`
       );
       setOpenModal(false);
       setFormData({ name: "" });
@@ -88,7 +90,8 @@ const ManageCategories = () => {
       );
     }
   };
-  const handlePostCategory = async () => {
+  const handlePostCategory = async (e) => {
+    e.preventDefault();
     const data = await postCategory({
       axiosInstance: axiosInstance,
       method: "POST",
@@ -203,41 +206,47 @@ const ManageCategories = () => {
             X
           </div>
           <h2>{selectedCategory ? "Update Category" : "Add new Category"}</h2>
-          <label htmlFor="categoryName" className="modal-label">
-            Category Name
-          </label>
-          <input
-            type="text"
-            id="categoryName"
-            className="modal-input"
-            placeholder="Category Name"
-            name="name"
-            value={formData.name}
-            onChange={(e) =>
-              setFormData((prev) => ({
-                ...prev,
-                [e.target.name]: e.target.value,
-              }))
+          <form
+            onSubmit={
+              selectedCategory ? handleUpdateCategory : handlePostCategory
             }
-            required
-          />
-          {selectedCategory ? (
-            <button
-              className="modal-update-button"
-              onClick={() => handleUpdateCategory(selectedCategory.id)}
-              disabled={updateCategoryLoading}
-            >
-              {updateCategoryLoading ? "Updating..." : "Update"}
-            </button>
-          ) : (
-            <button
-              className="modal-update-button"
-              onClick={() => handlePostCategory()}
-              disabled={postCategoryLoading}
-            >
-              {postCategoryLoading ? "Saving..." : "Save"}
-            </button>
-          )}
+          >
+            <label htmlFor="categoryName" className="modal-label">
+              Category Name
+            </label>
+            <input
+              type="text"
+              id="categoryName"
+              className="modal-input"
+              placeholder="Category Name"
+              name="name"
+              value={formData.name}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  [e.target.name]: e.target.value,
+                }))
+              }
+              required
+            />
+            {selectedCategory ? (
+              <button
+                type="submit"
+                className="modal-update-button"
+                disabled={updateCategoryLoading}
+              >
+                {updateCategoryLoading ? "Updating..." : "Update"}
+              </button>
+            ) : (
+              <button
+                type="submit"
+                className="modal-update-button"
+                disabled={postCategoryLoading}
+              >
+                {postCategoryLoading ? "Saving..." : "Save"}
+              </button>
+            )}
+          </form>
         </div>
       </div>
     </div>
