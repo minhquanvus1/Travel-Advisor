@@ -107,13 +107,7 @@ const WriteReview = () => {
     }
   }, [reviewData.rating]);
   useEffect(() => {
-    if (
-      reviewData.rating !== 0 ||
-      reviewData.reviewDescription.trim() !== "" ||
-      reviewData.reviewTitle.trim() !== ""
-    ) {
-      localStorage.setItem("reviewData", JSON.stringify(reviewData));
-    }
+    localStorage.setItem("reviewData", JSON.stringify(reviewData));
   }, [reviewData]);
   if (attractionLoading) return <div>Loading...</div>;
   if (attractionError) return <div>Error...</div>;
