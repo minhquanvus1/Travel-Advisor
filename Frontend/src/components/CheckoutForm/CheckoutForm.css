@@ -1,0 +1,64 @@
+/* Container for the form */
+.payment-container {
+    max-width: 500px; /* Limiting the width to make it look more professional */
+    padding: 20px; /* Adding some padding around the form */
+    border-radius: 8px; /* Rounded corners for a modern look */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    background-color: #ffffff; /* White background for a clean appearance */
+  }
+  
+  /* Styling the form itself */
+  .payment-container form {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+  }
+  
+  /* Styling the PaymentElement container */
+  .payment-container .StripeElement {
+    margin-bottom: 20px; 
+    padding: 10px;
+    padding-bottom: 50px; 
+    border: 1px solid #ced4da; 
+    border-radius: 4px; 
+    background-color: #f8f9fa; 
+    font-size: 16px; 
+    color: #495057; 
+  }
+
+  /* Optional: Add some margin around the form's heading if you have one */
+  .payment-container h2 {
+    margin-bottom: 20px; /* Space below the heading */
+    font-size: 24px; /* Font size for the heading */
+    color: #333333; /* Dark text color for the heading */
+    text-align: center; /* Center the heading text */
+  }
+  
+  .checkout-btn {
+    width: 100%;
+    padding: 14px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 1.125rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-transform: uppercase;
+  }
+  
+  .checkout-btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+  }
+  
+  .checkout-btn:active {
+    background-color: #004494;
+    transform: translateY(0);
+  }
+  
+  .checkout-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    transform: none;
+  }

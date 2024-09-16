@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useContext } from "react";
+import React, { useState, useMemo, useContext, useEffect } from "react";
 import "./TourCheckout.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { axiosInstance } from "../../apis/axiosInstance";
@@ -9,6 +9,7 @@ import { useAccessToken } from "../../hooks/useAccessToken";
 import { UserContext } from "../../context/UserContextProvider";
 import credit_card from "../../assets/credit_card.png";
 import { toast } from "react-toastify";
+import { Elements } from "@stripe/react-stripe-js";
 import "react-toastify/dist/ReactToastify.css";
 import {
   CardElement,
@@ -19,10 +20,16 @@ import {
   CardCvcElement,
 } from "@stripe/react-stripe-js";
 import RatingStars from "../../components/RatingStars/RatingStars";
-
+import { createPaymentIntent } from "../../functions/createPaymentIntent";
+import { loadStripe } from "@stripe/stripe-js";
+import CheckoutForm from "../../components/CheckoutForm/CheckoutForm";
+const stripePromise = loadStripe(
+  import.meta.env.VITE_REACT_APP_STRIPE_PUBLISHABLE_KEY
+);
 const TourCheckout = () => {
   const { cityName, tourName } = useParams();
   const { token } = useAccessToken();
+  const [clientSecret, setClientSecret] = useState("");
   const [tour, tourError, tourLoading] = useAxios({
     axiosInstance: axiosInstance,
     url: `/tours/search?tourName=${replaceUnderScoreWithWhiteSpace(
@@ -30,6 +37,7 @@ const TourCheckout = () => {
     )}&cityName=${replaceUnderScoreWithWhiteSpace(cityName)}`,
     method: "GET",
   });
+
   const { user, isAuthenticated, loginWithRedirect } = useAuth0();
   const { userFromDb, userFromDbError, userFromDbLoading, refetchUser } =
     useContext(UserContext);
@@ -51,6 +59,7 @@ const TourCheckout = () => {
   const [expiryDateError, setExpiryDateError] = useState("");
   const [cvcError, setCvcError] = useState("");
   const bookingDetails = JSON.parse(localStorage.getItem("bookingDetails"));
+
   const handleCardNumberChange = (event) => {
     if (event.error) {
       setCardNumberError(event.error.message);
@@ -76,10 +85,56 @@ const TourCheckout = () => {
   };
 
   let totalPrice = useMemo(() => {
-    if (bookingDetails && tour) {
-      return (bookingDetails.numberOfPeople * tour.price).toFixed(2);
+    console.log("at first booking details is ", bookingDetails);
+    console.log("at here tour is ", tour);
+    if (bookingDetails && !Array.isArray(tour) && tour) {
+      if (isNaN(bookingDetails.numberOfPeople) || isNaN(tour.price)) {
+        console.log(
+          "invalid number of people, or tour price, must be a Number"
+        );
+        return;
+      }
+      return bookingDetails.numberOfPeople * tour.price;
     }
-  }, [bookingDetails?.numberOfPeople, tour?.price]);
+  }, [bookingDetails, tour]);
+  console.log("total price is ", totalPrice);
+  useEffect(() => {
+    // Define an async function inside the useEffect
+    const fetchClientSecret = async () => {
+      console.log("fetch client secret is called");
+      console.log("total price in function is ", totalPrice);
+      console.log("hehe is ", Number.isNaN(totalPrice));
+      if (!totalPrice || isNaN(totalPrice) || !user.email) {
+        console.error("Invalid totalPrice or missing email");
+        return;
+      }
+      const paymentInfo = {
+        amount: Math.round(totalPrice * 100),
+        currency: "USD",
+        receiptEmail: user.email,
+      };
+
+      try {
+        const data = await createPaymentIntent(paymentInfo);
+        setClientSecret(data?.client_secret); // Store the client secret in state
+      } catch (error) {
+        console.error("Error creating payment intent:", error);
+      }
+    };
+
+    // Only call the function if totalPrice is truthy, and can be converted to a Number and user.email is truthy
+    if (totalPrice && !isNaN(totalPrice) && user.email) {
+      fetchClientSecret();
+    }
+  }, [totalPrice, user.email]); // Re-run when totalPrice or user.email changes
+
+  console.log("client_secret is", clientSecret);
+  const options = {
+    // passing the client secret obtained in step 3
+    clientSecret: clientSecret,
+    // Fully customizable with appearance API.
+    appearance: { theme: "stripe" },
+  };
   const navigate = useNavigate();
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -411,7 +466,7 @@ const TourCheckout = () => {
     }
   };
   if (!bookingDetails) return <div>Booking details not found</div>;
-  if (userFromDbLoading) return <div>Loading...</div>;
+  if (userFromDbLoading || !clientSecret) return <div>Loading...</div>;
   return (
     <div className="tour-checkout-section">
       {!Array.isArray(tour) && tour && (
@@ -495,7 +550,7 @@ const TourCheckout = () => {
                   </form>
                 </div>
               )}
-            {!Array.isArray(userFromDb) && userFromDb && (
+            {!Array.isArray(userFromDb) && userFromDb && clientSecret && (
               // <div className="payment-container">
               //   <h2 className="title">Pay with Credit Card:</h2>
               //   {/* <CardElement id="card-element" /> */}
@@ -516,159 +571,169 @@ const TourCheckout = () => {
               //     {bookTourLoading ? "Processing..." : "Check Out"}
               //   </button>
               // </div>
+              // <div className="payment-container">
+              //   <h2 className="title">Pay with Credit Card:</h2>
+
+              //   <label htmlFor="card-number">Card Number</label>
+              //   <div className="input-wrapper">
+              //     <div className="card-input-container">
+              //       <CardNumberElement
+              //         id="card-number"
+              //         className={`card-input ${
+              //           cardNumberError ? "error-active" : ""
+              //         }`}
+              //         onChange={handleCardNumberChange}
+              //         required
+              //       />
+              //       {cardNumberError ? (
+              //         <svg
+              //           className={`${
+              //             cardNumberError ? "cvc-icon error-active" : ""
+              //           }`}
+              //           width="24"
+              //           height="24"
+              //           viewBox="0 0 24 24"
+              //           xmlns="http://www.w3.org/2000/svg"
+              //           role="img"
+              //           aria-labelledby="cvcDesc"
+              //         >
+              //           <path
+              //             opacity=".2"
+              //             fillRule="evenodd"
+              //             clipRule="evenodd"
+              //             d="M15.337 4A5.493 5.493 0 0013 8.5c0 1.33.472 2.55 1.257 3.5H4a1 1 0 00-1 1v1a1 1 0 001 1h16a1 1 0 001-1v-.6a5.526 5.526 0 002-1.737V18a2 2 0 01-2 2H3a2 2 0 01-2-2V6a2 2 0 012-2h12.337zm6.707.293c.239.202.46.424.662.663a2.01 2.01 0 00-.662-.663z"
+              //           ></path>
+              //           <path
+              //             opacity=".4"
+              //             fillRule="evenodd"
+              //             clipRule="evenodd"
+              //             d="M13.6 6a5.477 5.477 0 00-.578 3H1V6h12.6z"
+              //           ></path>
+              //           <path
+              //             fillRule="evenodd"
+              //             clipRule="evenodd"
+              //             d="M18.5 14a5.5 5.5 0 110-11 5.5 5.5 0 010 11zm-2.184-7.779h-.621l-1.516.77v.786l1.202-.628v3.63h.943V6.22h-.008zm1.807.629c.448 0 .762.251.762.613 0 .393-.37.668-.904.668h-.235v.668h.283c.565 0 .95.282.95.691 0 .393-.377.66-.911.66-.393 0-.786-.126-1.194-.37v.786c.44.189.88.291 1.312.291 1.029 0 1.736-.526 1.736-1.288 0-.535-.33-.967-.88-1.14.472-.157.778-.573.778-1.045 0-.738-.652-1.241-1.595-1.241a3.143 3.143 0 00-1.234.267v.77c.378-.212.763-.33 1.132-.33zm3.394 1.713c.574 0 .974.338.974.778 0 .463-.4.785-.974.785-.346 0-.707-.11-1.076-.337v.809c.385.173.778.26 1.163.26.204 0 .392-.032.573-.08a4.313 4.313 0 00.644-2.262l-.015-.33a1.807 1.807 0 00-.967-.252 3 3 0 00-.448.032V6.944h1.132a4.423 4.423 0 00-.362-.723h-1.587v2.475a3.9 3.9 0 01.943-.133z"
+              //           ></path>
+              //         </svg>
+              //       ) : (
+              //         <img
+              //           src={credit_card}
+              //           alt="Credit Card Icon"
+              //           className="card-icon"
+              //         />
+              //       )}
+              //     </div>
+              //     {cardNumberError && (
+              //       <div className="error-message">{cardNumberError}</div>
+              //     )}
+              //   </div>
+
+              //   <label htmlFor="card-expiry">Expiration Date</label>
+              //   <div className="input-wrapper">
+              //     <div className="card-input-container">
+              //       <CardExpiryElement
+              //         id="card-expiry"
+              //         className={`card-input ${
+              //           expiryDateError ? "error-active" : ""
+              //         }`}
+              //         onChange={handleExpiryDateChange}
+              //         required
+              //       />
+              //       <svg
+              //         className={`cvc-icon ${
+              //           expiryDateError ? "error-active" : ""
+              //         }`}
+              //         width="24"
+              //         height="24"
+              //         viewBox="0 0 24 24"
+              //         xmlns="http://www.w3.org/2000/svg"
+              //         role="img"
+              //         aria-labelledby="cvcDesc"
+              //       >
+              //         <path
+              //           opacity=".2"
+              //           fillRule="evenodd"
+              //           clipRule="evenodd"
+              //           d="M15.337 4A5.493 5.493 0 0013 8.5c0 1.33.472 2.55 1.257 3.5H4a1 1 0 00-1 1v1a1 1 0 001 1h16a1 1 0 001-1v-.6a5.526 5.526 0 002-1.737V18a2 2 0 01-2 2H3a2 2 0 01-2-2V6a2 2 0 012-2h12.337zm6.707.293c.239.202.46.424.662.663a2.01 2.01 0 00-.662-.663z"
+              //         ></path>
+              //         <path
+              //           opacity=".4"
+              //           fillRule="evenodd"
+              //           clipRule="evenodd"
+              //           d="M13.6 6a5.477 5.477 0 00-.578 3H1V6h12.6z"
+              //         ></path>
+              //         <path
+              //           fillRule="evenodd"
+              //           clipRule="evenodd"
+              //           d="M18.5 14a5.5 5.5 0 110-11 5.5 5.5 0 010 11zm-2.184-7.779h-.621l-1.516.77v.786l1.202-.628v3.63h.943V6.22h-.008zm1.807.629c.448 0 .762.251.762.613 0 .393-.37.668-.904.668h-.235v.668h.283c.565 0 .95.282.95.691 0 .393-.377.66-.911.66-.393 0-.786-.126-1.194-.37v.786c.44.189.88.291 1.312.291 1.029 0 1.736-.526 1.736-1.288 0-.535-.33-.967-.88-1.14.472-.157.778-.573.778-1.045 0-.738-.652-1.241-1.595-1.241a3.143 3.143 0 00-1.234.267v.77c.378-.212.763-.33 1.132-.33zm3.394 1.713c.574 0 .974.338.974.778 0 .463-.4.785-.974.785-.346 0-.707-.11-1.076-.337v.809c.385.173.778.26 1.163.26.204 0 .392-.032.573-.08a4.313 4.313 0 00.644-2.262l-.015-.33a1.807 1.807 0 00-.967-.252 3 3 0 00-.448.032V6.944h1.132a4.423 4.423 0 00-.362-.723h-1.587v2.475a3.9 3.9 0 01.943-.133z"
+              //         ></path>
+              //       </svg>
+              //     </div>
+              //     {expiryDateError && (
+              //       <div className="error-message">{expiryDateError}</div>
+              //     )}
+              //   </div>
+
+              //   <label htmlFor="card-cvc">CVC</label>
+              //   <div className="input-wrapper">
+              //     <div className="card-input-container">
+              //       <CardCvcElement
+              //         id="card-cvc"
+              //         className={`card-input ${cvcError ? "error-active" : ""}`}
+              //         onChange={handleCvcChange}
+              //         required
+              //       />
+              //       {cvcError && (
+              //         <svg
+              //           className={`${cvcError ? "cvc-icon error-active" : ""}`}
+              //           width="24"
+              //           height="24"
+              //           viewBox="0 0 24 24"
+              //           xmlns="http://www.w3.org/2000/svg"
+              //           role="img"
+              //           aria-labelledby="cvcDesc"
+              //         >
+              //           <path
+              //             opacity=".2"
+              //             fillRule="evenodd"
+              //             clipRule="evenodd"
+              //             d="M15.337 4A5.493 5.493 0 0013 8.5c0 1.33.472 2.55 1.257 3.5H4a1 1 0 00-1 1v1a1 1 0 001 1h16a1 1 0 001-1v-.6a5.526 5.526 0 002-1.737V18a2 2 0 01-2 2H3a2 2 0 01-2-2V6a2 2 0 012-2h12.337zm6.707.293c.239.202.46.424.662.663a2.01 2.01 0 00-.662-.663z"
+              //           ></path>
+              //           <path
+              //             opacity=".4"
+              //             fillRule="evenodd"
+              //             clipRule="evenodd"
+              //             d="M13.6 6a5.477 5.477 0 00-.578 3H1V6h12.6z"
+              //           ></path>
+              //           <path
+              //             fillRule="evenodd"
+              //             clipRule="evenodd"
+              //             d="M18.5 14a5.5 5.5 0 110-11 5.5 5.5 0 010 11zm-2.184-7.779h-.621l-1.516.77v.786l1.202-.628v3.63h.943V6.22h-.008zm1.807.629c.448 0 .762.251.762.613 0 .393-.37.668-.904.668h-.235v.668h.283c.565 0 .95.282.95.691 0 .393-.377.66-.911.66-.393 0-.786-.126-1.194-.37v.786c.44.189.88.291 1.312.291 1.029 0 1.736-.526 1.736-1.288 0-.535-.33-.967-.88-1.14.472-.157.778-.573.778-1.045 0-.738-.652-1.241-1.595-1.241a3.143 3.143 0 00-1.234.267v.77c.378-.212.763-.33 1.132-.33zm3.394 1.713c.574 0 .974.338.974.778 0 .463-.4.785-.974.785-.346 0-.707-.11-1.076-.337v.809c.385.173.778.26 1.163.26.204 0 .392-.032.573-.08a4.313 4.313 0 00.644-2.262l-.015-.33a1.807 1.807 0 00-.967-.252 3 3 0 00-.448.032V6.944h1.132a4.423 4.423 0 00-.362-.723h-1.587v2.475a3.9 3.9 0 01.943-.133z"
+              //           ></path>
+              //         </svg>
+              //       )}
+              //     </div>
+
+              //     {cvcError && <div className="error-message">{cvcError}</div>}
+              //   </div>
+
+              //   <button
+              //     className="checkout-btn"
+              //     disabled={bookTourLoading}
+              //     onClick={handleBooking}
+              //   >
+              //     {bookTourLoading ? "Processing..." : "Check Out"}
+              //   </button>
+              // </div>
               <div className="payment-container">
-                <h2 className="title">Pay with Credit Card:</h2>
-
-                <label htmlFor="card-number">Card Number</label>
-                <div className="input-wrapper">
-                  <div className="card-input-container">
-                    <CardNumberElement
-                      id="card-number"
-                      className={`card-input ${
-                        cardNumberError ? "error-active" : ""
-                      }`}
-                      onChange={handleCardNumberChange}
-                      required
-                    />
-                    {cardNumberError ? (
-                      <svg
-                        className={`${
-                          cardNumberError ? "cvc-icon error-active" : ""
-                        }`}
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                        role="img"
-                        aria-labelledby="cvcDesc"
-                      >
-                        <path
-                          opacity=".2"
-                          fillRule="evenodd"
-                          clipRule="evenodd"
-                          d="M15.337 4A5.493 5.493 0 0013 8.5c0 1.33.472 2.55 1.257 3.5H4a1 1 0 00-1 1v1a1 1 0 001 1h16a1 1 0 001-1v-.6a5.526 5.526 0 002-1.737V18a2 2 0 01-2 2H3a2 2 0 01-2-2V6a2 2 0 012-2h12.337zm6.707.293c.239.202.46.424.662.663a2.01 2.01 0 00-.662-.663z"
-                        ></path>
-                        <path
-                          opacity=".4"
-                          fillRule="evenodd"
-                          clipRule="evenodd"
-                          d="M13.6 6a5.477 5.477 0 00-.578 3H1V6h12.6z"
-                        ></path>
-                        <path
-                          fillRule="evenodd"
-                          clipRule="evenodd"
-                          d="M18.5 14a5.5 5.5 0 110-11 5.5 5.5 0 010 11zm-2.184-7.779h-.621l-1.516.77v.786l1.202-.628v3.63h.943V6.22h-.008zm1.807.629c.448 0 .762.251.762.613 0 .393-.37.668-.904.668h-.235v.668h.283c.565 0 .95.282.95.691 0 .393-.377.66-.911.66-.393 0-.786-.126-1.194-.37v.786c.44.189.88.291 1.312.291 1.029 0 1.736-.526 1.736-1.288 0-.535-.33-.967-.88-1.14.472-.157.778-.573.778-1.045 0-.738-.652-1.241-1.595-1.241a3.143 3.143 0 00-1.234.267v.77c.378-.212.763-.33 1.132-.33zm3.394 1.713c.574 0 .974.338.974.778 0 .463-.4.785-.974.785-.346 0-.707-.11-1.076-.337v.809c.385.173.778.26 1.163.26.204 0 .392-.032.573-.08a4.313 4.313 0 00.644-2.262l-.015-.33a1.807 1.807 0 00-.967-.252 3 3 0 00-.448.032V6.944h1.132a4.423 4.423 0 00-.362-.723h-1.587v2.475a3.9 3.9 0 01.943-.133z"
-                        ></path>
-                      </svg>
-                    ) : (
-                      <img
-                        src={credit_card}
-                        alt="Credit Card Icon"
-                        className="card-icon"
-                      />
-                    )}
-                  </div>
-                  {cardNumberError && (
-                    <div className="error-message">{cardNumberError}</div>
-                  )}
-                </div>
-
-                <label htmlFor="card-expiry">Expiration Date</label>
-                <div className="input-wrapper">
-                  <div className="card-input-container">
-                    <CardExpiryElement
-                      id="card-expiry"
-                      className={`card-input ${
-                        expiryDateError ? "error-active" : ""
-                      }`}
-                      onChange={handleExpiryDateChange}
-                      required
-                    />
-                    <svg
-                      className={`cvc-icon ${
-                        expiryDateError ? "error-active" : ""
-                      }`}
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                      role="img"
-                      aria-labelledby="cvcDesc"
-                    >
-                      <path
-                        opacity=".2"
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M15.337 4A5.493 5.493 0 0013 8.5c0 1.33.472 2.55 1.257 3.5H4a1 1 0 00-1 1v1a1 1 0 001 1h16a1 1 0 001-1v-.6a5.526 5.526 0 002-1.737V18a2 2 0 01-2 2H3a2 2 0 01-2-2V6a2 2 0 012-2h12.337zm6.707.293c.239.202.46.424.662.663a2.01 2.01 0 00-.662-.663z"
-                      ></path>
-                      <path
-                        opacity=".4"
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M13.6 6a5.477 5.477 0 00-.578 3H1V6h12.6z"
-                      ></path>
-                      <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M18.5 14a5.5 5.5 0 110-11 5.5 5.5 0 010 11zm-2.184-7.779h-.621l-1.516.77v.786l1.202-.628v3.63h.943V6.22h-.008zm1.807.629c.448 0 .762.251.762.613 0 .393-.37.668-.904.668h-.235v.668h.283c.565 0 .95.282.95.691 0 .393-.377.66-.911.66-.393 0-.786-.126-1.194-.37v.786c.44.189.88.291 1.312.291 1.029 0 1.736-.526 1.736-1.288 0-.535-.33-.967-.88-1.14.472-.157.778-.573.778-1.045 0-.738-.652-1.241-1.595-1.241a3.143 3.143 0 00-1.234.267v.77c.378-.212.763-.33 1.132-.33zm3.394 1.713c.574 0 .974.338.974.778 0 .463-.4.785-.974.785-.346 0-.707-.11-1.076-.337v.809c.385.173.778.26 1.163.26.204 0 .392-.032.573-.08a4.313 4.313 0 00.644-2.262l-.015-.33a1.807 1.807 0 00-.967-.252 3 3 0 00-.448.032V6.944h1.132a4.423 4.423 0 00-.362-.723h-1.587v2.475a3.9 3.9 0 01.943-.133z"
-                      ></path>
-                    </svg>
-                  </div>
-                  {expiryDateError && (
-                    <div className="error-message">{expiryDateError}</div>
-                  )}
-                </div>
-
-                <label htmlFor="card-cvc">CVC</label>
-                <div className="input-wrapper">
-                  <div className="card-input-container">
-                    <CardCvcElement
-                      id="card-cvc"
-                      className={`card-input ${cvcError ? "error-active" : ""}`}
-                      onChange={handleCvcChange}
-                      required
-                    />
-                    {cvcError && (
-                      <svg
-                        className={`${cvcError ? "cvc-icon error-active" : ""}`}
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                        role="img"
-                        aria-labelledby="cvcDesc"
-                      >
-                        <path
-                          opacity=".2"
-                          fillRule="evenodd"
-                          clipRule="evenodd"
-                          d="M15.337 4A5.493 5.493 0 0013 8.5c0 1.33.472 2.55 1.257 3.5H4a1 1 0 00-1 1v1a1 1 0 001 1h16a1 1 0 001-1v-.6a5.526 5.526 0 002-1.737V18a2 2 0 01-2 2H3a2 2 0 01-2-2V6a2 2 0 012-2h12.337zm6.707.293c.239.202.46.424.662.663a2.01 2.01 0 00-.662-.663z"
-                        ></path>
-                        <path
-                          opacity=".4"
-                          fillRule="evenodd"
-                          clipRule="evenodd"
-                          d="M13.6 6a5.477 5.477 0 00-.578 3H1V6h12.6z"
-                        ></path>
-                        <path
-                          fillRule="evenodd"
-                          clipRule="evenodd"
-                          d="M18.5 14a5.5 5.5 0 110-11 5.5 5.5 0 010 11zm-2.184-7.779h-.621l-1.516.77v.786l1.202-.628v3.63h.943V6.22h-.008zm1.807.629c.448 0 .762.251.762.613 0 .393-.37.668-.904.668h-.235v.668h.283c.565 0 .95.282.95.691 0 .393-.377.66-.911.66-.393 0-.786-.126-1.194-.37v.786c.44.189.88.291 1.312.291 1.029 0 1.736-.526 1.736-1.288 0-.535-.33-.967-.88-1.14.472-.157.778-.573.778-1.045 0-.738-.652-1.241-1.595-1.241a3.143 3.143 0 00-1.234.267v.77c.378-.212.763-.33 1.132-.33zm3.394 1.713c.574 0 .974.338.974.778 0 .463-.4.785-.974.785-.346 0-.707-.11-1.076-.337v.809c.385.173.778.26 1.163.26.204 0 .392-.032.573-.08a4.313 4.313 0 00.644-2.262l-.015-.33a1.807 1.807 0 00-.967-.252 3 3 0 00-.448.032V6.944h1.132a4.423 4.423 0 00-.362-.723h-1.587v2.475a3.9 3.9 0 01.943-.133z"
-                        ></path>
-                      </svg>
-                    )}
-                  </div>
-
-                  {cvcError && <div className="error-message">{cvcError}</div>}
-                </div>
-
-                <button
-                  className="checkout-btn"
-                  disabled={bookTourLoading}
-                  onClick={handleBooking}
-                >
-                  {bookTourLoading ? "Processing..." : "Check Out"}
-                </button>
+                <Elements stripe={stripePromise} options={options}>
+                  <CheckoutForm
+                    cityName={cityName}
+                    tourName={tourName}
+                    tourId={tour.id}
+                    tourPrice={tour.price}
+                  />
+                </Elements>
               </div>
             )}
           </div>
@@ -747,7 +812,7 @@ const TourCheckout = () => {
               <div className="card-bottom">
                 <div className="total-price-container">
                   <div className="text">Total: </div>
-                  <div className="total-price">${totalPrice}</div>
+                  <div className="total-price">${totalPrice.toFixed(2)}</div>
                 </div>
               </div>
             </div>
