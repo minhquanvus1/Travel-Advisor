@@ -35,6 +35,7 @@ import TestPage from "./pages/TestPage";
 import Sidebar from "./components/Sidebar/Sidebar";
 import ManageUsers from "./pages/ManageUsers/ManageUsers";
 import ManageCategories from "./pages/ManageCategories/ManageCategories";
+import ManageSubcategories from "./pages/ManageSubcategories/ManageSubcategories";
 const App = () => {
   const [showBackToTopButton, setShowBackToTopButton] = useState(false);
   const [role, setRole] = useState("");
@@ -246,6 +247,15 @@ const App = () => {
                 <AuthenticationGuard
                   allowedRoles={["Admin"]}
                   component={ManageCategories}
+                />
+              }
+            />
+            <Route
+              path="/admin/subcategories"
+              element={
+                <AuthenticationGuard
+                  allowedRoles={["Admin"]}
+                  component={ManageSubcategories}
                 />
               }
             />

@@ -1,0 +1,189 @@
+.manage-subcategories-section {
+    margin-block: 55px;
+    width: 60%;
+}
+
+.manage-subcategories-section-title {
+    margin-bottom: 30px;
+}
+
+.manage-subcategories-section-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.manage-subcategories-section-header .add-subcategory-button {
+    padding: 10px 20px;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.manage-subcategories-section .subcategories-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.subcategories-list-container .subcategories-list-title {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;
+    gap: 50px;
+    padding: 10px 12px;
+}
+
+.subcategories-list-container .subcategories-list-title.table-headers{
+    background: gray;
+}
+
+.subcategories-list-container .subcategories-list-title.table-headers p {
+    font-weight: 700;
+}
+
+.subcategories-list-item img {
+    width: 100px;
+}
+
+.subcategories-list-item {
+    border: 1px solid #e0e0e0;
+    border-inline: none;
+}
+
+.subcategories-list-item:first-child {
+    border-top: none;
+}
+
+.subcategories-list-item:last-child {
+    border-bottom: none;
+}
+
+.remove-button {
+    cursor: pointer;
+    padding: 5px 10px;
+    background: #f44336;
+    color: white;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+}
+
+.modal-select {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #333;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+/* Styling for select input on focus */
+/* General Form Styles */
+.update-category-modal {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 500px;
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Close Icon Styles */
+  .modal-close-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    color: #888;
+    transition: color 0.3s;
+  }
+  
+  .modal-close-icon:hover {
+    color: #333;
+  }
+  
+  /* Form Header */
+  .update-category-modal h2 {
+    margin-top: 0;
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    text-align: center;
+  }
+  
+  /* Label Styles */
+  .modal-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 8px;
+    display: block;
+  }
+  
+  /* Input Styles */
+  .modal-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #333;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    transition: border-color 0.3s;
+  }
+  
+  .modal-input:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  /* Select Styles */
+  .modal-select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #333;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    transition: border-color 0.3s;
+  }
+  
+  .modal-select:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  /* Button Styles */
+  .modal-update-button {
+    background: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .modal-update-button:hover {
+    background: #0056b3;
+  }
+  
+  .modal-update-button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }
+  
