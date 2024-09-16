@@ -48,7 +48,7 @@ const ManageUsers = () => {
   }, [deleteUserError]);
   console.log("all users are ", users);
   console.log("deletedUserId is ", deletedUserId);
-  if (isLoading || userFromDbLoading)
+  if (isLoading || userFromDbLoading || usersLoading)
     return (
       <div style={{ display: "grid", placeItems: "center", height: "100dvh" }}>
         Loading...
