@@ -22,6 +22,7 @@ export const useAxiosFunction = () => {
       });
       setResponse(res.data);
       setLoading(false);
+      return res.data;
     } catch (error) {
       if (axiosInstance.isCancel(error)) return;
       setLoading(false);
