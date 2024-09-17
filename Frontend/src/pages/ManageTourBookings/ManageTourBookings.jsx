@@ -5,7 +5,7 @@ import { useAxios } from "../../hooks/useAxios";
 import { useAxiosFunction } from "../../hooks/useAxiosFunction";
 import { useAccessToken } from "../../hooks/useAccessToken";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Bar, Pie } from "react-chartjs-2";
+import { Bar, Line, Pie } from "react-chartjs-2";
 
 const ManageTourBookings = () => {
   const { token } = useAccessToken();
@@ -24,6 +24,7 @@ const ManageTourBookings = () => {
 
   const [tourBookingsOfThisUser, setTourBookingsOfThisUser] = useState([]);
   const [updatedTourBookings, setUpdatedTourBookings] = useState([]);
+  const [tourBookingsByMonth, setTourBookingsByMonth] = useState([]);
   useEffect(() => {
     if (!isAuthenticated || !token) return;
     fetchUsers({
@@ -85,6 +86,45 @@ const ManageTourBookings = () => {
     console.log("updated tour bookings are ", newTourBookings);
   }, [tourBookings]);
   useEffect(() => {
+    const revenueByMonth = tourBookings.reduce((acc, tourBooking) => {
+      console.log("tour start date is ", tourBooking.tourStartDate);
+      const month = new Date(tourBooking.tourStartDate).getMonth() + 1;
+      const monthName = new Date(tourBooking.tourStartDate).toLocaleString(
+        "en-US",
+        { month: "long" }
+      );
+      console.log("month name  ", monthName);
+      if (!acc[monthName]) {
+        acc[monthName] = 0;
+      }
+      acc[monthName] += tourBooking.totalPrice;
+      return acc;
+    }, {});
+    console.log("revenue by month is ", revenueByMonth);
+    const monthNames = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    const tourBookingsByMonth = monthNames.map((monthName) => {
+      return {
+        month: monthName,
+        revenue: revenueByMonth[monthName] || 0,
+      };
+    });
+    setTourBookingsByMonth(tourBookingsByMonth);
+    console.log("tour bookings by month are ", tourBookingsByMonth);
+  }, [tourBookings]);
+  useEffect(() => {
     const intervalId = setInterval(() => {
       fetchTourBookings();
       fetchUsers({
@@ -100,6 +140,103 @@ const ManageTourBookings = () => {
     }, 60000);
     return () => clearInterval(intervalId);
   }, []);
+  const tourBookingsByMonthData = {
+    labels: tourBookingsByMonth.map((tourBooking) => tourBooking.month),
+    datasets: [
+      {
+        label: "Revenue ($)",
+        data: tourBookingsByMonth.map((tourBooking) => tourBooking.revenue),
+        backgroundColor: "rgba(75, 192, 192, 0.6)",
+        borderColor: "rgba(75, 192, 192, 1)",
+        borderWidth: 1,
+        hoverBackgroundColor: "rgba(75, 192, 192, 0.8)",
+        hoverBorderColor: "rgba(75, 192, 192, 1)",
+      },
+    ],
+  };
+  const tourBookingsByMonthOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: "top",
+        labels: {
+          color: "#444", // Legend text color
+          font: {
+            size: 14, // Legend font size
+          },
+        },
+      },
+      title: {
+        display: true,
+        text: "Revenue of Tour Over the Months",
+        color: "#444",
+        font: {
+          size: 18, // Title font size
+          weight: "bold", // Title font weight
+        },
+        padding: {
+          bottom: 20, // Spacing below the title
+        },
+      },
+      tooltip: {
+        backgroundColor: "#333",
+        titleColor: "#fff",
+        bodyColor: "#fff",
+        borderColor: "#ddd",
+        borderWidth: 1,
+        caretSize: 6, // Tooltip arrow size
+        padding: 10, // Tooltip padding
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: "Month",
+          color: "#444",
+          font: {
+            size: 16, // X-axis title font size
+            weight: "bold", // X-axis title font weight
+          },
+        },
+        grid: {
+          display: false,
+        },
+        ticks: {
+          color: "#444",
+          autoSkip: false,
+          font: {
+            size: 12, // X-axis ticks font size
+          },
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: "Revenue ($)",
+          color: "#444",
+          font: {
+            size: 16, // Y-axis title font size
+            weight: "bold", // Y-axis title font weight
+          },
+        },
+        grid: {
+          borderColor: "#ddd",
+          borderWidth: 1,
+          lineWidth: 0.5, // Grid line width
+          color: "#ddd", // Grid line color
+        },
+        ticks: {
+          color: "#444",
+          beginAtZero: true,
+          font: {
+            size: 12, // Y-axis ticks font size
+          },
+        },
+      },
+    },
+  };
+
   const userTourBookingsData = {
     labels: tourBookingsOfThisUser.map((tourBooking) => tourBooking.userName),
     datasets: [
@@ -186,7 +323,6 @@ const ManageTourBookings = () => {
       },
     ],
   };
-
   const tourBookingsOptions = {
     responsive: true,
     plugins: {
@@ -266,6 +402,12 @@ const ManageTourBookings = () => {
         </div>
         <div className="chart-item">
           <Pie data={userTourBookingsData} options={userTourBookingsOptions} />
+        </div>
+        <div className="chart-item">
+          <Line
+            data={tourBookingsByMonthData}
+            options={tourBookingsByMonthOptions}
+          />
         </div>
       </div>
     </div>
