@@ -36,6 +36,9 @@ import Sidebar from "./components/Sidebar/Sidebar";
 import ManageUsers from "./pages/ManageUsers/ManageUsers";
 import ManageCategories from "./pages/ManageCategories/ManageCategories";
 import ManageSubcategories from "./pages/ManageSubcategories/ManageSubcategories";
+import ManageTourBookings from "./pages/ManageTourBookings/ManageTourBookings";
+import { registerCharts } from "./components/RegisterCharts";
+registerCharts();
 const App = () => {
   const [showBackToTopButton, setShowBackToTopButton] = useState(false);
   const [role, setRole] = useState("");
@@ -153,116 +156,130 @@ const App = () => {
           }
         >
           {showSidebar && <Sidebar />}
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/cities" element={<Cities />} />
-            <Route path="/cities/:cityName" element={<City />} />
-            <Route path="/restaurants" element={<Restaurants />} />
-            <Route
-              path="/travel-destinations"
-              element={<TravelDestinations />}
-            />
-            <Route path="/things-to-do" element={<ThingsToDo />} />
-            <Route path="/tours" element={<Tours />} />
-            <Route
-              path="/cities/:cityName/restaurants"
-              element={<RestaurantsInACity />}
-            />
-            <Route
-              path="/cities/:cityName/restaurants/:restaurantName"
-              element={
-                <RestaurantInACity
-                  restaurantState={restaurantState}
-                  setRestaurantState={setRestaurantState}
-                />
-              }
-            />
-            <Route
-              path="/cities/:cityName/things-to-do"
-              element={<ThingsToDoInACity />}
-            />
-            <Route
-              path="/cities/:cityName/attractions/:attractionName"
-              element={<AttractionInACity />}
-            />
-            <Route
-              path="/cities/:cityName/tours/:tourName"
-              element={
-                <TourInACity
-                // bookingDetails={bookingDetails}
-                // setBookingDetails={setBookingDetails}
-                // bookTourLoading={bookTourLoading}
-                // setBookTourLoading={setBookTourLoading}
-                // bookTourError={bookTourError}
-                // setBookTourError={setBookTourError}
-                />
-              }
-            />
-            <Route
-              path="/users/:userName/profile"
-              element={
-                <AuthenticationGuard
-                  // userFromDb={userFromDb}
-                  // userFromDbError={userFromDbError}
-                  // postedUser={postedUser}
-                  // setPostedUser={setPostedUser}
-                  // postedUserError={postedUserError}
-                  // setPostedUserError={setPostedUserError}
-                  // postedUserLoading={postedUserLoading}
-                  // setPostedUserLoading={setPostedUserLoading}
-                  component={UserProfile}
-                />
-              }
-            />
-            <Route
-              path="/:cityName/tours/:tourName/checkout"
-              element={<TourCheckout />}
-            />
-            <Route
-              path="/attractions/:attractionName/write_review"
-              element={<WriteReview />}
-            />
-            <Route path="/users/:id/my_bookings" element={<MyTourBooking />} />
-            <Route
-              path="/admin"
-              element={
-                <AuthenticationGuard
-                  allowedRoles={["Admin"]}
-                  component={AdminMainPage}
-                />
-              }
-            />
-            <Route
-              path="/admin/users"
-              element={
-                <AuthenticationGuard
-                  allowedRoles={["Admin"]}
-                  component={ManageUsers}
-                />
-              }
-            />
-            <Route
-              path="/admin/categories"
-              element={
-                <AuthenticationGuard
-                  allowedRoles={["Admin"]}
-                  component={ManageCategories}
-                />
-              }
-            />
-            <Route
-              path="/admin/subcategories"
-              element={
-                <AuthenticationGuard
-                  allowedRoles={["Admin"]}
-                  component={ManageSubcategories}
-                />
-              }
-            />
-            <Route path="/unauthorize" element={<UnauthorizedPage />} />
-            <Route path="/admin/test" element={<TestPage />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <div className="route-contents">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/cities" element={<Cities />} />
+              <Route path="/cities/:cityName" element={<City />} />
+              <Route path="/restaurants" element={<Restaurants />} />
+              <Route
+                path="/travel-destinations"
+                element={<TravelDestinations />}
+              />
+              <Route path="/things-to-do" element={<ThingsToDo />} />
+              <Route path="/tours" element={<Tours />} />
+              <Route
+                path="/cities/:cityName/restaurants"
+                element={<RestaurantsInACity />}
+              />
+              <Route
+                path="/cities/:cityName/restaurants/:restaurantName"
+                element={
+                  <RestaurantInACity
+                    restaurantState={restaurantState}
+                    setRestaurantState={setRestaurantState}
+                  />
+                }
+              />
+              <Route
+                path="/cities/:cityName/things-to-do"
+                element={<ThingsToDoInACity />}
+              />
+              <Route
+                path="/cities/:cityName/attractions/:attractionName"
+                element={<AttractionInACity />}
+              />
+              <Route
+                path="/cities/:cityName/tours/:tourName"
+                element={
+                  <TourInACity
+                  // bookingDetails={bookingDetails}
+                  // setBookingDetails={setBookingDetails}
+                  // bookTourLoading={bookTourLoading}
+                  // setBookTourLoading={setBookTourLoading}
+                  // bookTourError={bookTourError}
+                  // setBookTourError={setBookTourError}
+                  />
+                }
+              />
+              <Route
+                path="/users/:userName/profile"
+                element={
+                  <AuthenticationGuard
+                    // userFromDb={userFromDb}
+                    // userFromDbError={userFromDbError}
+                    // postedUser={postedUser}
+                    // setPostedUser={setPostedUser}
+                    // postedUserError={postedUserError}
+                    // setPostedUserError={setPostedUserError}
+                    // postedUserLoading={postedUserLoading}
+                    // setPostedUserLoading={setPostedUserLoading}
+                    component={UserProfile}
+                  />
+                }
+              />
+              <Route
+                path="/:cityName/tours/:tourName/checkout"
+                element={<TourCheckout />}
+              />
+              <Route
+                path="/attractions/:attractionName/write_review"
+                element={<WriteReview />}
+              />
+              <Route
+                path="/users/:id/my_bookings"
+                element={<MyTourBooking />}
+              />
+              <Route
+                path="/admin"
+                element={
+                  <AuthenticationGuard
+                    allowedRoles={["Admin"]}
+                    component={AdminMainPage}
+                  />
+                }
+              />
+              <Route
+                path="/admin/users"
+                element={
+                  <AuthenticationGuard
+                    allowedRoles={["Admin"]}
+                    component={ManageUsers}
+                  />
+                }
+              />
+              <Route
+                path="/admin/categories"
+                element={
+                  <AuthenticationGuard
+                    allowedRoles={["Admin"]}
+                    component={ManageCategories}
+                  />
+                }
+              />
+              <Route
+                path="/admin/subcategories"
+                element={
+                  <AuthenticationGuard
+                    allowedRoles={["Admin"]}
+                    component={ManageSubcategories}
+                  />
+                }
+              />
+              <Route
+                path="/admin/tour_bookings"
+                element={
+                  <AuthenticationGuard
+                    allowedRoles={["Admin"]}
+                    component={ManageTourBookings}
+                  />
+                }
+              />
+              <Route path="/unauthorize" element={<UnauthorizedPage />} />
+              <Route path="/admin/test" element={<TestPage />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </div>
         </div>
       </div>
       {showBackToTopButton && <BackToTopButton />}

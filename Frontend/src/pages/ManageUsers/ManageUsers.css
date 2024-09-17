@@ -1,5 +1,7 @@
 .manage-users-section {
-    margin-block: 55px;
+    /* margin-block: 55px; */
+    padding: 55px 5vw;
+    width: 100%;
 }
 
 .manage-users-section-title {

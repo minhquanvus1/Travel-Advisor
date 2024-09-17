@@ -1,6 +1,8 @@
 .manage-categories-section {
-    margin-block: 55px;
-    width: 60%;
+    /* margin-block: 55px;
+    width: 60%; */
+    padding: 55px 5vw;
+    width: 100%;
 }
 
 .manage-categories-section-title {

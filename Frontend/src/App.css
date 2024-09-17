@@ -10,5 +10,9 @@
 
 .sidebar-wrapper {
     display: flex;
-    gap: 5vw;
+    /* gap: 5vw; */
+}
+
+.sidebar-wrapper .route-contents {
+    flex: 1;
 }
