@@ -391,7 +391,12 @@ const ManageTourBookings = () => {
   };
   console.log("all users are", users);
   console.log("all tour bookings are ", tourBookings);
-  if (isLoading || tourBookingsLoading) return <div>Loading...</div>;
+  if (isLoading || tourBookingsLoading)
+    return (
+      <div style={{ display: "grid", placeItems: "center", height: "100dvh" }}>
+        Loading...
+      </div>
+    );
 
   return (
     <div className="manage-tour-bookings-section">
