@@ -1,6 +1,7 @@
 .admin-main-page {
     /* display: flex; */
-    margin-block: 55px;
+    padding: 5vw 10%;
+    width: 100%;
 }
 /* .admin-main-page-contents {
     margin-block: 3vw;

@@ -19,7 +19,7 @@ const AdminMainPage = () => {
   //   }, [isAuthenticated, token]);
   return (
     <div className="admin-main-page">
-      <div className="admin-main-page-contents">hello</div>
+      <div className="admin-main-page-contents">Hello Admin</div>
     </div>
   );
 };
