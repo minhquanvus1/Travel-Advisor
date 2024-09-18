@@ -43,7 +43,7 @@ const City = () => {
     <div className="city">
       {error && "No city found"}
       {loading && "Loading..."}
-      City {cityName}
+      {/* City {cityName} */}
       {!Array.isArray(city) && city && (
         <>
           <div className="city-header">
