@@ -33,6 +33,7 @@ const WriteReview = () => {
     useContext(UserContext);
   const [postReviewLoading, setPostReviewLoading] = useState(false);
   const [postReviewError, setPostReviewError] = useState(null);
+  const [isChecked, setIsChecked] = useState(false);
   console.log("attraction in review is ", attraction);
   console.log("review data is ", reviewData);
   const handleInputChange = (e) => {
@@ -85,6 +86,7 @@ const WriteReview = () => {
       toast.success("Review posted successfully");
       setReviewData({ reviewDescription: "", reviewTitle: "", rating: 0 });
       localStorage.removeItem("reviewData");
+      setIsChecked(false);
     } catch (error) {
       setPostReviewError(error);
       console.error("Error posting review: ", error);
@@ -114,8 +116,24 @@ const WriteReview = () => {
   useEffect(() => {
     localStorage.setItem("reviewData", JSON.stringify(reviewData));
   }, [reviewData]);
-  if (attractionLoading) return <div>Loading...</div>;
-  if (attractionError) return <div>Error...</div>;
+  useEffect(() => {
+    return () => {
+      localStorage.removeItem("reviewData");
+      setIsChecked(false);
+    };
+  }, []);
+  if (attractionLoading)
+    return (
+      <div style={{ display: "grid", placeItems: "center", height: "100dvh" }}>
+        Loading...
+      </div>
+    );
+  if (attractionError)
+    return (
+      <div style={{ display: "grid", placeItems: "center", height: "100dvh" }}>
+        Error...
+      </div>
+    );
   return (
     <div className="write-review-section">
       <div className="content-left">
@@ -190,7 +208,12 @@ const WriteReview = () => {
             <div className="validate-rule">0/255 max characters</div>
           </div>
           <div className="write-review-condition">
-            <input type="checkbox" required />
+            <input
+              type="checkbox"
+              checked={isChecked}
+              onChange={(e) => setIsChecked(e.target.checked)}
+              required
+            />
             <p>
               I certify that this review is based on my own experience and is my
               genuine opinion of this establishment and that I have no personal
