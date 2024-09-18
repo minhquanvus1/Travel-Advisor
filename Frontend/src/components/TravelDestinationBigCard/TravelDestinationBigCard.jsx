@@ -1,16 +1,8 @@
 import React from "react";
 import "./TravelDestinationBigCard.css";
-import { subCategory } from "../../assets/assets";
 import RatingStars from "../RatingStars/RatingStars";
 
 const TravelDestinationBigCard = ({ attraction, index }) => {
-  const findSubCategory = (attraction) => {
-    const foundSubCategory = subCategory.find(
-      (subCategory) => subCategory.id === attraction.subCategoryId
-    );
-    console.log("foundSubCategory is", foundSubCategory);
-    return foundSubCategory;
-  };
   return (
     <div className="travel-destination-big-card">
       <div className="travel-destination-big-card-image-container">

@@ -1,19 +1,9 @@
-import React, { useContext, useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import "./ThingsToDoInACity.css";
 import ThingsToDoInACityHeader from "../../components/ThingsToDoInACityHeader/ThingsToDoInACityHeader";
 import { Link, useParams } from "react-router-dom";
 import TravelDestinationBigCard from "../../components/TravelDestinationBigCard/TravelDestinationBigCard";
-import { CityContext } from "../../context/CityContextProvider";
 import { replaceWhiteSpaceWithUnderScore } from "../../functions/replaceWhiteSpaceWithUnderScore";
-import {
-  cities,
-  subCategory,
-  attractions,
-  tours,
-  category,
-  users,
-  attractionReviews,
-} from "../../assets/assets";
 import { replaceUnderScoreWithWhiteSpace } from "../../functions/replaceUnderScoreWithWhiteSpace";
 import ExpandableDescription from "../../components/ExpandableDescription/ExpandableDescription";
 import Slider from "react-slick";
@@ -70,9 +60,7 @@ function SamplePrevArrow(props) {
 }
 
 const ThingsToDoInACity = () => {
-  const { cityState } = useContext(CityContext);
   const { cityName } = useParams();
-  const [attractionReviewsList, setAttractionReviewsList] = useState([]);
   const [openReportReviewModal, setOpenReportReviewModal] = useState(null);
   const tourDisplayListRef = useRef();
   const [
@@ -136,70 +124,6 @@ const ThingsToDoInACity = () => {
   const extractedAttractionNames = attractionsData
     .map((attraction) => attraction.name)
     .slice(0, 4);
-  const findAttractionsInThisCity = () => {
-    if (!cityName) return;
-    const foundCity = cities.find(
-      (city) => city.name === replaceUnderScoreWithWhiteSpace(cityName)
-    );
-    console.log("foundCity in thingstodoinacity is", foundCity);
-    const allAttractionsInThisCity = attractions.filter(
-      (attraction) => attraction.cityId === foundCity?.id
-    );
-    if (allAttractionsInThisCity.length === 0) {
-      console.log("this city has no attractions");
-      return;
-    }
-    console.log("all attractions are", allAttractionsInThisCity);
-    return allAttractionsInThisCity;
-  };
-  const allAttractionsInThisCity = findAttractionsInThisCity();
-  const findAllToursInThisCity = () => {
-    if (!cityName) return;
-    const foundCity = cities.find(
-      (city) => city.name === replaceUnderScoreWithWhiteSpace(cityName)
-    );
-    const allToursInThisCity = tours.filter(
-      (tour) => tour.cityId === foundCity.id
-    );
-    // if (allToursInThisCity.length === 0) {
-    //   console.log("this city has no tours");
-    //   return;
-    // }
-    console.log("all tours are", allToursInThisCity);
-    return allToursInThisCity;
-  };
-  const findTourSubCategory = () => {
-    const tourCategory = category.find(
-      (category) => category.categoryName === "Tours"
-    );
-    const tourSubCategoryList = subCategory.filter(
-      (item) => item.categoryId === tourCategory.id
-    );
-    console.log("tourSubCategoryList is", tourSubCategoryList);
-    return tourSubCategoryList;
-  };
-
-  const findAttractionById = (id) => {
-    const attractionObj = attractions.find((item) => item.id === id);
-    return attractionObj;
-  };
-  const findUserById = (id) => {
-    const userObj = users.find((user) => user.id === id);
-    return userObj;
-  };
-  const updatedAttractionReviews = () => {
-    const updatedList = attractionReviews.map((item) => {
-      const userObj = findUserById(item.userId);
-      const attractionObj = findAttractionById(item.attractionId);
-      return { ...item, userObj, attractionName: attractionObj.attractionName };
-    });
-    return updatedList;
-  };
-  console.log("updatedList is", updatedAttractionReviews());
-  useEffect(() => {
-    const updatedList = updatedAttractionReviews();
-    setAttractionReviewsList(updatedList);
-  }, [attractionReviews, users]);
 
   const settings = {
     dots: true,

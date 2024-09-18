@@ -1,5 +1,4 @@
 import React, { useState, useEffect, createContext } from "react";
-// import { cities } from "../assets/assets";
 import { useLocation } from "react-router-dom";
 import { axiosInstance } from "../apis/axiosInstance";
 import { useAxios } from "../hooks/useAxios";

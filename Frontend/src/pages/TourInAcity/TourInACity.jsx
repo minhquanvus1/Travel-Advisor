@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useContext } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import "./TourInACity.css";
 import ExpandableDescription from "../../components/ExpandableDescription/ExpandableDescription";
 import { Link, useParams, useNavigate } from "react-router-dom";
@@ -8,21 +8,9 @@ import { axiosInstance } from "../../apis/axiosInstance";
 import { useAxios } from "../../hooks/useAxios";
 import { replaceUnderScoreWithWhiteSpace } from "../../functions/replaceUnderScoreWithWhiteSpace";
 import RatingStars from "../../components/RatingStars/RatingStars";
-import { UserContext } from "../../context/UserContextProvider";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useAccessToken } from "../../hooks/useAccessToken";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-const TourInACity = (
-  {
-    // bookingDetails,
-    // setBookingDetails,
-    // bookTourLoading,
-    // setBookTourLoading,
-    // bookTourError,
-    // setBookTourError,
-  }
-) => {
+
+const TourInACity = () => {
   const [toggleAccordion, setToggleAccordion] = useState("");
   const [stops, setStops] = useState([]);
   const { cityName, tourName } = useParams();
@@ -34,12 +22,9 @@ const TourInACity = (
       }
     );
   });
-  // const { userFromDb } = useContext(UserContext);
   const { isAuthenticated, loginWithRedirect } = useAuth0();
-  // const { token } = useAccessToken();
   const navigate = useNavigate();
-  // const [bookTourLoading, setBookTourLoading] = useState(false);
-  // const [bookTourError, setBookTourError] = useState(null);
+
   // Handle input change for both date and travelers
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -79,103 +64,6 @@ const TourInACity = (
   let totalPrice = useMemo(() => {
     return (bookingDetails.numberOfPeople * tour.price).toFixed(2);
   }, [bookingDetails.numberOfPeople, tour.price]);
-  // const handleBooking = async (e) => {
-  //   e.preventDefault();
-  //   if (!isAuthenticated) {
-  //     alert("Please login to book this tour");
-  //     loginWithRedirect();
-  //     return;
-  //   }
-  //   const bookingData = {
-  //     tourId: tour.id,
-  //     userId: userFromDb.id,
-  //     numberOfPeople: bookingDetails.numberOfPeople,
-  //     tourStartDate: bookingDetails.tourStartDate,
-  //     totalPrice: totalPrice,
-  //   };
-  //   setBookTourLoading(true);
-  //   setBookTourError(null);
-  //   try {
-  //     const response = await axiosInstance({
-  //       method: "POST",
-  //       url: "/book-tour",
-  //       data: bookingData,
-  //       // headers: {
-  //       //   Authorization: `Bearer ${token}`,
-  //       // },
-  //     });
-  //     console.log("tour booking response is ", response.data);
-  //     toast.success(
-  //       "Tour booked successfully with Tour Tracking Number: " +
-  //         response.data.tourBookingTrackingNumber
-  //     );
-  //   } catch (error) {
-  //     if (error.response) {
-  //       console.log("error.response.data is", error.response.data);
-  //       setBookTourError(error.response.data);
-  //       toast.error(
-  //         `Error booking tour with response. Please try again later. Error: ${error.response.data}`
-  //       );
-  //     } else if (error.request) {
-  //       console.log("error.request is", error.request);
-  //       setBookTourError(error.request);
-  //       toast.error(
-  //         `Error booking tour with request. Please try again later. Error ${error.request}`
-  //       );
-  //     } else {
-  //       console.log("error is", error);
-  //       setBookTourError(error);
-  //       toast.error(
-  //         `Error booking tour. Please try again later. Error: ${error}`
-  //       );
-  //     }
-  //   } finally {
-  //     setBookTourLoading(false);
-  //   }
-  // };
-  console.log("booking details are ", bookingDetails);
-  // const findTourByName = () => {
-  //   const foundTour = tours.find(
-  //     (tour) => replaceWhiteSpaceWithUnderScore(tour.tourName) === tourName
-  //   );
-  //   if (!foundTour) {
-  //     console.log(`This ${tourName} does not exist`);
-  //     return;
-  //   }
-  //   console.log("foundTour is", foundTour);
-  //   return foundTour;
-  // };
-  // const findAllStopsOfThisTour = (foundTour) => {
-  //   const foundStops = allStops.filter((stop) => stop.tourId === foundTour?.id);
-  //   const stopsArray = foundStops.map((foundStop) => {
-  //     const matchingAttraction = attractions.find(
-  //       (attraction) =>
-  //         attraction.attractionName.trim().toLowerCase() ===
-  //         foundStop.stopName.trim().toLowerCase()
-  //     );
-  //     if (matchingAttraction) {
-  //       return {
-  //         ...foundStop,
-  //         isAttraction: true,
-  //         imageUrl: matchingAttraction.imageUrl,
-  //         attractionName: matchingAttraction.attractionName,
-  //         numberOfReviews: matchingAttraction.numberOfReviews,
-  //       };
-  //     }
-  //     return foundStop;
-  //   });
-  //   console.log("stops in function are", stopsArray);
-  //   return stopsArray;
-  // };
-  // useEffect(() => {
-  //   const foundTour = findTourByName();
-  //   if (foundTour) {
-  //     const stopsArray = findAllStopsOfThisTour(foundTour);
-  //     setTour(foundTour);
-  //     setStops(stopsArray);
-  //   }
-  // }, [tours, allStops]);
-  // console.log("stops in city are", stops);
 
   const handleClick = () => {
     if (!isAuthenticated) {
@@ -613,24 +501,6 @@ const TourInACity = (
                   </div>
                   <div className="answer">
                     <div className="answer-wrapper">
-                      {/* <ul>
-                        <li>
-                          Confirmation will be received at time of booking
-                        </li>
-                        <li>Most travelers can participate</li>
-                        <li>
-                          You must be above the age of 18 to participate in
-                          shooting experience.
-                        </li>
-                        <li>
-                          After the morning tour, visit a nearby restaurant for
-                          restroom, feel free to enjoy a light lunch on your
-                          own.
-                        </li>
-                        <li>
-                          This tour/activity will have a maximum of 25 travelers
-                        </li>
-                      </ul> */}
                       <ul>
                         {tour.tourDetail.additionalInformation.length > 0 &&
                           tour.tourDetail.additionalInformation.map(
@@ -730,13 +600,7 @@ const TourInACity = (
                 </div>
                 <div className="total-price">Total Price: ${totalPrice}</div>
               </div>
-              <button
-                className="reserve-button"
-                // disabled={bookTourLoading}
-                // onClick={handleBooking}
-                // to={`/${cityName}/tours/${tourName}/checkout`}
-                onClick={handleClick}
-              >
+              <button className="reserve-button" onClick={handleClick}>
                 Reserve Now
               </button>
               <div className="refund-container">

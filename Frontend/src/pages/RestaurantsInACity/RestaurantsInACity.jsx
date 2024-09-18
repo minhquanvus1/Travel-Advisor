@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import "./RestaurantsInACity.css";
-import { restaurants, cities } from "../../assets/assets";
 import { CityContext } from "../../context/CityContextProvider";
 import RestaurantBigCard from "../../components/RestaurantBigCard/RestaurantBigCard";
 import { Link, useParams } from "react-router-dom";
@@ -19,23 +18,6 @@ const RestaurantsInACity = () => {
     method: "GET",
   });
 
-  // const findRestaurantsInThisCity = () => {
-  //   if (!cityName) return;
-  //   const foundCity = cities.find(
-  //     (city) => city.name === replaceUnderScoreWithWhiteSpace(cityName)
-  //   );
-  //   console.log("foundCity in restaurants is", foundCity);
-  //   const allRestaurantsInThisCity = restaurants.filter(
-  //     (restaurant) => restaurant.cityId === foundCity?.id
-  //   );
-  //   if (allRestaurantsInThisCity.length === 0) {
-  //     console.log("this city has no restaurants");
-  //     return;
-  //   }
-  //   console.log("all restaurants are", allRestaurantsInThisCity);
-  //   return allRestaurantsInThisCity;
-  // };
-  // const allRestaurantsInThisCity = findRestaurantsInThisCity();
   return (
     <div className="restaurants-in-city-section">
       {error && (

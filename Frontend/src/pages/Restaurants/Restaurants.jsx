@@ -4,7 +4,6 @@ import { CityContext } from "../../context/CityContextProvider";
 import RestaurantsHeader from "../../components/RestaurantsHeader/RestaurantsHeader";
 import RestaurantsService from "../../components/RestaurantsService/RestaurantsService";
 import { Link } from "react-router-dom";
-// import { cities } from "../../assets/assets";
 import CityCard from "../../components/CityCard/CityCard";
 import { replaceWhiteSpaceWithUnderScore } from "../../functions/replaceWhiteSpaceWithUnderScore";
 

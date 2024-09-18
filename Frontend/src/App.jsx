@@ -20,8 +20,6 @@ import { AuthenticationGuard } from "./components/AuthenticationGuard/Authentica
 import UserProfile from "./pages/UserProfile/UserProfile";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { axiosInstance } from "./apis/axiosInstance";
-import { useAxiosFunction } from "./hooks/useAxiosFunction";
 import { useAccessToken } from "./hooks/useAccessToken";
 import { useAuth0 } from "@auth0/auth0-react";
 import { findRole } from "./functions/findRole";
@@ -49,40 +47,10 @@ const App = () => {
       ? restaurantStateFromLocalStorage
       : "";
   });
-  // const [bookingDetails, setBookingDetails] = useState(() => {
-  //   return (
-  //     JSON.parse(localStorage.getItem("bookingDetails")) || {
-  //       tourStartDate: "",
-  //       numberOfPeople: 1, // Default to 1 traveler
-  //     }
-  //   );
-  // });
-  // const [bookTourLoading, setBookTourLoading] = useState(false);
-  // const [bookTourError, setBookTourError] = useState(null);
 
   const { token } = useAccessToken();
   const { isAuthenticated, user, isLoading } = useAuth0();
-  // const [userFromDb, userFromDbError, userFromDbLoading, axiosFetch] =
-  //   useAxiosFunction();
-  // const [postedUser, setPostedUser] = useState(null);
-  // const [postedUserError, setPostedUserError] = useState(null);
-  // const [postedUserLoading, setPostedUserLoading] = useState(false);
-  // useEffect(() => {
-  //   if (user && token) {
-  //     axiosFetch({
-  //       axiosInstance: axiosInstance,
-  //       method: "GET",
-  //       url: `/secure/users/search/findBySubject?subject=${encodeURIComponent(
-  //         user.sub
-  //       )}`,
-  //       requestConfig: {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       },
-  //     });
-  //   }
-  // }, [user, token, postedUser]);
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 1000) {
@@ -128,7 +96,6 @@ const App = () => {
         restaurantState={restaurantState}
         setRestaurantState={setRestaurantState}
         role={role}
-        // userFromDb={userFromDb}
       />
       <div className="app-content">
         {/* <div className="app">
@@ -190,32 +157,11 @@ const App = () => {
               />
               <Route
                 path="/cities/:cityName/tours/:tourName"
-                element={
-                  <TourInACity
-                  // bookingDetails={bookingDetails}
-                  // setBookingDetails={setBookingDetails}
-                  // bookTourLoading={bookTourLoading}
-                  // setBookTourLoading={setBookTourLoading}
-                  // bookTourError={bookTourError}
-                  // setBookTourError={setBookTourError}
-                  />
-                }
+                element={<TourInACity />}
               />
               <Route
                 path="/users/:userName/profile"
-                element={
-                  <AuthenticationGuard
-                    // userFromDb={userFromDb}
-                    // userFromDbError={userFromDbError}
-                    // postedUser={postedUser}
-                    // setPostedUser={setPostedUser}
-                    // postedUserError={postedUserError}
-                    // setPostedUserError={setPostedUserError}
-                    // postedUserLoading={postedUserLoading}
-                    // setPostedUserLoading={setPostedUserLoading}
-                    component={UserProfile}
-                  />
-                }
+                element={<AuthenticationGuard component={UserProfile} />}
               />
               <Route
                 path="/:cityName/tours/:tourName/checkout"

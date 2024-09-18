@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./City.css";
 import { useParams } from "react-router-dom";
-import { cities } from "../../assets/assets";
 import ExpandableDescription from "../../components/ExpandableDescription/ExpandableDescription";
-import { replaceWhiteSpaceWithUnderScore } from "../../functions/replaceWhiteSpaceWithUnderScore";
 import { replaceUnderScoreWithWhiteSpace } from "../../functions/replaceUnderScoreWithWhiteSpace";
 import TravelAdviceBanner from "../../components/TravelAdviceBanner/TravelAdviceBanner";
 import EssentialSection from "../../components/EssentialSection/EssentialSection";
@@ -12,7 +10,6 @@ import { useAxios } from "../../hooks/useAxios";
 
 const City = () => {
   const { cityName } = useParams();
-  // const [city, setCity] = useState(null);
   const [currentSection, setCurrentSection] = useState("");
   console.log("cityName is", replaceUnderScoreWithWhiteSpace(cityName));
 
@@ -22,20 +19,8 @@ const City = () => {
     method: "GET",
   });
   console.log("cities in City component is ", city);
-  // const findCityByName = () => {
-  //   const foundCity = cities.find((city) => {
-  //     console.log("city.name is", city.name);
-  //     return replaceWhiteSpaceWithUnderScore(city.name) === cityName;
-  //   });
-  //   if (!foundCity) {
-  //     console.log("No city found");
-  //     return;
-  //   }
-  //   console.log("city in function is", foundCity);
-  //   return foundCity;
-  // };
+
   useEffect(() => {
-    // const foundCity = findCityByName();
     setCurrentSection("");
   }, []);
 

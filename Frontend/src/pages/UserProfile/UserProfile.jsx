@@ -2,36 +2,16 @@ import React, { useState, useEffect, useContext } from "react";
 import "./UserProfile.css";
 import { Link, useParams } from "react-router-dom";
 import { axiosInstance } from "../../apis/axiosInstance";
-import { useAxiosFunction } from "../../hooks/useAxiosFunction";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAccessToken } from "../../hooks/useAccessToken";
-import { baseURL } from "../../baseUrl";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { UserContext } from "../../context/UserContextProvider";
 
-const UserProfile = (
-  {
-    // userFromDb,
-    // userFromDbError,
-    // postedUser,
-    // setPostedUser,
-    // postedUserError,
-    // setPostedUserError,
-    // postedUserLoading,
-    // setPostedUserLoading,
-  }
-) => {
+const UserProfile = () => {
   const { userName } = useParams();
   const { user } = useAuth0();
   const { token } = useAccessToken();
-  //   const [userFromDb, userFromDbError, userFromDbLoading, axiosFetch] =
-  //     useAxiosFunction();
-  //   const [postedUser, setPostedUser] = useState(null);
-  //   const [postedUserError, setPostedUserError] = useState(null);
-  //   const [postedUserLoading, setPostedUserLoading] = useState(false);
-  //   const [postedUser, postedUserDbError, postedUserLoading, axiosPostUser] =
-  //     useAxiosFunction();
   const [postedUser, setPostedUser] = useState(null);
   const [postedUserError, setPostedUserError] = useState(null);
   const [postedUserLoading, setPostedUserLoading] = useState(false);
@@ -47,30 +27,12 @@ const UserProfile = (
   const [showUpdateUserForm, setShowUpdateUserForm] = useState(false);
   const [isEditing, setIsEditing] = useState(false); // Add this flag
   console.log("user sub is ", user?.sub);
-  //   useEffect(() => {
-  //     if (user && token) {
-  //       axiosFetch({
-  //         axiosInstance: axiosInstance,
-  //         method: "GET",
-  //         url: `/secure/users/search/findBySubject?subject=${encodeURIComponent(
-  //           user.sub
-  //         )}`,
-  //         requestConfig: {
-  //           headers: {
-  //             Authorization: `Bearer ${token}`,
-  //           },
-  //         },
-  //       });
-  //     }
-  //   }, [user, token, postedUser]);
   console.log("postedUserError is ", postedUserError);
 
   useEffect(() => {
     console.log("user from db is ", userFromDb);
   }, [userFromDb]);
-  //   if (userFromDbError) return <div className="user-profile-section">Error</div>;
-  // if (userFromDbLoading)
-  //   return <div className="user-profile-section">Loading...</div>;
+
   useEffect(() => {
     console.log("form data is ", formData);
   }, [formData]);
@@ -152,19 +114,6 @@ const UserProfile = (
     } finally {
       setPostedUserLoading(false);
     }
-
-    // axiosPostUser({
-    //   axiosInstance: axiosInstance,
-    //   method: "POST",
-    //   url: "/secure/users",
-    //   requestConfig: {
-    //     data: formData,
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       Authorization: `Bearer ${token}`,
-    //     },
-    //   },
-    // });
   };
 
   return (

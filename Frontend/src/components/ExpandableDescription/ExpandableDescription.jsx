@@ -5,9 +5,6 @@ const ExpandableDescription = ({ text, lineClamp = 3 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [showReadMoreButton, setShowReadMoreButton] = useState(false);
   const descriptionRef = useRef(null);
-  // useEffect(() => {
-  //   setShowReadMoreButton(text.length > 100);
-  // }, []);
 
   useEffect(() => {
     const descriptionElement = descriptionRef.current;
@@ -61,19 +58,6 @@ const ExpandableDescription = ({ text, lineClamp = 3 }) => {
           )}
         </div>
       )}
-      {/* <div onClick={() => setIsOpen(!isOpen)}>
-        {isOpen ? (
-          <div className="expand-button">
-            <p>Read less</p>
-            <i className="fas fa-chevron-up"></i>
-          </div>
-        ) : (
-          <div className="expand-button">
-            <p>Read more</p>
-            <i className="fas fa-chevron-down"></i>
-          </div>
-        )}
-      </div> */}
     </div>
   );
 };

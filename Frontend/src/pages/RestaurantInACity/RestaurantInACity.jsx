@@ -1,15 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import "./RestaurantInACity.css";
 import { useParams } from "react-router-dom";
-import { restaurants } from "../../assets/assets";
-import { replaceWhiteSpaceWithUnderScore } from "../../functions/replaceWhiteSpaceWithUnderScore";
 import { replaceUnderScoreWithWhiteSpace } from "../../functions/replaceUnderScoreWithWhiteSpace";
 import RatingStars from "../../components/RatingStars/RatingStars";
 import { axiosInstance } from "../../apis/axiosInstance";
 import { useAxios } from "../../hooks/useAxios";
 
 const RestaurantInACity = ({ restaurantState, setRestaurantState }) => {
-  // const [restaurant, setRestaurant] = useState(null);
   const { cityName, restaurantName } = useParams();
 
   const [restaurant, error, loading] = useAxios({
@@ -20,25 +17,8 @@ const RestaurantInACity = ({ restaurantState, setRestaurantState }) => {
     method: "GET",
   });
   console.log("restaurantData is", restaurant, error, loading);
-  // const findRestaurantByName = () => {
-  //   const foundRestaurant = restaurants.find((restaurant) => {
-  //     console.log("restaurant.name is", restaurant.name);
-  //     return (
-  //       replaceWhiteSpaceWithUnderScore(restaurant.name) === restaurantName
-  //     );
-  //   });
-  //   if (!foundRestaurant) {
-  //     console.log("No restaurant found");
-  //     return;
-  //   }
-  //   console.log("restaurant in function is", foundRestaurant);
-  //   setRestaurant(foundRestaurant);
-  //   setRestaurantState(foundRestaurant.name);
-  //   localStorage.setItem("restaurantState", foundRestaurant.name);
-  //   return foundRestaurant;
-  // };
+
   useEffect(() => {
-    // findRestaurantByName();
     setRestaurantState(restaurant.name);
     localStorage.setItem("restaurantState", restaurant.name);
     return () => {

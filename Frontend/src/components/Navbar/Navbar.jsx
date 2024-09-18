@@ -12,22 +12,11 @@ import { CityContext } from "../../context/CityContextProvider";
 import { replaceWhiteSpaceWithUnderScore } from "../../functions/replaceWhiteSpaceWithUnderScore";
 import { replaceUnderScoreWithWhiteSpace } from "../../functions/replaceUnderScoreWithWhiteSpace";
 import { useAuth0 } from "@auth0/auth0-react";
-import { axiosInstance } from "../../apis/axiosInstance";
-import { useAxiosFunction } from "../../hooks/useAxiosFunction";
-import { useAccessToken } from "../../hooks/useAccessToken";
 import { UserContext } from "../../context/UserContextProvider";
 
 const Navbar = ({ restaurantState, setRestaurantState, role }) => {
-  const { token } = useAccessToken();
-  const [userData, userError, userLoading, axiosFetch] = useAxiosFunction();
-  const {
-    loginWithRedirect,
-    user,
-    isAuthenticated,
-    getAccessTokenSilently,
-    logout,
-    isLoading,
-  } = useAuth0();
+  const { loginWithRedirect, user, isAuthenticated, logout, isLoading } =
+    useAuth0();
   const [scroll, setScroll] = useState("");
   const [hrFullWidth, setHrFullWidth] = useState(false);
   const location = useLocation();
@@ -48,72 +37,19 @@ const Navbar = ({ restaurantState, setRestaurantState, role }) => {
   console.log(location.pathname);
   console.log(scroll);
   console.log("hrfullwidth", hrFullWidth);
-  console.log("token data is ", token);
-  useEffect(() => {
-    console.log("Current isAuthenticated value:", isAuthenticated);
 
+  useEffect(() => {
     if (!isAuthenticated && !isLoading) {
-      console.log("Clearing bookingDetails from localStorage");
       localStorage.removeItem("bookingDetails");
     }
   }, [isAuthenticated, isLoading]);
-  useEffect(() => {
-    console.log("isAuthenticated is ", isAuthenticated);
-    console.log("token is ", token);
-    if (isAuthenticated && token) {
-      axiosFetch({
-        axiosInstance: axiosInstance,
-        method: "GET",
-        url: "/secure/users",
-        requestConfig: {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      });
-    }
-  }, [isAuthenticated, token]);
+
   console.log("user is ", user);
-  // useEffect(() => {
-  //   console.log("user is", user);
-  //   console.log("isAuthenticated is", isAuthenticated);
-  //   let token;
-  //   const getToken = async () => {
-  //     const token = await getAccessTokenSilently();
-  //     return token;
-  //   };
-  //   if (isAuthenticated) {
-  //     getToken().then((response) => {
-  //       token = response;
-  //       console.log("jwt token is ", token);
-  //       console.log(`Bearer token is: Bearer ${token}`);
-  //       axiosFetch({
-  //         axiosInstance: axiosInstance,
-  //         method: "GET",
-  //         url: "/secure/users",
-  //         requestConfig: {
-  //           headers: {
-  //             Authorization: `Bearer ${token}`,
-  //           },
-  //         },
-  //       });
-  //     });
-  //   }
-  // }, [isAuthenticated]);
-  console.log("userData is ", userData);
-  console.log("userError is ", userError);
+
   const extractCityName = useCallback(
     (pathname) => {
       const pathParts = pathname.split("/");
-      // if (pathParts.includes("cities") && pathParts.length >= 3) {
-      //   const cityPart =
-      //     pathParts.includes("restaurants") ||
-      //     pathParts.includes("things-to-do")
-      //       ? pathParts[pathParts.length - 2]
-      //       : pathParts[pathParts.length - 1];
-      //   return replaceUnderScoreWithWhiteSpace(cityPart);
-      // }
-      // return null;
+
       console.log("pathParts are", pathParts);
       if (
         pathParts.includes("cities") &&
@@ -191,38 +127,6 @@ const Navbar = ({ restaurantState, setRestaurantState, role }) => {
     [location.pathname]
   );
 
-  // const extractCityName = () => {
-  //   if (!cityState) {
-  //     const pathParts = location.pathname.split("/");
-  //     console.log("pathParts is", pathParts);
-  //     if (
-  //       pathParts.includes("cities") &&
-  //       pathParts.includes("restaurants") &&
-  //       pathParts.length === 4
-  //     ) {
-  //       console.log(
-  //         "extractedcityname restaurants is",
-  //         pathParts[pathParts.length - 2]
-  //       );
-  //       checkAndSetCityState(
-  //         replaceUnderScoreWithWhiteSpace(pathParts[pathParts.length - 2])
-  //       );
-  //       return pathParts[pathParts.length - 2];
-  //     } else if (pathParts.includes("cities") && pathParts.length === 3) {
-  //       console.log(
-  //         "extractedcityname city is",
-  //         pathParts[pathParts.length - 1]
-  //       );
-  //       checkAndSetCityState(
-  //         replaceUnderScoreWithWhiteSpace(pathParts[pathParts.length - 1])
-  //       );
-  //       return pathParts[pathParts.length - 1];
-  //     }
-  //   } else {
-  //     console.log("cityState in extractfunction is", cityState);
-  //     return replaceWhiteSpaceWithUnderScore(cityState);
-  //   }
-  // };
   useEffect(() => {
     console.log("useeffect 1: set isHomePage when pathname changes");
     if (location.pathname === "/") {

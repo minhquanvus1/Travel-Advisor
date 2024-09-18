@@ -101,28 +101,6 @@ const Mapbox = ({ zoom = 8, stops }) => {
           );
         })}
 
-      {/* {showPopup && (
-        <Popup
-          latitude={latitude}
-          longitude={longitude}
-          anchor="bottom"
-          onClose={() => setShowPopup(false)}
-          closeButton={true}
-          // this closeOnClick is the event listener of the <Map/>, so that when we click ANYWHERE ON THE MAP, the Popup will close
-          //   closeOnClick={false}
-          offset={15}
-        >
-          <div
-            style={{
-              background: "tomato",
-              padding: "20px",
-              border: "1px solid #000",
-            }}
-          >
-            {locationName}
-          </div>
-        </Popup>
-      )} */}
       <FullscreenControl />
       <AttributionControl customAttribution="Map design by me" />
       <GeolocateControl />

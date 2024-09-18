@@ -3,7 +3,6 @@ import "./ThingsToDo.css";
 import { CityContext } from "../../context/CityContextProvider";
 import TravelDestinationsHeader from "../../components/TravelDestinationsHeader/TravelDestinationsHeader";
 import TravelDestinationsService from "../../components/TravelDestinationsService/TravelDestinationsService";
-// import { cities, subCategory } from "../../assets/assets";
 import { Link } from "react-router-dom";
 import CityCard from "../../components/CityCard/CityCard";
 import { replaceWhiteSpaceWithUnderScore } from "../../functions/replaceWhiteSpaceWithUnderScore";
@@ -22,18 +21,6 @@ const ThingsToDo = () => {
     url: "/attractions",
     method: "GET",
   });
-
-  // const findSubCategory = (attraction) => {
-  //   const foundSubCategory = subCategory.find(
-  //     (subCategory) => subCategory.id === attraction.subCategoryId
-  //   );
-  //   console.log("foundSubCategory is", foundSubCategory);
-  //   return foundSubCategory;
-  // };
-  // const findCityById = (cityId) => {
-  //   const foundCity = cities.find((city) => city.id === cityId);
-  //   return foundCity;
-  // };
 
   return (
     <div className="things-to-do-section">

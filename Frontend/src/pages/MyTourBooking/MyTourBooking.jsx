@@ -1,10 +1,8 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import "./MyTourBooking.css";
 import { useParams } from "react-router-dom";
-import { UserContext } from "../../context/UserContextProvider";
 import { axiosInstance } from "../../apis/axiosInstance";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useAxios } from "../../hooks/useAxios";
 import { useAccessToken } from "../../hooks/useAccessToken";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -13,8 +11,6 @@ import { useAxiosFunction } from "../../hooks/useAxiosFunction";
 const MyTourBooking = () => {
   const { token } = useAccessToken();
   const { isAuthenticated, isLoading } = useAuth0();
-  const { userFromDb, userFromDbError, userFromDbLoading } =
-    useContext(UserContext);
   const { id: userId } = useParams();
   console.log("userId is", userId);
   const [myBookings, myBookingsError, myBookingsLoading, fetchTourBookings] =

@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import "./Cities.css";
 import CitiesHeader from "../../components/CitiesHeader/CitiesHeader";
-import { attractions, subCategory, restaurants } from "../../assets/assets";
 import CityCard from "../../components/CityCard/CityCard";
 import { CityContext } from "../../context/CityContextProvider";
 import ExpandableDescription from "../../components/ExpandableDescription/ExpandableDescription";
@@ -59,8 +58,6 @@ function SamplePrevArrow(props) {
   );
 }
 const Cities = () => {
-  //   const [isOpen, setIsOpen] = useState(false);
-  //   const [showReadMoreButton, setShowReadMoreButton] = useState(false);
   const { cities } = useContext(CityContext);
 
   const [attractions, attractionsError, attractionsLoading] = useAxios({
@@ -86,21 +83,6 @@ const Cities = () => {
           National Park are a trekker’s paradise. Vietnam's cities seamlessly
           combine the allure of urban life with the serenity of nature, ensuring
           unforgettable experiences at every turn. `;
-  //   useEffect(() => {
-  //     setShowReadMoreButton(text.length > 100);
-  //   }, []);
-
-  // const findSubCategory = (attraction) => {
-  //   const foundSubCategory = subCategory.find(
-  //     (subCategory) => subCategory.id === attraction.subCategoryId
-  //   );
-  //   console.log("foundSubCategory is", foundSubCategory);
-  //   return foundSubCategory;
-  // };
-  // const findCityById = (cityId) => {
-  //   const foundCity = cities.find((city) => city.id === cityId);
-  //   return foundCity;
-  // };
   const settings = {
     dots: true,
     infinite: true,
@@ -121,25 +103,6 @@ const Cities = () => {
           lineClamp={3}
         ></ExpandableDescription>
       </div>
-      {/* <div className="cities-description">
-        <h2>Cities, Vietnam</h2>
-        <p className={isOpen ? "expanded" : ""}>{text}</p>
-        {showReadMoreButton && (
-          <div onClick={() => setIsOpen(!isOpen)}>
-            {isOpen ? (
-              <div className="expand-button">
-                <p>Read less</p>
-                <i className="fas fa-chevron-up"></i>
-              </div>
-            ) : (
-              <div className="expand-button">
-                <p>Read more</p>
-                <i className="fas fa-chevron-down"></i>
-              </div>
-            )}
-          </div>
-        )}
-      </div> */}
       <div className="cities-list">
         {cities.length <= 0 && "No cities found"}
         {cities.length > 0 &&

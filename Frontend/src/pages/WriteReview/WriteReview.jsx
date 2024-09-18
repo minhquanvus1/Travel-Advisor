@@ -8,7 +8,6 @@ import { replaceUnderScoreWithWhiteSpace } from "../../functions/replaceUnderSco
 import { replaceWhiteSpaceWithUnderScore } from "../../functions/replaceWhiteSpaceWithUnderScore";
 import ReviewRating from "../../components/ReviewRating/ReviewRating";
 import { UserContext } from "../../context/UserContextProvider";
-import { useAxiosFunction } from "../../hooks/useAxiosFunction";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

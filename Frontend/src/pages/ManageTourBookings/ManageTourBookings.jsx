@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./ManageTourBookings.css";
 import { axiosInstance } from "../../apis/axiosInstance";
-import { useAxios } from "../../hooks/useAxios";
 import { useAxiosFunction } from "../../hooks/useAxiosFunction";
 import { useAccessToken } from "../../hooks/useAccessToken";
 import { useAuth0 } from "@auth0/auth0-react";

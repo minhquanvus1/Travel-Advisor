@@ -1,12 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./AttractionInACity.css";
 import { Link, useParams } from "react-router-dom";
-import {
-  cities,
-  attractions,
-  subCategory,
-  restaurants,
-} from "../../assets/assets";
 import { replaceUnderScoreWithWhiteSpace } from "../../functions/replaceUnderScoreWithWhiteSpace";
 import { replaceWhiteSpaceWithUnderScore } from "../../functions/replaceWhiteSpaceWithUnderScore";
 import ExpandableDescription from "../../components/ExpandableDescription/ExpandableDescription";
@@ -42,19 +36,7 @@ const AttractionInACity = () => {
   console.log("restaurants fetched from api is", restaurantsData);
   console.log("attractions fetched from api is", attractionsData);
   console.log("attraction reviews data are ", attractionReviewsData);
-  const findAllAttractionsInThisCity = () => {
-    const currentCity = cities.find(
-      (city) => city.name === replaceUnderScoreWithWhiteSpace(cityName)
-    );
-    if (!currentCity) {
-      console.log(`This city ${cityName} does not exist`);
-      return;
-    }
-    const allAttractionsInCurrentCity = attractions.filter(
-      (attraction) => attraction.cityId === currentCity.id
-    );
-    return allAttractionsInCurrentCity;
-  };
+
   const findCurrentAttraction = () => {
     if (attractionsData.length <= 0) {
       console.log(`this city ${cityName} does not have any attractions`);
@@ -75,48 +57,7 @@ const AttractionInACity = () => {
     return currentAttraction;
   };
   console.log("currentAttractionData is ", findCurrentAttraction());
-  const findAttraction = () => {
-    const allAttractionsInCurrentCity = findAllAttractionsInThisCity();
-    if (
-      !allAttractionsInCurrentCity ||
-      allAttractionsInCurrentCity.length <= 0
-    ) {
-      console.log(`this city ${cityName} does not have any attractions`);
-      return;
-    }
 
-    const currentAttraction = allAttractionsInCurrentCity?.find(
-      (attraction) =>
-        attraction.attractionName ===
-        replaceUnderScoreWithWhiteSpace(attractionName)
-    );
-    if (!currentAttraction) {
-      console.log(
-        `this currentAttraction ${attractionName} does not exist in this city ${cityName}`
-      );
-      return;
-    }
-    console.log("currentAttraction is", currentAttraction);
-    return currentAttraction;
-  };
-  const findRestaurantsInThisCity = () => {
-    if (!cityName) return;
-    const foundCity = cities.find(
-      (city) => city.name === replaceUnderScoreWithWhiteSpace(cityName)
-    );
-    console.log("foundCity in restaurants is", foundCity);
-    const allRestaurantsInThisCity = restaurants.filter(
-      (restaurant) => restaurant.cityId === foundCity?.id
-    );
-    // if (allRestaurantsInThisCity.length === 0) {
-    //   console.log("this city has no restaurants");
-    //   return;
-    // }
-    console.log("all restaurants are", allRestaurantsInThisCity);
-    return allRestaurantsInThisCity;
-  };
-  const allRestaurantsInThisCity = findRestaurantsInThisCity();
-  const allAttractionsInThisCity = findAllAttractionsInThisCity();
   useEffect(() => {
     const currentAttraction = findCurrentAttraction();
     setAttraction(currentAttraction);
@@ -131,13 +72,7 @@ const AttractionInACity = () => {
       });
     }
   }, [attraction]);
-  const findSubCategory = (attraction) => {
-    const foundSubCategory = subCategory.find(
-      (subCategory) => subCategory.id === attraction.subCategoryId
-    );
-    console.log("foundSubCategory is", foundSubCategory);
-    return foundSubCategory;
-  };
+
   function formatDate(dateString) {
     const options = { year: "numeric", month: "long", day: "2-digit" };
     const date = new Date(dateString);

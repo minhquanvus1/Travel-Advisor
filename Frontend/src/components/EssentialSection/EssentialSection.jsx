@@ -29,48 +29,7 @@ const EssentialSection = ({ title, currentSection }) => {
 
   const attractions = currentSection === "things-to-do" ? data : [];
   const restaurants = currentSection === "restaurants" ? data : [];
-  // const findAllAttractionsInThisCity = () => {
-  //   const currentCity = cities.find(
-  //     (city) => city.name === replaceUnderScoreWithWhiteSpace(cityName)
-  //   );
-  //   if (!currentCity) {
-  //     console.log(`This city ${cityName} does not exist`);
-  //     return;
-  //   }
-  //   const allAttractionsInCurrentCity = attractions.filter(
-  //     (attraction) => attraction.cityId === currentCity.id
-  //   );
-  //   return allAttractionsInCurrentCity;
-  // };
-  // const findRestaurantsInThisCity = () => {
-  //   if (!cityName) return;
-  //   const foundCity = cities.find(
-  //     (city) => city.name === replaceUnderScoreWithWhiteSpace(cityName)
-  //   );
-  //   console.log("foundCity in restaurants is", foundCity);
-  //   const allRestaurantsInThisCity = restaurants.filter(
-  //     (restaurant) => restaurant.cityId === foundCity.id
-  //   );
-  //   // if (allRestaurantsInThisCity.length === 0) {
-  //   //   console.log("this city has no restaurants");
-  //   //   return;
-  //   // }
-  //   console.log("all restaurants are", allRestaurantsInThisCity);
-  //   return allRestaurantsInThisCity;
-  // };
-  // const allRestaurantsInThisCity =
-  //   currentSection === "restaurants" && findRestaurantsInThisCity();
-  // const allAttractionsInThisCity =
-  //   currentSection === "things-to-do" && findAllAttractionsInThisCity();
-  // console.log("allAttractionsInThisCity are", allAttractionsInThisCity);
-  // console.log("allRestaurantsInThisCity are", allRestaurantsInThisCity);
-  // const findSubCategory = (attraction) => {
-  //   const foundSubCategory = subCategory.find(
-  //     (subCategory) => subCategory.id === attraction.subCategoryId
-  //   );
-  //   console.log("foundSubCategory is", foundSubCategory);
-  //   return foundSubCategory;
-  // };
+
   return (
     <div className="essential-section">
       {loading && "Loading..."}
