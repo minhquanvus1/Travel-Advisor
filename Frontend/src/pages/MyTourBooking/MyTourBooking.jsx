@@ -74,8 +74,18 @@ const MyTourBooking = () => {
       day: "numeric", // Day of the month (e.g., 12)
     }).format(dateObject);
   };
-  if (myBookingsLoading) return <p>Loading...</p>;
-  if (myBookingsError) return <p>Error fetching tour bookings</p>;
+  if (myBookingsLoading)
+    return (
+      <p style={{ display: "grid", placeItems: "center", height: "100dvh" }}>
+        Loading...
+      </p>
+    );
+  if (myBookingsError)
+    return (
+      <p style={{ display: "grid", placeItems: "center", height: "100dvh" }}>
+        Error fetching tour bookings
+      </p>
+    );
   return (
     <div className="my-tour-booking-section">
       <div className="my-tour-booking-title">
