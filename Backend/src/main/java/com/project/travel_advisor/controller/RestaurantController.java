@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -48,12 +49,14 @@ public class RestaurantController {
         return ResponseEntity.ok(restaurantService.findRestaurantsByNameContainingIgnoreCase(name));
     }
 
-    @PostMapping("/restaurants")
+    @PostMapping("/secure/restaurants")
+    @PreAuthorize("hasAuthority('post:restaurant')")
     public ResponseEntity<RestaurantDto> createARestaurant(@Valid @RequestBody RestaurantDto restaurantDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(restaurantService.createARestaurant(restaurantDto));
     }
 
-    @DeleteMapping("/restaurants/{id}")
+    @DeleteMapping("/secure/restaurants/{id}")
+    @PreAuthorize("hasAuthority('delete:restaurant')")
     public ResponseEntity<Map<String,Object>> deleteRestaurantById(@PathVariable Long id) {
         restaurantService.deleteRestaurantById(id);
         Map<String, Object> response = new HashMap<>();

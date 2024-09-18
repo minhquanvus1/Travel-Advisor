@@ -33,7 +33,12 @@ const ManageUsers = () => {
     const data = await deleteUser({
       axiosInstance: axiosInstance,
       method: "DELETE",
-      url: `/user/${userId}`,
+      url: `/secure/users/${userId}`,
+      requestConfig: {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
     });
     if (data) {
       toast.success(`User with id ${userId} has been deleted successfully`);

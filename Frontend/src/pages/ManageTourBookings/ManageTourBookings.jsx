@@ -15,11 +15,7 @@ const ManageTourBookings = () => {
     tourBookingsError,
     tourBookingsLoading,
     fetchTourBookings,
-  ] = useAxios({
-    axiosInstance: axiosInstance,
-    method: "GET",
-    url: "/tour-bookings",
-  });
+  ] = useAxiosFunction();
   const [users, usersError, usersLoading, fetchUsers] = useAxiosFunction();
 
   const [tourBookingsOfThisUser, setTourBookingsOfThisUser] = useState([]);
@@ -27,6 +23,16 @@ const ManageTourBookings = () => {
   const [tourBookingsByMonth, setTourBookingsByMonth] = useState([]);
   useEffect(() => {
     if (!isAuthenticated || !token) return;
+    fetchTourBookings({
+      axiosInstance: axiosInstance,
+      method: "GET",
+      url: "/secure/tour-bookings",
+      requestConfig: {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    });
     fetchUsers({
       axiosInstance: axiosInstance,
       method: "GET",
@@ -126,7 +132,16 @@ const ManageTourBookings = () => {
   }, [tourBookings]);
   useEffect(() => {
     const intervalId = setInterval(() => {
-      fetchTourBookings();
+      fetchTourBookings({
+        axiosInstance: axiosInstance,
+        method: "GET",
+        url: "/secure/tour-bookings",
+        requestConfig: {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      });
       fetchUsers({
         axiosInstance: axiosInstance,
         method: "GET",

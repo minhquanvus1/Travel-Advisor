@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -38,12 +39,14 @@ public class CityController {
         return ResponseEntity.ok(cityService.findCitiesByNameContainingIgnoreCase(name));
     }
 
-    @PostMapping("/cities")
+    @PostMapping("/secure/cities")
+    @PreAuthorize("hasAuthority('post:city')")
     public ResponseEntity<CityDto> createACity(@Valid @RequestBody CityDto cityDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(cityService.createACity(cityDto));
     }
 
-    @DeleteMapping("/cities/{id}")
+    @DeleteMapping("/secure/cities/{id}")
+    @PreAuthorize("hasAuthority('delete:city')")
     public ResponseEntity<Map<String, Object>> deleteCityById(@PathVariable Long id) {
         cityService.deleteACityById(id);
         Map<String, Object> response = new HashMap<>();

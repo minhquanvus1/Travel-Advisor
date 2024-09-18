@@ -410,21 +410,25 @@ const Navbar = ({ restaurantState, setRestaurantState, role }) => {
             <li>Travel Tips</li>
             {scroll !== "new-navbar" && <li>More</li>}
           </ul>
-          {isAuthenticated &&
-          user &&
-          !Array.isArray(userFromDb) &&
-          userFromDb ? (
+          {isAuthenticated && user ? (
             <div className="navbar-profile">
               <img
-                src={userFromDb?.imageUrl ? userFromDb.imageUrl : user.picture}
+                src={userFromDb?.imageUrl || user.picture}
                 alt="user profile picture"
                 className="navbar-profile-img"
               />
               <ul className="navbar-profile-dropdown">
-                <li>
-                  <Link to={`/users/${user.nickname}/profile`}>Profile</Link>
-                </li>
-                <hr />
+                {!Array.isArray(userFromDb) && userFromDb && (
+                  <>
+                    <li>
+                      <Link to={`/users/${user.nickname}/profile`}>
+                        Profile
+                      </Link>
+                    </li>
+                    <hr />
+                  </>
+                )}
+
                 <li
                   onClick={() => logout({ returnTo: window.location.origin })}
                 >

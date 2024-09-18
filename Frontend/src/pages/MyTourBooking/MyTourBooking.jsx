@@ -3,34 +3,62 @@ import "./MyTourBooking.css";
 import { useParams } from "react-router-dom";
 import { UserContext } from "../../context/UserContextProvider";
 import { axiosInstance } from "../../apis/axiosInstance";
+import { useAuth0 } from "@auth0/auth0-react";
 import { useAxios } from "../../hooks/useAxios";
+import { useAccessToken } from "../../hooks/useAccessToken";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useAxiosFunction } from "../../hooks/useAxiosFunction";
 
 const MyTourBooking = () => {
+  const { token } = useAccessToken();
+  const { isAuthenticated, isLoading } = useAuth0();
   const { userFromDb, userFromDbError, userFromDbLoading } =
     useContext(UserContext);
   const { id: userId } = useParams();
   console.log("userId is", userId);
-  const [myBookings, myBookingsError, myBookingsLoading, refetchTourBookings] =
-    useAxios({
-      axiosInstance: axiosInstance,
-      method: "GET",
-      url: `/tour-bookings/search/findByUserId?userId=${userId}`,
-    });
+  const [myBookings, myBookingsError, myBookingsLoading, fetchTourBookings] =
+    useAxiosFunction();
   const [deletedTourBookingId, setDeletedTourBookingId] = useState(null);
 
   useEffect(() => {
+    if (isAuthenticated && token) {
+      fetchTourBookings({
+        axiosInstance: axiosInstance,
+        method: "GET",
+        url: `/secure/tour-bookings/search/findByUserId?userId=${userId}`,
+        requestConfig: {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      });
+    }
+  }, [isAuthenticated, token]);
+  useEffect(() => {
     if (deletedTourBookingId) {
-      refetchTourBookings();
+      fetchTourBookings({
+        axiosInstance: axiosInstance,
+        method: "GET",
+        url: `/secure/tour-bookings/search/findByUserId?userId=${userId}`,
+        requestConfig: {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      });
     }
   }, [deletedTourBookingId]);
   console.log("my bookings are ", myBookings);
   const deleteTourBooking = async (bookingId) => {
     try {
-      const response = await axiosInstance.delete(
-        `/tour-bookings/${bookingId}`
-      );
+      const response = await axiosInstance({
+        method: "DELETE",
+        url: `/secure/tour-bookings/${bookingId}`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setDeletedTourBookingId(response.data.deletedId);
       toast("Tour booking deleted successfully");
     } catch (error) {

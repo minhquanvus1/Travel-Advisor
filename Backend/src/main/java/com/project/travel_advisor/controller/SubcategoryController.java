@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -39,12 +40,14 @@ public class SubcategoryController {
         return ResponseEntity.ok(subcategoryService.findSubcategoriesByNameContainingIgnoreCase(name));
     }
 
-    @PostMapping("/subcategories")
+    @PostMapping("/secure/subcategories")
+    @PreAuthorize("hasAuthority('post:subcategory')")
     public ResponseEntity<SubcategoryDto> createASubcategory(@Valid @RequestBody SubcategoryDto subcategoryDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(subcategoryService.createASubcategory(subcategoryDto));
     }
 
-    @DeleteMapping("/subcategories/{id}")
+    @DeleteMapping("/secure/subcategories/{id}")
+    @PreAuthorize("hasAuthority('delete:subcategory')")
     public ResponseEntity<Map<String, Object>> deleteSubcategoryById(@PathVariable Long id) {
         subcategoryService.deleteSubcategoryById(id);
         Map<String, Object> response = new HashMap<>();

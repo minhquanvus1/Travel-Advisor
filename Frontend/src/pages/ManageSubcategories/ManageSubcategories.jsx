@@ -41,31 +41,24 @@ const ManageSubcategories = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [formData, setFormData] = useState({ name: "", categoryId: "" });
   useEffect(() => {
-    if (!isAuthenticated || !token) return;
     fetchSubcategories({
       axiosInstance: axiosInstance,
       method: "GET",
       url: "/subcategories",
-      //   requestConfig: {
-      //     headers: {
-      //       Authorization: `Bearer ${token}`,
-      //     },
-      //   },
     });
-  }, [
-    isAuthenticated,
-    token,
-    deletedSubcategoryId,
-    updatedSubcategoryId,
-    postSubcategoryResponse,
-  ]);
+  }, [deletedSubcategoryId, updatedSubcategoryId, postSubcategoryResponse]);
   console.log("all subcategories are ", subcategories);
 
   const handleDeleteSubcategory = async (subcategoryId) => {
     const data = await deleteSubcategory({
       axiosInstance: axiosInstance,
       method: "DELETE",
-      url: `/subcategories/${subcategoryId}`,
+      url: `/secure/subcategories/${subcategoryId}`,
+      requestConfig: {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
     });
     if (data) {
       toast.success(
@@ -78,10 +71,11 @@ const ManageSubcategories = () => {
     const data = await postSubcategory({
       axiosInstance: axiosInstance,
       method: "POST",
-      url: `/subcategories`,
+      url: `/secure/subcategories`,
       requestConfig: {
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         data: formData,
       },

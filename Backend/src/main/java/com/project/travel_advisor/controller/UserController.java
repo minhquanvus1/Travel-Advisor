@@ -30,14 +30,15 @@ public class UserController {
         return ResponseEntity.ok(userService.findAllUsers());
     }
 
-    @GetMapping("/users/{id}")
-    public ResponseEntity<UserDto> findAllUsers(@PathVariable Long id) {
+    @GetMapping("/secure/users/{id}")
+    @PreAuthorize("hasAuthority('get:user')")
+    public ResponseEntity<UserDto> findUserById(@PathVariable Long id) {
 
         return ResponseEntity.ok(userService.findUserById(id));
     }
 
     @PostMapping("/secure/users")
-    @PreAuthorize("hasAuthority('post:users')")
+    @PreAuthorize("hasAuthority('post:user')")
     public ResponseEntity<UserDto> createAUser(@RequestHeader(value = "Authorization") String token, @Valid @RequestBody UserDto userDto) {
 
         String subject = ExtractJWT.payloadJWTExtraction(token, "sub");
@@ -46,20 +47,21 @@ public class UserController {
     }
 
     @GetMapping("/secure/users/search/findBySubject")
-    @PreAuthorize("hasAuthority('get:user')")
+    @PreAuthorize("hasAuthority('get:user-by-subject')")
     public ResponseEntity<UserDto> findUserBySubject(@RequestParam String subject) {
 
         return ResponseEntity.ok(userService.findUserBySubject(subject));
     }
 
     @PutMapping("/secure/users/{id}")
-    @PreAuthorize("hasAuthority('update:users')")
+    @PreAuthorize("hasAuthority('put:user')")
     public ResponseEntity<UserDto> updateAnUser(@PathVariable Long id, @Valid @RequestBody UserDto userDto) {
 
         return ResponseEntity.ok(userService.updateAnUser(id, userDto));
     }
 
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping("/secure/users/{id}")
+    @PreAuthorize("hasAuthority('delete:user')")
     public ResponseEntity<Map<String, Object>> deleteUserById(@PathVariable Long id) {
 
         userService.deleteUserById(id);

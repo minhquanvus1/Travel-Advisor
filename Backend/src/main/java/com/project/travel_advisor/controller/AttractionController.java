@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -45,12 +46,14 @@ public class AttractionController {
         return ResponseEntity.ok(attractionService.findAttractionsByNameContainingIgnoreCase(name));
     }
 
-    @PostMapping("/attractions")
+    @PostMapping("/secure/attractions")
+    @PreAuthorize("hasAuthority('post:attraction')")
     public ResponseEntity<AttractionResponseDto> createAnAttraction(@Valid @RequestBody AttractionRequestDto attractionRequestDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(attractionService.createAnAttraction(attractionRequestDto));
     }
 
-    @DeleteMapping("/attractions/{id}")
+    @DeleteMapping("/secure/attractions/{id}")
+    @PreAuthorize("hasAuthority('delete:attraction')")
     public ResponseEntity<Map<String, Object>> deleteAttractionById(@PathVariable Long id) {
         attractionService.deleteAttractionById(id);
         Map<String, Object> response = new HashMap<>();

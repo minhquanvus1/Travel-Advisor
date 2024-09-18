@@ -10,8 +10,10 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import { UserContext } from "../../context/UserContextProvider";
+import { useAccessToken } from "../../hooks/useAccessToken";
 
 const CheckoutForm = ({ cityName, tourName, tourId, tourPrice }) => {
+  const { token } = useAccessToken();
   const { userFromDb } = useContext(UserContext);
   const stripe = useStripe();
   const elements = useElements();
@@ -64,10 +66,14 @@ const CheckoutForm = ({ cityName, tourName, tourId, tourPrice }) => {
 
     try {
       // Create PaymentIntent
-      const paymentIntentResponse = await axiosInstance.post(
-        "/payment-intent",
-        paymentInfo
-      );
+      const paymentIntentResponse = await axiosInstance({
+        method: "POST",
+        url: "/secure/payment-intent",
+        data: paymentInfo,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       const paymentIntent = paymentIntentResponse.data;
 
       const paymentResult = await stripe.confirmPayment(
@@ -102,10 +108,14 @@ const CheckoutForm = ({ cityName, tourName, tourId, tourPrice }) => {
         totalPrice: totalPrice,
       };
 
-      const bookingResponse = await axiosInstance.post(
-        "/book-tour",
-        bookingData
-      );
+      const bookingResponse = await axiosInstance({
+        method: "POST",
+        url: "/secure/book-tour",
+        data: bookingData,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       toast.success(
         `Tour booked successfully with Tour Tracking Number: ${bookingResponse.data.tourBookingTrackingNumber}`
       );

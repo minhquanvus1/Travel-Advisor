@@ -110,7 +110,7 @@ const UserProfile = (
     try {
       const response = await axiosInstance.request({
         url,
-        method,
+        method: method.toLowerCase(),
         data: formData,
         headers: {
           "Content-Type": "application/json",

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import "./WriteReview.css";
 import { axiosInstance } from "../../apis/axiosInstance";
 import { useAxios } from "../../hooks/useAxios";
+import { useAccessToken } from "../../hooks/useAccessToken";
 import { Link, useParams } from "react-router-dom";
 import { replaceUnderScoreWithWhiteSpace } from "../../functions/replaceUnderScoreWithWhiteSpace";
 import { replaceWhiteSpaceWithUnderScore } from "../../functions/replaceWhiteSpaceWithUnderScore";
@@ -12,6 +13,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const WriteReview = () => {
+  const { token } = useAccessToken();
   const { attractionName } = useParams();
   const [attraction, attractionError, attractionLoading] = useAxios({
     axiosInstance: axiosInstance,
@@ -73,8 +75,11 @@ const WriteReview = () => {
     try {
       const response = await axiosInstance({
         method: "POST",
-        url: "/attraction-reviews",
+        url: "/secure/attraction-reviews",
         data: review,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       console.log("response is ", response);
       toast.success("Review posted successfully");
@@ -83,7 +88,7 @@ const WriteReview = () => {
     } catch (error) {
       setPostReviewError(error);
       console.error("Error posting review: ", error);
-      toast.error("Error posting review");
+      toast.error(`Error posting review: ${error.response.data.message}`);
     } finally {
       setPostReviewLoading(false);
     }

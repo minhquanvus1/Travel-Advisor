@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -39,12 +40,14 @@ public class TourController {
         return ResponseEntity.ok(tourService.findTourByTourNameAndCityName(tourName, cityName));
     }
 
-    @PostMapping("/tours")
+    @PostMapping("/secure/tours")
+    @PreAuthorize("hasAuthority('post:tour')")
     public ResponseEntity<TourResponseDto> createATour(@Valid @RequestBody TourRequestDto tourRequestDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(tourService.createATour(tourRequestDto));
     }
 
-    @DeleteMapping("/tours/{id}")
+    @DeleteMapping("/secure/tours/{id}")
+    @PreAuthorize("hasAuthority('delete:tour')")
     public ResponseEntity<Map<String, Object>> deleteATourById(@PathVariable Long id) {
         tourService.deleteATourById(id);
         Map<String, Object> response = new HashMap<>();

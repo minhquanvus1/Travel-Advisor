@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -20,24 +21,28 @@ public class TourBookingController {
 
     private final TourBookingService tourBookingService;
 
-    @GetMapping("/tour-bookings")
+    @GetMapping("/secure/tour-bookings")
+    @PreAuthorize("hasAuthority('get:tour-bookings')")
     public ResponseEntity<List<GetTourBookingResponseDto>> findAllTourBookings() {
 
         return ResponseEntity.ok(tourBookingService.findAllTourBookings());
     }
 
-    @GetMapping("/tour-bookings/search/findByUserId")
+    @GetMapping("/secure/tour-bookings/search/findByUserId")
+    @PreAuthorize("hasAuthority('get:tour-bookings-by-user-id')")
     public ResponseEntity<List<GetTourBookingResponseDto>> findAllTourBookingsByUserId(@RequestParam Long userId) {
 
         return ResponseEntity.ok(tourBookingService.findAllTourBookingsByUserId(userId));
     }
-    @PostMapping("/book-tour")
+    @PostMapping("/secure/book-tour")
+    @PreAuthorize("hasAuthority('book:tour')")
     public ResponseEntity<TourBookingResponseDto> bookATour(@Valid @RequestBody TourBookingRequestDto tourBookingRequestDto) {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(tourBookingService.bookATour(tourBookingRequestDto));
     }
 
-    @DeleteMapping("/tour-bookings/{id}")
+    @DeleteMapping("/secure/tour-bookings/{id}")
+    @PreAuthorize("hasAuthority('delete:booked-tour')")
     public ResponseEntity<Map<String, Object>> deleteABookedTour(@PathVariable Long id) {
 
         tourBookingService.deleteATourBookingById(id);

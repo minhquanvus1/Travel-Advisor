@@ -115,7 +115,7 @@ const TourCheckout = () => {
       };
 
       try {
-        const data = await createPaymentIntent(paymentInfo);
+        const data = await createPaymentIntent(paymentInfo, token);
         setClientSecret(data?.client_secret); // Store the client secret in state
       } catch (error) {
         console.error("Error creating payment intent:", error);
@@ -123,10 +123,10 @@ const TourCheckout = () => {
     };
 
     // Only call the function if totalPrice is truthy, and can be converted to a Number and user.email is truthy
-    if (totalPrice && !isNaN(totalPrice) && user.email) {
+    if (totalPrice && !isNaN(totalPrice) && user.email && token) {
       fetchClientSecret();
     }
-  }, [totalPrice, user.email]); // Re-run when totalPrice or user.email changes
+  }, [totalPrice, user.email, token]); // Re-run when totalPrice or user.email changes
 
   console.log("client_secret is", clientSecret);
   const options = {
@@ -204,8 +204,11 @@ const TourCheckout = () => {
     try {
       const paymentIntentResponse = await axiosInstance({
         method: "POST",
-        url: "/payment-intent",
+        url: "/secure/payment-intent",
         data: paymentInfo,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       const paymentIntent = paymentIntentResponse.data;
       console.log("paymentIntent is", paymentIntent);
@@ -248,11 +251,11 @@ const TourCheckout = () => {
 
       const response = await axiosInstance({
         method: "POST",
-        url: "/book-tour",
+        url: "/secure/book-tour",
         data: bookingData,
-        // headers: {
-        //   Authorization: `Bearer ${token}`,
-        // },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       console.log("tour booking response is ", response.data);
       toast.success(

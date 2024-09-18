@@ -199,7 +199,8 @@ const AttractionInACity = () => {
                 ></RatingStars>
 
                 <span className="number-of-reviews">
-                  {attraction.numberOfReviews.toLocaleString("en-US")} reviews
+                  {attraction.numberOfReviews.toLocaleString("en-US")}{" "}
+                  {attraction.numberOfReviews < 2 ? "review" : "reviews"}
                 </span>
               </div>
               <div className="attraction-subcategory">
@@ -659,9 +660,11 @@ const AttractionInACity = () => {
               <div className="user-review-list-section">
                 {!attractionReviewsDataLoading &&
                   attractionReviewsData.length <= 0 && (
-                    <div>No Reviews Found</div>
+                    <div style={{ textAlign: "center" }}>No Reviews Found</div>
                   )}
-                {attractionReviewsDataLoading && <div>Loading...</div>}
+                {attractionReviewsDataLoading && (
+                  <div style={{ textAlign: "center" }}>Loading...</div>
+                )}
                 {!attractionReviewsDataLoading &&
                   attractionReviewsData.length > 0 &&
                   attractionReviewsData.map((review, index) => (

@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -31,19 +32,22 @@ public class AttractionReviewController {
         return ResponseEntity.ok(attractionReviewService.findAllAttractionReviewsByAttractionId(attractionId));
     }
 
-    @PostMapping("/attraction-reviews")
+    @PostMapping("/secure/attraction-reviews")
+    @PreAuthorize("hasAuthority('post:attraction-review')")
     public ResponseEntity<AttractionReviewResponseDto> postAnAttractionReview(@Valid @RequestBody AttractionReviewRequestDto attractionReviewRequestDto) {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(attractionReviewService.postAnAttractionReview(attractionReviewRequestDto));
     }
 
-    @PutMapping("/attraction-reviews/{id}")
+    @PutMapping("/secure/attraction-reviews/{id}")
+    @PreAuthorize("hasAuthority('put:attraction-review')")
     public ResponseEntity<AttractionReviewResponseDto> updateAnAttractionReview(@PathVariable Long id, @Valid @RequestBody AttractionReviewRequestDto attractionReviewRequestDto) {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(attractionReviewService.updateAnAttractionReview(id, attractionReviewRequestDto));
     }
 
-    @DeleteMapping("/attraction-reviews/{attractionReviewId}")
+    @DeleteMapping("/secure/attraction-reviews/{attractionReviewId}")
+    @PreAuthorize("hasAuthority('delete:attraction-review')")
     public ResponseEntity<Map<String, Object>> deleteAnAttractionReviewOfAUser(@PathVariable Long attractionReviewId, @RequestParam Long userId) {
 
         attractionReviewService.deleteAnAttractionReviewOfAUser(userId, attractionReviewId);

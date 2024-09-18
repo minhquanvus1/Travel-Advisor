@@ -7,6 +7,7 @@ import com.stripe.model.PaymentIntent;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +22,8 @@ public class PaymentController {
 
     private Logger logger = Logger.getLogger(getClass().getName());
 
-    @PostMapping("/payment-intent")
+    @PostMapping("/secure/payment-intent")
+    @PreAuthorize("hasAuthority('post:payment-intent')")
     public ResponseEntity<String> createPaymentIntent(@RequestBody PaymentInfo paymentInfo) throws StripeException {
         logger.info("paymentinfo.amount: " + paymentInfo.amount());
         PaymentIntent paymentIntent = paymentService.createPaymentIntent(paymentInfo);

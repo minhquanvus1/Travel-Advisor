@@ -39,12 +39,12 @@ export const AuthenticationGuard = ({
   const { user, isAuthenticated, isLoading } = useAuth0();
   const navigate = useNavigate();
   const userRole = user ? user["https://travel-advisor/api/roles"] : []; // Adjust based on your Auth0 setup
-
+  console.log("userRole is ", userRole);
+  console.log("user in userRole is ", user["https://travel-advisor/api/roles"]);
   // Role-based authorization check
   const isRoleAllowed =
     allowedRoles.length === 0 ||
-    allowedRoles.some((role) => userRole.includes(role));
-
+    allowedRoles.some((role) => userRole?.includes(role));
   // Component with authentication required
   // const ProtectedComponent = withAuthenticationRequired(Component, {
   //   onRedirecting: () => (

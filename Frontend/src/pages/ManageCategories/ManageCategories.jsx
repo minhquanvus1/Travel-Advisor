@@ -35,24 +35,12 @@ const ManageCategories = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [formData, setFormData] = useState({ name: "" });
   useEffect(() => {
-    if (!isAuthenticated || !token) return;
     fetchCategories({
       axiosInstance: axiosInstance,
       method: "GET",
       url: "/categories",
-      //   requestConfig: {
-      //     headers: {
-      //       Authorization: `Bearer ${token}`,
-      //     },
-      //   },
     });
-  }, [
-    isAuthenticated,
-    token,
-    deletedCategoryId,
-    updatedCategoryId,
-    postCategoryResponse,
-  ]);
+  }, [deletedCategoryId, updatedCategoryId, postCategoryResponse]);
   console.log("all categories are ", categories);
 
   const handleUpdateCategory = async (e) => {
@@ -61,10 +49,11 @@ const ManageCategories = () => {
     const data = await updateCategory({
       axiosInstance: axiosInstance,
       method: "PUT",
-      url: `/categories/${selectedCategory.id}`,
+      url: `/secure/categories/${selectedCategory.id}`,
       requestConfig: {
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         data: formData,
       },
@@ -82,7 +71,12 @@ const ManageCategories = () => {
     const data = await deleteCategory({
       axiosInstance: axiosInstance,
       method: "DELETE",
-      url: `/categories/${categoryId}`,
+      url: `/secure/categories/${categoryId}`,
+      requestConfig: {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
     });
     if (data) {
       toast.success(
@@ -95,10 +89,11 @@ const ManageCategories = () => {
     const data = await postCategory({
       axiosInstance: axiosInstance,
       method: "POST",
-      url: `/categories`,
+      url: `/secure/categories`,
       requestConfig: {
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         data: formData,
       },

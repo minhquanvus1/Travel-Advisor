@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -29,17 +30,20 @@ public class CategoryController {
         return ResponseEntity.ok(categoryService.getCategoryById(id));
     }
 
-    @PostMapping("/categories")
+    @PostMapping("/secure/categories")
+    @PreAuthorize("hasAuthority('post:category')")
     public ResponseEntity<CategoryResponseDto> createACategory(@Valid @RequestBody CategoryRequestDto categoryRequestDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(categoryService.createACategory(categoryRequestDto));
     }
 
-    @PutMapping("/categories/{id}")
+    @PutMapping("/secure/categories/{id}")
+    @PreAuthorize("hasAuthority('put:category')")
     public ResponseEntity<CategoryResponseDto> updateACategory(@Valid @RequestBody CategoryRequestDto categoryRequestDto, @PathVariable Long id) {
         return ResponseEntity.ok(categoryService.updateACategory(categoryRequestDto, id));
     }
 
-    @DeleteMapping("/categories/{id}")
+    @DeleteMapping("/secure/categories/{id}")
+    @PreAuthorize("hasAuthority('delete:category')")
     public ResponseEntity<Map<String, Object>> deleteACategory(@PathVariable Long id) {
         categoryService.deleteACategory(id);
         Map<String, Object> response = new HashMap<>();
@@ -47,7 +51,8 @@ public class CategoryController {
         return ResponseEntity.ok(response);
     }
 
-    @DeleteMapping("/categories")
+    @DeleteMapping("/secure/categories")
+    @PreAuthorize("hasAuthority('delete:all-categories')")
     public ResponseEntity<String> deleteAllCategory() {
         categoryService.deleteAllCategory();
         return ResponseEntity.ok("All Category has been successfully deleted");
