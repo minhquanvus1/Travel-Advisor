@@ -276,7 +276,6 @@ const App = () => {
                 }
               />
               <Route path="/unauthorize" element={<UnauthorizedPage />} />
-              <Route path="/admin/test" element={<TestPage />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </div>
