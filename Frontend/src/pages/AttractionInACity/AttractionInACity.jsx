@@ -157,8 +157,20 @@ const AttractionInACity = () => {
 
   return (
     <div className="attraction-section">
-      {attractionsDataError && "No attractions found"}
-      {attractionsDataLoading && "Loading..."}
+      {attractionsDataError && (
+        <div
+          style={{ display: "grid", placeItems: "center", height: "100dvh" }}
+        >
+          No attractions found
+        </div>
+      )}
+      {attractionsDataLoading && (
+        <div
+          style={{ display: "grid", placeItems: "center", height: "100dvh" }}
+        >
+          Loading...
+        </div>
+      )}
       {!attraction && (
         <h1>
           This {cityName} does not have this attraction {attractionName}

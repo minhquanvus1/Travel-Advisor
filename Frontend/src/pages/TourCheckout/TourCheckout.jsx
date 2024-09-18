@@ -468,8 +468,18 @@ const TourCheckout = () => {
       setPostedUserLoading(false);
     }
   };
-  if (!bookingDetails) return <div>Booking details not found</div>;
-  if (userFromDbLoading || !clientSecret) return <div>Loading...</div>;
+  if (!bookingDetails)
+    return (
+      <div style={{ display: "grid", placeItems: "center", height: "100dvh" }}>
+        Booking details not found
+      </div>
+    );
+  if (userFromDbLoading || !clientSecret)
+    return (
+      <div style={{ display: "grid", placeItems: "center", height: "100dvh" }}>
+        Loading...
+      </div>
+    );
   return (
     <div className="tour-checkout-section">
       {!Array.isArray(tour) && tour && (
