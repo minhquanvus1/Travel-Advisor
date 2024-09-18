@@ -31,7 +31,6 @@ import MyTourBooking from "./pages/MyTourBooking/MyTourBooking";
 import AdminMainPage from "./pages/AdminMainPage/AdminMainPage";
 import UnauthorizedPage from "./pages/UnauthorizedPage/UnauthorizedPage";
 import NotFound from "./pages/NotFound/NotFound";
-import TestPage from "./pages/TestPage";
 import Sidebar from "./components/Sidebar/Sidebar";
 import ManageUsers from "./pages/ManageUsers/ManageUsers";
 import ManageCategories from "./pages/ManageCategories/ManageCategories";
