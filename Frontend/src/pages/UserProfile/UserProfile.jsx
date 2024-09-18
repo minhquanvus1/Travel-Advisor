@@ -102,7 +102,7 @@ const UserProfile = (
     e.preventDefault();
     setPostedUserLoading(true);
     setPostedUserError(null);
-    const isUpdatingUser = !!userFromDb;
+    const isUpdatingUser = !Array.isArray(userFromDb) && userFromDb;
     const url = isUpdatingUser
       ? `/secure/users/${userFromDb.id}`
       : `/secure/users`;

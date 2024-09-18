@@ -429,7 +429,7 @@ const Navbar = ({ restaurantState, setRestaurantState, role }) => {
               )}
 
               <ul className="navbar-profile-dropdown">
-                {!Array.isArray(userFromDb) && userFromDb && (
+                {/* {!Array.isArray(userFromDb) && userFromDb && (
                   <>
                     <li>
                       <Link to={`/users/${user.nickname}/profile`}>
@@ -438,7 +438,11 @@ const Navbar = ({ restaurantState, setRestaurantState, role }) => {
                     </li>
                     <hr />
                   </>
-                )}
+                )} */}
+                <li>
+                  <Link to={`/users/${user.nickname}/profile`}>Profile</Link>
+                </li>
+                <hr />
 
                 <li
                   onClick={() => logout({ returnTo: window.location.origin })}
