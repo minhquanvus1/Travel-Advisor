@@ -38,8 +38,20 @@ const RestaurantsInACity = () => {
   // const allRestaurantsInThisCity = findRestaurantsInThisCity();
   return (
     <div className="restaurants-in-city-section">
-      {error && `City ${cityState} has no restaurants`}
-      {loading && "Loading..."}
+      {error && (
+        <div
+          style={{ display: "grid", placeItems: "center", height: "100dvh" }}
+        >
+          City ${cityState} has no restaurants
+        </div>
+      )}
+      {loading && (
+        <div
+          style={{ display: "grid", placeItems: "center", height: "100dvh" }}
+        >
+          Loading...
+        </div>
+      )}
       {allRestaurantsInThisCity.length > 0 && (
         <>
           <h1 className="restaurants-in-city-section-title">

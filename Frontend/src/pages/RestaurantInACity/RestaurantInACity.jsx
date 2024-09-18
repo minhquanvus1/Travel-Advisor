@@ -47,8 +47,20 @@ const RestaurantInACity = ({ restaurantState, setRestaurantState }) => {
   }, [restaurant]);
   return (
     <div className="restaurant-section">
-      {error && "No restaurant found"}
-      {loading && "Loading..."}
+      {error && (
+        <div
+          style={{ display: "grid", placeItems: "center", height: "100dvh" }}
+        >
+          No restaurant found
+        </div>
+      )}
+      {loading && (
+        <div
+          style={{ display: "grid", placeItems: "center", height: "100dvh" }}
+        >
+          Loading...
+        </div>
+      )}
       {!Array.isArray(restaurant) && restaurant && (
         <>
           <div className="restaurant-heading">
