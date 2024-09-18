@@ -125,7 +125,7 @@ const RestaurantInACity = ({ restaurantState, setRestaurantState }) => {
                     restaurant.addressObj.city &&
                     ", "}
                   {restaurant.addressObj.city &&
-                    `${restaurant.addressObj.city} City `}
+                    `${restaurant.addressObj.city} `}
                   {restaurant.addressObj.postalCode &&
                     `${restaurant.addressObj.postalCode} `}
                   {restaurant.addressObj.country &&
@@ -318,7 +318,8 @@ const RestaurantInACity = ({ restaurantState, setRestaurantState }) => {
                 <div className="details-item">
                   <div className="details-item-subject">PRICE RANGE</div>
                   <div className="details-item-content">
-                    ${restaurant.lowestPrice} - ${restaurant.highestPrice}
+                    ${restaurant.lowestPrice.toFixed(2)} - $
+                    {restaurant.highestPrice.toFixed(2)}
                   </div>
                 </div>
                 <div className="details-item">
@@ -363,7 +364,7 @@ const RestaurantInACity = ({ restaurantState, setRestaurantState }) => {
                       restaurant.addressObj.city &&
                       ", "}
                     {restaurant.addressObj.city &&
-                      `${restaurant.addressObj.city} City `}
+                      `${restaurant.addressObj.city} `}
                     {restaurant.addressObj.postalCode &&
                       `${restaurant.addressObj.postalCode} `}
                     {restaurant.addressObj.country &&
@@ -414,7 +415,8 @@ const RestaurantInACity = ({ restaurantState, setRestaurantState }) => {
                   <div className="details-item">
                     <div className="details-item-subject">PRICE RANGE</div>
                     <div className="details-item-content">
-                      ${restaurant.lowestPrice} - ${restaurant.highestPrice}
+                      ${restaurant.lowestPrice.toFixed(2)} - $
+                      {restaurant.highestPrice.toFixed(2)}
                     </div>
                   </div>
                   <div className="details-item">

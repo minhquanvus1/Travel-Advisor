@@ -277,7 +277,7 @@ const AttractionInACity = () => {
                           attraction.addressObj.city &&
                           ", "}
                         {attraction.addressObj.city &&
-                          `${attraction.addressObj.city} City `}
+                          `${attraction.addressObj.city} `}
                         {attraction.addressObj.postalCode &&
                           `${attraction.addressObj.postalCode} `}
                         {attraction.addressObj.country &&
