@@ -1,6 +1,10 @@
 # Travel Advisor (Backend)
 
-- The Backend app is built with Java Spring Boot
+- The Backend app is built with Java Spring Boot, with Maven, and is currently deployed to Render cloud platform.
+
+- The Backend app uses PostgreSQL as the database, and is currently deployed to Heroku cloud platform.
+
+- The Backend techstack also includes: Spring Data JPA, Spring Security, Spring Web, Spring Boot Validation, Spring Boot DevTools, PostgreSQL, Lombok, Auth0 for Authentication/Authorization, and Stripe for payment processing.
 
 ## Getting Started
 
@@ -14,9 +18,89 @@
 
 - Developers are recommended to use IntelliJ IDEA as the IDE for the Backend Java Spring Boot project. If you don't have IntelliJ IDEA installed, you can download it from [IntelliJ IDEA](https://www.jetbrains.com/idea/download/)
 
+- The Backend uses PostgreSQL as the database. Developers should have PostgreSQL installed in their local machine. If you don't have PostgreSQL installed, you can download it from [PostgreSQL](https://www.postgresql.org/download/). We can also install the `psql` client, which is a terminal-based front-end to PostgreSQL. The `psql` client is used to connect to a PostgreSQL database and perform database operations.
+
+#### Backend
+
+- To run the Backend Java Spring Boot, follow these steps:
+
+  - First, we need to create the PostgreSQL database. Open the terminal and run the following command:
+
+  ```bash
+  # Access psql client
+  psql -U YOUR_DB_USERNAME -h YOUR_DB_HOST
+
+  # Create the database using SQL command
+  CREATE DATABASE YOUR_DB_NAME;
+  ```
+
+  - Then, because the Backend app uses Auth0 for Authentication/Authorization, and Stripe for payment processing, we need to create an Auth0 account, create an API in the Auth0 dashboard, create Auth0 Regular Web Application type, and get the Auth0 properties. We also need to create a Stripe account, and get the Stripe secret key.
+
+  - After that, we should create a `.env` file in the root directory of the Backend, and update the Auth0 properties, and Stripe properties:
+
+  ```properties
+  # Development DB Credentials
+  LOCAL_DB_NAME=YOUR_DB_NAME
+  LOCAL_DB_USERNAME=YOUR_DB_USERNAME
+  LOCAL_DB_PASSWORD=YOUR_DB_PASSWORD
+  LOCAL_DB_PORT=5432
+
+  # Auth0 Properties
+  OKTA_OAUTH2_ISSUER=YOUR_AUTH0_ISSUER
+  OKTA_OAUTH2_AUDIENCE=YOUR_AUTH0_AUDIENCE
+  JWK_SET_URI=YOUR_AUTH0_JWK_SET_URI
+
+  # Stripe Properties
+  STRIPE_SECRET_KEY=YOUR_STRIPE_SECRET_KEY
+  ```
+
+- Now, we can run the Spring Boot Backend by using IntelliJ IDEA to run the Backend Java Spring Boot, by opening the `Edit Configuration` and set environment variable to be `spring.profiles.active=development`, and run the `TravelAdvisorBackendApplication` class.
+
+Or: we can use the following command:
+
+```bash
+# Run the Backend
+mvn spring-boot:run
+```
+
+- The Backend Java Spring Boot will start running on `http://localhost:8080/`. Open the browser and navigate to `http://localhost:8080/` to see the Backend Java Spring Boot.
+
 ### Backend Folder Structure
 
 - The Backend Java Spring Boot has the following structure:
+
+  - `src/` folder: contains all the src code of the Backend
+    - `main/` folder: contains the main code of the Backend
+      - `java/` folder: contains the Java code of the Backend
+        - `com/` folder: contains the com code of the Backend
+          - `project/` folder: contains the products code of the Backend
+            - `travel_advisor/` folder
+              - `config/` folder: contains the Configurations of the Backend
+                - `MyAppConfig.java` file: contains the App Configuration of the Backend (for the Allowed Origins)
+                - `SecurityConfig.java` file: contains the Security Configuration of the Backend (for the Auth0 Authentication/Authorization)
+              - `controller/` folder: contains the Controllers of the Backend
+              - `dto/` folder: contains the Data Transfer Objects of the Backend
+              - `entity/` folder: contains the Entities of the Backend
+              - `exception/` folder: contains the Exceptions of the Backend
+              - `mapper/` folder: contains the Mappers of the Backend
+              - `repository/` folder: contains the Repositories of the Backend
+              - `service/` folder: contains the Services of the Backend
+              - `utils/` folder: contains the Utils of the Backend
+              - `TravelAdvisorBackendApplication.java` file: contains the main class of the Backend
+      - `resources/` folder: contains the resources of the Backend
+        - `application.properties` file: contains the properties of the Backend for both Development, and Production environment
+        - `application-development.properties` file: contains the properties of the Backend for the Development environment
+        - `application-production.properties` file: contains the properties of the Backend for the Production environment
+    - `test/` folder: contains the test code of the Backend
+      - `java/` folder: contains the Java test code of the Backend
+        - `com/` folder: contains the com test code of the Backend
+          - `travel_advisor/` folder: contains the test code of the Backend
+            - `TravelAdvisorBackendApplicationTests.java` file: contains the test class of the Backend
+    - `Dockerfile` file: contains the Dockerfile of the Backend
+    - `.dockerignore` file: contains the dockerignore of the Backend
+    - `pom.xml` file: contains the dependencies, plugins of the Backend
+    - `Backend_README.md` file: contains the README of the Backend
+    - `.gitignore` file: contains the gitignore of the Backend
 
 ## API Reference
 
@@ -26,7 +110,9 @@
 
 - Base URL: At present this app can only be run locally and is not hosted as a base URL. The backend app is hosted at the default, http://127.0.0.1/8080/, which is set as a proxy in the frontend configuration.
 
-- Authentication: This version of the application does not require authentication or API keys.
+- This app has 2 types of Users: Admin, and Authenticated User. Each of them has their own Role, and their own permissions to be able to access resources of certain endpoints, as for Role-based access control (RBAC)
+
+- The JWT access token is required for these endpoints (except the public endpoints), and we will get this JWT after we log in successfully in the Frontend React
 
 ### Error Handling:
 
@@ -40,22 +126,25 @@
 }
 ```
 
-There are three types of errors:
+There are 5 types of errors:
 
 - 400: Bad Request
 - 404: Resource Not Found
+- 401: Unauthorized
+- 403: Forbidden
 - 500: INTERNAL SERVER ERROR
 
 ### Endpoints:
 
-- I will demonstrate the endpoints for each Entity, which are: Category, Subcategory, City, Restaurant, Attraction, Tour, Attraction Review, and User
+- I will demonstrate the endpoints for each Entity, which are: Category, Subcategory, City, Restaurant, Attraction, Tour, Attraction Review, User, Tour Booking, and Payment
 
 #### Category:
 
-1. GET /categories:
+##### 1. GET /categories:
 
 - General:
   - Get all Categories
+  - This is a Public Endpoint, so no JWT access token is required
 - Request Arguments:
   - None
 - Returns:
@@ -81,6 +170,7 @@ There are three types of errors:
 
 - General:
   - Get Category by id
+  - This is a Public Endpoint, so no JWT access token is required
 - Path Arguments:
   - id: integer
 - Returns:
@@ -96,18 +186,24 @@ There are three types of errors:
 }
 ```
 
-3. POST /categories
+3. POST /secure/categories
 
 - General:
   - Create a new Category
+  - This is an Admin Endpoint, so the JWT access token is required
 - Request body:
+
+  - name: String
+  - subcategories: List of Subcategory objects (in the format: {"name": subcategory_name}) (Optional)
+
 - Returns:
   - Return the created Category object
 - Sample request:
 
 ```json
-curl -X POST http://localhost:8080/categories \
+curl -X POST http://localhost:8080/secure/categories \
     -H "Content-Type: application/json" \
+    -H "Authorization: Bearer <JWT_OF_ADMIN>" \
     -d '{
           "name": "skibidi category3",
           "subcategories": [
@@ -131,11 +227,11 @@ curl -X POST http://localhost:8080/categories \
 }
 ```
 
-4. PUT /categories/{id}
+4. PUT /secure/categories/{id}
 
 - General:
   - Update an existing Category
-- Request body:
+  - This is an Admin Endpoint, so the JWT access token is required
 - Path argument:
   - id: integer
 - Returns:
@@ -143,8 +239,9 @@ curl -X POST http://localhost:8080/categories \
 - Sample request:
 
 ```json
-curl -X PUT http://localhost:8080/categories/1 \
+curl -X PUT http://localhost:8080/secure/categories/1 \
     -H "Content-Type: application/json" \
+    -H "Authorization: Bearer <JWT_OF_ADMIN>" \
     -d '{
           "name": "skibidi category5",
           "subcategories": [
@@ -175,6 +272,7 @@ Or: we can just update the Category name, without updating its Subcategories Lis
 ```json
 curl -X PUT http://localhost:8080/categories/1 \
     -H "Content-Type: application/json" \
+    -H "Authorization: Bearer <JWT_OF_ADMIN>" \
     -d '{
           "name": "skibidi category7"
         }'
@@ -190,17 +288,18 @@ curl -X PUT http://localhost:8080/categories/1 \
 }
 ```
 
-5. DELETE /categories/{id}
+5. DELETE /secure/categories/{id}
 
 - General:
   - Delete an existing Category
-- Request body:
+  - This is an Admin Endpoint, so the JWT access token is required
 - Returns:
   - Return the id of the deleted Category
 - Sample request:
 
 ```json
-curl -X DELETE http://localhost:8080/categories/12
+curl -X DELETE http://localhost:8080/secure/categories/1 \
+    -H "Authorization: Bearer <JWT_OF_ADMIN>"
 
 ```
 
@@ -212,12 +311,33 @@ curl -X DELETE http://localhost:8080/categories/12
 }
 ```
 
+6. DELETE /secure/categories
+
+- General:
+  - Delete all Categories
+  - This is an Admin Endpoint, so the JWT access token is required
+- Returns:
+  - The String `All Category has been successfully deleted`
+- Sample request:
+
+  ```json
+  curl -X DELETE http://localhost:8080/secure/categories \
+      -H "Authorization: Bearer <JWT_OF_ADMIN>"
+  ```
+
+- Sample response:
+
+```json
+All Category has been successfully deleted
+```
+
 #### Subcategory
 
 1. GET /subcategories
 
 - General:
   - Get all Subcategories
+  - This is a Public Endpoint, so no JWT access token is required
 - Returns:
   - Return a List of all Subcategories
 - Sample request:
@@ -248,6 +368,7 @@ curl GET http://localhost:8080/subcategories
 
 - General:
   - Get Subcategory by id
+  - This is a Public Endpoint, so no JWT access token is required
 - Path argument:
   - id: integer
 - Returns:
@@ -273,6 +394,7 @@ curl GET http://localhost:8080/subcategories/10
 
 - General:
   - Get all Subcategories of a Category with this categoryName
+  - This is a Public Endpoint, so no JWT access token is required
 - Path argument:
   - categoryName: String
 - Returns:
@@ -296,10 +418,11 @@ curl GET http://localhost:8080/categories/Tour/subcategories
 ]
 ```
 
-4. POST /subcategories
+4. POST /secure/subcategories
 
 - General:
   - Create a new Subcategory within an existing Category
+  - This is an Admin Endpoint, so the JWT access token is required
 - Request body:
 
 ```json
@@ -314,8 +437,9 @@ curl GET http://localhost:8080/categories/Tour/subcategories
 - Sample request:
 
 ```json
-curl POST http://localhost:8080/subcategories \
+curl POST http://localhost:8080/secure/subcategories \
           -H "Content-Type: application/json" \
+          -H "Authorization: Bearer <JWT_OF_ADMIN>" \
           -d '{
                 "name": "skibidi sub3",
                 "categoryId": 2
@@ -333,10 +457,11 @@ curl POST http://localhost:8080/subcategories \
 }
 ```
 
-5. DELETE /subcategories/{id}
+5. DELETE /secure/subcategories/{id}
 
 - General:
   - Delete an existing Subcategory from a Category
+  - This is an Admin Endpoint, so the JWT access token is required
 - Path argument:
   - id: integer
 - Returns:
@@ -344,8 +469,8 @@ curl POST http://localhost:8080/subcategories \
 - Sample request:
 
 ```json
-curl DELETE http://localhost:8080/subcategories/11
-
+curl DELETE http://localhost:8080/secure/subcategories/11 \
+          -H "Authorization: Bearer <JWT_OF_ADMIN>"
 ```
 
 - Sample response:
@@ -362,6 +487,7 @@ curl DELETE http://localhost:8080/subcategories/11
 
 - General:
   - Get all Cities
+  - This is a Public Endpoint, so no JWT access token is required
 - Returns:
   - Return a List of all Cities
 - Sample request:
@@ -649,6 +775,7 @@ curl GET http://localhost:8080/cities
 
 - General:
   - Get all Cities
+  - This is a Public Endpoint, so no JWT access token is required
 - Returns:
   - Return the City with this id
 - Sample request:
@@ -787,6 +914,7 @@ curl GET http://localhost:8080/cities/9
 
 - General:
   - Get City with this name (ignore case)
+  - This is a Public Endpoint, so no JWT access token is required
 - Returns:
   - Return the City with this name (ignore case)
 - Sample request:
@@ -921,18 +1049,21 @@ curl GET http://localhost:8080/cities/search?name=Quy Nhon city
 }
 ```
 
-4. POST /cities
+4. POST /secure/cities
 
 - General:
   - Create a new City
+  - This is an Admin Endpoint, so the JWT access token is required
 - Request body:
+  - In the sample request
 - Returns:
   - Return the newly created City object
 - Sample request:
 
 ```json
-curl POST http://localhost:8080/cities \
+curl POST http://localhost:8080/secure/cities \
         -H "Content-Type: application/json" \
+        -H "Authorization: Bearer <JWT_OF_ADMIN>" \
         -d '{
   "name": "Quy Nhon city",
   "imageUrl": "https://vietnamtour.com/images/photos/asia/quy-nhon-city-tour-3.jpg?t=1593696405",
@@ -1161,10 +1292,11 @@ curl POST http://localhost:8080/cities \
 }
 ```
 
-5. DELETE /cities/{id}
+5. DELETE /secure/cities/{id}
 
 - General:
   - Delete a City by id
+  - This is an Admin Endpoint, so the JWT access token is required
 - Path argument:
   - id: integer
 - Returns:
@@ -1172,8 +1304,8 @@ curl POST http://localhost:8080/cities \
 - Sample request:
 
 ```json
-curl DELETE http://localhost:8080/cities/5
-
+curl DELETE http://localhost:8080/secure/cities/5 \
+        -H "Authorization: Bearer <JWT_OF_ADMIN>"
 ```
 
 - Sample response:
@@ -1190,6 +1322,7 @@ curl DELETE http://localhost:8080/cities/5
 
 - General:
   - Get all Restaurants
+  - This is a Public Endpoint, so no JWT access token is required
 - Returns:
   - Return a List of all Restaurants
 - Sample request:
@@ -1203,47 +1336,47 @@ curl GET http://localhost:8080/restaurants
 
 ```json
 [
-    {
+  {
+    "id": 1,
+    "cityId": 1,
+    "cityName": "Quy Nhon city",
+    "name": "K4 Restaurant",
+    "imageUrl": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2c/70/42/dc/table.jpg?w=1100&h=-1&s=1",
+    "websiteUrl": "http://truffle.com.vn/",
+    "phoneNumber": "+84 98 878 33 53",
+    "description": "Truffle Restaurant in Landmark 81 offers an exquisite dining experience overlooking the beautiful skyline of Ho Chi Minh City.",
+    "lowestPrice": 109.0,
+    "highestPrice": 390.0,
+    "numberOfReviews": 18,
+    "rating": 4.5,
+    "addressObj": {
+      "id": 1,
+      "address": "28 Nguyen Huu Canh",
+      "ward": "22",
+      "district": "Binh Thanh",
+      "city": "Ho Chi Minh",
+      "country": "Vietnam",
+      "postalCode": "70000"
+    },
+    "cuisines": [
+      {
+        "id": 6,
+        "name": "Fusion"
+      },
+      {
+        "id": 5,
+        "name": "European"
+      },
+      {
         "id": 1,
-        "cityId": 1,
-        "cityName": "Quy Nhon city",
-        "name": "K4 Restaurant",
-        "imageUrl": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2c/70/42/dc/table.jpg?w=1100&h=-1&s=1",
-        "websiteUrl": "http://truffle.com.vn/",
-        "phoneNumber": "+84 98 878 33 53",
-        "description": "Truffle Restaurant in Landmark 81 offers an exquisite dining experience overlooking the beautiful skyline of Ho Chi Minh City.",
-        "lowestPrice": 109.00,
-        "highestPrice": 390.00,
-        "numberOfReviews": 18,
-        "rating": 4.5,
-        "addressObj": {
-            "id": 1,
-            "address": "28 Nguyen Huu Canh",
-            "ward": "22",
-            "district": "Binh Thanh",
-            "city": "Ho Chi Minh",
-            "country": "Vietnam",
-            "postalCode": "70000"
-        },
-        "cuisines": [
-            {
-                "id": 6,
-                "name": "Fusion"
-            },
-            {
-                "id": 5,
-                "name": "European"
-            },
-            {
-                "id": 1,
-                "name": "Seafood"
-            },
-            {
-                "id": 4,
-                "name": "French"
-            }
-        ]
-    }
+        "name": "Seafood"
+      },
+      {
+        "id": 4,
+        "name": "French"
+      }
+    ]
+  }
 ]
 ```
 
@@ -1251,6 +1384,7 @@ curl GET http://localhost:8080/restaurants
 
 - General:
   - Get Restaurant with this id
+  - This is a Public Endpoint, so no JWT access token is required
 - Path argument:
   - id: integer
 - Returns:
@@ -1308,6 +1442,7 @@ curl GET http://localhost:8080/restaurants/14
 
 - General:
   - Get all Restaurants within this City with this cityName
+  - This is a Public Endpoint, so no JWT access token is required
 - Path argument:
   - cityName: String
 - Returns:
@@ -1502,6 +1637,7 @@ curl GET http://localhost:8080/cities/Ho Chi Minh city/restaurants
 
 - General:
   - Get Restaurant with this name
+  - This is a Public Endpoint, so no JWT access token is required
 - Request argument:
   - name: String
 - Returns:
@@ -1555,18 +1691,21 @@ curl GET http://localhost:8080/restaurants/search?name=K7 Restaurant
 }
 ```
 
-5. POST /restaurants
+5. POST /secure/restaurants
 
 - General:
   - Create a new Restaurant
+  - This is an Admin Endpoint, so the JWT access token is required
 - Request body:
+  - In the sample request
 - Returns:
   - Return the newly created Restaurant
 - Sample request:
 
 ```json
-curl POST http://localhost:8080/restaurants \
+curl POST http://localhost:8080/secure/restaurants \
         -H "Content-Type: application/json" \
+        -H "Authorization: Bearer <JWT_OF_ADMIN>" \
         -d '{
     "cityId": 1,
     "name": "K4 Restaurant",
@@ -1650,10 +1789,11 @@ curl POST http://localhost:8080/restaurants \
 }
 ```
 
-6. GET /restaurants/search?name={}
+6. DELETE /secure/restaurants/{id}
 
 - General:
   - Delete an existing Restaurant with this id
+  - This is an Admin Endpoint, so the JWT access token is required
 - Path argument:
   - id: integer
 - Returns:
@@ -1661,8 +1801,8 @@ curl POST http://localhost:8080/restaurants \
 - Sample request:
 
 ```json
-curl DELETE http://localhost:8080/restaurants/10
-
+curl DELETE http://localhost:8080/restaurants/10 \
+        -H "Authorization: Bearer <JWT_OF_ADMIN>"
 ```
 
 - Sample response:
@@ -1677,6 +1817,7 @@ curl DELETE http://localhost:8080/restaurants/10
 
 - General:
   - Get all Attractions
+  - This is a Public Endpoint, so no JWT access token is required
 - Returns:
   - Return a List of all Attractions
 - Sample request:
@@ -1721,6 +1862,7 @@ curl GET http://localhost:8080/attractions
 
 - General:
   - Get an Attraction with this id
+  - This is a Public Endpoint, so no JWT access token is required
 - Path argument:
   - id: integer
 - Returns:
@@ -1765,6 +1907,7 @@ curl GET http://localhost:8080/attractions/1
 
 - General:
   - Get all Attractions within this City with this cityName
+  - This is a Public Endpoint, so no JWT access token is required
 - Path argument:
   - cityName: String
 - Returns:
@@ -1807,23 +1950,25 @@ curl GET http://localhost:8080/cities/Quy Nhon city/attractions
 ]
 ```
 
-4. POST /attractions
+4. POST /secure/attractions
 
 - General:
   - Create a new Attraction
+  - This is an Admin Endpoint, so the JWT access token is required
 - Request body:
+  - In the sample request
 - Returns:
   - Return the newly created Attraction
 - Sample request:
 
 ```json
-curl POST http://localhost:8080/attractions \
+curl POST http://localhost:8080/secure/attractions \
           -H "Content-Type: application/json" \
+          -H "Authorization: Bearer <JWT_OF_ADMIN>" \
           -d '{
   "name": "Bitexco Financial Tower",
   "subcategoryId": 10,
   "cityId": 1,
-  "numberOfReviews": 6260,
   "imageUrl": "https://media-cdn.tripadvisor.com/media/photo-f/14/11/d4/2a/bitexco-financial-tower.jpg",
   "websiteUrl": "http://www.bitexcofinancialtower.com/",
   "addressObj": {
@@ -1836,7 +1981,6 @@ curl POST http://localhost:8080/attractions \
   },
   "latitude": 10.771853,
   "longitude": 106.704529,
-  "rating": 5,
   "description": "Bitexco Financial Tower at a height of 262 meters is the tallest building in Ho Chi Minh City up to date."
 }
 '
@@ -1872,10 +2016,11 @@ curl POST http://localhost:8080/attractions \
 }
 ```
 
-5. DELETE /attractions/{id}
+5. DELETE /secure/attractions/{id}
 
 - General:
   - Delete an existing Attraction with this id
+  - This is an Admin Endpoint, so the JWT access token is required
 - Path argument:
   - id: integer
 - Returns:
@@ -1883,8 +2028,8 @@ curl POST http://localhost:8080/attractions \
 - Sample request:
 
 ```json
-curl DELETE http://localhost:8080/attractions/10
-
+curl DELETE http://localhost:8080/secure/attractions/10  \
+        -H "Authorization: Bearer <JWT_OF_ADMIN>"
 ```
 
 - Sample response:
@@ -1899,6 +2044,7 @@ curl DELETE http://localhost:8080/attractions/10
 
 - General:
   - Get all Tours
+  - This is a Public Endpoint, so no JWT access token is required
 - Returns:
   - Return a List of all Tours
 - Sample request:
@@ -2044,6 +2190,7 @@ curl GET http://localhost:8080/tours
 
 - General:
   - Get Tour with this id
+  - This is a Public Endpoint, so no JWT access token is required
 - Path argument:
   - id: integer
 - Returns:
@@ -2189,6 +2336,7 @@ curl GET http://localhost:8080/tours/1
 
 - General:
   - Get all Tours within this City with cityName
+  - This is a Public Endpoint, so no JWT access token is required
 - Path argument:
   - cityName: String
 - Returns:
@@ -2336,6 +2484,7 @@ curl GET http://localhost:8080/cities/Quy Nhon city/tours
 
 - General:
   - Get Tour with this tourName and cityName
+  - This is a Public Endpoint, so no JWT access token is required
 - Request argument:
   - tourName: String
   - cityName: String
@@ -2478,18 +2627,21 @@ curl GET http://localhost:8080/tours/search?cityName=Quy Nhon city&tourName=Cu C
 }
 ```
 
-5. POST /tours
+5. POST /secure/tours
 
 - General:
   - Create a new Tour
+  - This is an Admin Endpoint, so the JWT access token is required
 - Request body:
+  - In the sample request
 - Returns:
   - Return the newly created Tour
 - Sample request:
 
 ```json
-curl POST http://localhost:8080/tours \
+curl POST http://localhost:8080/secure/tours \
           -H "Content-Type: application/json" \
+          -H "Authorization: Bearer <JWT_OF_ADMIN>" \
           -d '{
   "name": "Cu Chi Tunnels Luxury Tour - Morning or Afternoon",
   "cityId": 5,
@@ -2765,10 +2917,11 @@ curl POST http://localhost:8080/tours \
 }
 ```
 
-6. DELETE /tours/{id}
+6. DELETE /secure/tours/{id}
 
 - General:
   - Delete a Tour with this id
+  - This is an Admin Endpoint, so the JWT access token is required
 - Path argument:
   - id: integer
 - Returns:
@@ -2776,8 +2929,8 @@ curl POST http://localhost:8080/tours \
 - Sample request:
 
 ```json
-curl DELETE http://localhost:8080/tours/1
-
+curl DELETE http://localhost:8080/secure/tours/1 \
+          -H "Authorization: Bearer <JWT_OF_ADMIN>" \
 ```
 
 - Sample response:
@@ -2794,6 +2947,7 @@ curl DELETE http://localhost:8080/tours/1
 
 - General:
   - Get all Attraction Reviews
+  - This is a Public Endpoint, so no JWT access token is required
 - Returns:
   - Return a List of all Attraction Reviews
 - Sample request:
@@ -2826,17 +2980,21 @@ curl GET http://localhost:8080/attraction-reviews
 ]
 ```
 
-2. POST /attraction-reviews
+2. POST /secure/attraction-reviews
 
 - General:
   - Create a new Attraction Review
+  - This is an Authenticated User Endpoint, so the JWT access token is required
+- Request body:
+  - In the sample request
 - Returns:
   - Return the newly created Attraction Review
 - Sample request:
 
 ```json
-curl POST http://localhost:8080/attraction-reviews \
+curl POST http://localhost:8080/secure/attraction-reviews \
           -H "Content-Type: application/json" \
+          -H "Authorization: Bearer <JWT_OF_AUTHENTICATED_USER>" \
           -d '{
     "userId": 1,
     "attractionId": 1,
@@ -2869,10 +3027,11 @@ curl POST http://localhost:8080/attraction-reviews \
 }
 ```
 
-3. PUT /attraction-reviews/{id}
+3. PUT /secure/attraction-reviews/{id}
 
 - General:
   - Update an existing Attraction Review
+  - This is an Endpoint for both Admin and Authenticated User, so the JWT access token is required
 - Path argument:
   - id: integer
 - Returns:
@@ -2880,8 +3039,9 @@ curl POST http://localhost:8080/attraction-reviews \
 - Sample request:
 
 ```json
-curl PUT http://localhost:8080/attraction-reviews/1 \
+curl PUT http://localhost:8080/secure/attraction-reviews/1 \
         -H "Content-Type: application/json" \
+        -H "Authorization: Bearer <JWT_OF_ADMIN_OR_AUTHENTICATED_USER>" \
         -d '{
     "userId": 1,
     "attractionId": 1,
@@ -2915,10 +3075,11 @@ curl PUT http://localhost:8080/attraction-reviews/1 \
 }
 ```
 
-4. DELETE /attraction-reviews/{id}
+4. DELETE /secure/attraction-reviews/{id}
 
 - General:
   - Delete an existing Attraction Review
+  - This is an Endpoint for both Admin and Authenticated User, so the JWT access token is required
 - Path argument:
   - id: integer
 - Returns:
@@ -2926,8 +3087,8 @@ curl PUT http://localhost:8080/attraction-reviews/1 \
 - Sample request:
 
 ```json
-curl DELETE http://localhost:8080/attraction-reviews/1
-
+curl DELETE http://localhost:8080/secure/attraction-reviews/1 \
+          -H "Authorization: Bearer <JWT_OF_ADMIN_OR_AUTHENTICATED_USER>" \
 ```
 
 - Sample response:
@@ -2940,17 +3101,18 @@ curl DELETE http://localhost:8080/attraction-reviews/1
 
 #### User
 
-1. GET /users
+1. GET /secure/users
 
 - General:
   - Get all Users
+  - This is an Admin Endpoint, so the JWT access token is required
 - Returns:
   - Return a List of all Users
 - Sample request:
 
 ```json
-curl GET http://localhost:8080/users
-
+curl GET http://localhost:8080/secure/users \
+          -H "Authorization: Bearer <JWT_OF_ADMIN>" \
 ```
 
 - Sample response:
@@ -2968,10 +3130,11 @@ curl GET http://localhost:8080/users
 ]
 ```
 
-2. GET /users/{id}
+2. GET /secure/users/{id}
 
 - General:
   - Get the User with this id
+  - This is an Endpoint for both Admin and Authenticated User, so the JWT access token is required
 - Path argument:
   - id: integer
 - Returns:
@@ -2979,8 +3142,8 @@ curl GET http://localhost:8080/users
 - Sample request:
 
 ```json
-curl GET http://localhost:8080/users/1
-
+curl GET http://localhost:8080/secure/users/1 \
+          -H "Authorization: Bearer <JWT_OF_ADMIN_OR_AUTHENTICATED_USER>" \
 ```
 
 - Sample response:
@@ -2996,24 +3159,26 @@ curl GET http://localhost:8080/users/1
 }
 ```
 
-3. POST /users
+3. POST /secure/users
 
 - General:
   - Create a new User
+  - This is an Endpoint for both Admin and Authenticated User, so the JWT access token is required
 - Request body:
+  - In the sample request
 - Returns:
   - Return the newly created User
 - Sample request:
 
 ```json
-curl POST http://localhost:8080/users \
+curl POST http://localhost:8080/secure/users \
           -H "Content-Type: application/json" \
+          -H "Authorization: Bearer <JWT_OF_ADMIN_OR_AUTHENTICATED_USER>" \
           -d '{
     "firstName": "Trump",
     "lastName": "Donald",
     "city": "New York",
     "country": "USA",
-    "subject": "skibidi2",
     "imageUrl":
       "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0a/5a/3f/f6/mm-153.jpg?w=100&h=-1&s=1"
   }
@@ -3034,10 +3199,11 @@ curl POST http://localhost:8080/users \
 }
 ```
 
-4. PUT /users/{id}
+4. PUT /secure/users/{id}
 
 - General:
   - Update an existing User with this id
+  - This is an Endpoint for both Admin and Authenticated User, so the JWT access token is required
 - Path argument:
   - id: integer
 - Returns:
@@ -3045,8 +3211,9 @@ curl POST http://localhost:8080/users \
 - Sample request:
 
 ```json
-curl PUT http://localhost:8080/users/1 \
+curl PUT http://localhost:8080/secure/users/1 \
         -H "Content-Type: application/json" \
+        -H "Authorization: Bearer <JWT_OF_ADMIN_OR_AUTHENTICATED_USER>" \
         -d '{
     "firstName": "Abraham",
     "lastName": "Lincoln",
@@ -3072,10 +3239,11 @@ curl PUT http://localhost:8080/users/1 \
 }
 ```
 
-5. DELETE /users/{id}
+5. DELETE /secure/users/{id}
 
 - General:
   - Delete an existing User with this id
+  - This is an Admin Endpoint, so the JWT access token is required
 - Path argument:
   - id: integer
 - Returns:
@@ -3083,8 +3251,8 @@ curl PUT http://localhost:8080/users/1 \
 - Sample request:
 
 ```json
-curl DELETE http://localhost:8080/users/1
-
+curl DELETE http://localhost:8080/secure/users/1 \
+          -H "Authorization: Bearer <JWT_OF_ADMIN>" \
 ```
 
 - Sample response:
@@ -3094,3 +3262,444 @@ curl DELETE http://localhost:8080/users/1
   "deletedId": 1
 }
 ```
+
+6. GET /secure/users/search/findBySubject?subject={}
+
+- General:
+  - Get the User with this subject
+  - This is an Endpoint for both Admin and Authenticated User, so the JWT access token is required
+- Request argument:
+  - subject: String
+- Returns:
+  - Return the User with this subject
+- Sample request:
+
+  ```json
+  curl GET http://localhost:8080/secure/users/search/findBySubject?subject=google-oauth2|100000000000000000000 \
+          -H "Authorization: Bearer <JWT_OF_ADMIN_OR_AUTHENTICATED_USER>" \
+  ```
+
+- Sample response:
+
+  ```json
+  {
+    "id": 1,
+    "firstName": "Abraham",
+    "lastName": "Lincoln",
+    "city": "New York",
+    "country": "USA",
+    "imageUrl": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0a/5a/3f/f6/mm-153.jpg?w=100&h=-1&s=1"
+  }
+  ```
+
+#### Tour Booking
+
+1. GET /secure/tour-bookings
+
+- General:
+  - Get all Tour Bookings of all Authenticated Users
+  - This is an Admin Endpoint, so the JWT access token is required
+- Returns:
+  - Return a List of all Tour Bookings of all Authenticated Users
+- Sample request:
+
+  ```json
+  curl GET http://localhost:8080/secure/tour-bookings \
+          -H "Authorization: Bearer <JWT_OF_ADMIN>" \
+  ```
+
+- Sample response:
+
+  ```json
+  [
+    {
+      "id": 1,
+      "userId": 1,
+      "tourId": 1,
+      "tourName": "Cu Chi Tunnels Luxury Tour - Morning or Afternoon",
+      "tourPrimaryImageUrl": "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/06/fb/9b/d2.jpg",
+      "tourBookingTrackingNumber": "3aa8c78c-68aa-4ecd-a6ec-af56ef13cb7a",
+      "numberOfPeople": 3,
+      "totalPrice": 250.0,
+      "tourStartDate": "2024-10-15"
+    },
+    {
+      "id": 2,
+      "userId": 1,
+      "tourId": 1,
+      "tourName": "Cu Chi Tunnels Luxury Tour - Morning or Afternoon",
+      "tourPrimaryImageUrl": "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/06/fb/9b/d2.jpg",
+      "tourBookingTrackingNumber": "5ce01d99-d5bf-479d-b4ae-2bd97c26729e",
+      "numberOfPeople": 3,
+      "totalPrice": 250.0,
+      "tourStartDate": "2024-10-15"
+    },
+    {
+      "id": 3,
+      "userId": 1,
+      "tourId": 1,
+      "tourName": "Cu Chi Tunnels Luxury Tour - Morning or Afternoon",
+      "tourPrimaryImageUrl": "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/06/fb/9b/d2.jpg",
+      "tourBookingTrackingNumber": "7e997046-e1a5-40a3-adf6-f51e3adcdd32",
+      "numberOfPeople": 3,
+      "totalPrice": 250.0,
+      "tourStartDate": "2024-10-15"
+    },
+    {
+      "id": 6,
+      "userId": 15,
+      "tourId": 1,
+      "tourName": "Cu Chi Tunnels Luxury Tour - Morning or Afternoon",
+      "tourPrimaryImageUrl": "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/06/fb/9b/d2.jpg",
+      "tourBookingTrackingNumber": "89d58dfa-d302-4f54-ab50-c826a3b097ce",
+      "numberOfPeople": 4,
+      "totalPrice": 71.6,
+      "tourStartDate": "2024-09-11"
+    },
+    {
+      "id": 7,
+      "userId": 15,
+      "tourId": 1,
+      "tourName": "Cu Chi Tunnels Luxury Tour - Morning or Afternoon",
+      "tourPrimaryImageUrl": "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/06/fb/9b/d2.jpg",
+      "tourBookingTrackingNumber": "3b835c0b-3924-468c-9492-3bfd6b50f2ae",
+      "numberOfPeople": 3,
+      "totalPrice": 53.7,
+      "tourStartDate": "2024-09-11"
+    },
+    {
+      "id": 9,
+      "userId": 15,
+      "tourId": 1,
+      "tourName": "Cu Chi Tunnels Luxury Tour - Morning or Afternoon",
+      "tourPrimaryImageUrl": "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/06/fb/9b/d2.jpg",
+      "tourBookingTrackingNumber": "1a27be35-9e5f-4a05-b2ee-14ee8426a8e6",
+      "numberOfPeople": 3,
+      "totalPrice": 53.7,
+      "tourStartDate": "2024-09-11"
+    },
+    {
+      "id": 10,
+      "userId": 15,
+      "tourId": 1,
+      "tourName": "Cu Chi Tunnels Luxury Tour - Morning or Afternoon",
+      "tourPrimaryImageUrl": "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/06/fb/9b/d2.jpg",
+      "tourBookingTrackingNumber": "a50cfe52-921f-4267-8952-19f6e7c612d0",
+      "numberOfPeople": 3,
+      "totalPrice": 53.7,
+      "tourStartDate": "2024-09-12"
+    },
+    {
+      "id": 11,
+      "userId": 15,
+      "tourId": 1,
+      "tourName": "Cu Chi Tunnels Luxury Tour - Morning or Afternoon",
+      "tourPrimaryImageUrl": "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/06/fb/9b/d2.jpg",
+      "tourBookingTrackingNumber": "52c50961-1dc8-4957-8fac-3aa3b7a49cf3",
+      "numberOfPeople": 3,
+      "totalPrice": 53.7,
+      "tourStartDate": "2024-09-12"
+    },
+    {
+      "id": 12,
+      "userId": 15,
+      "tourId": 1,
+      "tourName": "Cu Chi Tunnels Luxury Tour - Morning or Afternoon",
+      "tourPrimaryImageUrl": "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/06/fb/9b/d2.jpg",
+      "tourBookingTrackingNumber": "055654c2-bc5f-4fc1-816d-9dc82aa91474",
+      "numberOfPeople": 2,
+      "totalPrice": 35.8,
+      "tourStartDate": "2024-09-14"
+    },
+    {
+      "id": 13,
+      "userId": 16,
+      "tourId": 1,
+      "tourName": "Cu Chi Tunnels Luxury Tour - Morning or Afternoon",
+      "tourPrimaryImageUrl": "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/06/fb/9b/d2.jpg",
+      "tourBookingTrackingNumber": "322e5fc8-3328-4788-a5c6-e4337992e652",
+      "numberOfPeople": 5,
+      "totalPrice": 89.5,
+      "tourStartDate": "2024-09-12"
+    },
+    {
+      "id": 14,
+      "userId": 15,
+      "tourId": 1,
+      "tourName": "Cu Chi Tunnels Luxury Tour - Morning or Afternoon",
+      "tourPrimaryImageUrl": "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/06/fb/9b/d2.jpg",
+      "tourBookingTrackingNumber": "d7d424e4-39df-4822-a2dc-ac788c3af383",
+      "numberOfPeople": 1,
+      "totalPrice": 17.9,
+      "tourStartDate": "2024-09-21"
+    },
+    {
+      "id": 18,
+      "userId": 16,
+      "tourId": 1,
+      "tourName": "Cu Chi Tunnels Luxury Tour - Morning or Afternoon",
+      "tourPrimaryImageUrl": "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/06/fb/9b/d2.jpg",
+      "tourBookingTrackingNumber": "75ccd37d-a908-4270-96f1-8e5ce9fec60e",
+      "numberOfPeople": 2,
+      "totalPrice": 35.8,
+      "tourStartDate": "2024-09-22"
+    },
+    {
+      "id": 19,
+      "userId": 16,
+      "tourId": 1,
+      "tourName": "Cu Chi Tunnels Luxury Tour - Morning or Afternoon",
+      "tourPrimaryImageUrl": "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/06/fb/9b/d2.jpg",
+      "tourBookingTrackingNumber": "6215e66d-62ce-44fb-adef-75784498a9f8",
+      "numberOfPeople": 1,
+      "totalPrice": 17.9,
+      "tourStartDate": "2024-09-28"
+    },
+    {
+      "id": 20,
+      "userId": 16,
+      "tourId": 1,
+      "tourName": "Cu Chi Tunnels Luxury Tour - Morning or Afternoon",
+      "tourPrimaryImageUrl": "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/06/fb/9b/d2.jpg",
+      "tourBookingTrackingNumber": "a78f97ab-27e2-4e62-b78b-271404d57f37",
+      "numberOfPeople": 1,
+      "totalPrice": 17.9,
+      "tourStartDate": "2024-09-21"
+    },
+    {
+      "id": 21,
+      "userId": 16,
+      "tourId": 1,
+      "tourName": "Cu Chi Tunnels Luxury Tour - Morning or Afternoon",
+      "tourPrimaryImageUrl": "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/06/fb/9b/d2.jpg",
+      "tourBookingTrackingNumber": "ddde58d7-f418-4627-bc54-b43ffcb092d8",
+      "numberOfPeople": 2,
+      "totalPrice": 35.8,
+      "tourStartDate": "2024-09-22"
+    },
+    {
+      "id": 22,
+      "userId": 16,
+      "tourId": 1,
+      "tourName": "Cu Chi Tunnels Luxury Tour - Morning or Afternoon",
+      "tourPrimaryImageUrl": "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/06/fb/9b/d2.jpg",
+      "tourBookingTrackingNumber": "c0d3f95c-f9bd-42bc-a711-3ffe804c2b43",
+      "numberOfPeople": 2,
+      "totalPrice": 35.8,
+      "tourStartDate": "2024-09-22"
+    },
+    {
+      "id": 23,
+      "userId": 16,
+      "tourId": 1,
+      "tourName": "Cu Chi Tunnels Luxury Tour - Morning or Afternoon",
+      "tourPrimaryImageUrl": "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/06/fb/9b/d2.jpg",
+      "tourBookingTrackingNumber": "1b0dc383-c05a-410f-a5b8-50dd6f2f8e70",
+      "numberOfPeople": 1,
+      "totalPrice": 17.9,
+      "tourStartDate": "2024-09-20"
+    }
+  ]
+  ```
+
+2. GET /secure/tour-bookings/search/findByUserId?userId={}
+
+- General:
+  - Find all Tour Bookings of this Authenticated User with this userId
+  - This is an Endpoint for both Admin and Authenticated User, so the JWT access token is required
+- Request argument:
+  - userId: integer
+- Returns:
+  - Return a List of all Tour Bookings of this Authenticated User with this userId
+- Sample request:
+
+  ```json
+  curl GET http://localhost:8080/secure/tour-bookings/search/findByUserId?userId=1 \
+          -H "Authorization: Bearer <JWT_OF_ADMIN_OR_AUTHENTICATED_USER>" \
+  ```
+
+- Sample response:
+
+  ```json
+  [
+    {
+      "id": 13,
+      "userId": 16,
+      "tourId": 1,
+      "tourName": "Cu Chi Tunnels Luxury Tour - Morning or Afternoon",
+      "tourPrimaryImageUrl": "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/06/fb/9b/d2.jpg",
+      "tourBookingTrackingNumber": "322e5fc8-3328-4788-a5c6-e4337992e652",
+      "numberOfPeople": 5,
+      "totalPrice": 89.5,
+      "tourStartDate": "2024-09-12"
+    },
+    {
+      "id": 18,
+      "userId": 16,
+      "tourId": 1,
+      "tourName": "Cu Chi Tunnels Luxury Tour - Morning or Afternoon",
+      "tourPrimaryImageUrl": "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/06/fb/9b/d2.jpg",
+      "tourBookingTrackingNumber": "75ccd37d-a908-4270-96f1-8e5ce9fec60e",
+      "numberOfPeople": 2,
+      "totalPrice": 35.8,
+      "tourStartDate": "2024-09-22"
+    },
+    {
+      "id": 19,
+      "userId": 16,
+      "tourId": 1,
+      "tourName": "Cu Chi Tunnels Luxury Tour - Morning or Afternoon",
+      "tourPrimaryImageUrl": "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/06/fb/9b/d2.jpg",
+      "tourBookingTrackingNumber": "6215e66d-62ce-44fb-adef-75784498a9f8",
+      "numberOfPeople": 1,
+      "totalPrice": 17.9,
+      "tourStartDate": "2024-09-28"
+    },
+    {
+      "id": 20,
+      "userId": 16,
+      "tourId": 1,
+      "tourName": "Cu Chi Tunnels Luxury Tour - Morning or Afternoon",
+      "tourPrimaryImageUrl": "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/06/fb/9b/d2.jpg",
+      "tourBookingTrackingNumber": "a78f97ab-27e2-4e62-b78b-271404d57f37",
+      "numberOfPeople": 1,
+      "totalPrice": 17.9,
+      "tourStartDate": "2024-09-21"
+    },
+    {
+      "id": 21,
+      "userId": 16,
+      "tourId": 1,
+      "tourName": "Cu Chi Tunnels Luxury Tour - Morning or Afternoon",
+      "tourPrimaryImageUrl": "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/06/fb/9b/d2.jpg",
+      "tourBookingTrackingNumber": "ddde58d7-f418-4627-bc54-b43ffcb092d8",
+      "numberOfPeople": 2,
+      "totalPrice": 35.8,
+      "tourStartDate": "2024-09-22"
+    },
+    {
+      "id": 22,
+      "userId": 16,
+      "tourId": 1,
+      "tourName": "Cu Chi Tunnels Luxury Tour - Morning or Afternoon",
+      "tourPrimaryImageUrl": "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/06/fb/9b/d2.jpg",
+      "tourBookingTrackingNumber": "c0d3f95c-f9bd-42bc-a711-3ffe804c2b43",
+      "numberOfPeople": 2,
+      "totalPrice": 35.8,
+      "tourStartDate": "2024-09-22"
+    },
+    {
+      "id": 23,
+      "userId": 16,
+      "tourId": 1,
+      "tourName": "Cu Chi Tunnels Luxury Tour - Morning or Afternoon",
+      "tourPrimaryImageUrl": "https://media-cdn.tripadvisor.com/media/attractions-splice-spp-720x480/06/fb/9b/d2.jpg",
+      "tourBookingTrackingNumber": "1b0dc383-c05a-410f-a5b8-50dd6f2f8e70",
+      "numberOfPeople": 1,
+      "totalPrice": 17.9,
+      "tourStartDate": "2024-09-20"
+    }
+  ]
+  ```
+
+3. POST /secure/book-tour
+
+- General:
+  - Book a Tour
+  - This is an Authenticated User Endpoint, so the JWT access token is required
+- Request body:
+  - In the sample request
+- Returns:
+  - Return a unique Tour Tracking Number
+- Sample request:
+
+  ```json
+  curl POST http://localhost:8080/secure/book-tour \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer <JWT_OF_AUTHENTICATED_USER>" \
+            -d '{
+  "userId": 15,
+  "tourId": 1,
+  "numberOfPeople": 2,
+  "totalPrice": 1500.00,
+  "tourStartDate": "2024-12-01"
+  }
+  '
+  ```
+
+- Sample response:
+
+  ```json
+  {
+    "tourBookingTrackingNumber": "322e5fc8-3328-4788-a5c6-e4337992e652"
+  }
+  ```
+
+4. DELETE /secure/tour-bookings/{id}
+
+- General:
+  - Delete a booked tour
+  - This is an Endpoint for both Admin and Authenticated User, so the JWT access token is required
+- Path argument:
+  - id: integer
+- Returns:
+  - Return the id of the deleted Tour Booking
+- Sample request:
+
+  ```json
+  curl DELETE http://localhost:8080/secure/tour-bookings/1 \
+            -H "Authorization: Bearer <JWT_OF_ADMIN_OR_AUTHENTICATED_USER>" \
+  ```
+
+- Sample response:
+
+  ```json
+  {
+    "deletedId": 1
+  }
+  ```
+
+#### Payment
+
+1. POST /secure/payment-intent
+
+- General:
+  - Create a Stripe Payment Intent
+  - This is an Authenticated User Endpoint, so the JWT access token is required
+- Request body:
+  - In the sample request
+- Returns:
+  - Return a String representation of Stripe Payment Intent
+- Sample request:
+
+  ```json
+  curl POST http://localhost:8080/secure/payment-intent \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer <JWT_OF_AUTHENTICATED_USER>" \
+            -d '{
+  "amount": 1000,
+  "currency": "USD",
+  "receiptEmail": "customer@example.com"
+  }
+  '
+  ```
+
+- Sample response:
+
+  ```json
+  {
+    "client_secret": "pi_1J2e5fc8-3328-4788-a5c6-e4337992e652"
+  }
+  ```
+
+## Deployment
+
+- The Backend of the app has been deployed on Render. You can access it by clicking on this link: `https://travel-advisor-duio.onrender.com/`
+
+## Author:
+
+Quan Tran
+
+## Acknowledgements
+
+- Thanks Dr. Tran Hong Ngoc, and Msc. Le Duc Loc for your dedicated, and fantastic support, and guidance

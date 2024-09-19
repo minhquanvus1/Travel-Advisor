@@ -14,6 +14,27 @@
 
 - Developers should have Node.js installed in their local machine. If you don't have Node.js installed, you can download it from [Node.js](https://nodejs.org/en/), and npm will be installed with Node.js.
 
+- The Frontend uses Mapbox API for the map feature. To use the Mapbox API, you need to sign up for a free account at [Mapbox](https://www.mapbox.com/). After signing up, you will get an access token, which you will use in the Frontend React.
+
+- The Frontend uses Auth0 for Authentication/Authorization. To use Auth0, you need to sign up for a free account at [Auth0](https://auth0.com/). After signing up, you will get a Domain, and a ClientID, which you will use in the Frontend React.
+
+- The Frontend also uses Stripe for payment processing. To use Stripe, you need to sign up for a free account at [Stripe](https://stripe.com/). After signing up, you will get a Publishable Key, which you will use in the Frontend React.
+
+- After that, we should create a `.env` file in the Frontend React, and add the following environment variables in the `.env` file:
+
+```bash
+VITE_REACT_APP_MAPBOX_ACCESS_TOKEN=YOUR_MAPBOX_ACCESS_TOKEN
+VITE_REACT_APP_AUTH0_DOMAIN=YOUR_AUTH0_DOMAIN
+VITE_REACT_APP_AUTH0_CLIENT_ID=YOUR_AUTH0_CLIENT_ID
+VITE_REACT_APP_STRIPE_PUBLISHABLE_KEY=YOUR_STRIPE_PUBLISHABLE_KEY
+```
+
+- We should also create a `.env.development` file in the Frontend React, and add the following environment variables in the `.env.development` file:
+
+```bash
+VITE_REACT_APP_DEVELOPMENT_BASE_URL=YOUR_DEVELOPMENT_BACKEND_API_URL
+```
+
 - The Frontend React are installed by using Vite. Vite is a build tool that aims to provide a faster and leaner development experience for modern web projects. It consists of two major parts: a dev server that provides rich feature enhancements over native ES modules, and a build command that bundles your code with Rollup.
 
 - To install Vite, run the following command in the terminal:
@@ -76,4 +97,4 @@ Quan Tran
 
 ## Acknowledgements
 
-- Thanks to the dedicated support of Dr. Tran Hong Ngoc, and Msc. Le Duc Loc for their guidance and support throughout the project.
+- Thanks Dr. Tran Hong Ngoc, and Msc. Le Duc Loc for your guidance and support throughout the project.
