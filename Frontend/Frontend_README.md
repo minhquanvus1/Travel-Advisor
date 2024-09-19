@@ -6,7 +6,7 @@
 
 - The Frontend techstack also includes: Axios, Vite, React Router, MapBox gl, React-Slick, React-Toastify, Chart.js, react-chartjs-2, font-awesome, Auth0 for Authentication/Authorization, and Stripe for payment processing.
 
-- The Frontend is inspired by the [TripAdvisor Website](https://www.tripadvisor.com/), where users can search for hotels, restaurants, and attractions in a specific location, and can also book a hotel, restaurant, or attraction, and can also leave a review for a hotel, restaurant, or attraction.
+- The Frontend is inspired by the [TripAdvisor Website](https://www.tripadvisor.com/), which offers users the ability to meticulously search for hotels, restaurants, and attractions within a specific locale. Users can seamlessly book accommodations, dining experiences, or activities, and subsequently leave insightful reviews, the [Vietnam Travel Website](https://vietnam.travel/), which provides an in-depth exploration of Vietnam's rich cultural tapestry and breathtaking landscapes. Users can immerse themselves in the vibrant essence of Vietnam, gaining valuable insights and travel tips, and the [Vietnam Travel Advisor Website](https://vietnamtraveladvisor.com.vn/), where users can discover and book captivating tours across Vietnam. This amalgamation of features ensures a comprehensive and engaging user experience, catering to the discerning traveler seeking both convenience and authenticity.
 
 ## Getting Started
 
@@ -57,6 +57,7 @@ npm run dev
   - `index.html` file: Contains the main HTML file of the Frontend React.
   - `index.css` file: Contains the CSS file of the Frontend React.
   - `baseUrl.js` file: Contains the base URL of the Backend API.
+  - `Frontend_README.md` file: Contains the README file of the Frontend React.
   - `public` folder: dynamically inject the Backend API URL into the Frontend React.
   - `package.json` file: Contains all the dependencies, scripts, and metadata of the Frontend React.
   - `package-lock.json` file: Contains the exact version of the dependencies that are installed in the Frontend React.
