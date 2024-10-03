@@ -4,6 +4,7 @@ import com.project.travel_advisor.entity.Address;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 public record AttractionResponseDto(
@@ -34,5 +35,5 @@ public record AttractionResponseDto(
         BigDecimal rating,
 
         String description
-) {
+) implements Serializable {
 }

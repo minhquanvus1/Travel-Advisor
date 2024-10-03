@@ -11,6 +11,10 @@ import com.project.travel_advisor.repository.CategoryRepository;
 import com.project.travel_advisor.repository.LanguageRepository;
 import com.project.travel_advisor.repository.SubcategoryRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,17 +33,24 @@ public class CategoryServiceImpl implements CategoryService{
     private final LanguageRepository languageRepository;
 
     @Override
+    @Cacheable(value = "allCategories", key = "'allCategories'", sync = true)
     public List<CategoryResponseDto> getAllCategory() {
 
         return categoryRepository.findAll().stream().map(CategoryMapper::mapToCategoryDto).toList();
     }
 
     @Override
+    @Cacheable(value = "category", key = "'category_' + #id", sync = true)
     public CategoryResponseDto getCategoryById(Long id) {
+        System.out.println("Hit database id first");
         return categoryRepository.findById(id).map(CategoryMapper::mapToCategoryDto).orElseThrow(() -> new ResourceNotFoundException("This Category with id " + id + " does not exist"));
     }
 
     @Override
+    @Caching(evict = {
+            @CacheEvict(value = "category", allEntries = true),
+            @CacheEvict(value = "allCategories", allEntries = true)
+    })
     public CategoryResponseDto createACategory(CategoryRequestDto categoryRequestDto) {
         Optional<Category> foundCategory = categoryRepository.findCategoryByNameIgnoreCase(categoryRequestDto.name());
         if (foundCategory.isPresent()) {
@@ -57,6 +68,10 @@ public class CategoryServiceImpl implements CategoryService{
 
     @Override
     @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "category", allEntries = true),
+            @CacheEvict(value = "allCategories", allEntries = true)
+    })
     public void deleteACategory(Long categoryId) {
         Category foundCategory = categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("This Category with id " + categoryId + " does not exist"));
 
@@ -71,6 +86,10 @@ public class CategoryServiceImpl implements CategoryService{
 
     @Override
     @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "category", allEntries = true),
+            @CacheEvict(value = "allCategories", allEntries = true)
+    })
     public void deleteAllCategory() {
         List<Category> categoryList = categoryRepository.findAll();
         for(Category category : categoryList) {
@@ -84,6 +103,7 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
+    @CachePut(value = "category", key = "'category_' + #id")
     public CategoryResponseDto updateACategory(CategoryRequestDto categoryRequestDto, Long id) {
         Category foundCategory = categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("This Category with id " + id + " does not exist"));
 

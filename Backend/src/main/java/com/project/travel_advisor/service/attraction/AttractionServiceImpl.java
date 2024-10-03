@@ -12,6 +12,9 @@ import com.project.travel_advisor.mapper.AttractionMapper;
 import com.project.travel_advisor.repository.*;
 import com.project.travel_advisor.utils.RatingUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,8 +37,9 @@ public class AttractionServiceImpl implements AttractionService{
     private final AddressRepository addressRepository;
 
     @Override
+    @Cacheable(value = "allAttractions", key = "'allAttractions'", sync = true)
     public List<AttractionResponseDto> findAllAttractions() {
-
+        System.out.println("Hit database all");
         List<AttractionResponseDto> result =  attractionRepository.findAll().stream().map(attraction -> new AttractionResponseDto(
                 attraction.getId(),
                 attraction.getName(),
@@ -57,6 +61,7 @@ public class AttractionServiceImpl implements AttractionService{
     }
 
     @Override
+    @Cacheable(value = "attraction", key = "'attraction_' + #id", sync = true)
     public AttractionResponseDto findAttractionById(Long id) {
         return attractionRepository.findById(id).map(attraction -> new AttractionResponseDto(
                 attraction.getId(),
@@ -77,6 +82,7 @@ public class AttractionServiceImpl implements AttractionService{
     }
 
     @Override
+    @Cacheable(value = "attractionsInCity", key = "'cityName_' + #cityName.toLowerCase()", sync = true)
     public List<AttractionResponseDto> findAttractionsInCityWithName(String cityName) {
 
         City foundCity = cityRepository.findCityByNameIgnoreCase(cityName).orElseThrow(() -> new ResourceNotFoundException("This city with name " + cityName + " does not exist"));
@@ -100,6 +106,7 @@ public class AttractionServiceImpl implements AttractionService{
     }
 
     @Override
+    @Cacheable(value = "attractionsByName", key = "#name.toLowerCase()", sync = true)
     public List<AttractionResponseDto> findAttractionsByNameContainingIgnoreCase(String name) {
 
         return attractionRepository.findByNameContainingIgnoreCase(name).stream().map(attraction -> new AttractionResponseDto(
@@ -121,6 +128,7 @@ public class AttractionServiceImpl implements AttractionService{
     }
 
     @Override
+    @Cacheable(value = "attractionByName", key = "#name.toLowerCase()", sync = true)
     public AttractionResponseDto findAttractionByNameIgnoreCase(String name) {
 
         Attraction foundAttraction = attractionRepository.findByNameIgnoreCase(name).orElseThrow(() -> new ResourceNotFoundException("This Attraction with name " + name + " does not exist"));
@@ -147,6 +155,13 @@ public class AttractionServiceImpl implements AttractionService{
 
     @Override
     @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "attraction", allEntries = true),
+            @CacheEvict(value = "allAttractions", allEntries = true),
+            @CacheEvict(value = "attractionByName", allEntries = true),
+            @CacheEvict(value = "attractionsByName", allEntries = true),
+            @CacheEvict(value = "attractionsInCity", allEntries = true)
+    })
     public AttractionResponseDto createAnAttraction(AttractionRequestDto attractionRequestDto) {
 
         City foundCity = cityRepository.findById(attractionRequestDto.cityId()).orElseThrow(() -> new ResourceNotFoundException("This Attraction belongs to a City with id " + attractionRequestDto.cityId() + " does not exist"));
@@ -193,6 +208,13 @@ public class AttractionServiceImpl implements AttractionService{
 
     @Override
     @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "attraction", allEntries = true),
+            @CacheEvict(value = "allAttractions", allEntries = true),
+            @CacheEvict(value = "attractionByName", allEntries = true),
+            @CacheEvict(value = "attractionsByName", allEntries = true),
+            @CacheEvict(value = "attractionsInCity", allEntries = true)
+    })
     public void deleteAttractionById(Long id) {
         Attraction foundAttraction = attractionRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("This Attraction with id " + id + " does not exist"));
 
@@ -205,5 +227,12 @@ public class AttractionServiceImpl implements AttractionService{
         foundAttraction.setAddress(null);
 
         attractionRepository.delete(foundAttraction);
+    }
+
+    @Override
+    @Cacheable(value = "testCache", key = "'testCacheKey'")
+    public String testCache() {
+        System.out.println("Executing testCaching method...");
+        return "Cached response";
     }
 }

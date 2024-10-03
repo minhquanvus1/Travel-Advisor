@@ -20,4 +20,6 @@ public interface AttractionService {
     AttractionResponseDto createAnAttraction(AttractionRequestDto attractionRequestDto);
 
     void deleteAttractionById(Long id);
+
+    String testCache();
 }

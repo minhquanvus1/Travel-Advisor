@@ -4,6 +4,7 @@ import com.project.travel_advisor.entity.Address;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
@@ -42,5 +43,5 @@ public record RestaurantDto(
         @Valid
         Address addressObj,
         Set< @Valid CuisineDto> cuisines
-) {
+) implements Serializable {
 }

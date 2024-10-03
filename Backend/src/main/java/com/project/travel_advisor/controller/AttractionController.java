@@ -46,6 +46,10 @@ public class AttractionController {
         return ResponseEntity.ok(attractionService.findAttractionsByNameContainingIgnoreCase(name));
     }
 
+    @GetMapping("/test-cache")
+    public String testCache() {
+        return attractionService.testCache();
+    }
     @PostMapping("/secure/attractions")
     @PreAuthorize("hasAuthority('post:attraction')")
     public ResponseEntity<AttractionResponseDto> createAnAttraction(@Valid @RequestBody AttractionRequestDto attractionRequestDto) {

@@ -13,6 +13,9 @@ import com.project.travel_advisor.repository.CityRepository;
 import com.project.travel_advisor.repository.CuisineRepository;
 import com.project.travel_advisor.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,16 +35,19 @@ public class RestaurantServiceImpl implements RestaurantService {
     private final AddressRepository addressRepository;
 
     @Override
+    @Cacheable(value = "allRestaurants", key = "'allRestaurants'", sync = true)
     public List<RestaurantDto> findAllRestaurant() {
         return restaurantRepository.findAll().stream().map(RestaurantMapper::mapToRestaurantDto).toList();
     }
 
     @Override
+    @Cacheable(value = "restaurant", key = "'restaurant_' + #id", sync = true)
     public RestaurantDto findRestaurantById(Long id) {
         return restaurantRepository.findById(id).map(RestaurantMapper::mapToRestaurantDto).orElseThrow(() -> new ResourceNotFoundException("This Restaurant with id " + id + " does not exist"));
     }
 
     @Override
+    @Cacheable(value = "restaurantsInCity", key = "'cityName_' + #cityName", sync = true)
     public List<RestaurantDto> findRestaurantsInCityWithName(String cityName) {
 
         City foundCity = cityRepository.findCityByNameIgnoreCase(cityName).orElseThrow(() -> new ResourceNotFoundException("This city with name " + cityName + " does not exist"));
@@ -50,6 +56,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
+    @Cacheable(value = "restaurantByName", key = "#restaurantName.toLowerCase()", sync = true)
     public RestaurantDto findRestaurantByName(String restaurantName) {
 
         Restaurant foundRestaurant = restaurantRepository.findRestaurantByNameIgnoreCase(restaurantName).orElseThrow(() -> new ResourceNotFoundException("This Restaurant with name " + restaurantName + " does not exist"));
@@ -58,12 +65,14 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
+    @Cacheable(value = "restaurantsByName", key = "#name.toLowerCase()", sync = true)
     public List<RestaurantDto> findRestaurantsByNameContainingIgnoreCase(String name) {
 
         return restaurantRepository.findByNameContainingIgnoreCase(name).stream().map(RestaurantMapper::mapToRestaurantDto).toList();
     }
 
     @Override
+    @Cacheable(value = "restaurantByRestaurantNameAndCityName", key = "#restaurantName.toLowerCase() + '_' + #cityName.toLowerCase()", sync = true)
     public RestaurantDto findRestaurantByRestaurantNameAndCityName(String restaurantName, String cityName) {
 
         Restaurant foundRestaurant = restaurantRepository.findRestaurantByRestaurantNameAndCityNameIgnoreCase(restaurantName, cityName).orElseThrow(() -> new ResourceNotFoundException("This Restaurant with name " + restaurantName + " does not exist in City with name " + cityName));
@@ -73,6 +82,14 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "restaurant", allEntries = true),
+            @CacheEvict(value = "allRestaurants", allEntries = true),
+            @CacheEvict(value = "restaurantByName", allEntries = true),
+            @CacheEvict(value = "restaurantsByName", allEntries = true),
+            @CacheEvict(value = "restaurantsInCity", allEntries = true),
+            @CacheEvict(value = "restaurantByRestaurantNameAndCityName", allEntries = true)
+    })
     public RestaurantDto createARestaurant(RestaurantDto restaurantDto) {
         Restaurant restaurant = RestaurantMapper.mapToRestaurant(restaurantDto);
         System.out.println("Restaurant converted is " + restaurant);
@@ -107,6 +124,14 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "restaurant", allEntries = true),
+            @CacheEvict(value = "allRestaurants", allEntries = true),
+            @CacheEvict(value = "restaurantByName", allEntries = true),
+            @CacheEvict(value = "restaurantsByName", allEntries = true),
+            @CacheEvict(value = "restaurantsInCity", allEntries = true),
+            @CacheEvict(value = "restaurantByRestaurantNameAndCityName", allEntries = true)
+    })
     public void deleteRestaurantById(Long id) {
         Restaurant foundRestaurant = restaurantRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("This Restaurant with id " + id + " does not exist"));
 
