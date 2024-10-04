@@ -13,8 +13,8 @@ const ManageAnnouncement = () => {
     message: "",
   });
   const { userFromDb } = useContext(UserContext);
-  //   const stompClientRef = useRef(null);
-  const [stompClientState, setStompClientState] = useState(null);
+  const stompClientRef = useRef(null);
+  //   const [stompClientState, setStompClientState] = useState(null);
   //   const [successMessage, setSuccessMessage] = useState("");
   //   const [errorMessage, setErrorMessage] = useState("");
 
@@ -46,8 +46,8 @@ const ManageAnnouncement = () => {
     });
 
     stompClient.activate();
-    // stompClientRef.current = stompClient;
-    setStompClientState(stompClient);
+    stompClientRef.current = stompClient;
+    // setStompClientState(stompClient);
 
     return () => {
       stompClient.deactivate();
@@ -74,9 +74,9 @@ const ManageAnnouncement = () => {
       ...announcementData,
       senderId: userFromDb.id, // Use the sender ID from the user
     };
-    // const stompClient = stompClientRef.current;
-    if (stompClientState) {
-      stompClientState.publish({
+    const stompClient = stompClientRef.current;
+    if (stompClient) {
+      stompClient.publish({
         destination: "/app/send-noti",
         body: JSON.stringify(notificationData),
       });
@@ -89,7 +89,7 @@ const ManageAnnouncement = () => {
       console.log("Stomp Client not connected");
     }
   };
-  console.log("stompclientRef is ", stompClientState);
+  console.log("stompclientRef is ", stompClientRef);
   return (
     <div className="manage-announcement-section">
       <h2 className="form-title">Send Notification</h2>
