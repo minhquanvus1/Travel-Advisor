@@ -51,12 +51,26 @@
   
   .announcement-card .card-header .content-right {
     flex-grow: 1;
+    display: flex;
+    align-items: flex-start;
   }
   
   .announcement-card .card-header .content-right *:not(.announcement-title) {
     font-size: 14px;
     font-weight: 400;
     color: #333;
+  }
+
+  .announcement-card .card-header .content-right .cross-icon {
+    margin-left: auto;
+    color: #ff4d4d; /* Initial color for the delete icon */
+    font-size: 18px; /* Adjust the size of the icon */
+    transition: color 0.3s ease, transform 0.2s ease;
+  }
+
+  .announcement-card .card-header .content-right .cross-icon:hover {
+    color: #ff1a1a; /* Change the color to a brighter red on hover */
+    transform: scale(1.2);
   }
 
   .announcement-title {

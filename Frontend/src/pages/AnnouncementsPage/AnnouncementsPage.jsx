@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./AnnouncementsPage.css";
 import { axiosInstance } from "../../apis/axiosInstance";
 import { useAxios } from "../../hooks/useAxios";
@@ -6,6 +6,9 @@ import ExpandableDescription from "../../components/ExpandableDescription/Expand
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
 import { baseURL } from "../../baseUrl";
+import { toast } from "react-toastify";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useAccessToken } from "../../hooks/useAccessToken";
 
 const AnnouncementsPage = () => {
   const [announcements, error, loading, refetch] = useAxios({
@@ -14,6 +17,9 @@ const AnnouncementsPage = () => {
     url: "/notifications",
   });
   const stompClientRef = useRef(null);
+  const { token } = useAccessToken();
+  const { user } = useAuth0();
+  const userRole = user ? user["https://travel-advisor/api/roles"] : [];
   console.log("announcements are: ", announcements);
   const formatDate = (dateString) => {
     // Convert the date string into a Date object
@@ -43,6 +49,7 @@ const AnnouncementsPage = () => {
         console.log("Connected to WebSocket");
         stompClient.subscribe("/topic/notifications", (response) => {
           console.log("Received message:", response.body);
+          console.log("inside websocket");
           refetch();
         });
       },
@@ -59,6 +66,7 @@ const AnnouncementsPage = () => {
       stompClient.deactivate();
     };
   }, []);
+
   const markAsRead = async (announcementId) => {
     try {
       // Send PATCH request with the isRead: true field in the body
@@ -71,7 +79,25 @@ const AnnouncementsPage = () => {
       console.error("Error marking the announcement as read:", error);
     }
   };
-
+  const handleDelete = async (announcementId) => {
+    try {
+      const response = await axiosInstance.delete(
+        `/secure/notifications/${announcementId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      toast.success(
+        `Notification with id: ${announcementId} has been successfully deleted`
+      );
+      console.log("deleted noti id is ", response.data.deletedId);
+    } catch (error) {
+      console.log("Error delete Notification: ", error);
+      toast.error("Error delete Notification: ", error.response.data);
+    }
+  };
   if (loading)
     return (
       <div style={{ display: "grid", placeItems: "center", height: "100dvh" }}>
@@ -106,16 +132,29 @@ const AnnouncementsPage = () => {
                   />
                 </div>
                 <div className="content-right">
-                  <h3 className="announcement-title">{announcement.title}</h3>
-                  <h4 className="created-date-time">
-                    {formatDate(announcement.sentAt)}
-                  </h4>
-                  <div className="sender-info">
-                    <h4 className="sender-name">
-                      {announcement.sender?.firstName}{" "}
-                      {announcement.sender?.lastName}
+                  <div className="content-right-info">
+                    <h3 className="announcement-title">{announcement.title}</h3>
+                    <h4 className="created-date-time">
+                      {formatDate(announcement.sentAt)}
                     </h4>
+                    <div className="sender-info">
+                      <h4 className="sender-name">
+                        {announcement.sender?.firstName}{" "}
+                        {announcement.sender?.lastName}
+                      </h4>
+                    </div>
                   </div>
+                  {userRole?.includes("Admin") && (
+                    <div
+                      className="cross-icon"
+                      onClick={(e) => {
+                        e.stopPropagation(); // Prevent triggering the markAsRead when clicking the delete icon
+                        handleDelete(announcement.id);
+                      }}
+                    >
+                      X
+                    </div>
+                  )}
                 </div>
               </div>
 

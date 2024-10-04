@@ -52,4 +52,15 @@ public class NotificationServiceImpl implements NotificationService{
         foundNotification.setIsRead(true);
         notificationRepository.save(foundNotification);
     }
+
+    @Override
+    @Transactional
+    public void deleteANotification(Long id) {
+        Notification foundNotification = notificationRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("This Notification with id " + id + " does not exist"));
+        foundNotification.getSender().getNotifications().remove(foundNotification);
+        foundNotification.setSender(null);
+        notificationRepository.delete(foundNotification);
+        messagingTemplate.convertAndSend("/topic/notifications", "Announcement is deleted with id " + id);
+        System.out.println("WebSocket message sent for deleted notification with id: " + id);
+    }
 }

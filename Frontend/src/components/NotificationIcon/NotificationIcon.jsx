@@ -21,7 +21,8 @@ const NotificationIcon = () => {
         console.log("Connected to WebSocket");
         stompClient.subscribe("/topic/notifications", (response) => {
           console.log("Received message:", response.body);
-          setNewNotificationCount((prev) => prev + 1);
+          if (!response.body.includes("Announcement is deleted with id"))
+            setNewNotificationCount((prev) => prev + 1);
         });
       },
       onStompError: (frame) => {
