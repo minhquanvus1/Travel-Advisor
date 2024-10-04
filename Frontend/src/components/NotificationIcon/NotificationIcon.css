@@ -1,0 +1,20 @@
+.notification-icon-container {
+    position: relative;
+    cursor: pointer;
+    font-size: 24px; /* Adjust as needed */
+}
+
+.notification-dot {
+    position: absolute;
+    top: -5px; /* Adjust as needed */
+    right: -10px; /* Adjust as needed */
+    width: 20px; /* Size of the dot */
+    height: 20px; /* Size of the dot */
+    background-color: red; /* Color of the dot */
+    color: white; /* Text color inside the dot */
+    border-radius: 50%; /* Makes the dot circular */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px; /* Font size for the count */
+}

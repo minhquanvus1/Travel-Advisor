@@ -35,6 +35,8 @@ import ManageCategories from "./pages/ManageCategories/ManageCategories";
 import ManageSubcategories from "./pages/ManageSubcategories/ManageSubcategories";
 import ManageTourBookings from "./pages/ManageTourBookings/ManageTourBookings";
 import { registerCharts } from "./components/RegisterCharts";
+import ManageAnnouncement from "./pages/ManageAnnouncement/ManageAnnouncement";
+import AnnouncementsPage from "./pages/AnnouncementsPage/AnnouncementsPage";
 registerCharts();
 const App = () => {
   const [showBackToTopButton, setShowBackToTopButton] = useState(false);
@@ -175,6 +177,7 @@ const App = () => {
                 path="/users/:id/my_bookings"
                 element={<MyTourBooking />}
               />
+              <Route path="/announcements" element={<AnnouncementsPage />} />
               <Route
                 path="/admin"
                 element={
@@ -217,6 +220,15 @@ const App = () => {
                   <AuthenticationGuard
                     allowedRoles={["Admin"]}
                     component={ManageTourBookings}
+                  />
+                }
+              />
+              <Route
+                path="/admin/announcement"
+                element={
+                  <AuthenticationGuard
+                    allowedRoles={["Admin"]}
+                    component={ManageAnnouncement}
                   />
                 }
               />

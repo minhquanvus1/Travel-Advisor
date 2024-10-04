@@ -13,6 +13,7 @@ import { replaceWhiteSpaceWithUnderScore } from "../../functions/replaceWhiteSpa
 import { replaceUnderScoreWithWhiteSpace } from "../../functions/replaceUnderScoreWithWhiteSpace";
 import { useAuth0 } from "@auth0/auth0-react";
 import { UserContext } from "../../context/UserContextProvider";
+import NotificationIcon from "../NotificationIcon/NotificationIcon";
 
 const Navbar = ({ restaurantState, setRestaurantState, role }) => {
   const { loginWithRedirect, user, isAuthenticated, logout, isLoading } =
@@ -314,6 +315,8 @@ const Navbar = ({ restaurantState, setRestaurantState, role }) => {
             </li>
             <li>Travel Tips</li>
             {scroll !== "new-navbar" && <li>More</li>}
+
+            <NotificationIcon></NotificationIcon>
           </ul>
           {isAuthenticated && user ? (
             <div className="navbar-profile">
