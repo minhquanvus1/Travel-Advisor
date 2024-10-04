@@ -55,6 +55,10 @@ public class User {
     @JsonIgnore
     private List<TourBooking> tourBookings = new ArrayList<>();
 
+    @OneToMany(mappedBy = "sender", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonIgnore
+    private List<Notification> notifications = new ArrayList<>();
+
     public void addTourBooking(TourBooking tourBooking) {
 
         this.tourBookings.add(tourBooking);

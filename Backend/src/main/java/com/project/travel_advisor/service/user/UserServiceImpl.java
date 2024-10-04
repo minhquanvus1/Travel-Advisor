@@ -85,6 +85,8 @@ public class UserServiceImpl implements UserService {
 
         foundUser.getTourBookings().clear();
 
+        foundUser.getNotifications().clear();
+
         userRepository.deleteById(id);
 
     }

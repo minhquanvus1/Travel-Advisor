@@ -17,7 +17,7 @@ public class MyAppConfig implements WebMvcConfigurer {
         // set up CORS mapping, for @RestController
         cors.addMapping("/**")
                 .allowedOrigins(allowedOrigins)
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS");
 //                .allowedHeaders("*");
 //                .allowCredentials(true);
     }
