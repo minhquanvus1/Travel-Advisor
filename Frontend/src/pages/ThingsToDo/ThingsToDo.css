@@ -25,7 +25,7 @@
     margin-block: 48px;
 }
 
-.recommendation-info-section .title {
+.recommendation-info-section .title, .recommendation-nearby-section .recommendation-section .title {
     font-size: 24px;
     font-weight: 700;
     color: #000;
@@ -36,4 +36,26 @@
     font-size: 16px;
     font-weight: 400;
     color: #333;
+}
+
+.recommendation-nearby-section {
+    margin-block: 48px;
+}
+
+/*style .recommendation-section*/
+.recommendation-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.recommendation-section .nearby-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.recommendation-section .nearby-list > div {
+    flex-basis: 24%;
 }
