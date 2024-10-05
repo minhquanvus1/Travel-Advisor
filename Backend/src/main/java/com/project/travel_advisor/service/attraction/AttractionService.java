@@ -21,5 +21,6 @@ public interface AttractionService {
 
     void deleteAttractionById(Long id);
 
+    List<AttractionResponseDto> findNearbyAttractions(double latitude, double longitude, double radius);
     String testCache();
 }

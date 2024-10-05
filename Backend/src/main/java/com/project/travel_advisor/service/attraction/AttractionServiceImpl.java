@@ -230,6 +230,27 @@ public class AttractionServiceImpl implements AttractionService{
     }
 
     @Override
+    public List<AttractionResponseDto> findNearbyAttractions(double latitude, double longitude, double radius) {
+
+        return attractionRepository.findAllWithinRadius(latitude, longitude, radius).stream().map(attraction -> new AttractionResponseDto(
+                attraction.getId(),
+                attraction.getName(),
+                attraction.getSubcategory().getId(),
+                attraction.getSubcategory().getName(),
+                attraction.getCity().getId(),
+                attraction.getCity().getName(),
+                RatingUtils.calculateNumberOfReviews(attractionReviewRepository.findAllByAttractionId(attraction.getId())),
+                attraction.getImageUrl(),
+                attraction.getWebsiteUrl(),
+                attraction.getAddress(),
+                attraction.getLatitude(),
+                attraction.getLongitude(),
+                RatingUtils.calculateAverageRating(attractionReviewRepository.findAllByAttractionId(attraction.getId())),
+                attraction.getDescription()
+        )).toList();
+    }
+
+    @Override
     @Cacheable(value = "testCache", key = "'testCacheKey'")
     public String testCache() {
         System.out.println("Executing testCaching method...");

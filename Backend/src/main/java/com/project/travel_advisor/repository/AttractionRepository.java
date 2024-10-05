@@ -22,4 +22,12 @@ public interface AttractionRepository extends JpaRepository<Attraction, Long> {
     List<Attraction> findByNameContainingIgnoreCase(String name);
 
     Optional<Attraction> findByNameIgnoreCase(String name);
+
+    String HAVERSINE_PART = "(6371 * acos(cos(radians(:latitude)) * cos(radians(a.latitude)) * " +
+            "cos(radians(a.longitude) - radians(:longitude)) + sin(radians(:latitude)) * sin(radians(a.latitude))))";
+
+    @Query("SELECT a FROM Attraction a WHERE " + HAVERSINE_PART + " <= :radius ORDER BY " + HAVERSINE_PART)
+    List<Attraction> findAllWithinRadius(@Param("latitude") double latitude,
+                                         @Param("longitude") double longitude,
+                                         @Param("radius") double radius);
 }

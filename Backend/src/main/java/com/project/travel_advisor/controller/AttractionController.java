@@ -46,6 +46,11 @@ public class AttractionController {
         return ResponseEntity.ok(attractionService.findAttractionsByNameContainingIgnoreCase(name));
     }
 
+    @GetMapping("/attractions/search/findNearbyAttractions")
+    public ResponseEntity<List<AttractionResponseDto>> findAttractionsByNameContainingIgnoreCase(@RequestParam double latitude, @RequestParam double longitude, @RequestParam double radius) {
+        return ResponseEntity.ok(attractionService.findNearbyAttractions(latitude, longitude, radius));
+    }
+
     @GetMapping("/test-cache")
     public String testCache() {
         return attractionService.testCache();
