@@ -226,10 +226,10 @@ const RestaurantsInACity = () => {
               filteredRestaurants.map((restaurant, index) => (
                 <div
                   key={restaurant.id}
-                  style={{
-                    width: "clamp(272px, 70%, 100%)",
-                    height: "clamp(min-content, 14vw, 17vw)",
-                  }}
+                  // style={{
+                  //   width: "clamp(272px, 70%, 100%)",
+                  //   height: "clamp(min-content, 14vw, 17vw)",
+                  // }}
                 >
                   <Link
                     to={`/cities/${cityName}/restaurants/${replaceWhiteSpaceWithUnderScore(
