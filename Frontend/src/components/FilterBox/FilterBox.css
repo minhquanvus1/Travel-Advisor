@@ -46,6 +46,8 @@
     color: #000;
     text-decoration: underline;
     cursor: pointer;
+    margin-top: 8px;
+    justify-self: start;
 }
 
 .filter-box-item {
@@ -54,6 +56,10 @@
     gap: 10px;
 }
 
-.filter-box-item input {
-    fill: tomato;
+.filter-box-item input, .filter-box-item label {
+   cursor: pointer;
+}
+
+.filter-box-item label {
+    flex-grow: 1;
 }
