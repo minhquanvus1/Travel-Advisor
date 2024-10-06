@@ -14,8 +14,9 @@
     padding-inline: 10%;
     padding-top: 16px;
     padding-bottom: 24px;
-    /* display: grid;
-    grid-template-columns: 3fr 7fr; gap: 16px; */
+    display: grid;
+    grid-template-columns: 3fr 7fr; gap: 16px;
+    min-height: 100dvh;
 }
 
 .restaurants-in-city-section-contents .restaurant-small-card-list {
@@ -25,5 +26,16 @@
     gap: 8px;
     margin: 8px; */
     display: grid;grid-template-columns: 1fr;gap: 8px;margin: 8px;justify-items: center;
-    /* grid-column: 2 / 3; */
+    grid-column: 2 / 3;
+}
+
+/*style .restaurants-in-city-section-contents .filter-section*/
+.restaurants-in-city-section-contents .filter-section {
+    grid-column: 1 / 2;
+    background: #fff;
+    padding: 20px;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
 }

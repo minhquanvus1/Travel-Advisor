@@ -8,6 +8,7 @@ const RestaurantBigCard = ({
   numberOfReviews,
   cardDescription,
   rating,
+  cuisines,
   index,
 }) => {
   return (
@@ -28,7 +29,10 @@ const RestaurantBigCard = ({
               </span>
             </div>
             <div className="restaurant-big-card-cuisines">
-              Vietnamese, Indigenous
+              {cuisines
+                .slice(0, 2)
+                .map(({ name }) => name)
+                .join(", ")}
             </div>
           </div>
         </div>
