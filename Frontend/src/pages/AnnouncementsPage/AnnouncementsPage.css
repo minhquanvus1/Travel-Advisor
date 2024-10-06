@@ -94,3 +94,7 @@
     background-color: #f1f1f1;
     border-left: 5px solid #ccc;
   }
+
+.announcement-message .description .description-text {
+  white-space: pre-wrap;
+}

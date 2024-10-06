@@ -38,8 +38,8 @@ const ExpandableDescription = ({ text, lineClamp = 3 }) => {
     <div className="description">
       <p
         ref={descriptionRef}
-        className={isOpen ? "expanded" : ""}
-        style={{ WebkitLineClamp: lineClamp, whiteSpace: "pre-wrap" }}
+        className={`description-text ${isOpen ? "expanded" : ""}`}
+        style={{ WebkitLineClamp: lineClamp }}
       >
         {text}
       </p>
