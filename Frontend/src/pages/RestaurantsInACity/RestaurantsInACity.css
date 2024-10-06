@@ -27,6 +27,7 @@
     margin: 8px; */
     display: grid;grid-template-columns: 1fr;gap: 8px;margin: 8px;justify-items: center;
     grid-column: 2 / 3;
+    grid-auto-rows: max-content;
 }
 
 /*style .restaurants-in-city-section-contents .filter-section*/
