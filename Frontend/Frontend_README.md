@@ -4,7 +4,7 @@
 
 - The Frontend React has different Views, depending on which Role you are when you log in. That is, the Authenticated User will see the different View to use the functionality that provides exclusively for Authenticated User role, and Admin will see different View to use the functionality that provides exclusively for Admin role.
 
-- The Frontend techstack also includes: Axios, Vite, React Router, MapBox gl, React-Slick, React-Toastify, Chart.js, react-chartjs-2, font-awesome, Auth0 for Authentication/Authorization, and Stripe for payment processing.
+- The Frontend techstack also includes: Axios, Vite, React Router, MapBox gl, React-Slick, React-Toastify, Chart.js, react-chartjs-2, font-awesome, stompjs, sockjs-client, Auth0 for Authentication/Authorization, and Stripe for payment processing.
 
 - The Frontend is inspired by the [TripAdvisor Website](https://www.tripadvisor.com/), which offers users the ability to meticulously search for hotels, restaurants, and attractions within a specific locale. Users can seamlessly book accommodations, dining experiences, or activities, and subsequently leave insightful reviews, the [Vietnam Travel Website](https://vietnam.travel/), which provides an in-depth exploration of Vietnam's rich cultural tapestry and breathtaking landscapes. Users can immerse themselves in the vibrant essence of Vietnam, gaining valuable insights and travel tips, and the [Vietnam Travel Advisor Website](https://vietnamtraveladvisor.com.vn/), where users can discover and book captivating tours across Vietnam. This amalgamation of features ensures a comprehensive and engaging user experience, catering to the discerning traveler seeking both convenience and authenticity.
 
@@ -78,6 +78,7 @@ npm run dev
   - `index.html` file: Contains the main HTML file of the Frontend React.
   - `index.css` file: Contains the CSS file of the Frontend React.
   - `baseUrl.js` file: Contains the base URL of the Backend API.
+  - `init.js` file: This file is responsible for initializing global variables and configurations necessary for the React application to function correctly. Specifically, it includes the line window.global ||= window;, which ensures compatibility with libraries that require a global object, such as WebSocket libraries. By setting window.global to window, it allows the application to avoid errors related to undefined global objects, particularly when establishing WebSocket connections with the Spring Boot backend.
   - `Frontend_README.md` file: Contains the README file of the Frontend React.
   - `public` folder: dynamically inject the Backend API URL into the Frontend React.
   - `package.json` file: Contains all the dependencies, scripts, and metadata of the Frontend React.
@@ -97,4 +98,4 @@ Quan Tran
 
 ## Acknowledgements
 
-- Thanks Dr. Tran Hong Ngoc, and Msc. Le Duc Loc for your guidance and support throughout the project.
+- Thanks Dr. Tran Hong Ngoc, and Msc. Le Duc Loc for their guidance and support throughout the project.

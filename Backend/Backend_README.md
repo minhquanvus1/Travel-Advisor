@@ -1,10 +1,10 @@
 # Travel Advisor (Backend)
 
-- The Backend app is built with Java Spring Boot, with Maven, and is currently deployed to Render cloud platform.
+- The Backend app is built with Java Spring Boot, with Maven, and is currently deployed to Render cloud platform, and AWS.
 
-- The Backend app uses PostgreSQL as the database, and is currently deployed to Heroku cloud platform.
+- The Backend app uses PostgreSQL, and Redis database
 
-- The Backend techstack also includes: Spring Data JPA, Spring Security, Spring Web, Spring Boot Validation, Spring Boot DevTools, PostgreSQL, Lombok, Auth0 for Authentication/Authorization, and Stripe for payment processing.
+- The Backend techstack also includes: Spring Data JPA, Spring Security, Spring Web, Spring Boot Validation, Spring Data Redis, Spring Boot WebSocket, Spring Boot DevTools, PostgreSQL, Lombok, Auth0 for Authentication/Authorization, and Stripe for payment processing.
 
 ## Getting Started
 
@@ -20,6 +20,8 @@
 
 - The Backend uses PostgreSQL as the database. Developers should have PostgreSQL installed in their local machine. If you don't have PostgreSQL installed, you can download it from [PostgreSQL](https://www.postgresql.org/download/). We can also install the `psql` client, which is a terminal-based front-end to PostgreSQL. The `psql` client is used to connect to a PostgreSQL database and perform database operations.
 
+- The Backend uses Redis database for caching frequently-accessed data to improve performance. Developers should have Redis installed in their local machine. If you don't have Redis installed, you can download it from [Redis Quick Start](https://redis.io/topics/quickstart)
+
 #### Backend
 
 - To run the Backend Java Spring Boot, follow these steps:
@@ -34,16 +36,34 @@
   CREATE DATABASE YOUR_DB_NAME;
   ```
 
+  - Because the Backend app uses Redis database, we need to run the Redis server. The Redis server needs to be run in the Linux environment (you can use WSL for Windows users) by running the following command:
+
+  ```bash
+  redis-server
+  ```
+
+  - To start the Redis CLI, run the following command:
+
+  ```bash
+  redis-cli
+  ```
+
+  - The Redis server will run on `http://localhost:6379/` by default.
+
   - Then, because the Backend app uses Auth0 for Authentication/Authorization, and Stripe for payment processing, we need to create an Auth0 account, create an API in the Auth0 dashboard, create Auth0 Regular Web Application type, and get the Auth0 properties. We also need to create a Stripe account, and get the Stripe secret key.
 
-  - After that, we should create a `.env` file in the root directory of the Backend, and update the Auth0 properties, and Stripe properties:
+  - After that, we should create a `.env` file in the `src/main/resources/` directory of the Backend, and update the Auth0 properties, and Stripe properties:
 
   ```properties
-  # Development DB Credentials
-  LOCAL_DB_NAME=YOUR_DB_NAME
-  LOCAL_DB_USERNAME=YOUR_DB_USERNAME
-  LOCAL_DB_PASSWORD=YOUR_DB_PASSWORD
-  LOCAL_DB_PORT=5432
+  # Development PostgreSQL DB Credentials
+  LOCAL_DB_NAME=YOUR_POSTGRESQL_DB_NAME
+  LOCAL_DB_USERNAME=YOUR_POSTGRESQL_DB_USERNAME
+  LOCAL_DB_PASSWORD=YOUR_POSTGRESQL_DB_PASSWORD
+  LOCAL_DB_PORT=YOUR_POSTGRESQL_DB_PORT
+
+  # Development Redis DB Credentials
+  LOCAL_REDIS_HOST=YOUR_REDIS_DB_HOST
+  LOCAL_REDIS_PORT=YOUR_REDIS_DB_PORT
 
   # Auth0 Properties
   OKTA_OAUTH2_ISSUER=YOUR_AUTH0_ISSUER
@@ -78,6 +98,7 @@ mvn spring-boot:run
               - `config/` folder: contains the Configurations of the Backend
                 - `MyAppConfig.java` file: contains the App Configuration of the Backend (for the Allowed Origins)
                 - `SecurityConfig.java` file: contains the Security Configuration of the Backend (for the Auth0 Authentication/Authorization)
+                - `WebSocketConfig.java` file: contains the WebSocket configuration
               - `controller/` folder: contains the Controllers of the Backend
               - `dto/` folder: contains the Data Transfer Objects of the Backend
               - `entity/` folder: contains the Entities of the Backend
@@ -136,7 +157,7 @@ There are 5 types of errors:
 
 ### Endpoints:
 
-- I will demonstrate the endpoints for each Entity, which are: Category, Subcategory, City, Restaurant, Attraction, Tour, Attraction Review, User, Tour Booking, and Payment
+- I will demonstrate the endpoints for each Entity, which are: Category, Subcategory, City, Restaurant, Attraction, Tour, Attraction Review, User, Tour Booking, Payment, and Notification
 
 #### Category:
 
@@ -3692,9 +3713,171 @@ curl DELETE http://localhost:8080/secure/users/1 \
   }
   ```
 
+#### Notification
+
+##### 1. {baseURL}/app/send-noti
+
+- General:
+  - This is the WebSocket endpoint for the Admin to send Notification/Announcement to all Users in real-time
+- Request body:
+  - title (String): The title of the notification. It is required and must not be blank.
+  - message (String): The content/message of the notification. It is required and must not be blank.
+  - senderId (Long): The ID of the sender. It is required and must not be null.
+- Returns:
+  - This endpoint does not return a direct HTTP response but processes the notification and broadcasts it via WebSocket.
+- Sample request body:
+
+  ```json
+  {
+    "title": "New Message",
+    "message": "You have a new message from user 123",
+    "senderId": 123
+  }
+  ```
+
+##### 2. GET /notifications
+
+- General:
+  - This is the Public endpoint to get all Notifications/Announcements sent by Admin, and sort the sent date in Descending Order (the latest notification comes first)
+- Returns:
+  - Returns the List of Notifications
+- Sample request:
+
+```json
+ curl GET http://localhost:8080/notifications
+```
+
+- Sample response:
+
+```json
+[
+  {
+    "id": 14,
+    "title": "the typhoon yagi is coming",
+    "message": "Dear travelers,\n\nThe typhoon is comming, please be prepare\n\nBest regards,\nHarry Lu (Admin)",
+    "sentAt": "2024-10-03T22:16:43.078765",
+    "isRead": true,
+    "sender": {
+      "id": 15,
+      "firstName": "Harry",
+      "lastName": "Lu",
+      "city": "Ho Chi Minh",
+      "country": "Việt Nam",
+      "imageUrl": "https://2sao.vietnamnetjsc.vn/images/2018/02/22/15/54/harry-lu8.jpg"
+    }
+  },
+  {
+    "id": 10,
+    "title": "hello world title",
+    "message": "hello from websocket",
+    "sentAt": "2024-10-03T22:04:04.123759",
+    "isRead": true,
+    "sender": {
+      "id": 15,
+      "firstName": "Harry",
+      "lastName": "Lu",
+      "city": "Ho Chi Minh",
+      "country": "Việt Nam",
+      "imageUrl": "https://2sao.vietnamnetjsc.vn/images/2018/02/22/15/54/harry-lu8.jpg"
+    }
+  },
+  {
+    "id": 8,
+    "title": "good night guys",
+    "message": "Dear users,\n\nHave a good night rest\n\nBest regards,\nHarry Lu (Admin)",
+    "sentAt": "2024-10-03T21:46:30.436469",
+    "isRead": true,
+    "sender": {
+      "id": 15,
+      "firstName": "Harry",
+      "lastName": "Lu",
+      "city": "Ho Chi Minh",
+      "country": "Việt Nam",
+      "imageUrl": "https://2sao.vietnamnetjsc.vn/images/2018/02/22/15/54/harry-lu8.jpg"
+    }
+  },
+  {
+    "id": 7,
+    "title": "have a good day",
+    "message": "Dear friends,\n\nHello, I am the Admin. Have a good day of planning your trip ever\n\nBest regards,\nHarry Lu",
+    "sentAt": "2024-10-03T19:34:43.621982",
+    "isRead": true,
+    "sender": {
+      "id": 15,
+      "firstName": "Harry",
+      "lastName": "Lu",
+      "city": "Ho Chi Minh",
+      "country": "Việt Nam",
+      "imageUrl": "https://2sao.vietnamnetjsc.vn/images/2018/02/22/15/54/harry-lu8.jpg"
+    }
+  },
+  {
+    "id": 5,
+    "title": "yagi typhoon",
+    "message": "stay at home, it is dangerous",
+    "sentAt": "2024-10-03T19:16:54.133078",
+    "isRead": true,
+    "sender": {
+      "id": 15,
+      "firstName": "Harry",
+      "lastName": "Lu",
+      "city": "Ho Chi Minh",
+      "country": "Việt Nam",
+      "imageUrl": "https://2sao.vietnamnetjsc.vn/images/2018/02/22/15/54/harry-lu8.jpg"
+    }
+  }
+]
+```
+
+##### 3. PATCH /notifications/{id}
+
+- General:
+  - This is the Public endpoint for Users to mark a notification as read
+- Request Arguments:
+  - id: the ID of the Notification
+- Returns:
+  - Returns the string `Notification is marked as read`
+- Sample request:
+
+```json
+curl -X PATCH http://localhost:8080/notifications/123 \
+     -H "Content-Type: application/json"
+```
+
+- Sample response:
+
+```json
+"Notification is marked as read"
+```
+
+##### 4. DELETE /notifications/{id}
+
+- General:
+  - This is the Endpoint for Admin to delete an existing Notification/Announcement
+  - This is the Admin Endpoint, so the JWT of Admin is required to be able to make the request
+- Request Arguments:
+  - id: the ID of the Notification
+- Sample request:
+
+```json
+curl -X DELETE http://localhost:8080/secure/notifications/123 \
+     -H "Content-Type: application/json" \
+     -H "Authorization: Bearer <JWT_OF_ADMIN>"
+```
+
+- Sample response:
+
+```json
+{
+  "deletedId": 123
+}
+```
+
 ## Deployment
 
-- The Backend of the app has been deployed on Render. You can access it by clicking on this link: `https://travel-advisor-duio.onrender.com/`
+- The Backend of the app has been deployed on Render, and on AWS. You can access it by clicking on this link:
+  - Render: `https://travel-advisor-duio.onrender.com/`
+  - AWS EKS: `http://a94a1be3626be48fc80d38f1e613dae4-1068052667.us-east-2.elb.amazonaws.com:8080/`
 
 ## Author:
 
@@ -3702,4 +3885,4 @@ Quan Tran
 
 ## Acknowledgements
 
-- Thanks Dr. Tran Hong Ngoc, and Msc. Le Duc Loc for your dedicated, and fantastic support, and guidance
+- Thanks Dr. Tran Hong Ngoc, and Msc. Le Duc Loc for their dedicated, and fantastic support, and guidance
