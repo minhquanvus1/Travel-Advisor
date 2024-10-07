@@ -44,7 +44,12 @@ const ExpandableDescription = ({ text, lineClamp = 3 }) => {
         {text}
       </p>
       {showReadMoreButton && (
-        <div onClick={() => setIsOpen(!isOpen)}>
+        <div
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsOpen(!isOpen);
+          }}
+        >
           {isOpen ? (
             <div className="expand-button">
               <p>Read less</p>
