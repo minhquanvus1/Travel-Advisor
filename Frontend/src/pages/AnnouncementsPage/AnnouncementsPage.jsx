@@ -81,7 +81,7 @@ const AnnouncementsPage = ({ setNewNotificationCount }) => {
         `/notifications/${announcementId}`
       );
       console.log("mark as read ", response.data);
-      setNewNotificationCount((prev) => prev - 1);
+      setNewNotificationCount((prev) => Math.max(prev - 1, 0));
       refetch();
     } catch (error) {
       console.error("Error marking the announcement as read:", error);
