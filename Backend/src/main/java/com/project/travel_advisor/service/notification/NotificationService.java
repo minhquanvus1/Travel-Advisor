@@ -11,6 +11,8 @@ public interface NotificationService {
 
     List<Notification> getAllNotificationsInDescendingOrderOfSentAt();
 
+    List<Notification> getAllUnreadNotifications();
+
     void markNotificationAsRead(Long id);
 
     void deleteANotification(Long id);

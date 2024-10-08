@@ -47,6 +47,12 @@ public class NotificationServiceImpl implements NotificationService{
     }
 
     @Override
+    public List<Notification> getAllUnreadNotifications() {
+
+        return notificationRepository.findAllByIsReadFalse();
+    }
+
+    @Override
     public void markNotificationAsRead(Long id) {
         Notification foundNotification = notificationRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("This Notification with id " + id + " does not exist"));
         foundNotification.setIsRead(true);
