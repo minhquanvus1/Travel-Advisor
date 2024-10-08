@@ -24,9 +24,6 @@ const NotificationIcon = ({
   });
 
   useEffect(() => {
-    if (unreadNotifications.length > 0) {
-      setNewNotificationCount(unreadNotifications.length);
-    }
     const socket = new SockJS(`${baseURL}/ws`);
     const stompClient = new Client({
       webSocketFactory: () => socket,
@@ -54,6 +51,11 @@ const NotificationIcon = ({
     return () => {
       stompClient.deactivate();
     };
+  }, []);
+  useEffect(() => {
+    if (unreadNotifications.length > 0) {
+      setNewNotificationCount(unreadNotifications.length);
+    }
   }, [unreadNotifications]);
   const handleNotificationClick = () => {
     // Reset the notification count to zero when clicked
