@@ -154,7 +154,8 @@ const Footer = () => {
                 marginTop: "4px",
               }}
             >
-              © {new Date().getFullYear()} Tripadvisor LLC All rights reserved.
+              © {new Date().getFullYear()} Travel Advisor LLC All rights
+              reserved.
             </div>
             <div className="legals-item-list">
               <span className="legals-item">
