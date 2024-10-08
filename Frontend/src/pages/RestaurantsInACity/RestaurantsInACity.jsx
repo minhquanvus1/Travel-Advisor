@@ -144,22 +144,20 @@ const RestaurantsInACity = () => {
       name: <RatingStars rating={5} width={88} height={16}></RatingStars>,
     },
   ];
+  if (loading)
+    return (
+      <div style={{ display: "grid", placeItems: "center", height: "100dvh" }}>
+        Loading...
+      </div>
+    );
+  if (error)
+    return (
+      <div style={{ display: "grid", placeItems: "center", height: "100dvh" }}>
+        City {cityState} has no restaurants
+      </div>
+    );
   return (
     <div className="restaurants-in-city-section">
-      {error && (
-        <div
-          style={{ display: "grid", placeItems: "center", height: "100dvh" }}
-        >
-          City ${cityState} has no restaurants
-        </div>
-      )}
-      {loading && (
-        <div
-          style={{ display: "grid", placeItems: "center", height: "100dvh" }}
-        >
-          Loading...
-        </div>
-      )}
       (
       <>
         <h1 className="restaurants-in-city-section-title">
