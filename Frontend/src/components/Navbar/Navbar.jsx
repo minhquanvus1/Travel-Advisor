@@ -15,7 +15,13 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { UserContext } from "../../context/UserContextProvider";
 import NotificationIcon from "../NotificationIcon/NotificationIcon";
 
-const Navbar = ({ restaurantState, setRestaurantState, role }) => {
+const Navbar = ({
+  restaurantState,
+  setRestaurantState,
+  role,
+  newNotificationCount,
+  setNewNotificationCount,
+}) => {
   const { loginWithRedirect, user, isAuthenticated, logout, isLoading } =
     useAuth0();
   const [scroll, setScroll] = useState("");
@@ -316,7 +322,10 @@ const Navbar = ({ restaurantState, setRestaurantState, role }) => {
             <li>Travel Tips</li>
             {scroll !== "new-navbar" && <li>More</li>}
 
-            <NotificationIcon></NotificationIcon>
+            <NotificationIcon
+              newNotificationCount={newNotificationCount}
+              setNewNotificationCount={setNewNotificationCount}
+            ></NotificationIcon>
           </ul>
           {isAuthenticated && user ? (
             <div className="navbar-profile">

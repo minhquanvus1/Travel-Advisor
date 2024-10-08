@@ -52,6 +52,7 @@ const App = () => {
 
   const { token } = useAccessToken();
   const { isAuthenticated, user, isLoading } = useAuth0();
+  const [newNotificationCount, setNewNotificationCount] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -98,6 +99,8 @@ const App = () => {
         restaurantState={restaurantState}
         setRestaurantState={setRestaurantState}
         role={role}
+        newNotificationCount={newNotificationCount}
+        setNewNotificationCount={setNewNotificationCount}
       />
       <div className="app-content">
         {/* <div className="app">
@@ -177,7 +180,14 @@ const App = () => {
                 path="/users/:id/my_bookings"
                 element={<MyTourBooking />}
               />
-              <Route path="/announcements" element={<AnnouncementsPage />} />
+              <Route
+                path="/announcements"
+                element={
+                  <AnnouncementsPage
+                    setNewNotificationCount={setNewNotificationCount}
+                  />
+                }
+              />
               <Route
                 path="/admin"
                 element={

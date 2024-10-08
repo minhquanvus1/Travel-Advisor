@@ -1,15 +1,32 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import "./NotificationIcon.css";
 import { baseURL } from "../../baseUrl";
 import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
 import { Link } from "react-router-dom";
+import { axiosInstance } from "../../apis/axiosInstance";
+import { useAxios } from "../../hooks/useAxios";
 
-const NotificationIcon = () => {
-  const [newNotificationCount, setNewNotificationCount] = useState(0);
+const NotificationIcon = ({
+  newNotificationCount,
+  setNewNotificationCount,
+}) => {
   const stompClientRef = useRef(null);
+  const [
+    unreadNotifications,
+    unreadNotificationsError,
+    unreadNotificationsLoading,
+    refetchUnreadNotifications,
+  ] = useAxios({
+    axiosInstance: axiosInstance,
+    method: "GET",
+    url: "/notifications/unread",
+  });
 
   useEffect(() => {
+    if (unreadNotifications.length > 0) {
+      setNewNotificationCount(unreadNotifications.length);
+    }
     const socket = new SockJS(`${baseURL}/ws`);
     const stompClient = new Client({
       webSocketFactory: () => socket,
@@ -37,7 +54,7 @@ const NotificationIcon = () => {
     return () => {
       stompClient.deactivate();
     };
-  }, []);
+  }, [unreadNotifications]);
   const handleNotificationClick = () => {
     // Reset the notification count to zero when clicked
     setNewNotificationCount(0);
@@ -45,6 +62,10 @@ const NotificationIcon = () => {
     console.log("Notifications viewed");
   };
   console.log("newnoticount is ", newNotificationCount);
+
+  if (unreadNotificationsError) {
+    console.log("Error fetching unread notifications");
+  }
   return (
     <div
       className="notification-icon-container"

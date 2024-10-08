@@ -9,13 +9,20 @@ import { baseURL } from "../../baseUrl";
 import { toast } from "react-toastify";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useAccessToken } from "../../hooks/useAccessToken";
+import { useAxiosFunction } from "../../hooks/useAxiosFunction";
 
-const AnnouncementsPage = () => {
+const AnnouncementsPage = ({ setNewNotificationCount }) => {
   const [announcements, error, loading, refetch] = useAxios({
     axiosInstance: axiosInstance,
     method: "GET",
     url: "/notifications",
   });
+  const [
+    unreadNotifications,
+    unreadNotificationsError,
+    unreadNotificationsLoading,
+    axiosFetchUnreadNotifications,
+  ] = useAxiosFunction();
   const stompClientRef = useRef(null);
   const { token } = useAccessToken();
   const { user } = useAuth0();
@@ -74,6 +81,7 @@ const AnnouncementsPage = () => {
         `/notifications/${announcementId}`
       );
       console.log("mark as read ", response.data);
+      setNewNotificationCount((prev) => prev - 1);
       refetch();
     } catch (error) {
       console.error("Error marking the announcement as read:", error);
