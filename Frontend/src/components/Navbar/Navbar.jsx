@@ -361,7 +361,11 @@ const Navbar = ({
                 <hr />
 
                 <li
-                  onClick={() => logout({ returnTo: window.location.origin })}
+                  onClick={() =>
+                    logout({
+                      logoutParams: { returnTo: window.location.origin },
+                    })
+                  }
                 >
                   Sign out
                 </li>
