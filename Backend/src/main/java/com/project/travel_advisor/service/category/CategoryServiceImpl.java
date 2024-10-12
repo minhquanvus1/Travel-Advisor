@@ -103,7 +103,14 @@ public class CategoryServiceImpl implements CategoryService{
     }
 
     @Override
-    @CachePut(value = "category", key = "'category_' + #id")
+    @Caching(
+            put = {
+                    @CachePut(value = "category", key = "'category_' + #id")
+            },
+            evict = {
+                    @CacheEvict(value = "allCategories", allEntries = true)
+            }
+    )
     public CategoryResponseDto updateACategory(CategoryRequestDto categoryRequestDto, Long id) {
         Category foundCategory = categoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("This Category with id " + id + " does not exist"));
 

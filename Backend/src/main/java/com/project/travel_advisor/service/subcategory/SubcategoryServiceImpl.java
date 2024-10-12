@@ -10,6 +10,8 @@ import com.project.travel_advisor.repository.CategoryRepository;
 import com.project.travel_advisor.repository.LanguageRepository;
 import com.project.travel_advisor.repository.SubcategoryRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +31,10 @@ public class SubcategoryServiceImpl implements SubcategoryService{
     private final LanguageRepository languageRepository;
 
     @Override
+    @Caching(evict = {
+            @CacheEvict(value = "category", allEntries = true),
+            @CacheEvict(value = "allCategories", allEntries = true)
+    })
     public SubcategoryDto createASubcategory(SubcategoryDto subcategoryDto) {
         Optional<Subcategory> foundSubcategory = subcategoryRepository.findSubCategoryByNameIgnoreCase(subcategoryDto.name());
         if (foundSubcategory.isPresent()) {
@@ -74,6 +80,10 @@ public class SubcategoryServiceImpl implements SubcategoryService{
 
     @Override
     @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "category", allEntries = true),
+            @CacheEvict(value = "allCategories", allEntries = true)
+    })
     public void deleteSubcategoryById(Long id) {
         Subcategory foundSubcategory = subcategoryRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("This Subcategory with id " + id + " does not exist"));
         Category foundCategory = categoryRepository.findById(foundSubcategory.getCategory().getId()).get();
