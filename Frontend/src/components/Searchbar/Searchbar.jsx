@@ -12,7 +12,7 @@ const Searchbar = () => {
   const overlayRef = useRef(null);
   const inputRef = useRef(null);
   const [showSearchbar, setShowSearchbar] = useState(false);
-  const [data, error, loading, axiosFetch] = useAxiosFunction();
+  const [data, error, loading, axiosFetch, setData] = useAxiosFunction();
   const [isInputFocused, setIsInputFocused] = useState(false);
   const [showOverlay, setShowOverlay] = useState(false);
   const getSearchHeader = (searchCategory) => {
@@ -83,7 +83,7 @@ const Searchbar = () => {
     axiosFetch({
       axiosInstance: axiosInstance,
       method: "get",
-      url: `${category}/search/findByNameContainingIgnoreCase?name=${query}`,
+      url: `/${category}/search/findByNameContainingIgnoreCase?name=${query}`,
     });
   };
   useEffect(() => {
@@ -94,8 +94,13 @@ const Searchbar = () => {
     search();
   }, [query, searchCategory, showOverlay]);
   useEffect(() => {
-    setSearchResults(data);
-  }, [data]);
+    if (query.trim() !== "") {
+      setSearchResults(data);
+    }
+  }, [query, data]);
+  useEffect(() => {
+    setData([]);
+  }, [searchCategory]);
   console.log("data is ", data);
   console.log("searchResults is ", searchResults);
   useEffect(() => {

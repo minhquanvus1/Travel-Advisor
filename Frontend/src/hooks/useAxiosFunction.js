@@ -36,5 +36,5 @@ export const useAxiosFunction = () => {
     return () => controller && controller.abort();
   }, [controller]);
 
-  return [response, error, loading, axiosFetch];
+  return [response, error, loading, axiosFetch, setResponse];
 };
