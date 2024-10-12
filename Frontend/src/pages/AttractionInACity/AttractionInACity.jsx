@@ -90,6 +90,9 @@ const AttractionInACity = () => {
     terrible: reviews.filter((review) => review.rating < 3.0),
   });
 
+  if (attractionReviewsDataError) {
+    console.log("error fetching reviews", attractionReviewsDataError);
+  }
   return (
     <div className="attraction-section">
       {attractionsDataError && (
@@ -605,102 +608,117 @@ const AttractionInACity = () => {
               )}
 
               <div className="user-review-list-section">
-                {!attractionReviewsDataLoading &&
+                {attractionReviewsDataError && (
+                  <div style={{ textAlign: "center" }}>
+                    Error fetching reviews
+                  </div>
+                )}
+                {!attractionReviewsDataError &&
+                  !attractionReviewsDataLoading &&
                   attractionReviewsData.length <= 0 && (
                     <div style={{ textAlign: "center" }}>No Reviews Found</div>
                   )}
                 {attractionReviewsDataLoading && (
                   <div style={{ textAlign: "center" }}>Loading...</div>
                 )}
-                {!attractionReviewsDataLoading &&
+                {!attractionReviewsDataError &&
+                  !attractionReviewsDataLoading &&
                   attractionReviewsData.length > 0 &&
-                  attractionReviewsData.map((review, index) => (
-                    <div className="user-review-card" key={review.id}>
-                      {index !== 0 && <hr />}
-                      <div className="user-info">
-                        <div className="user-info-details-container">
-                          <div className="user-info-image-container">
-                            <img
-                              src={review.user.imageUrl}
-                              alt={`${review.user.name} image`}
-                            />
-                          </div>
-                          <div className="user-info-details">
-                            <div className="user-info-name">
-                              {review.user.firstName}
+                  attractionReviewsData.map((review, index) => {
+                    return (
+                      <div className="user-review-card" key={review.id}>
+                        {index !== 0 && <hr />}
+                        <div className="user-info">
+                          <div className="user-info-details-container">
+                            <div className="user-info-image-container">
+                              <img
+                                src={review.user.imageUrl}
+                                alt={`${review.user.name} image`}
+                              />
                             </div>
-                            <div className="user-info-country">
-                              {`${review.user.city}, ${review.user.country}`}
+                            <div className="user-info-details">
+                              <div className="user-info-name">
+                                {review.user.firstName}
+                              </div>
+                              <div className="user-info-country">
+                                {`${review.user.city}, ${review.user.country}`}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <div className="icon-container">
-                          <button className="like-button">
-                            <svg viewBox="0 0 24 24" width="20px" height="20px">
-                              <path
-                                fillRule="evenodd"
-                                clipRule="evenodd"
-                                d="M14.539 4.661l-.004.04a4.146 4.146 0 01-.003.04l-.006.072a.884.884 0 01-.016.116l-1.03 5.017h6.765a.267.267 0 01.264.301l-1.311 8.533v.002a.267.267 0 01-.267.227H7.708v-7.9l5.224-5.017 1.027-.963c.066-.054.134-.117.18-.161l.022-.02c.07-.066.132-.122.195-.172a.689.689 0 01.183-.115zm.692-1.49c.246.097.41.239.51.334.22.206.31.465.349.618.044.172.058.342.058.478v.038l-.004.038a10.513 10.513 0 00-.023.28 2.47 2.47 0 01-.043.293l-.635 3.095h4.802a1.867 1.867 0 011.849 2.13l-.002.009-1.312 8.538a1.87 1.87 0 01-1.862 1.588H6.108V10.427l5.725-5.5 1.081-1.012.03-.023.032-.029c.02-.017.038-.035.063-.058l.03-.028c.073-.068.175-.163.292-.256.218-.172.59-.425 1.068-.458.29-.02.556.01.802.108zM2.688 10.013a.8.8 0 01.8.8v10.13h-1.6v-10.13a.8.8 0 01.8-.8z"
-                              ></path>
-                            </svg>
-                            <span>0</span>
-                          </button>
-                          <div className="report-review-container">
-                            <button
-                              className="report-review-button"
-                              onClick={() =>
-                                setOpenReportReviewModal((prev) => {
-                                  return prev !== review.id ? review.id : null;
-                                })
-                              }
-                            >
+                          <div className="icon-container">
+                            <button className="like-button">
                               <svg
                                 viewBox="0 0 24 24"
                                 width="20px"
                                 height="20px"
                               >
-                                <path d="M5 14a2 2 0 100-4 2 2 0 000 4zM19 14a2 2 0 100-4 2 2 0 000 4zM12 14a2 2 0 100-4 2 2 0 000 4z"></path>
+                                <path
+                                  fillRule="evenodd"
+                                  clipRule="evenodd"
+                                  d="M14.539 4.661l-.004.04a4.146 4.146 0 01-.003.04l-.006.072a.884.884 0 01-.016.116l-1.03 5.017h6.765a.267.267 0 01.264.301l-1.311 8.533v.002a.267.267 0 01-.267.227H7.708v-7.9l5.224-5.017 1.027-.963c.066-.054.134-.117.18-.161l.022-.02c.07-.066.132-.122.195-.172a.689.689 0 01.183-.115zm.692-1.49c.246.097.41.239.51.334.22.206.31.465.349.618.044.172.058.342.058.478v.038l-.004.038a10.513 10.513 0 00-.023.28 2.47 2.47 0 01-.043.293l-.635 3.095h4.802a1.867 1.867 0 011.849 2.13l-.002.009-1.312 8.538a1.87 1.87 0 01-1.862 1.588H6.108V10.427l5.725-5.5 1.081-1.012.03-.023.032-.029c.02-.017.038-.035.063-.058l.03-.028c.073-.068.175-.163.292-.256.218-.172.59-.425 1.068-.458.29-.02.556.01.802.108zM2.688 10.013a.8.8 0 01.8.8v10.13h-1.6v-10.13a.8.8 0 01.8-.8z"
+                                ></path>
                               </svg>
+                              <span>0</span>
                             </button>
-                            <div
-                              className={`report-review-modal ${
-                                openReportReviewModal === review.id
-                                  ? "active"
-                                  : ""
-                              }`}
-                            >
-                              <div>Report this review</div>
-                              <span className="top-arrow"></span>
+                            <div className="report-review-container">
+                              <button
+                                className="report-review-button"
+                                onClick={() =>
+                                  setOpenReportReviewModal((prev) => {
+                                    return prev !== review.id
+                                      ? review.id
+                                      : null;
+                                  })
+                                }
+                              >
+                                <svg
+                                  viewBox="0 0 24 24"
+                                  width="20px"
+                                  height="20px"
+                                >
+                                  <path d="M5 14a2 2 0 100-4 2 2 0 000 4zM19 14a2 2 0 100-4 2 2 0 000 4zM12 14a2 2 0 100-4 2 2 0 000 4z"></path>
+                                </svg>
+                              </button>
+                              <div
+                                className={`report-review-modal ${
+                                  openReportReviewModal === review.id
+                                    ? "active"
+                                    : ""
+                                }`}
+                              >
+                                <div>Report this review</div>
+                                <span className="top-arrow"></span>
+                              </div>
                             </div>
                           </div>
                         </div>
+                        <div className="user-rating">
+                          {review.rating && (
+                            <RatingStars
+                              rating={review.rating}
+                              width={88}
+                              height={16}
+                            ></RatingStars>
+                          )}
+                        </div>
+                        <div className="user-review-title">
+                          {review.reviewTitle}
+                        </div>
+                        <div className="user-review-description">
+                          <ExpandableDescription
+                            text={review.description}
+                            lineClamp={7}
+                          ></ExpandableDescription>
+                        </div>
+                        {/* <div className="review-of">
+                      <a href="#">{`Review of: ${review.attractionName}`}</a>
+                    </div> */}
+                        <div className="review-written-date">
+                          Written {formatDate(review.reviewDate)}
+                        </div>
                       </div>
-                      <div className="user-rating">
-                        {review.rating && (
-                          <RatingStars
-                            rating={review.rating}
-                            width={88}
-                            height={16}
-                          ></RatingStars>
-                        )}
-                      </div>
-                      <div className="user-review-title">
-                        {review.reviewTitle}
-                      </div>
-                      <div className="user-review-description">
-                        <ExpandableDescription
-                          text={review.description}
-                          lineClamp={7}
-                        ></ExpandableDescription>
-                      </div>
-                      {/* <div className="review-of">
-                        <a href="#">{`Review of: ${review.attractionName}`}</a>
-                      </div> */}
-                      <div className="review-written-date">
-                        Written {formatDate(review.reviewDate)}
-                      </div>
-                    </div>
-                  ))}
+                    );
+                  })}
               </div>
             </div>
           )}
