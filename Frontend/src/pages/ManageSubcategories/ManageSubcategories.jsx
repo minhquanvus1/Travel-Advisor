@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const ManageSubcategories = () => {
   const { token } = useAccessToken();
+  const [deleteLoading, setDeleteLoading] = useState({});
   const { isAuthenticated, isLoading } = useAuth0();
   const [
     subcategories,
@@ -50,6 +51,8 @@ const ManageSubcategories = () => {
   console.log("all subcategories are ", subcategories);
 
   const handleDeleteSubcategory = async (subcategoryId) => {
+    setDeleteLoading((prev) => ({ ...prev, [subcategoryId]: true }));
+
     const data = await deleteSubcategory({
       axiosInstance: axiosInstance,
       method: "DELETE",
@@ -65,6 +68,10 @@ const ManageSubcategories = () => {
         `Subcategory with id ${subcategoryId} has been deleted successfully`
       );
     }
+    setDeleteLoading((prev) => {
+      const { [subcategoryId]: removed, ...rest } = prev; // Remove subcategoryId from the object
+      return rest; // Return the updated object
+    });
   };
   const handlePostSubcategory = async (e) => {
     e.preventDefault();
@@ -155,9 +162,13 @@ const ManageSubcategories = () => {
                   <button
                     className="remove-button"
                     onClick={() => handleDeleteSubcategory(subcategory.id)}
-                    disabled={deleteSubcategoryLoading}
+                    disabled={
+                      deleteSubcategoryLoading && deleteLoading[subcategory.id]
+                    }
                   >
-                    {deleteSubcategoryLoading ? "Deleting..." : "Remove"}
+                    {deleteSubcategoryLoading && deleteLoading[subcategory.id]
+                      ? "Deleting..."
+                      : "Remove"}
                   </button>
                 </div>
               ))}

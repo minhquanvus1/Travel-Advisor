@@ -32,6 +32,7 @@ const ManageCategories = () => {
   ] = useAxiosFunction();
   const [openModal, setOpenModal] = useState(false);
   const modalRef = useRef(null);
+  const [deleteLoading, setDeleteLoading] = useState({});
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [formData, setFormData] = useState({ name: "" });
   useEffect(() => {
@@ -68,6 +69,9 @@ const ManageCategories = () => {
     }
   };
   const handleDeleteCategory = async (categoryId) => {
+    // Set loading state for this specific category ID to true
+    setDeleteLoading((prev) => ({ ...prev, [categoryId]: true }));
+
     const data = await deleteCategory({
       axiosInstance: axiosInstance,
       method: "DELETE",
@@ -83,6 +87,11 @@ const ManageCategories = () => {
         `Category with id ${categoryId} has been deleted successfully`
       );
     }
+    // Reset the loading state for this specific category after deletion
+    setDeleteLoading((prev) => {
+      const { [categoryId]: removed, ...rest } = prev; // Remove categoryId from the object
+      return rest; // Return the updated object
+    });
   };
   const handlePostCategory = async (e) => {
     e.preventDefault();
@@ -132,6 +141,7 @@ const ManageCategories = () => {
       setFormData(selectedCategory);
     }
   }, [selectedCategory]);
+  console.log("deleteLoading is", deleteLoading);
   if (isLoading || categoriesLoading)
     return (
       <div style={{ display: "grid", placeItems: "center", height: "100dvh" }}>
@@ -181,9 +191,13 @@ const ManageCategories = () => {
                   <button
                     className="remove-button"
                     onClick={() => handleDeleteCategory(category.id)}
-                    disabled={deleteCategoryLoading}
+                    disabled={
+                      deleteCategoryLoading && deleteLoading[category.id]
+                    }
                   >
-                    {deleteCategoryLoading ? "Deleting..." : "Remove"}
+                    {deleteCategoryLoading && deleteLoading[category.id]
+                      ? "Deleting..."
+                      : "Remove"}
                   </button>
                 </div>
               ))}
