@@ -12,6 +12,8 @@ import com.project.travel_advisor.repository.AttractionRepository;
 import com.project.travel_advisor.repository.AttractionReviewRepository;
 import com.project.travel_advisor.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,6 +44,13 @@ public class AttractionReviewServiceImpl implements AttractionReviewService {
     }
 
     @Override
+    @Caching(evict = {
+            @CacheEvict(value = "attraction", allEntries = true),
+            @CacheEvict(value = "allAttractions", allEntries = true),
+            @CacheEvict(value = "attractionByName", allEntries = true),
+            @CacheEvict(value = "attractionsByName", allEntries = true),
+            @CacheEvict(value = "attractionsInCity", allEntries = true)
+    })
     public AttractionReviewResponseDto postAnAttractionReview(AttractionReviewRequestDto attractionReviewRequestDto) {
 
         User foundUser = userRepository.findById(attractionReviewRequestDto.userId()).orElseThrow(() -> new ResourceNotFoundException("This User with id " + attractionReviewRequestDto.userId() + " does not exist"));
@@ -64,6 +73,13 @@ public class AttractionReviewServiceImpl implements AttractionReviewService {
     }
 
     @Override
+    @Caching(evict = {
+            @CacheEvict(value = "attraction", allEntries = true),
+            @CacheEvict(value = "allAttractions", allEntries = true),
+            @CacheEvict(value = "attractionByName", allEntries = true),
+            @CacheEvict(value = "attractionsByName", allEntries = true),
+            @CacheEvict(value = "attractionsInCity", allEntries = true)
+    })
     public AttractionReviewResponseDto updateAnAttractionReview(Long id, AttractionReviewRequestDto attractionReviewRequestDto) {
 
         User foundUser = userRepository.findById(attractionReviewRequestDto.userId()).orElseThrow(() -> new ResourceNotFoundException("This User with id " + attractionReviewRequestDto.userId() + " does not exist"));
@@ -82,6 +98,13 @@ public class AttractionReviewServiceImpl implements AttractionReviewService {
 
     @Override
     @Transactional
+    @Caching(evict = {
+            @CacheEvict(value = "attraction", allEntries = true),
+            @CacheEvict(value = "allAttractions", allEntries = true),
+            @CacheEvict(value = "attractionByName", allEntries = true),
+            @CacheEvict(value = "attractionsByName", allEntries = true),
+            @CacheEvict(value = "attractionsInCity", allEntries = true)
+    })
     public void deleteAnAttractionReviewOfAUser(Long userId, Long attractionReviewId) {
 
         AttractionReview foundAttractionReview = attractionReviewRepository.findById(attractionReviewId).orElseThrow(() -> new ResourceNotFoundException("This Attraction Review with id " + attractionReviewId + " does not exist"));
