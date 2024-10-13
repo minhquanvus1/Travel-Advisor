@@ -22,7 +22,7 @@ const TourInACity = () => {
       }
     );
   });
-  const { isAuthenticated, loginWithRedirect } = useAuth0();
+  const { isAuthenticated } = useAuth0();
   const navigate = useNavigate();
 
   // Handle input change for both date and travelers
@@ -68,7 +68,7 @@ const TourInACity = () => {
   const handleClick = () => {
     if (!isAuthenticated) {
       alert("Please login to book this tour");
-      loginWithRedirect();
+      // loginWithRedirect();
       return;
     }
     if (!bookingDetails.tourStartDate) {
