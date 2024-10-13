@@ -122,7 +122,11 @@ const RestaurantInACity = ({ restaurantState, setRestaurantState }) => {
                 </svg>
                 <span className="phone-number">{restaurant.phoneNumber}</span>
               </span>
-              <a href={restaurant.websiteUrl} className="website-url-container">
+              <a
+                href={restaurant.websiteUrl}
+                target="_blank"
+                className="website-url-container"
+              >
                 <svg viewBox="0 0 24 24" width="20px" height="20px">
                   <path
                     fillRule="evenodd"
@@ -365,6 +369,7 @@ const RestaurantInACity = ({ restaurantState, setRestaurantState }) => {
                 </div>
                 <a
                   href={restaurant.websiteUrl}
+                  target="_blank"
                   className="website-url-container details-item contact-item"
                 >
                   <svg viewBox="0 0 24 24" width="20px" height="20px">

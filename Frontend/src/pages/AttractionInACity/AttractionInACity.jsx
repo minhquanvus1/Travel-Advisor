@@ -238,6 +238,7 @@ const AttractionInACity = () => {
                       <div className="visit-website-container">
                         <a
                           href={attraction.websiteUrl}
+                          target="_blank"
                           className="visit-website-text"
                         >
                           Visit website
