@@ -3912,8 +3912,8 @@ curl -X DELETE http://localhost:8080/secure/notifications/123 \
 ## Deployment
 
 - The Backend of the app has been deployed on Render, and on AWS. You can access it by clicking on this link:
-  - Render: `https://travel-advisor-duio.onrender.com/`
-  - AWS EKS: `http://a907a159697b04d46a72125a9f224ece-191732125.us-east-2.elb.amazonaws.com:8080/`
+  - Render: https://travel-advisor-duio.onrender.com/
+  - AWS EKS: http://a907a159697b04d46a72125a9f224ece-191732125.us-east-2.elb.amazonaws.com:8080/
 
 ## Author:
 

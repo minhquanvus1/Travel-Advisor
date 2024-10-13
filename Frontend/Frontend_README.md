@@ -91,8 +91,8 @@ npm run dev
 ## Deployment
 
 - The Frontend is currently deployed on Render cloud platform, and on AWS CloudFront. You can access the Frontend React by navigating to the following URLs:
-  - Render: `https://travel-advisor-62it.onrender.com/`
-  - AWS CloudFront: `https://dymgvl500pqso.cloudfront.net/`
+  - Render: https://travel-advisor-62it.onrender.com/
+  - AWS CloudFront: https://dymgvl500pqso.cloudfront.net/
 
 ## Author:
 
