@@ -1,8 +1,8 @@
 # Travel Advisor (Frontend)
 
-- For the Frontend, the app is built with React, with raw HTML, and CSS, and is currently deployed to Render cloud platform.
+- For the Frontend, the app is built with React, with raw HTML, and CSS, and is currently deployed to Render cloud platform, and AWS CloudFront connected to AWS S3.
 
-- The Frontend React has different Views, depending on which Role you are when you log in. That is, the Authenticated User will see the different View to use the functionality that provides exclusively for Authenticated User role, and Admin will see different View to use the functionality that provides exclusively for Admin role.
+- The Frontend React has different Views, depending on which Role you are when you log in. That is, the Authenticated User will see the different Views to use the functionality that provides exclusively for Authenticated User role, and Admin will see different Views to use the functionality that provides exclusively for Admin role.
 
 - The Frontend techstack also includes: Axios, Vite, React Router, MapBox gl, React-Slick, React-Toastify, Chart.js, react-chartjs-2, font-awesome, stompjs, sockjs-client, Auth0 for Authentication/Authorization, and Stripe for payment processing.
 
@@ -90,7 +90,9 @@ npm run dev
 
 ## Deployment
 
-- The Frontend is currently deployed on Render cloud platform. You can access the Frontend React by navigating to the following URL: `https://travel-advisor-62it.onrender.com/`
+- The Frontend is currently deployed on Render cloud platform, and on AWS CloudFront. You can access the Frontend React by navigating to the following URLs:
+  - Render: `https://travel-advisor-62it.onrender.com/`
+  - AWS CloudFront: `https://dymgvl500pqso.cloudfront.net/`
 
 ## Author:
 

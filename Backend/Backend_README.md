@@ -1,10 +1,12 @@
 # Travel Advisor (Backend)
 
-- The Backend app is built with Java Spring Boot, with Maven, and is currently deployed to Render cloud platform, and AWS.
+- The Backend app is built with Java Spring Boot, with Maven, and is currently deployed to Render cloud platform, and AWS EKS.
 
-- The Backend app uses PostgreSQL, and Redis database
+- The Backend app uses PostgreSQL, and Redis database. These databases are deployed on Render cloud platform, and on AWS RDS, and AWS ElastiCache.
 
 - The Backend techstack also includes: Spring Data JPA, Spring Security, Spring Web, Spring Boot Validation, Spring Data Redis, Spring Boot WebSocket, Spring Boot DevTools, PostgreSQL, Lombok, Auth0 for Authentication/Authorization, and Stripe for payment processing.
+
+- For the database schema, please visit this link: [Database Schema](https://dbdiagram.io/d/Travel-Advisor-Web-App-Database-Schema-Final-670387f5fb079c7ebd8da28f)
 
 ## Getting Started
 
@@ -3836,27 +3838,30 @@ curl DELETE http://localhost:8080/secure/users/1 \
 - Returns:
   - Returns a List of all unread notifications
 - Sample request:
+
 ```json
 curl -X GET "http://localhost:8080/notifications/unread"
 ```
+
 - Sample response:
+
 ```json
 [
-    {
-        "id": 39,
-        "title": "Warning about Typhoon Yagi",
-        "message": "Dear friends,\n\nWe hope this message finds you safe and well. We are writing to inform you about Typhoon Yagi, which is expected to impact our region significantly. The typhoon is bringing heavy rains, strong winds, and potential flooding.\n\nSafety Measures:\n\nStay Indoors: Avoid going outside unless absolutely necessary.\nSecure Your Home: Ensure all windows and doors are securely fastened.\nEmergency Kit: Prepare an emergency kit with essential items such as water, food, medications, and important documents.\nStay Informed: Keep updated with the latest weather reports and follow instructions from local authorities.\nYour safety is our top priority. Please take all necessary precautions and stay safe.\n\nBest regards,\nHarry Lu (Admin)",
-        "sentAt": "2024-10-07T19:41:31.119812",
-        "isRead": false,
-        "sender": {
-            "id": 15,
-            "firstName": "Harry",
-            "lastName": "Lu",
-            "city": "Ho Chi Minh",
-            "country": "Việt Nam",
-            "imageUrl": "https://2sao.vietnamnetjsc.vn/images/2018/02/22/15/54/harry-lu8.jpg"
-        }
+  {
+    "id": 39,
+    "title": "Warning about Typhoon Yagi",
+    "message": "Dear friends,\n\nWe hope this message finds you safe and well. We are writing to inform you about Typhoon Yagi, which is expected to impact our region significantly. The typhoon is bringing heavy rains, strong winds, and potential flooding.\n\nSafety Measures:\n\nStay Indoors: Avoid going outside unless absolutely necessary.\nSecure Your Home: Ensure all windows and doors are securely fastened.\nEmergency Kit: Prepare an emergency kit with essential items such as water, food, medications, and important documents.\nStay Informed: Keep updated with the latest weather reports and follow instructions from local authorities.\nYour safety is our top priority. Please take all necessary precautions and stay safe.\n\nBest regards,\nHarry Lu (Admin)",
+    "sentAt": "2024-10-07T19:41:31.119812",
+    "isRead": false,
+    "sender": {
+      "id": 15,
+      "firstName": "Harry",
+      "lastName": "Lu",
+      "city": "Ho Chi Minh",
+      "country": "Việt Nam",
+      "imageUrl": "https://2sao.vietnamnetjsc.vn/images/2018/02/22/15/54/harry-lu8.jpg"
     }
+  }
 ]
 ```
 
@@ -3908,7 +3913,7 @@ curl -X DELETE http://localhost:8080/secure/notifications/123 \
 
 - The Backend of the app has been deployed on Render, and on AWS. You can access it by clicking on this link:
   - Render: `https://travel-advisor-duio.onrender.com/`
-  - AWS EKS: `http://a94a1be3626be48fc80d38f1e613dae4-1068052667.us-east-2.elb.amazonaws.com:8080/`
+  - AWS EKS: `http://a907a159697b04d46a72125a9f224ece-191732125.us-east-2.elb.amazonaws.com:8080/`
 
 ## Author:
 
