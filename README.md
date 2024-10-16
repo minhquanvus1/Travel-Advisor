@@ -6,6 +6,8 @@
 
 - The application utilizes Redis as an in-memory data store. Redis is used for caching frequently accessed data, such as popular attractions, restaurants, categories,... which significantly speeds up response time and reduces the load on the primary database. This ensures a smoother experience for users while allowing for real-time data processing and notifications.
 
+- For the Video Demo of the Application, please refer to [Travel Advisor Application - Video Demo](https://drive.google.com/file/d/1iMvqCb03s92LN5A9mawrbZTYGV5I_qYU/view?usp=sharing)
+
 - The Application is built with:
 
   - Frontend: React, with raw HTML, and CSS
